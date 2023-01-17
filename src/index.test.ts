@@ -1,8 +1,8 @@
-import {describe, expect, test, beforeEach, afterAll} from '@jest/globals';
+import {describe, expect, test, beforeEach, afterEach} from '@jest/globals';
 import {createServer, IncomingMessage, RequestListener } from 'node:http';
 import { AddressInfo } from 'node:net';
 
-import { apiConfig, UserProfileApi } from '.'
+import { apiConfig, PublicApi } from '.'
 
 interface SimpleServer {
   url: string
@@ -40,12 +40,12 @@ describe('client', () => {
     server = await simpleServer(receivedRequests)
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     server.stop()
   });
 
   test('succeeds', async () => {
-    const client = new UserProfileApi(apiConfig({
+    const client = new PublicApi(apiConfig({
       token: 'DUMMY',
       apiHost: server.url,
     }))
@@ -54,5 +54,20 @@ describe('client', () => {
 
     expect(receivedRequests).toHaveLength(1)
     expect(receivedRequests[0].headers.authorization).toEqual('Bearer DUMMY')
+  });
+
+  test('includes a humanitec-user-agent', async () => {
+    const client = new PublicApi(apiConfig({
+      token: 'DUMMY',
+      apiHost: server.url,
+      internalApp: 'test/latest'
+    }))
+
+    await client.currentUserGet()
+
+    expect(receivedRequests).toHaveLength(1)
+    expect(receivedRequests[0].headers['humanitec-user-agent']).toEqual(
+      'sdk humanitec-ts-autogen/latest; app test/latest'
+    )
   });
 });

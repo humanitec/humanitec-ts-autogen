@@ -5,9 +5,29 @@ export * from './generated'
 export interface APIConfig {
   token: string
   apiHost?: string
+  internalApp?: string
 }
 
 const defaultAPIHost = 'https://api.humanitec.com'
+const sdk = 'humanitec-ts-autogen'
+const sdkVersion = 'latest'
+
+interface UserAgentDetails {
+  sdk: string
+  app?: string
+}
+
+const humanitecUserAgentHeader = ({sdk, app}: UserAgentDetails): string => {
+  const elements = []
+  if (sdk) {
+    elements.push(`sdk ${sdk}`)
+  }
+  if (app) {
+    elements.push(`app ${app}`)
+  }
+
+  return elements.join('; ')
+}
 
 export const apiConfig = (config: APIConfig): Configuration => {
   if (!config.token) {
@@ -19,6 +39,7 @@ export const apiConfig = (config: APIConfig): Configuration => {
     baseOptions: {
       headers: {
         'Authorization': `Bearer ${config.token}`,
+        'Humanitec-User-Agent': humanitecUserAgentHeader({app: config.internalApp, sdk: `${sdk}/${sdkVersion}`})
       },
     },
   });
