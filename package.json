@@ -11,7 +11,7 @@
     "prepare": "npm run build"
   },
   "author": "support@humanitec.com",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@jest/globals": "^29.3.1",
     "@openapitools/openapi-generator-cli": "^2.5.2",
