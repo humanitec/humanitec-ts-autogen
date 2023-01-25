@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.1",
+    "version": "0.20.3",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -18,8 +18,7 @@
       "get": {
         "tags": [
           "public",
-          "Application",
-          "id-949365b7c53ea85f"
+          "Application"
         ],
         "summary": "List all Applications in an Organization.",
         "description": "Listing or lists of all Applications that exist within a specific Organization.",
@@ -66,8 +65,7 @@
       "post": {
         "tags": [
           "public",
-          "Application",
-          "id-ad506ff9fc647b56"
+          "Application"
         ],
         "summary": "Add a new Application to an Organization",
         "description": "Creates a new Application, then adds it to the specified Organization.",
@@ -152,8 +150,7 @@
       "get": {
         "tags": [
           "public",
-          "Application",
-          "id-c6132a0703cd1492"
+          "Application"
         ],
         "summary": "Get an existing Application",
         "description": "Gets a specific Application in the specified Organization by ID.",
@@ -214,8 +211,7 @@
       "delete": {
         "tags": [
           "public",
-          "Application",
-          "id-abf24f620aa16e0e"
+          "Application"
         ],
         "summary": "Delete an Application",
         "description": "Deleting an Application will also delete everything associated with it. This includes Environments, Deployment history on those Environments, and any shared values and secrets associated.\n\n_Deletions are currently irreversible._",
@@ -270,8 +266,7 @@
       "get": {
         "tags": [
           "public",
-          "Environment",
-          "id-22c6624fe22c6585"
+          "Environment"
         ],
         "summary": "List all Environments.",
         "description": "Lists all of the Environments in the Application.",
@@ -317,8 +312,7 @@
       "post": {
         "tags": [
           "public",
-          "Environment",
-          "id-91a74844aa8343db"
+          "Environment"
         ],
         "summary": "Add a new Environment to an Application.",
         "description": "Creates a new Environment of the specified Type and associates it with the Application specified by `appId`.\n\nThe Environment is also initialized to the **current or past state of Deployment in another Environment**. This ensures that every Environment is derived from a previously known state. This means it is not possible to create a new Environment for an Application until at least one Deployment has occurred. (The Deployment does not have to be successful.)\n\nThe Type of the Environment must be already defined in the Organization.",
@@ -409,8 +403,7 @@
       "get": {
         "tags": [
           "public",
-          "Environment",
-          "id-f71e166af2cd4b27"
+          "Environment"
         ],
         "summary": "Get a specific Environment.",
         "description": "Gets a specific Environment in an Application.",
@@ -470,8 +463,7 @@
       "delete": {
         "tags": [
           "public",
-          "Environment",
-          "id-71d4188b68b1adae"
+          "Environment"
         ],
         "summary": "Delete a specific Environment.",
         "description": "Deletes a specific Environment in an Application.\n\nDeleting an Environment will also delete the Deployment history of the Environment.\n\n_Deletions are currently irreversible._",
@@ -535,8 +527,7 @@
       "get": {
         "tags": [
           "public",
-          "Deployment",
-          "id-b44fb6d383d8b31e"
+          "Deployment"
         ],
         "summary": "List Deployments in an Environment.",
         "description": "List all of the Deployments that have been carried out in the current Environment. Deployments are returned with the newest first.",
@@ -601,8 +592,7 @@
       "post": {
         "tags": [
           "public",
-          "Deployment",
-          "id-b389a3e9c7c22291"
+          "Deployment"
         ],
         "summary": "Start a new Deployment.",
         "description": "At Humanitec, Deployments are defined as changes to the state of the Environment. The state can be changed by defining a set of desired changes to the current state via a Deployment Delta or by resetting the current state after a previous Deployment. (See Environment Rebase.) Both types of changes can be combined into a single Deployment during which the Delta is applied to the Rebased state.\n\nWhen specifying a Delta, a Delta ID must be used. That Delta must have been committed to the Delta store prior to the Deployment.\n\nA Set ID can also be defined in the deployment to force the state of the environment to a particular state. This will be ignored if the Delta is specified.\n\n**NOTE:**\n\nDirectly setting a `set_id` in a deployment is not recommended as it will not record history of where the set came from. If the intention is to replicate an existing environment, use the environment rebasing approach described above.",
@@ -688,8 +678,7 @@
       "get": {
         "tags": [
           "public",
-          "Deployment",
-          "id-da2202dfc8b9fef1"
+          "Deployment"
         ],
         "summary": "Get a specific Deployment.",
         "description": "Gets a specific Deployment in an Application and an Environment.",
@@ -760,8 +749,7 @@
       "get": {
         "tags": [
           "public",
-          "Deployment",
-          "id-3e4c54b794c1b6a4"
+          "Deployment"
         ],
         "summary": "List errors that occurred in a Deployment.",
         "parameters": [
@@ -831,8 +819,7 @@
       "put": {
         "tags": [
           "public",
-          "Environment",
-          "id-94b512de88ff6cab"
+          "Environment"
         ],
         "summary": "Rebase to a different Deployment.",
         "description": "Rebasing an Environment means that the next Deployment to the Environment will be based on the Deployment specified in the rebase rather than the last one in the Environment. The Deployment to rebase to can either be current or a previous Deployment. The Deployment can be from any Environment of the same Application.\n\n_Running code will only be affected on the next Deployment to the Environment._\n\nCommon use cases for rebasing an Environment:\n\n* _Rollback_: Rebasing to a previous Deployment in the current Environment and then Deploying without additional changes will execute a rollback to the previous Deployment state.\n\n* _Clone_: Rebasing to the current Deployment in a different Environment and then deploying without additional changes will clone all of the configuration of the other Environment into the current one. (NOTE: External Resources will not be cloned in the process - the current External Resources of the Environment will remain unchanged and will be used by the deployed Application in the Environment.",
@@ -907,8 +894,7 @@
       "get": {
         "tags": [
           "public",
-          "EnvironmentType",
-          "id-cf934d36c6ece345"
+          "EnvironmentType"
         ],
         "summary": "List all Environment Types",
         "description": "Lists all Environment Types in an Organization.",
@@ -942,8 +928,7 @@
       "post": {
         "tags": [
           "public",
-          "EnvironmentType",
-          "id-b8dbdeb2144c3541"
+          "EnvironmentType"
         ],
         "summary": "Add a new Environment Type",
         "description": "Adds a new Environment Type to an Organization.",
@@ -1017,8 +1002,7 @@
       "get": {
         "tags": [
           "public",
-          "EnvironmentType",
-          "id-fe2bf6668207aaf7"
+          "EnvironmentType"
         ],
         "summary": "Get an Environment Type",
         "description": "Gets a specific Environment Type within an Organization.",
@@ -1068,8 +1052,7 @@
       "delete": {
         "tags": [
           "public",
-          "EnvironmentType",
-          "id-93a00866ac06078b"
+          "EnvironmentType"
         ],
         "summary": "Deletes an Environment Type",
         "description": "Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail.",
@@ -1157,8 +1140,7 @@
       "get": {
         "tags": [
           "public",
-          "ArtefactVersion",
-          "id-fb2094f394e500e5"
+          "ArtefactVersion"
         ],
         "summary": "List all Artefacts Versions.",
         "description": "Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned.",
@@ -1191,7 +1173,7 @@
           {
             "name": "archived",
             "in": "query",
-            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined all Artefact Versions are returned.\n\n",
+            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
             "schema": {
               "type": "string"
             }
@@ -1256,8 +1238,7 @@
       "post": {
         "tags": [
           "public",
-          "ArtefactVersion",
-          "id-98717a05b6ad0b11"
+          "ArtefactVersion"
         ],
         "summary": "Register a new Artefact Version with your organization.",
         "parameters": [
@@ -1321,8 +1302,7 @@
       "get": {
         "tags": [
           "public",
-          "Artefact",
-          "id-766dc592556a9cde"
+          "Artefact"
         ],
         "summary": "List all Artefacts.",
         "description": "Returns the Artefacts registered with your organization. If no elements are found, an empty list is returned.",
@@ -1394,8 +1374,7 @@
       "delete": {
         "tags": [
           "public",
-          "Artefact",
-          "id-f707bd1009c42204"
+          "Artefact"
         ],
         "summary": "Delete Artefact and all related Artefact Versions",
         "description": "The specified Artefact and its Artefact Versions will be permanently deleted. Only Administrators can delete an Artefact.",
@@ -1450,8 +1429,7 @@
       "get": {
         "tags": [
           "public",
-          "ArtefactVersion",
-          "id-7eb043c27458169a"
+          "ArtefactVersion"
         ],
         "summary": "List all Artefact Versions of an Artefact.",
         "description": "Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned.",
@@ -1477,7 +1455,7 @@
           {
             "name": "archived",
             "in": "query",
-            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined all Artefact Versions are returned.\n\n",
+            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
             "schema": {
               "type": "string"
             }
@@ -1570,8 +1548,7 @@
       "patch": {
         "tags": [
           "public",
-          "ArtefactVersion",
-          "id-8cf8558b295991a6"
+          "ArtefactVersion"
         ],
         "summary": "Update Version of an Artefact.",
         "description": "Update the version of a specified Artefact registered with your organization\".",
@@ -1673,8 +1650,7 @@
       "get": {
         "tags": [
           "public",
-          "Image",
-          "id-715b52f18d5b240a"
+          "Image"
         ],
         "summary": "List all Container Images",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nLists all of the Container Images registered for this organization.",
@@ -1725,8 +1701,7 @@
       "get": {
         "tags": [
           "public",
-          "Image",
-          "id-fa93a87e878046da"
+          "Image"
         ],
         "summary": "Get a specific Image Object",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.\n\nNote, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds.",
@@ -1797,8 +1772,7 @@
       "get": {
         "tags": [
           "public",
-          "Image",
-          "id-635f872ac72a46b7"
+          "Image"
         ],
         "summary": "Lists all the Builds of an Image",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response lists all available Image Builds of an Image.",
@@ -1865,8 +1839,7 @@
       "post": {
         "tags": [
           "public",
-          "Image",
-          "id-ad0ea902ca817467"
+          "Image"
         ],
         "summary": "Add a new Image Build",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThis endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.\n\nIf there is no Image with ID `imageId`, it will be automatically created.",
@@ -1957,8 +1930,7 @@
       "get": {
         "tags": [
           "public",
-          "UserRole",
-          "id-4168cd16f10fbf80"
+          "UserRole"
         ],
         "summary": "List Users with roles in an App",
         "parameters": [
@@ -2003,8 +1975,7 @@
       "post": {
         "tags": [
           "public",
-          "UserRole",
-          "id-454d8ec72ac03f4f"
+          "UserRole"
         ],
         "summary": "Adds a User to an Application with a Role",
         "parameters": [
@@ -2076,8 +2047,7 @@
       "get": {
         "tags": [
           "public",
-          "UserRole",
-          "id-416f0bca6f852ccc"
+          "UserRole"
         ],
         "summary": "List Users with roles in an Organization",
         "parameters": [
@@ -2113,8 +2083,7 @@
       "post": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-18a2ff8a7cb8092"
+          "UserProfile"
         ],
         "summary": "Creates a new service user.",
         "parameters": [
@@ -2177,8 +2146,7 @@
       "get": {
         "tags": [
           "public",
-          "AutomationRule",
-          "id-3821908301ec4a35"
+          "AutomationRule"
         ],
         "summary": "List all Automation Rules in an Environment.",
         "parameters": [
@@ -2252,8 +2220,7 @@
       "post": {
         "tags": [
           "public",
-          "AutomationRule",
-          "id-f1da5f18617be2e"
+          "AutomationRule"
         ],
         "summary": "Create a new Automation Rule for an Environment.",
         "description": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.",
@@ -2337,8 +2304,7 @@
       "get": {
         "tags": [
           "public",
-          "AutomationRule",
-          "id-5c591c873982d08d"
+          "AutomationRule"
         ],
         "summary": "Get a specific Automation Rule for an Environment.",
         "parameters": [
@@ -2416,8 +2382,7 @@
       "put": {
         "tags": [
           "public",
-          "AutomationRule",
-          "id-aae5a37db7a07735"
+          "AutomationRule"
         ],
         "summary": "Update an existing Automation Rule for an Environment.",
         "description": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.",
@@ -2511,8 +2476,7 @@
       "delete": {
         "tags": [
           "public",
-          "AutomationRule",
-          "id-419ccb3e966c7763"
+          "AutomationRule"
         ],
         "summary": "Delete Automation Rule from an Environment.",
         "parameters": [
@@ -2567,8 +2531,7 @@
       "get": {
         "tags": [
           "public",
-          "Delta",
-          "id-72ce6ea9bff52ef"
+          "Delta"
         ],
         "summary": "List Deltas in an Application",
         "parameters": [
@@ -2626,8 +2589,7 @@
       "post": {
         "tags": [
           "public",
-          "Delta",
-          "id-7708aeaebb457a7c"
+          "Delta"
         ],
         "summary": "Create a new Delta",
         "parameters": [
@@ -2706,8 +2668,7 @@
       "patch": {
         "tags": [
           "public",
-          "Delta",
-          "id-923c8490bb0decda"
+          "Delta"
         ],
         "summary": "Update an existing Delta",
         "parameters": [
@@ -2796,8 +2757,7 @@
       "put": {
         "tags": [
           "public",
-          "Delta",
-          "id-96262817857608fe"
+          "Delta"
         ],
         "summary": "Mark a Delta as \"archived\"",
         "description": "Archived Deltas are still accessible but can no longer be updated.",
@@ -2873,8 +2833,7 @@
       "put": {
         "tags": [
           "public",
-          "Delta",
-          "id-dca2a04b5dc4903e"
+          "Delta"
         ],
         "summary": "Change the Environment of a Delta",
         "parameters": [
@@ -2949,8 +2908,7 @@
       "put": {
         "tags": [
           "public",
-          "Delta",
-          "id-afbc6846b9b2a628"
+          "Delta"
         ],
         "summary": "Change the name of a Delta",
         "parameters": [
@@ -3025,8 +2983,7 @@
       "get": {
         "tags": [
           "public",
-          "Set",
-          "id-974799a8d2176238"
+          "Set"
         ],
         "summary": "Get a Deployment Set",
         "parameters": [
@@ -3084,8 +3041,7 @@
       "post": {
         "tags": [
           "public",
-          "Set",
-          "id-d6b87166851d1d7f"
+          "Set"
         ],
         "summary": "Apply a Deployment Delta to a Deployment Set",
         "parameters": [
@@ -3173,8 +3129,7 @@
       "get": {
         "tags": [
           "public",
-          "Set",
-          "id-188756878370e28c"
+          "Set"
         ],
         "summary": "Get the difference between 2 Deployment Sets",
         "parameters": [
@@ -3243,8 +3198,7 @@
       "delete": {
         "tags": [
           "public",
-          "Event",
-          "id-cf3439c40bef5daa"
+          "Event"
         ],
         "summary": "Deletes all Jobs for the Application",
         "parameters": [
@@ -3278,8 +3232,7 @@
       "get": {
         "tags": [
           "public",
-          "Event",
-          "id-54aa8cf5a4a9a3a1"
+          "Event"
         ],
         "summary": "List Webhooks",
         "parameters": [
@@ -3321,8 +3274,7 @@
       "post": {
         "tags": [
           "public",
-          "Event",
-          "id-f7cfaeaeae78afbe"
+          "Event"
         ],
         "summary": "Create a new Webhook",
         "parameters": [
@@ -3396,8 +3348,7 @@
       "get": {
         "tags": [
           "public",
-          "Event",
-          "id-fd99afedecd0dafd"
+          "Event"
         ],
         "summary": "Get a Webhook",
         "parameters": [
@@ -3448,8 +3399,7 @@
       "post": {
         "tags": [
           "public",
-          "Event",
-          "id-c931cd5bce59ec2c"
+          "Event"
         ],
         "summary": "Update a Webhook",
         "parameters": [
@@ -3513,8 +3463,7 @@
       "delete": {
         "tags": [
           "public",
-          "Event",
-          "id-7f5eb45f5b3c4a39"
+          "Event"
         ],
         "summary": "Delete a Webhook",
         "parameters": [
@@ -3560,8 +3509,7 @@
       "get": {
         "tags": [
           "public",
-          "Event",
-          "id-a75e603687977c5"
+          "Event"
         ],
         "summary": "List Events",
         "parameters": [
@@ -3596,8 +3544,7 @@
       "get": {
         "tags": [
           "public",
-          "Organization",
-          "id-4583b24d5271efa7"
+          "Organization"
         ],
         "summary": "List active organizations the user has access to.",
         "responses": {
@@ -3627,8 +3574,7 @@
       "get": {
         "tags": [
           "public",
-          "Organization",
-          "id-d078104033e8a68e"
+          "Organization"
         ],
         "summary": "Get the specified Organization.",
         "parameters": [
@@ -3686,8 +3632,7 @@
       "get": {
         "tags": [
           "public",
-          "Registry",
-          "id-8b8113b67a78bc3f"
+          "Registry"
         ],
         "summary": "Lists available registries for the organization.",
         "parameters": [
@@ -3740,8 +3685,7 @@
       "post": {
         "tags": [
           "public",
-          "Registry",
-          "id-f27701fca8b5a3f7"
+          "Registry"
         ],
         "summary": "Creates a new registry record.",
         "parameters": [
@@ -3824,8 +3768,7 @@
       "get": {
         "tags": [
           "public",
-          "Registry",
-          "id-a8bef911c67137ba"
+          "Registry"
         ],
         "summary": "Loads a registry record details.",
         "parameters": [
@@ -3884,8 +3827,7 @@
       "delete": {
         "tags": [
           "public",
-          "Registry",
-          "id-64e5e7181118ccd2"
+          "Registry"
         ],
         "summary": "Deletes an existing registry record and all associated credentials and secrets.",
         "description": "_Deletions are currently irreversible._",
@@ -3948,8 +3890,7 @@
       "patch": {
         "tags": [
           "public",
-          "Registry",
-          "id-d1246e41218c085d"
+          "Registry"
         ],
         "summary": "Updates (patches) an existing registry record.",
         "parameters": [
@@ -4041,8 +3982,7 @@
       "get": {
         "tags": [
           "public",
-          "Registry",
-          "id-909046ec3b701823"
+          "Registry"
         ],
         "summary": "Returns current account credentials or secret details for the registry.",
         "parameters": [
@@ -4113,8 +4053,7 @@
       "get": {
         "tags": [
           "public",
-          "ActiveResource",
-          "id-458edde8fb58f308"
+          "ActiveResource"
         ],
         "summary": "List Active Resources provisioned in an environment.",
         "parameters": [
@@ -4177,8 +4116,7 @@
       "delete": {
         "tags": [
           "public",
-          "ActiveResource",
-          "id-8b11ba4e6e8007a5"
+          "ActiveResource"
         ],
         "summary": "Delete Active Resources.",
         "parameters": [
@@ -4248,8 +4186,7 @@
       "get": {
         "tags": [
           "public",
-          "AccountType",
-          "id-6f1473952f969428"
+          "AccountType"
         ],
         "summary": "List Resource Account Types available to the organization.",
         "parameters": [
@@ -4294,8 +4231,7 @@
       "get": {
         "tags": [
           "public",
-          "ResourceAccount",
-          "id-9dd92f28ae1db94b"
+          "ResourceAccount"
         ],
         "summary": "List Resource Accounts in the organization.",
         "parameters": [
@@ -4338,8 +4274,7 @@
       "post": {
         "tags": [
           "public",
-          "ResourceAccount",
-          "id-d5377a51480dde5e"
+          "ResourceAccount"
         ],
         "summary": "Create a new Resource Account in the organization.",
         "parameters": [
@@ -4431,8 +4366,7 @@
       "get": {
         "tags": [
           "public",
-          "ResourceAccount",
-          "id-6399c8aea9c4da36"
+          "ResourceAccount"
         ],
         "summary": "Get a Resource Account.",
         "parameters": [
@@ -4491,8 +4425,7 @@
       "patch": {
         "tags": [
           "public",
-          "ResourceAccount",
-          "id-c703b9a3f17895d5"
+          "ResourceAccount"
         ],
         "summary": "Update a Resource Account.",
         "parameters": [
@@ -4583,8 +4516,7 @@
       "get": {
         "tags": [
           "public",
-          "ResourceDefinition",
-          "id-dcfa034d27b23c6d"
+          "ResourceDefinition"
         ],
         "summary": "List Resource Definitions.",
         "description": "Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank.",
@@ -4668,8 +4600,7 @@
       "post": {
         "tags": [
           "public",
-          "ResourceDefinition",
-          "id-d1d607767c2fa523"
+          "ResourceDefinition"
         ],
         "summary": "Create a new Resource Definition.",
         "parameters": [
@@ -4742,8 +4673,7 @@
       "get": {
         "tags": [
           "public",
-          "ResourceDefinition",
-          "id-3a2fa8278ffbfb0c"
+          "ResourceDefinition"
         ],
         "summary": "Get a specific Resource Definition.",
         "parameters": [
@@ -4802,8 +4732,7 @@
       "delete": {
         "tags": [
           "public",
-          "ResourceDefinition",
-          "id-49f0275ef133c098"
+          "ResourceDefinition"
         ],
         "summary": "Delete a Resource Definition.",
         "description": "If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.\n\nIf there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.\n\nThe request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is **marked as** pending deletion and will be deleted (purged) as soon as no existing Active Resources reference it. With the next deployment matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).\n\nThe Resource Definition that has been marked for deletion cannot be used to provision new resources.",
@@ -4877,8 +4806,7 @@
       "patch": {
         "tags": [
           "public",
-          "ResourceDefinition",
-          "id-ed8f9c6328f59c17"
+          "ResourceDefinition"
         ],
         "summary": "Update a Resource Definition.",
         "parameters": [
@@ -4971,8 +4899,7 @@
         "tags": [
           "public",
           "ResourceDefinition",
-          "MatchingCriteria",
-          "id-2ffc55fb05e58182"
+          "MatchingCriteria"
         ],
         "summary": "Add a new Matching Criteria to a Resource Definition.",
         "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that time was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resources definitions matching the criteria: #1 & #3. Definition #3 will be chosen because it's matching criteria is the most specific.",
@@ -5069,8 +4996,7 @@
         "tags": [
           "public",
           "ResourceDefinition",
-          "MatchingCriteria",
-          "id-3dd97c9b90f364ed"
+          "MatchingCriteria"
         ],
         "summary": "Delete a Matching Criteria from a Resource Definition.",
         "description": "If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.\n\nIf there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.\n\nThe request can take an optional `force` query parameter. If set to `true`, the Matching Criteria is deleted immediately. Referenced Active Resources would match to a different Resource Definition during the next deployment in the target environment.",
@@ -5156,8 +5082,7 @@
         "tags": [
           "public",
           "ResourceDefinition",
-          "ActiveResource",
-          "id-e64008a9dd7e2425"
+          "ActiveResource"
         ],
         "summary": "List Active Resources provisioned via a specific Resource Definition.",
         "parameters": [
@@ -5211,8 +5136,7 @@
       "get": {
         "tags": [
           "public",
-          "DriverDefinition",
-          "id-4a0527f79ce3a2e7"
+          "DriverDefinition"
         ],
         "summary": "List Resource Drivers.",
         "parameters": [
@@ -5255,8 +5179,7 @@
       "post": {
         "tags": [
           "public",
-          "DriverDefinition",
-          "id-12bab2e093889169"
+          "DriverDefinition"
         ],
         "summary": "Register a new Resource Driver.",
         "parameters": [
@@ -5339,8 +5262,7 @@
       "get": {
         "tags": [
           "public",
-          "DriverDefinition",
-          "id-6dbdf1d38961e24a"
+          "DriverDefinition"
         ],
         "summary": "Get a Resource Driver.",
         "description": "# Only drivers that belongs to the given organization or registered as `public` are accessible through this endpoint",
@@ -5400,8 +5322,7 @@
       "put": {
         "tags": [
           "public",
-          "DriverDefinition",
-          "id-a17507305ead668"
+          "DriverDefinition"
         ],
         "summary": "Update a Resource Driver.",
         "parameters": [
@@ -5490,8 +5411,7 @@
       "delete": {
         "tags": [
           "public",
-          "DriverDefinition",
-          "id-1410bccc9ddf0fd"
+          "DriverDefinition"
         ],
         "summary": "Delete a Resources Driver.",
         "parameters": [
@@ -5535,8 +5455,7 @@
       "get": {
         "tags": [
           "public",
-          "ResourceType",
-          "id-aff079b0c0159d6a"
+          "ResourceType"
         ],
         "summary": "List Resource Types.",
         "parameters": [
@@ -5581,8 +5500,7 @@
       "get": {
         "tags": [
           "public",
-          "RuntimeInfo",
-          "id-4ec56221444edf96"
+          "RuntimeInfo"
         ],
         "summary": "Get Runtime information about the environment.",
         "parameters": [
@@ -5638,8 +5556,7 @@
       "put": {
         "tags": [
           "public",
-          "RuntimeInfo",
-          "id-b24ab2928e87553a"
+          "RuntimeInfo"
         ],
         "summary": "Pause / Resume an environment.",
         "description": "On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas.\n\nOn resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused.\n\nWhen an environment is paused, it is not possible to:\n\n```\n  - Deploy the environment within Humanitec.\n  - Scale the number of replicas running of any workload.\n```",
@@ -5709,8 +5626,7 @@
       "patch": {
         "tags": [
           "public",
-          "RuntimeInfo",
-          "id-555c96281c1d2504"
+          "RuntimeInfo"
         ],
         "summary": "Set number of replicas for an environment's modules.",
         "parameters": [
@@ -5785,8 +5701,7 @@
       "get": {
         "tags": [
           "public",
-          "RuntimeInfo",
-          "id-a33767d6385d1888"
+          "RuntimeInfo"
         ],
         "summary": "Get Runtime information about specific environments.",
         "parameters": [
@@ -5861,8 +5776,7 @@
       "get": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-19eac471ff71f6c3"
+          "UserProfile"
         ],
         "summary": "Gets the extended profile of the current user",
         "responses": {
@@ -5887,8 +5801,7 @@
       "patch": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-3686df27e9ea723d"
+          "UserProfile"
         ],
         "summary": "Updates the extended profile of the current user.",
         "requestBody": {
@@ -5925,8 +5838,7 @@
       "get": {
         "tags": [
           "public",
-          "UserRole",
-          "id-599c18437cdcf891"
+          "UserRole"
         ],
         "summary": "Get the role of a User on an Application",
         "parameters": [
@@ -5979,8 +5891,7 @@
       "get": {
         "tags": [
           "public",
-          "UserRole",
-          "id-edc8f96dad1b588d"
+          "UserRole"
         ],
         "summary": "Get the role of a User on an Environment Type",
         "parameters": [
@@ -6033,8 +5944,7 @@
       "get": {
         "tags": [
           "public",
-          "UserInvite",
-          "id-3142fa80948aa9b5"
+          "UserInvite"
         ],
         "summary": "List the invites issued for the organization.",
         "parameters": [
@@ -6067,8 +5977,7 @@
       "post": {
         "tags": [
           "public",
-          "UserRole",
-          "id-95feb55aec734ca3"
+          "UserRole"
         ],
         "summary": "Invites a user to an Organization with a specified role.",
         "parameters": [
@@ -6121,8 +6030,7 @@
       "get": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-eb53bc5497df7fe6"
+          "UserProfile"
         ],
         "summary": "DEPRECATED",
         "responses": {
@@ -6144,8 +6052,7 @@
       "delete": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-58622d721631f57c"
+          "UserProfile"
         ],
         "summary": "DEPRECATED",
         "parameters": [
@@ -6170,8 +6077,7 @@
       "get": {
         "tags": [
           "public",
-          "UserProfile",
-          "id-629a398140849841"
+          "UserProfile"
         ],
         "summary": "DEPRECATED",
         "responses": {
@@ -6199,8 +6105,7 @@
       "get": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-15e6d69c476aa3c8"
+          "ValueSetVersion"
         ],
         "summary": "List Value Set Versions in an Environment of an App",
         "description": "A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint.",
@@ -6262,8 +6167,7 @@
       "get": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-1788e5e056d7e975"
+          "ValueSetVersion"
         ],
         "summary": "Get a single Value Set Version in an Environment of an App",
         "parameters": [
@@ -6332,8 +6236,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-3274560023b15f46"
+          "ValueSetVersion"
         ],
         "summary": "Purge the value of a specific key Value Set Version in an Environment of an App",
         "parameters": [
@@ -6410,8 +6313,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-4949e99ea5ffc379"
+          "ValueSetVersion"
         ],
         "summary": "Restore a Value Set Version in an Environment of an App",
         "parameters": [
@@ -6490,8 +6392,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-69a7b420d845fdb7"
+          "ValueSetVersion"
         ],
         "summary": "Restore a specific key Value Set Version in an Environment of an App",
         "parameters": [
@@ -6579,8 +6480,7 @@
       "get": {
         "tags": [
           "public",
-          "Value",
-          "id-96d5dd97b8e37b87"
+          "Value"
         ],
         "summary": "List Shared Values in an Environment",
         "description": "The returned values will be the base Application values with the Environment overrides where applicable. The `source` field will specify the level from which the value is from.",
@@ -6632,8 +6532,7 @@
       "post": {
         "tags": [
           "public",
-          "Value",
-          "id-e8db605b46807ac7"
+          "Value"
         ],
         "summary": "Create a Shared Value for an Environment",
         "description": "The Shared Value created will only be available to the specific Environment.\n\nIf a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.",
@@ -6713,8 +6612,7 @@
       "delete": {
         "tags": [
           "public",
-          "Value",
-          "id-8d90ebaaab97660d"
+          "Value"
         ],
         "summary": "Delete all Shared Value for an Environment",
         "description": "All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.",
@@ -6758,8 +6656,7 @@
       "put": {
         "tags": [
           "public",
-          "Value",
-          "id-addaaed3d337c1cc"
+          "Value"
         ],
         "summary": "Update Shared Value for an Environment",
         "description": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.",
@@ -6848,8 +6745,7 @@
       "delete": {
         "tags": [
           "public",
-          "Value",
-          "id-bd8b89c992f6fa98"
+          "Value"
         ],
         "summary": "Delete Shared Value for an Environment",
         "description": "The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.",
@@ -6920,8 +6816,7 @@
       "patch": {
         "tags": [
           "public",
-          "Value",
-          "id-99b6b9e01f007722"
+          "Value"
         ],
         "summary": "Update Shared Value for an Environment",
         "description": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.",
@@ -7012,8 +6907,7 @@
       "get": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-6480da2a2cbc873d"
+          "ValueSetVersion"
         ],
         "summary": "List Value Set Versions in the App",
         "description": "A new Value Set Version is created on every modification of a Value inside the app.",
@@ -7066,8 +6960,7 @@
       "get": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-b3e2705703d342e5"
+          "ValueSetVersion"
         ],
         "summary": "Get a single Value Set Version from the App",
         "parameters": [
@@ -7127,8 +7020,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-fe88c1c152f34014"
+          "ValueSetVersion"
         ],
         "summary": "Purge the value of a specific key Value Set Version in an App",
         "parameters": [
@@ -7210,8 +7102,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-a29139d7b2c28b6a"
+          "ValueSetVersion"
         ],
         "summary": "Restore a Value Set Version in an App",
         "parameters": [
@@ -7281,8 +7172,7 @@
       "post": {
         "tags": [
           "public",
-          "ValueSetVersion",
-          "id-acc5a9be7d0dc366"
+          "ValueSetVersion"
         ],
         "summary": "Restore a specific key Value Set Version in an App",
         "parameters": [
@@ -7361,8 +7251,7 @@
       "get": {
         "tags": [
           "public",
-          "Value",
-          "id-c3585a7affe88b8f"
+          "Value"
         ],
         "summary": "List Shared Values in an Application",
         "description": "The returned values will be the \"base\" values for the Application. The overridden value for the Environment can be retrieved via the `/orgs/{orgId}/apps/{appId}/envs/{envId}/values` endpoint.",
@@ -7405,8 +7294,7 @@
       "post": {
         "tags": [
           "public",
-          "Value",
-          "id-2eb5ff0a1367081c"
+          "Value"
         ],
         "summary": "Create a Shared Value for an Application",
         "description": "The Shared Value created will be available to all Environments in that Application.\n\nIf a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.",
@@ -7477,8 +7365,7 @@
       "delete": {
         "tags": [
           "public",
-          "Value",
-          "id-bf24220c37b9378"
+          "Value"
         ],
         "summary": "Delete all Shared Value for an App",
         "description": "All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.",
@@ -7513,8 +7400,7 @@
       "put": {
         "tags": [
           "public",
-          "Value",
-          "id-67c480e520050c7c"
+          "Value"
         ],
         "summary": "Update Shared Value for an Application",
         "description": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.",
@@ -7594,8 +7480,7 @@
       "delete": {
         "tags": [
           "public",
-          "Value",
-          "id-7d0b02819ea91e5e"
+          "Value"
         ],
         "summary": "Delete Shared Value for an Application",
         "description": "The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.",
@@ -7657,8 +7542,7 @@
       "patch": {
         "tags": [
           "public",
-          "Value",
-          "id-9c3ddf487957e18f"
+          "Value"
         ],
         "summary": "Update Shared Value for an Application",
         "description": "Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.",
@@ -7740,8 +7624,7 @@
       "get": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-317a73fed041c22f"
+          "WorkloadProfile"
         ],
         "summary": "List workload profiles available to the organization.",
         "parameters": [
@@ -7774,8 +7657,7 @@
       "post": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-9d6af7bf2193431f"
+          "WorkloadProfile"
         ],
         "summary": "Create new Workload Profile",
         "parameters": [
@@ -7858,8 +7740,7 @@
       "delete": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-285eb1b4df7cecd3"
+          "WorkloadProfile"
         ],
         "summary": "Delete a Workload Profile",
         "description": "This will also delete all versions of a workload profile.\n\nIt is not possible to delete profiles of other organizations.",
@@ -7904,8 +7785,7 @@
       "post": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-dd2a29fa6db45d7"
+          "WorkloadProfile"
         ],
         "summary": "Add new Version of the Workload Profile",
         "description": "Creates a Workload Profile Version from the uploaded Helm chart. The version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes two parts:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\n2. `metadata` with `application/json` content type which defines the version's metadata.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"metadata\" \tContent-Type: application/json; charset=UTF-8 \t{ \t  \"features\": { \t     \"humanitec/service\": {}, \t     \"humanitec/volumes\": {}, \t     \"custom\": {\"schema\": {}} \t  }, \t  \"notes\": \"Notes related to this version of the profile\" \t} \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\" \tContent-Type: application/x-gzip \t[TGZ_DATA] \t----boundary\n\n**NOTE:**\n\nA Workload Profile must be created before a version can be added to it.",
@@ -7998,8 +7878,7 @@
       "delete": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-4809ac5071cbe936"
+          "WorkloadProfile"
         ],
         "summary": "Delete a Workload Profile Version",
         "parameters": [
@@ -8052,8 +7931,7 @@
       "get": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-88d4e89419ae0b79"
+          "WorkloadProfile"
         ],
         "summary": "Get a Workload Profile",
         "parameters": [
@@ -8104,8 +7982,7 @@
       "get": {
         "tags": [
           "public",
-          "WorkloadProfile",
-          "id-59de344b5fdd324b"
+          "WorkloadProfile"
         ],
         "summary": "List versions of the given workload profile with optional constraint.",
         "parameters": [
@@ -14296,50 +14173,6 @@
         ],
         "type": "object"
       },
-      "InternalJSONPatchRequest": {
-        "properties": {
-          "op": {
-            "type": "string"
-          },
-          "path": {
-            "type": "string"
-          },
-          "value": {
-            "$ref": "#/components/schemas/InternalValueRequest"
-          }
-        },
-        "type": "object"
-      },
-      "InternalJSONPatchResponse": {
-        "properties": {
-          "op": {
-            "type": "string"
-          },
-          "path": {
-            "type": "string"
-          },
-          "value": {
-            "$ref": "#/components/schemas/InternalValueResponse"
-          }
-        },
-        "required": [
-          "op",
-          "path"
-        ],
-        "type": "object"
-      },
-      "InternalJSONPatchesRequest": {
-        "items": {
-          "$ref": "#/components/schemas/InternalJSONPatchRequest"
-        },
-        "type": "array"
-      },
-      "InternalJSONPatchesResponse": {
-        "items": {
-          "$ref": "#/components/schemas/InternalJSONPatchResponse"
-        },
-        "type": "array"
-      },
       "InternalValueRequest": {
         "properties": {
           "description": {
@@ -14448,7 +14281,7 @@
       "InternalValueSetVersionRequest": {
         "properties": {
           "change": {
-            "$ref": "#/components/schemas/InternalJSONPatchesRequest"
+            "$ref": "#/components/schemas/JSONPatchesRequest"
           },
           "comment": {
             "type": "string"
@@ -14488,7 +14321,7 @@
       "InternalValueSetVersionResponse": {
         "properties": {
           "change": {
-            "$ref": "#/components/schemas/InternalJSONPatchesResponse"
+            "$ref": "#/components/schemas/JSONPatchesResponse"
           },
           "comment": {
             "type": "string"
@@ -14544,9 +14377,7 @@
           "path": {
             "type": "string"
           },
-          "value": {
-            "$ref": "#/components/schemas/ValueRequest"
-          }
+          "value": {}
         },
         "type": "object"
       },
@@ -14558,9 +14389,7 @@
           "path": {
             "type": "string"
           },
-          "value": {
-            "$ref": "#/components/schemas/ValueResponse"
-          }
+          "value": {}
         },
         "required": [
           "op",
