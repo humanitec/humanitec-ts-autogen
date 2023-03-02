@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.3",
+    "version": "0.20.9",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -663,6 +663,16 @@
           },
           "404": {
             "description": "No Environment with `id` in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "There is already an active deployment in the Environment.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -2646,7 +2656,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeltaResponse"
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/DeltaResponse"
+                    }
+                  ]
                 }
               }
             }
@@ -2665,6 +2682,65 @@
       }
     },
     "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}": {
+      "get": {
+        "tags": [
+          "public",
+          "Delta"
+        ],
+        "summary": "Fetch an existing Delta",
+        "operationId": "getDelta",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deltaId",
+            "in": "path",
+            "description": "ID of the Delta to fetch.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested Deployment Delta.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeltaResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Deployment Delta with ID `deltaId` found in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "public",
@@ -2749,11 +2825,94 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "No Deployment Delta with ID `deltaId` found in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "public",
+          "Delta"
+        ],
+        "summary": "Update an existing Delta",
+        "operationId": "putDelta",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "deltaId",
+            "in": "path",
+            "description": "ID of the Delta to update.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "An array of Deltas.\n\nThe Deltas in the request are combined, meaning the current Delta is updated in turn by each Delta in the request. Once all Deltas have been combined, the resulting Delta is simplified.\n\n* All Modules in the `modules.add` property are replaced with the new Delta's values. If the value of a Module is `null`, and the ID is in the `modules.remove` list, it is removed from the `modules.remove` list.\n\n* All IDs listed in `modules.remove` are combined. Any ID in `modules.remove` and also in `modules.add` are removed from `modules.add`\n\n* The lists of JSON Patches in `modules.update` are concatenated or created in `modules.updates`.\n\nSimplification involves:\n\n* Applying any entries in `modules.updates` that have matching IDs in `modules.add` to the `modules.add` entry and removing the `modules.update` entry.\n\n* Reducing the number of JSON Patches in each `modules.update` entry to the smallest set that has the same effect.\n\n**Extension to JSON Patch**\n\nIf a JSON Patch entry needs to be removed, without side effects, the `value` of the `remove` action can be set to `{\"scope\": \"delta\"}. This will result in the remove action being used during simplification but be discarded before the Delta is finalized.\n\nIf the user making the request is not the user who created the Delta and they are not already on the contributors list, they will be added to the contributors list.\n\n_NOTE: If the `id` or `metadata` properties are specified, they will be ignored._",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeltaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The requested Deployment Delta.\n\n"
+          },
+          "400": {
+            "description": "The request was invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Deployment Delta with ID `deltaId` found in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/archived": {
+    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/archived": {
       "put": {
         "tags": [
           "public",
@@ -2829,7 +2988,7 @@
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/env_id": {
+    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/env_id": {
       "put": {
         "tags": [
           "public",
@@ -2904,7 +3063,7 @@
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/name": {
+    "/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/name": {
       "put": {
         "tags": [
           "public",
@@ -2979,6 +3138,61 @@
         }
       }
     },
+    "/orgs/{orgId}/apps/{appId}/sets": {
+      "get": {
+        "tags": [
+          "public",
+          "Set"
+        ],
+        "operationId": "getSets",
+        "summary": "Get all Deployment Sets",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Requested Deployment Set.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SetResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Deployment Set with ID `setId` found in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps/{appId}/sets/{setId}": {
       "get": {
         "tags": [
@@ -3013,6 +3227,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "diff",
+            "in": "query",
+            "description": "ID of the Deployment Set to compared against.",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -3021,7 +3243,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SetResponse"
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SetResponse"
+                    },
+                    {
+                      "$ref": "#/components/schemas/PlainDeltaResponse"
+                    }
+                  ]
                 }
               }
             }
@@ -3097,7 +3326,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeltaResponse"
+                  "type": "string"
                 }
               }
             }
@@ -3176,7 +3405,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeltaResponse"
+                  "$ref": "#/components/schemas/PlainDeltaResponse"
                 }
               }
             }
@@ -7703,28 +7932,8 @@
               }
             }
           },
-          "401": {
-            "description": "Request unauthorised.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
           "409": {
             "description": "A Workload Profile already exists.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -7813,9 +8022,18 @@
           "description": "Workload profile version metadata.\n\n",
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/WorkloadProfileVersionRequest"
+                "type": "object",
+                "properties": {
+                  "metadata": {
+                    "$ref": "#/components/schemas/WorkloadProfileVersionRequest"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
             }
           }
@@ -7841,8 +8059,8 @@
               }
             }
           },
-          "401": {
-            "description": "Request unauthorised.\n\n",
+          "404": {
+            "description": "Workload Profile not found or not accessible by the organization.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -7853,16 +8071,6 @@
           },
           "409": {
             "description": "A Workload Profile Version already exists.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -8023,6 +8231,16 @@
                     "$ref": "#/components/schemas/WorkloadProfileVersionResponse"
                   },
                   "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workload Profile Versions not found or not accessible by the organization.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -9652,7 +9870,7 @@
           },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -9664,7 +9882,7 @@
           },
           "last_modified_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -9690,7 +9908,7 @@
           },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -9702,7 +9920,7 @@
           },
           "last_modified_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -9747,6 +9965,10 @@
           }
         },
         "properties": {
+          "id": {
+            "description": "Ignored, but can be provided.",
+            "type": "string"
+          },
           "metadata": {
             "$ref": "#/components/schemas/DeltaMetadataRequest",
             "description": "Holds various metadata such as a Human-friendly name, collaborators, and Environment it is associated with."
@@ -9812,6 +10034,47 @@
         "required": [
           "id",
           "metadata",
+          "modules",
+          "shared"
+        ],
+        "type": "object"
+      },
+      "PlainDeltaResponse": {
+        "description": "Similar to the delta response, except the id and metadata properties.\n\n**Basic Structure**\n\n```\n {\n   \"modules\" : {\n     \"add\" : {\n       <ID of Module to add to the Deployment Set> : {\n         <An entire Modules object>\n       }\n     },\n     \"remove\": [\n       <An array of Module IDs that should be removed from the Deployment Set>\n     ],\n    \"update\": {\n       <ID of Module already in the Set to be updated> : [\n         <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>\n       ]\n     }\n   }\n }\n```",
+        "example": {
+          "modules": {
+            "add": {
+              "redis-cache": {
+                "profile": "humanitec/redis"
+              }
+            },
+            "remove": [
+              "simple-service"
+            ],
+            "update": {
+              "module-one": [
+                {
+                  "op": "replace",
+                  "path": "/spec/containers/core-service/variables/EXAMPLE",
+                  "value": "New Value"
+                }
+              ]
+            }
+          }
+        },
+        "properties": {
+          "modules": {
+            "$ref": "#/components/schemas/ModuleDeltasResponse",
+            "description": "A dictionary of the Modules this Delta has operations for."
+          },
+          "shared": {
+            "items": {
+              "$ref": "#/components/schemas/UpdateActionResponse"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
           "modules",
           "shared"
         ],
@@ -9938,6 +10201,7 @@
           }
         },
         "type": "object",
+        "nullable": true,
         "additionalProperties": {
           "$ref": "#/components/schemas/ControllerRequest"
         }
@@ -11171,8 +11435,7 @@
           "is_public": false,
           "target": "https://drivers.example.com/route53/",
           "template": "",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -11205,10 +11468,6 @@
           },
           "type": {
             "description": "The type of resource produced by this driver",
-            "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see 'url_prefix'.",
             "type": "string"
           }
         },
@@ -11232,8 +11491,7 @@
           "is_public": false,
           "target": "https://drivers.example.com/route53/",
           "template": "",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -11267,17 +11525,12 @@
           "type": {
             "description": "The type of resource produced by this driver",
             "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see 'url_prefix'.",
-            "type": "string"
           }
         },
         "required": [
           "id",
           "type",
           "target",
-          "url_prefix",
           "is_public",
           "inputs_schema",
           "account_types",
@@ -11497,8 +11750,7 @@
           "org_id": "test-org",
           "target": "https://drivers.example.com/route53/",
           "template": "",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -11534,10 +11786,6 @@
           },
           "type": {
             "description": "The type of resource produced by this driver",
-            "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see `url_prefix`.",
             "type": "string"
           }
         },
@@ -11556,8 +11804,7 @@
           "org_id": "test-org",
           "target": "https://drivers.example.com/route53/",
           "template": "",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -11593,10 +11840,6 @@
           },
           "type": {
             "description": "The type of resource produced by this driver",
-            "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see `url_prefix`.",
             "type": "string"
           }
         },
@@ -12019,11 +12262,16 @@
         },
         "type": "object"
       },
-      "NodeRequest": {
-        "description": "Node Represents a node of a Resource Dependency Graph",
+      "NodeBodyRequest": {
+        "description": "NodeBody Represents a node of a Resource Dependency Graph",
         "properties": {
+          "criteria_id": {
+            "type": "string"
+          },
+          "def_id": {
+            "type": "string"
+          },
           "depends_on": {
-            "description": "List of GuResIDs of dependent resources",
             "items": {
               "type": "string"
             },
@@ -12033,6 +12281,9 @@
             "additionalProperties": true,
             "type": "object"
           },
+          "driver_type": {
+            "type": "string"
+          },
           "guresid": {
             "type": "string"
           },
@@ -12041,7 +12292,6 @@
           },
           "resource": {
             "additionalProperties": true,
-            "description": "Parameters with which the resource should be provisioned",
             "type": "object"
           },
           "resource_schema": {
@@ -12057,11 +12307,16 @@
         },
         "type": "object"
       },
-      "NodeResponse": {
-        "description": "Node Represents a node of a Resource Dependency Graph",
+      "NodeBodyResponse": {
+        "description": "NodeBody Represents a node of a Resource Dependency Graph",
         "properties": {
+          "criteria_id": {
+            "type": "string"
+          },
+          "def_id": {
+            "type": "string"
+          },
           "depends_on": {
-            "description": "List of GuResIDs of dependent resources",
             "items": {
               "type": "string"
             },
@@ -12071,6 +12326,9 @@
             "additionalProperties": true,
             "type": "object"
           },
+          "driver_type": {
+            "type": "string"
+          },
           "guresid": {
             "type": "string"
           },
@@ -12079,7 +12337,6 @@
           },
           "resource": {
             "additionalProperties": true,
-            "description": "Parameters with which the resource should be provisioned",
             "type": "object"
           },
           "resource_schema": {
@@ -12094,12 +12351,15 @@
           }
         },
         "required": [
-          "resource",
           "type",
           "id",
           "guresid",
           "target",
+          "resource",
           "driver",
+          "def_id",
+          "criteria_id",
+          "driver_type",
           "resource_schema",
           "depends_on"
         ],
@@ -12536,56 +12796,6 @@
         ],
         "type": "object"
       },
-      "ResourceProvisionRequestLegacyRequest": {
-        "description": "ResourceProvisionRequestLegacy is the payload passed to the resource provisioner",
-        "example": {
-          "resource": {
-            "host": "127.0.0.1",
-            "name": "my-database"
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "resource": {
-            "additionalProperties": true,
-            "description": "(Optional) The input parameters for the resource passed from the deployment set",
-            "type": "object"
-          },
-          "type": {
-            "description": "The resource type",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "type": "object"
-      },
-      "ResourceProvisionRequestLegacyResponse": {
-        "description": "ResourceProvisionRequestLegacy is the payload passed to the resource provisioner",
-        "example": {
-          "resource": {
-            "host": "127.0.0.1",
-            "name": "my-database"
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "resource": {
-            "additionalProperties": true,
-            "description": "(Optional) The input parameters for the resource passed from the deployment set",
-            "type": "object"
-          },
-          "type": {
-            "description": "The resource type",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type"
-        ],
-        "type": "object"
-      },
       "ResourceProvisionRequestRequest": {
         "description": "ResourceProvisionRequest is the payload passed to the resource provisioner",
         "example": {
@@ -12842,8 +13052,7 @@
           "is_public": false,
           "target": "https://drivers.example.com/route53/",
           "template": "{{ mustToRawJson .driver }}",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -12871,10 +13080,6 @@
           },
           "type": {
             "description": "The type of resource produced by this driver",
-            "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see 'url_prefix'.",
             "type": "string"
           }
         },
@@ -12897,8 +13102,7 @@
           "is_public": false,
           "target": "https://drivers.example.com/route53/",
           "template": "{{ mustToRawJson .driver }}",
-          "type": "dns",
-          "url_prefix": "https://drivers.example.com/route53/"
+          "type": "dns"
         },
         "properties": {
           "account_types": {
@@ -12927,16 +13131,11 @@
           "type": {
             "description": "The type of resource produced by this driver",
             "type": "string"
-          },
-          "url_prefix": {
-            "description": "DEPRECATED: The prefix where the driver resides. Use 'target' instead. Only members of the organization the driver belongs to can see 'url_prefix'.",
-            "type": "string"
           }
         },
         "required": [
           "type",
           "target",
-          "url_prefix",
           "is_public",
           "inputs_schema",
           "account_types",
@@ -14749,7 +14948,7 @@
           "created_at": {
             "description": "Creation date",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14783,6 +14982,41 @@
         ],
         "type": "object"
       },
+      "WorkloadProfileFeatureRequest": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "org_id": {
+            "type": "string"
+          },
+          "schema": {
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "WorkloadProfileFeatureResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "org_id": {
+            "type": "string"
+          },
+          "schema": {
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "required": [
+          "org_id",
+          "id",
+          "schema"
+        ],
+        "type": "object"
+      },
       "WorkloadProfileRequest": {
         "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.",
         "properties": {
@@ -14802,7 +15036,7 @@
           "created_at": {
             "description": "Creation date",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14853,7 +15087,7 @@
           "created_at": {
             "description": "Creation date",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14973,11 +15207,6 @@
       "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionRequest\" />\n"
     },
     {
-      "name": "RuntimeInfo",
-      "x-displayName": "Runtime Information",
-      "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).\n<SchemaDefinition schemaRef=\"#/components/schemas/RuntimeInfoRequest\" />\n"
-    },
-    {
       "name": "UserProfile",
       "x-displayName": "User Profiles",
       "description": "UserProfile holds the profile information of a user\n<SchemaDefinition schemaRef=\"#/components/schemas/UserProfileRequest\" />\n"
@@ -15071,6 +15300,11 @@
       "name": "ResourceType",
       "x-displayName": "Resources Types",
       "description": "Resources Types define the technology that Applications can have dependencies on.\n\nEach Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceTypeRequest\" />\n"
+    },
+    {
+      "name": "RuntimeInfo",
+      "x-displayName": "Runtime Information",
+      "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).\n<SchemaDefinition schemaRef=\"#/components/schemas/RuntimeInfoRequest\" />\n"
     },
     {
       "name": "Set",
