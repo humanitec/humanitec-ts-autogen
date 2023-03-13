@@ -16,6 +16,10 @@
 import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
+// URLSearchParams not necessarily used
+// @ts-ignore
+import { URL, URLSearchParams } from 'url';
+import FormData from 'form-data'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
@@ -2373,6 +2377,25 @@ export type OrgsOrgIdAppsAppIdDeltasPost200Response = DeltaResponse | string;
 export type OrgsOrgIdAppsAppIdSetsSetIdGet200Response = PlainDeltaResponse | SetResponse;
 
 /**
+ * 
+ * @export
+ * @interface OrgsOrgIdWorkloadProfilesProfileIdVersionsPostRequest
+ */
+export interface OrgsOrgIdWorkloadProfilesProfileIdVersionsPostRequest {
+    /**
+     * 
+     * @type {WorkloadProfileVersionRequest}
+     * @memberof OrgsOrgIdWorkloadProfilesProfileIdVersionsPostRequest
+     */
+    'metadata'?: WorkloadProfileVersionRequest;
+    /**
+     * 
+     * @type {File}
+     * @memberof OrgsOrgIdWorkloadProfilesProfileIdVersionsPostRequest
+     */
+    'file'?: File;
+}
+/**
  * PatchResourceDefinitionRequest describes a ResourceDefinition change request.
  * @export
  * @interface PatchResourceDefinitionRequestRequest
@@ -3927,6 +3950,25 @@ export interface WorkloadProfileResponse {
      * @memberof WorkloadProfileResponse
      */
     'org_id': string;
+}
+/**
+ * Each Workload Profile has one or more Versions associated with it. In order to add a version, a Workload Profile must first be created.
+ * @export
+ * @interface WorkloadProfileVersionRequest
+ */
+export interface WorkloadProfileVersionRequest {
+    /**
+     * A map of Features. If referencing built in Humanitec features, the fully qualified feature name must be used: e.g. `humanitec/annotations`.  {  }
+     * @type {{ [key: string]: any; }}
+     * @memberof WorkloadProfileVersionRequest
+     */
+    'features'?: { [key: string]: any; };
+    /**
+     * Notes
+     * @type {string}
+     * @memberof WorkloadProfileVersionRequest
+     */
+    'notes'?: string;
 }
 /**
  * Each Workload Profile has one or more Versions associated with it. In order to add a version, a Workload Profile must first be created.
@@ -16016,7 +16058,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {
@@ -31342,7 +31384,7 @@ export const WorkloadProfileApiAxiosParamCreator = function (configuration?: Con
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...(localVarFormParams as any).getHeaders?.(), ...options.headers};
             localVarRequestOptions.data = localVarFormParams;
 
             return {

@@ -1,3 +1,5 @@
 {
-  "useSingleRequestParameter": true
+  "useSingleRequestParameter": true,
+  "withNodeImports": true,
+  "multipartFormData": true
 }

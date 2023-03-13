@@ -3,4 +3,4 @@ fetch-openapi:
 
 generate:
 	rm -rf ./src/generated/apis ./src/generated/models
-	npx openapi-generator-cli generate -c /local/generate.config.json -i /local/docs/openapi.json -g typescript-axios -o /local/src/generated
+	npx openapi-generator-cli generate -c /local/generate.config.json -i /local/docs/openapi.json -g typescript-axios -o /local/src/generated --global-property skipFormModel=false
