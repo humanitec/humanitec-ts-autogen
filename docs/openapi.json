@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.9",
+    "version": "0.20.12",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -965,7 +965,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "The Environment Type requested.\n\n",
             "content": {
               "application/json": {
@@ -1282,8 +1282,15 @@
           }
         },
         "responses": {
-          "204": {
-            "description": "Artefact Version successfully added.\n\n"
+          "200": {
+            "description": "An Artefact Version.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtefactVersionResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.\n\n",
@@ -1297,6 +1304,82 @@
           },
           "401": {
             "description": "Request unauthorised.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/artefact-versions/{artefactVersionId}": {
+      "get": {
+        "tags": [
+          "public",
+          "ArtefactVersion"
+        ],
+        "summary": "Get an Artefacts Versions.",
+        "description": "Returns a specific Artefact Version.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artefactVersionId",
+            "in": "path",
+            "description": "The Artefact Version ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An Artefact Version.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtefactVersionResponse"
+                },
+                "example": {
+                  "archived": false,
+                  "artefact_id": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
+                  "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
+                  "created_at": "2020-06-10T10:00:00Z",
+                  "created_by": "1234567789",
+                  "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
+                  "id": "662b80db-cc71-40cf-b601-08d57983f6e4",
+                  "name": "registry.humanitec.io/public/sample-app",
+                  "ref": "refs/heads/master",
+                  "updated_at": "2020-06-12T10:00:00Z",
+                  "updated_by": "987654321",
+                  "version": "1.3.0"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed Artefact Version ID.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Artefact Version not found.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -4958,6 +5041,86 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "public",
+          "ResourceDefinition"
+        ],
+        "summary": "Update a Resource Definition.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "defId",
+            "in": "path",
+            "description": "The Resource Definition ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The Resource Definition record details.\n\nThe PUT operation updates a resource definition using the provided payload. An empty driver_account or driver_inputs property will unset the existing values.\n\nCurrently the resource and driver types can't be changed.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateResourceDefinitionRequestRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated Resource Definition.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceDefinitionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more request parameters is missing or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A Resource Definition with the 'defId' ID is not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "public",
@@ -5059,12 +5222,12 @@
           }
         ],
         "requestBody": {
-          "description": "The Resource Definition record details.\n\nThe PATCH operation would change the value of the property if it is included in the request payload JSON, and not `null`. Missing and `null` properties are ignored.\n\nFor the map properties, such as UpdateResourceDefinitionRequest.DriverInputs, the merge operation is applied.\n\nMerge rules are as follows:\n\n- If a map property has a value, it is replaced (or added).\n\n- If a map property is set to `null`, it is removed.\n\n- If a map property is not included (missing in JSON), it remains unchanged.",
+          "description": "The Resource Definition record details.\n\nThe PATCH operation would change the value of the property if it is included in the request payload JSON, and not `null`. Missing and `null` properties are ignored.\n\nFor the map properties, such as PatchResourceDefinitionRequest.DriverInputs, the merge operation is applied.\n\nMerge rules are as follows:\n\n- If a map property has a value, it is replaced (or added).\n\n- If a map property is set to `null`, it is removed.\n\n- If a map property is not included (missing in JSON), it remains unchanged.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateResourceDefinitionRequestRequest"
+                "$ref": "#/components/schemas/PatchResourceDefinitionRequestRequest"
               }
             }
           }
@@ -6530,10 +6693,24 @@
             "description": "key successfully purged\n\n"
           },
           "400": {
-            "description": "Input not valid.\n\n"
+            "description": "The specified key can't be purged in this version.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "No ValueSetVersion with `valueSetVersionId` in App Environment.\n\n"
+            "description": "No ValueSetVersion with `valueSetVersionId` in App Environment.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -6688,6 +6865,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueSetVersionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -6939,7 +7126,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Shared Value successfully updated.\n\n",
             "content": {
               "application/json": {
@@ -7099,7 +7286,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Shared Value successfully updated.\n\n",
             "content": {
               "application/json": {
@@ -7305,7 +7492,7 @@
             "description": "key successfully purged\n\n"
           },
           "400": {
-            "description": "No ValueSetVersion with `valueSetVersionId` in App.\n\n",
+            "description": "The specified key can't be purged in this version.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -7459,6 +7646,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ValueSetVersionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -7674,7 +7871,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Shared Value successfully updated.\n\n",
             "content": {
               "application/json": {
@@ -7816,7 +8013,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Shared Value successfully updated.\n\n",
             "content": {
               "application/json": {
@@ -8334,37 +8531,6 @@
         ],
         "type": "object"
       },
-      "DeploymentErrorRequest": {
-        "description": "DeploymentError is an error happening during deployment",
-        "example": {
-          "code": "CLD-001",
-          "message": "Incorrect cloud provider credentials",
-          "object_id": "my-workload",
-          "scope": "workload",
-          "summary": "Provider error"
-        },
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "error_type": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "object_id": {
-            "type": "string"
-          },
-          "scope": {
-            "type": "string"
-          },
-          "summary": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "DeploymentErrorResponse": {
         "description": "DeploymentError is an error happening during deployment",
         "example": {
@@ -8521,72 +8687,6 @@
         ],
         "type": "object"
       },
-      "DeploymentTimestampsRequest": {
-        "description": "DeploymentTimestamps aggregates creation dates of current and next succeful deployments",
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "stopped_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "DeploymentTimestampsResponse": {
-        "description": "DeploymentTimestamps aggregates creation dates of current and next succeful deployments",
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "stopped_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "created_at"
-        ],
-        "type": "object"
-      },
-      "EnvironmentBaseRequest": {
-        "properties": {
-          "id": {
-            "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "The Human-friendly name for the Environment.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Environment Type. This is used for organizing and managing Environments.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type"
-        ],
-        "type": "object"
-      },
       "EnvironmentBaseResponse": {
         "properties": {
           "id": {
@@ -8616,30 +8716,6 @@
             "description": "Defines the existing Deployment the new Environment will be based on.",
             "type": "string"
           },
-          "id": {
-            "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "The Human-friendly name for the Environment.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Environment Type. This is used for organizing and managing Environments.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "from_deploy_id"
-        ],
-        "type": "object"
-      },
-      "EnvironmentDefinitionResponse": {
-        "properties": {
           "id": {
             "description": "The ID the Environment is referenced as.",
             "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
@@ -8834,77 +8910,6 @@
         ],
         "type": "object"
       },
-      "ExportFileRequest": {
-        "description": "ExportFile is export file URL and metadata, it's  what export endpoint returns",
-        "properties": {
-          "created": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "size": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ExportFileResponse": {
-        "description": "ExportFile is export file URL and metadata, it's  what export endpoint returns",
-        "properties": {
-          "created": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "size": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "url",
-          "name",
-          "size",
-          "created"
-        ],
-        "type": "object"
-      },
-      "HumanitecErrorRequest": {
-        "description": "HumanitecError represents a standard Humanitec Error",
-        "properties": {
-          "details": {
-            "additionalProperties": true,
-            "type": "object",
-            "description": "(Optional) Additional information is enclosed here."
-          },
-          "error": {
-            "type": "string",
-            "description": "A short code to help with error identification."
-          },
-          "message": {
-            "type": "string",
-            "description": "A Human readable message about the error."
-          }
-        },
-        "type": "object",
-        "example": {
-          "error": "Could not validate token.",
-          "message": "Could not validate token."
-        }
-      },
       "HumanitecErrorResponse": {
         "description": "HumanitecError represents a standard Humanitec Error",
         "properties": {
@@ -8931,86 +8936,6 @@
           "error": "Could not validate token.",
           "message": "Could not validate token."
         }
-      },
-      "ObjectUserRoleRequest": {
-        "description": "ObjectUserRole holds the mapping of a Role that a User holds for a particular Object.",
-        "example": {
-          "object": "/orgs/my-org",
-          "role": "manager",
-          "user": "61048226-642c-438e-974f-ce5c013d94f8"
-        },
-        "properties": {
-          "object": {
-            "description": "The Object the the User holds the Role on",
-            "type": "string"
-          },
-          "role": {
-            "description": "The Role that this User holds on the Object",
-            "type": "string"
-          },
-          "user": {
-            "description": "The User ID that hold the Role on the Object",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ObjectUserRoleResponse": {
-        "description": "ObjectUserRole holds the mapping of a Role that a User holds for a particular Object.",
-        "example": {
-          "object": "/orgs/my-org",
-          "role": "manager",
-          "user": "61048226-642c-438e-974f-ce5c013d94f8"
-        },
-        "properties": {
-          "object": {
-            "description": "The Object the the User holds the Role on",
-            "type": "string"
-          },
-          "role": {
-            "description": "The Role that this User holds on the Object",
-            "type": "string"
-          },
-          "user": {
-            "description": "The User ID that hold the Role on the Object",
-            "type": "string"
-          }
-        },
-        "required": [
-          "user",
-          "role",
-          "object"
-        ],
-        "type": "object"
-      },
-      "UpdateEnvironmentPayloadRequest": {
-        "description": "UpdateEnvironmentPayload contains the `DeploymentsLocked` field that should be set in the Environment to update.",
-        "example": {
-          "deployments_locked": true
-        },
-        "properties": {
-          "deployments_locked": {
-            "nullable": true,
-            "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
-      "UpdateEnvironmentPayloadResponse": {
-        "description": "UpdateEnvironmentPayload contains the `DeploymentsLocked` field that should be set in the Environment to update.",
-        "example": {
-          "deployments_locked": true
-        },
-        "properties": {
-          "deployments_locked": {
-            "nullable": true,
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "deployments_locked"
-        ],
-        "type": "object"
       },
       "AddArtefactVersionPayloadRequest": {
         "description": "AddArtefactVersionPayload describes the payload for a new ArtefactVersion request.",
@@ -9052,53 +8977,6 @@
         "required": [
           "name",
           "type"
-        ],
-        "type": "object"
-      },
-      "AddArtefactVersionPayloadResponse": {
-        "description": "AddArtefactVersionPayload describes the payload for a new ArtefactVersion request.",
-        "example": {
-          "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-          "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "ref": "refs/heads/main",
-          "type": "container",
-          "version": "1.2.7"
-        },
-        "properties": {
-          "commit": {
-            "description": "(Optional) The commit ID the Artefact Version was built on.",
-            "pattern": "^[0-9a-f]{5,40}$",
-            "type": "string"
-          },
-          "digest": {
-            "description": "(Optional) The Artefact Version digest.",
-            "type": "string"
-          },
-          "name": {
-            "description": "The Artefact name.",
-            "type": "string"
-          },
-          "ref": {
-            "description": "(Optional) The ref the Artefact Version was built from.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Artefact Version type.",
-            "type": "string"
-          },
-          "version": {
-            "description": "(Optional) The Artefact Version.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "version",
-          "type",
-          "commit",
-          "ref",
-          "digest"
         ],
         "type": "object"
       },
@@ -9511,62 +9389,6 @@
         ],
         "type": "object"
       },
-      "UpdateArtefactVersionPayloadResponse": {
-        "description": "UpdateArtefactVersionPayload contains the `archived` field that should be set in the Artefact Version to update.",
-        "example": {
-          "archived": true
-        },
-        "properties": {
-          "archived": {
-            "description": "The Value of the archived value.",
-            "nullable": true,
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "archived"
-        ],
-        "type": "object"
-      },
-      "ObjectRoleRequest": {
-        "description": "IdP metadata needed by Humanitec to interact with a SAML IdP",
-        "example": {
-          "object": "/orgs/example-org/apps/example-app",
-          "role": "developer"
-        },
-        "properties": {
-          "object": {
-            "description": "The ID of the object",
-            "type": "string"
-          },
-          "role": {
-            "description": "The Role that this User holds on the Object",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ObjectRoleResponse": {
-        "description": "IdP metadata needed by Humanitec to interact with a SAML IdP",
-        "example": {
-          "object": "/orgs/example-org/apps/example-app",
-          "role": "developer"
-        },
-        "properties": {
-          "object": {
-            "description": "The ID of the object",
-            "type": "string"
-          },
-          "role": {
-            "description": "The Role that this User holds on the Object",
-            "type": "string"
-          }
-        },
-        "required": [
-          "role"
-        ],
-        "type": "object"
-      },
       "UserRoleRequest": {
         "description": "UserRole holds the mapping of role to user for a particular object.",
         "example": {
@@ -9832,16 +9654,6 @@
           "created_at",
           "updated_at"
         ],
-        "type": "object"
-      },
-      "ErrorInfoRequest": {
-        "description": "ErrorInfo is returned by a handler in case of an error.",
-        "properties": {
-          "error": {
-            "description": "An error details",
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "ErrorInfoResponse": {
@@ -10436,27 +10248,6 @@
         ],
         "type": "object"
       },
-      "EventRequest": {
-        "description": "Events available for triggering automated jobs.",
-        "properties": {
-          "properties": {
-            "description": "List of event properties which can be used as variables for this event",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "scope": {
-            "description": "Event scope",
-            "type": "string"
-          },
-          "type": {
-            "description": "Event type",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "EventResponse": {
         "description": "Events available for triggering automated jobs.",
         "properties": {
@@ -10580,42 +10371,6 @@
         ],
         "type": "object"
       },
-      "CreateOrganizationRequestRequest": {
-        "properties": {
-          "id": {
-            "description": "Unique ID for the Organization.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "Human friendly name for the Organization.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object"
-      },
-      "CreateOrganizationRequestResponse": {
-        "properties": {
-          "id": {
-            "description": "Unique ID for the Organization.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "Human friendly name for the Organization.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ],
-        "type": "object"
-      },
       "OrganizationRequest": {
         "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.",
         "properties": {
@@ -10665,37 +10420,6 @@
         "type": "object"
       },
       "AccountCredsRequest": {
-        "description": "AccountCreds represents an account credentials (either, username- or token-based).",
-        "example": {
-          "expires": "2020-05-22T14:53:27Z",
-          "password": "",
-          "username": ""
-        },
-        "properties": {
-          "expires": {
-            "description": "Account credentials expiration timestamp.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "password": {
-            "description": "Account password or token secret.",
-            "type": "string"
-          },
-          "username": {
-            "description": "Security account login or token.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "username",
-          "password"
-        ],
-        "type": "object"
-      },
-      "AccountCredsResponse": {
         "description": "AccountCreds represents an account credentials (either, username- or token-based).",
         "example": {
           "expires": "2020-05-22T14:53:27Z",
@@ -10852,142 +10576,6 @@
           "registry",
           "secrets",
           "images"
-        ],
-        "type": "object"
-      },
-      "RegistriesCredsRequestRequest": {
-        "description": "Registries credentials look-up request.",
-        "example": [
-          "registry.humanitec.io/public/sample-app:1.3.0",
-          "registry.humanitec.io/public/sample-service:1.3.0",
-          "gcr.io/sample-project/sample-proxy:1.0.0"
-        ],
-        "items": {
-          "type": "string"
-        },
-        "type": "array"
-      },
-      "RegistriesCredsRequestResponse": {
-        "description": "Registries credentials look-up request.",
-        "example": [
-          "registry.humanitec.io/public/sample-app:1.3.0",
-          "registry.humanitec.io/public/sample-service:1.3.0",
-          "gcr.io/sample-project/sample-proxy:1.0.0"
-        ],
-        "items": {
-          "type": "string"
-        },
-        "type": "array"
-      },
-      "RegistriesCredsResponseRequest": {
-        "additionalProperties": {
-          "$ref": "#/components/schemas/ImagesRegistryCredsRequest"
-        },
-        "description": "Registries credentials look-up response.",
-        "example": {
-          "gcr": {
-            "images": [
-              "gcr.io/sample-project/sample-proxy:1.0.0"
-            ],
-            "registry": "gcr-io/sample-project",
-            "secrets": {
-              "*": {
-                "namespace": "gcr-secrets",
-                "secret": "gcr-regcred"
-              }
-            }
-          },
-          "humanitec": {
-            "images": [
-              "registry.humanitec.io/public/sample-app:1.3.0",
-              "registry.humanitec.io/public/sample-service:1.3.0"
-            ],
-            "password": "S54f$lgO-45",
-            "registry": "registry.humanitec.io",
-            "username": "test-org.harbor@humanitec.com"
-          }
-        },
-        "type": "object"
-      },
-      "RegistriesCredsResponseResponse": {
-        "additionalProperties": {
-          "$ref": "#/components/schemas/ImagesRegistryCredsResponse"
-        },
-        "description": "Registries credentials look-up response.",
-        "example": {
-          "gcr": {
-            "images": [
-              "gcr.io/sample-project/sample-proxy:1.0.0"
-            ],
-            "registry": "gcr-io/sample-project",
-            "secrets": {
-              "*": {
-                "namespace": "gcr-secrets",
-                "secret": "gcr-regcred"
-              }
-            }
-          },
-          "humanitec": {
-            "images": [
-              "registry.humanitec.io/public/sample-app:1.3.0",
-              "registry.humanitec.io/public/sample-service:1.3.0"
-            ],
-            "password": "S54f$lgO-45",
-            "registry": "registry.humanitec.io",
-            "username": "test-org.harbor@humanitec.com"
-          }
-        },
-        "type": "object"
-      },
-      "RegistryCredsRequest": {
-        "description": "RegistryCreds represents current registry credentials (either, username- or token-based).",
-        "example": {
-          "expires": "2020-05-22T14:53:27Z",
-          "password": "",
-          "registry": "registry.io/project",
-          "secrets": {
-            "*": {
-              "namespace": "dev-secrets",
-              "secret": "custom-regcred"
-            },
-            "cluster-A": {
-              "namespace": "prod-secrets",
-              "secret": "custom-regcred"
-            }
-          },
-          "username": ""
-        },
-        "properties": {
-          "expires": {
-            "description": "Account credentials expiration timestamp.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "password": {
-            "description": "Account password or token secret.",
-            "type": "string"
-          },
-          "registry": {
-            "description": "Registry name, usually in a \"{domain}\" or \"{domain}/{project}\" format.",
-            "type": "string"
-          },
-          "secrets": {
-            "$ref": "#/components/schemas/ClusterSecretsMapRequest",
-            "description": "A list of Kuberenetes secret references for the target deployment clusters."
-          },
-          "username": {
-            "description": "Security account login or token.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "registry",
-          "username",
-          "password",
-          "secrets"
         ],
         "type": "object"
       },
@@ -11346,83 +10934,6 @@
         ],
         "type": "object"
       },
-      "AsyncProgressHintRequest": {
-        "description": "AsyncProgressHint describes ongoing asynchronous operation.",
-        "example": {
-          "deadline": "2021-02-22T09:02:00Z",
-          "estimate": "2021-02-22T09:00:10Z",
-          "status": "pending|deleting",
-          "timestamp": "2021-02-22T09:00:00Z"
-        },
-        "properties": {
-          "deadline": {
-            "description": "The date and time of when the operation will be aborted if not yet finished.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "estimate": {
-            "description": "Estimated date and time of when the operation is expected to be completed.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "status": {
-            "description": "Current status.",
-            "type": "string"
-          },
-          "timestamp": {
-            "description": "Current (reference) date and time.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "AsyncProgressHintResponse": {
-        "description": "AsyncProgressHint describes ongoing asynchronous operation.",
-        "example": {
-          "deadline": "2021-02-22T09:02:00Z",
-          "estimate": "2021-02-22T09:00:10Z",
-          "status": "pending|deleting",
-          "timestamp": "2021-02-22T09:00:00Z"
-        },
-        "properties": {
-          "deadline": {
-            "description": "The date and time of when the operation will be aborted if not yet finished.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "estimate": {
-            "description": "Estimated date and time of when the operation is expected to be completed.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "status": {
-            "description": "Current status.",
-            "type": "string"
-          },
-          "timestamp": {
-            "description": "Current (reference) date and time.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "status"
-        ],
-        "type": "object"
-      },
       "CreateDriverRequestRequest": {
         "description": "CreateDriverRequest describes the new resource driver registration request.",
         "example": {
@@ -11479,65 +10990,6 @@
         ],
         "type": "object"
       },
-      "CreateDriverRequestResponse": {
-        "description": "CreateDriverRequest describes the new resource driver registration request.",
-        "example": {
-          "account_types": [
-            "gcp",
-            "aws"
-          ],
-          "id": "route53",
-          "inputs_schema": {},
-          "is_public": false,
-          "target": "https://drivers.example.com/route53/",
-          "template": "",
-          "type": "dns"
-        },
-        "properties": {
-          "account_types": {
-            "description": "List of resources accounts types supported by the driver",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "id": {
-            "description": "The ID for this driver. Is used as `driver_type`.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "inputs_schema": {
-            "additionalProperties": true,
-            "description": "A JSON Schema specifying the driver-specific input parameters.",
-            "type": "object"
-          },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
-          },
-          "target": {
-            "description": "The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.",
-            "type": "string"
-          },
-          "template": {
-            "description": "If the driver is a virtual driver, template defines a Go template that converts the driver inputs supplied in the resource definition into the driver inputs for the target driver."
-          },
-          "type": {
-            "description": "The type of resource produced by this driver",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "target",
-          "is_public",
-          "inputs_schema",
-          "account_types",
-          "template"
-        ],
-        "type": "object"
-      },
       "CreateResourceAccountRequestRequest": {
         "description": "CreateResourceAccountRequest describes the request to create a new security account.",
         "example": {
@@ -11568,43 +11020,6 @@
             "type": "string"
           }
         },
-        "type": "object"
-      },
-      "CreateResourceAccountRequestResponse": {
-        "description": "CreateResourceAccountRequest describes the request to create a new security account.",
-        "example": {
-          "credentials": {
-            "password": "***",
-            "username": "***"
-          },
-          "id": "gcp-dev-postgres",
-          "name": "GCP Dev Postgres",
-          "type": "gcp-service-account"
-        },
-        "properties": {
-          "credentials": {
-            "additionalProperties": true,
-            "description": "Credentials associated with the account.",
-            "type": "object"
-          },
-          "id": {
-            "description": "Unique identifier for the account (in scope of the organization it belongs to).",
-            "type": "string"
-          },
-          "name": {
-            "description": "Display name.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The type of the account",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type"
-        ],
         "type": "object"
       },
       "CreateResourceDefinitionRequestRequest": {
@@ -11668,72 +11083,6 @@
           "name",
           "type",
           "driver_type"
-        ],
-        "type": "object"
-      },
-      "CreateResourceDefinitionRequestResponse": {
-        "description": "CreateResourceDefinitionRequest describes a new ResourceDefinition request.",
-        "example": {
-          "criteria": [],
-          "driver_account": "gcp-dev-cloudsql",
-          "driver_inputs": {
-            "secrets": {
-              "dbcredentials": {
-                "password": "***",
-                "username": "***"
-              }
-            },
-            "values": {
-              "instance": "my-dev-project:my-region:dev-db"
-            }
-          },
-          "driver_type": "humanitec/cloudsql",
-          "id": "dev-postgres",
-          "name": "Dev Postgres Instance",
-          "type": "postgres"
-        },
-        "properties": {
-          "criteria": {
-            "description": "(Optional) The criteria to use when looking for a Resource Definition during the deployment.",
-            "items": {
-              "$ref": "#/components/schemas/MatchingCriteriaResponse"
-            },
-            "type": "array"
-          },
-          "driver_account": {
-            "description": "(Optional) Security account required by the driver.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
-            "description": "(Optional) Additional input data to be passed to the driver."
-          },
-          "driver_type": {
-            "description": "The driver to be used to create the resource.",
-            "type": "string"
-          },
-          "id": {
-            "description": "The Resource Definition ID.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "The display name.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Resource Type.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "driver_type",
-          "driver_account",
-          "driver_inputs"
         ],
         "type": "object"
       },
@@ -11853,286 +11202,6 @@
         ],
         "type": "object"
       },
-      "DriverInputsRequest": {
-        "description": "DriverInputs describes the resource and the input paramaters for the driver.",
-        "example": {
-          "driver": {
-            "secrets": {
-              "account": {
-                "password": "<secret>",
-                "user": "<secret>"
-              },
-              "key": "<secret>"
-            },
-            "values": {
-              "instance": "database"
-            }
-          },
-          "resource": {},
-          "type": "postgres"
-        },
-        "properties": {
-          "driver": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
-            "description": "The driver-specific parameters passed from the Resource Definition for the Environment."
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "The resource-related parameters passed from the deployment set (if any).",
-            "type": "object"
-          },
-          "type": {
-            "description": "The type of the resource to generate.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "DriverInputsResponse": {
-        "description": "DriverInputs describes the resource and the input paramaters for the driver.",
-        "example": {
-          "driver": {
-            "secrets": {
-              "account": {
-                "password": "<secret>",
-                "user": "<secret>"
-              },
-              "key": "<secret>"
-            },
-            "values": {
-              "instance": "database"
-            }
-          },
-          "resource": {},
-          "type": "postgres"
-        },
-        "properties": {
-          "driver": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
-            "description": "The driver-specific parameters passed from the Resource Definition for the Environment."
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "The resource-related parameters passed from the deployment set (if any).",
-            "type": "object"
-          },
-          "type": {
-            "description": "The type of the resource to generate.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "resource",
-          "driver"
-        ],
-        "type": "object"
-      },
-      "DriverOutputsRequest": {
-        "description": "DriverOutputs stores all the necessary information about the provisioned resource.",
-        "example": {
-          "id": "{guresid}",
-          "manifests": [],
-          "resource": {
-            "secrets": {
-              "password": "<secret>",
-              "user": "<secret>"
-            },
-            "values": {
-              "host": "127.0.0.1",
-              "name": "my-database"
-            }
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "id": {
-            "description": "The resource GUResID.",
-            "type": "string"
-          },
-          "manifests": {
-            "description": "The resource definition manifests (if any).",
-            "items": {
-              "$ref": "#/components/schemas/ManifestRequest"
-            },
-            "type": "array"
-          },
-          "resource": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
-            "description": "The resource usage parameters and secrets."
-          },
-          "type": {
-            "description": "The type of the resource.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "DriverOutputsResponse": {
-        "description": "DriverOutputs stores all the necessary information about the provisioned resource.",
-        "example": {
-          "id": "{guresid}",
-          "manifests": [],
-          "resource": {
-            "secrets": {
-              "password": "<secret>",
-              "user": "<secret>"
-            },
-            "values": {
-              "host": "127.0.0.1",
-              "name": "my-database"
-            }
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "id": {
-            "description": "The resource GUResID.",
-            "type": "string"
-          },
-          "manifests": {
-            "description": "The resource definition manifests (if any).",
-            "items": {
-              "$ref": "#/components/schemas/ManifestResponse"
-            },
-            "type": "array"
-          },
-          "resource": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
-            "description": "The resource usage parameters and secrets."
-          },
-          "type": {
-            "description": "The type of the resource.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "resource",
-          "manifests"
-        ],
-        "type": "object"
-      },
-      "InternalActiveResourceRequest": {
-        "properties": {
-          "app_id": {
-            "description": "The ID of the App the resource is associated with.",
-            "type": "string"
-          },
-          "def_id": {
-            "description": "The Resource Definition that this resource was provisioned from.",
-            "type": "string"
-          },
-          "env_id": {
-            "description": "The ID of the Environment the resource is associated with.",
-            "type": "string"
-          },
-          "env_type": {
-            "description": "The Environment Type of the Environment specified by env_id.",
-            "type": "string"
-          },
-          "gu_res_id": {
-            "description": "Globally unique resource id",
-            "type": "string"
-          },
-          "org_id": {
-            "description": "The ID of the Organization the Active Resource is associated with.",
-            "type": "string"
-          },
-          "res_id": {
-            "description": "The ID of the resource",
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "The data that the resource passes into the deployment ('values' only).",
-            "type": "object"
-          },
-          "status": {
-            "description": "Current resource status: 'pending', 'active', or 'deleting'.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Resource Type of the resource.",
-            "type": "string"
-          },
-          "updated_at": {
-            "description": "The time the resource was last provisioned as part of a deployment.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "InternalActiveResourceResponse": {
-        "properties": {
-          "app_id": {
-            "description": "The ID of the App the resource is associated with.",
-            "type": "string"
-          },
-          "def_id": {
-            "description": "The Resource Definition that this resource was provisioned from.",
-            "type": "string"
-          },
-          "env_id": {
-            "description": "The ID of the Environment the resource is associated with.",
-            "type": "string"
-          },
-          "env_type": {
-            "description": "The Environment Type of the Environment specified by env_id.",
-            "type": "string"
-          },
-          "gu_res_id": {
-            "description": "Globally unique resource id",
-            "type": "string"
-          },
-          "org_id": {
-            "description": "The ID of the Organization the Active Resource is associated with.",
-            "type": "string"
-          },
-          "res_id": {
-            "description": "The ID of the resource",
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "The data that the resource passes into the deployment ('values' only).",
-            "type": "object"
-          },
-          "status": {
-            "description": "Current resource status: 'pending', 'active', or 'deleting'.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Resource Type of the resource.",
-            "type": "string"
-          },
-          "updated_at": {
-            "description": "The time the resource was last provisioned as part of a deployment.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "org_id",
-          "app_id",
-          "env_id",
-          "env_type",
-          "res_id",
-          "def_id",
-          "type",
-          "status",
-          "resource",
-          "updated_at",
-          "gu_res_id"
-        ],
-        "type": "object"
-      },
       "ManifestRequest": {
         "description": "Manifest represents a complete or a partial Kubernetes manifest, and a location for its injection.",
         "properties": {
@@ -12240,129 +11309,39 @@
         },
         "type": "object"
       },
-      "MatchingCriteriaRuleResponse": {
-        "description": "MatchingCriteriaRule describes Matching Criteria rules.",
-        "properties": {
-          "app_id": {
-            "description": "(Optional) The ID of the Application that the Resources should belong to.",
-            "type": "string"
-          },
-          "env_id": {
-            "description": "(Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.",
-            "type": "string"
-          },
-          "env_type": {
-            "description": "(Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.",
-            "type": "string"
-          },
-          "res_id": {
-            "description": "(Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "NodeBodyRequest": {
-        "description": "NodeBody Represents a node of a Resource Dependency Graph",
-        "properties": {
-          "criteria_id": {
-            "type": "string"
-          },
-          "def_id": {
-            "type": "string"
-          },
-          "depends_on": {
-            "items": {
-              "type": "string"
+      "PatchResourceDefinitionRequestRequest": {
+        "description": "PatchResourceDefinitionRequest describes a ResourceDefinition change request.",
+        "example": {
+          "driver_account": "gcp-dev-cloudsql",
+          "driver_inputs": {
+            "secrets": {
+              "dbcredentials": {
+                "password": "***",
+                "username": "***"
+              }
             },
-            "type": "array"
-          },
-          "driver": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "driver_type": {
-            "type": "string"
-          },
-          "guresid": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "resource_schema": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "target": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
+            "values": {
+              "instance": "my-dev-project:my-region:dev-db"
+            }
           }
         },
-        "type": "object"
-      },
-      "NodeBodyResponse": {
-        "description": "NodeBody Represents a node of a Resource Dependency Graph",
         "properties": {
-          "criteria_id": {
+          "driver_account": {
+            "description": "(Optional) Security account required by the driver.",
+            "nullable": true,
+            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
             "type": "string"
           },
-          "def_id": {
-            "type": "string"
+          "driver_inputs": {
+            "$ref": "#/components/schemas/ValuesSecretsRequest",
+            "description": "(Optional) Additional input data to be passed to the driver."
           },
-          "depends_on": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "driver": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "driver_type": {
-            "type": "string"
-          },
-          "guresid": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "resource_schema": {
-            "additionalProperties": true,
-            "type": "object"
-          },
-          "target": {
-            "type": "string"
-          },
-          "type": {
+          "name": {
+            "description": "(Optional) Resource display name",
+            "nullable": true,
             "type": "string"
           }
         },
-        "required": [
-          "type",
-          "id",
-          "guresid",
-          "target",
-          "resource",
-          "driver",
-          "def_id",
-          "criteria_id",
-          "driver_type",
-          "resource_schema",
-          "depends_on"
-        ],
         "type": "object"
       },
       "ResourceAccountRequest": {
@@ -12455,32 +11434,6 @@
           "created_by",
           "created_at"
         ],
-        "type": "object"
-      },
-      "ResourceDefinitionChangeRequest": {
-        "description": "ResourceDefinitionChange describes the effects of a Resource Definition or Matching Criteria update/deletion.",
-        "properties": {
-          "app_id": {
-            "description": "The ID of the App the resource is associated with.",
-            "type": "string"
-          },
-          "env_id": {
-            "description": "The ID of the Environment the resource is associated with.",
-            "type": "string"
-          },
-          "from_def": {
-            "description": "The Resource Definition that this resource was provisioned from.",
-            "type": "string"
-          },
-          "res_id": {
-            "description": "The ID of the resource",
-            "type": "string"
-          },
-          "to_def": {
-            "description": "The Resource Definition that resource *will be* provisioned from if the change is applied.",
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "ResourceDefinitionChangeResponse": {
@@ -12684,172 +11637,6 @@
           "org_id",
           "id",
           "name",
-          "type"
-        ],
-        "type": "object"
-      },
-      "ResourceOutputsRequest": {
-        "description": "ResourceOutputs stores all the necessary information about the provisioned resource.",
-        "example": {
-          "def_id": "default-humanitec-postgres",
-          "id": "modules.robot-walhall-debug.externals.postgres",
-          "manifests": [],
-          "resource": {
-            "secrets": {
-              "password": "vault/path/to/secrets/./password",
-              "user": "vault/path/to/secrets/./user"
-            },
-            "values": {
-              "host": "127.0.0.1",
-              "name": "my-database"
-            }
-          },
-          "status": "pending|active|deleting",
-          "type": "postgres"
-        },
-        "properties": {
-          "def_id": {
-            "description": "The Resource Definitions ID that was used to provision the resource.",
-            "type": "string"
-          },
-          "id": {
-            "description": "The resource ID.",
-            "type": "string"
-          },
-          "manifests": {
-            "description": "The resource definition manifests (if any). Only available when status is 'active'.",
-            "items": {
-              "$ref": "#/components/schemas/ManifestRequest"
-            },
-            "type": "array"
-          },
-          "resource": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
-            "description": "The resource usage parameters and secrets. Only available when status is 'active'."
-          },
-          "status": {
-            "description": "The resource availability status: pending, active, or deleting.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The type of the resource.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "ResourceOutputsResponse": {
-        "description": "ResourceOutputs stores all the necessary information about the provisioned resource.",
-        "example": {
-          "def_id": "default-humanitec-postgres",
-          "id": "modules.robot-walhall-debug.externals.postgres",
-          "manifests": [],
-          "resource": {
-            "secrets": {
-              "password": "vault/path/to/secrets/./password",
-              "user": "vault/path/to/secrets/./user"
-            },
-            "values": {
-              "host": "127.0.0.1",
-              "name": "my-database"
-            }
-          },
-          "status": "pending|active|deleting",
-          "type": "postgres"
-        },
-        "properties": {
-          "def_id": {
-            "description": "The Resource Definitions ID that was used to provision the resource.",
-            "type": "string"
-          },
-          "id": {
-            "description": "The resource ID.",
-            "type": "string"
-          },
-          "manifests": {
-            "description": "The resource definition manifests (if any). Only available when status is 'active'.",
-            "items": {
-              "$ref": "#/components/schemas/ManifestResponse"
-            },
-            "type": "array"
-          },
-          "resource": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
-            "description": "The resource usage parameters and secrets. Only available when status is 'active'."
-          },
-          "status": {
-            "description": "The resource availability status: pending, active, or deleting.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The type of the resource.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "def_id",
-          "status",
-          "resource",
-          "manifests"
-        ],
-        "type": "object"
-      },
-      "ResourceProvisionRequestRequest": {
-        "description": "ResourceProvisionRequest is the payload passed to the resource provisioner",
-        "example": {
-          "id": "shared.postgres",
-          "resource": {
-            "host": "127.0.0.1",
-            "name": "my-database"
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "(Optional) The input parameters for the resource passed from the deployment set",
-            "type": "object"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type"
-        ],
-        "type": "object"
-      },
-      "ResourceProvisionRequestResponse": {
-        "description": "ResourceProvisionRequest is the payload passed to the resource provisioner",
-        "example": {
-          "id": "shared.postgres",
-          "resource": {
-            "host": "127.0.0.1",
-            "name": "my-database"
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "resource": {
-            "additionalProperties": true,
-            "description": "(Optional) The input parameters for the resource passed from the deployment set",
-            "type": "object"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
           "type"
         ],
         "type": "object"
@@ -13091,58 +11878,6 @@
         ],
         "type": "object"
       },
-      "UpdateDriverRequestResponse": {
-        "description": "UpdateDriverRequest describes the update driver details request.",
-        "example": {
-          "account_types": [
-            "gcp",
-            "aws"
-          ],
-          "inputs_schema": {},
-          "is_public": false,
-          "target": "https://drivers.example.com/route53/",
-          "template": "{{ mustToRawJson .driver }}",
-          "type": "dns"
-        },
-        "properties": {
-          "account_types": {
-            "description": "List of resources accounts types supported by the driver",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "inputs_schema": {
-            "additionalProperties": true,
-            "description": "A JSON Schema specifying the driver-specific input parameters.",
-            "type": "object"
-          },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
-          },
-          "target": {
-            "description": "The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.",
-            "type": "string"
-          },
-          "template": {
-            "description": "If the driver is a virtual driver, template defines a Go template that converts the driver inputs supplied in the resource definition into the driver inputs for the target driver."
-          },
-          "type": {
-            "description": "The type of resource produced by this driver",
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "target",
-          "is_public",
-          "inputs_schema",
-          "account_types",
-          "template"
-        ],
-        "type": "object"
-      },
       "UpdateResourceAccountRequestRequest": {
         "description": "UpdateResourceAccountRequest describes the request to update the security account details.",
         "example": {
@@ -13165,31 +11900,6 @@
         },
         "type": "object"
       },
-      "UpdateResourceAccountRequestResponse": {
-        "description": "UpdateResourceAccountRequest describes the request to update the security account details.",
-        "example": {
-          "credentials": {
-            "password": "***",
-            "username": "***"
-          },
-          "name": "GCP Dev Postgres"
-        },
-        "properties": {
-          "credentials": {
-            "additionalProperties": true,
-            "description": "Credentials associated with the account.",
-            "type": "object"
-          },
-          "name": {
-            "description": "Display name.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name"
-        ],
-        "type": "object"
-      },
       "UpdateResourceDefinitionRequestRequest": {
         "description": "UpdateResourceDefinitionRequest describes a ResourceDefinition change request.",
         "example": {
@@ -13204,7 +11914,8 @@
             "values": {
               "instance": "my-dev-project:my-region:dev-db"
             }
-          }
+          },
+          "name": "Dev Postgres Instance"
         },
         "properties": {
           "driver_account": {
@@ -13218,106 +11929,12 @@
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "name": {
-            "description": "(Optional) Resource display name",
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "UpdateResourceDefinitionRequestResponse": {
-        "description": "UpdateResourceDefinitionRequest describes a ResourceDefinition change request.",
-        "example": {
-          "driver_account": "gcp-dev-cloudsql",
-          "driver_inputs": {
-            "secrets": {
-              "dbcredentials": {
-                "password": "***",
-                "username": "***"
-              }
-            },
-            "values": {
-              "instance": "my-dev-project:my-region:dev-db"
-            }
-          }
-        },
-        "properties": {
-          "driver_account": {
-            "description": "(Optional) Security account required by the driver.",
-            "nullable": true,
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
-            "description": "(Optional) Additional input data to be passed to the driver."
-          },
-          "name": {
-            "description": "(Optional) Resource display name",
-            "nullable": true,
+            "description": "The display name.",
             "type": "string"
           }
         },
         "required": [
-          "name",
-          "driver_account",
-          "driver_inputs"
-        ],
-        "type": "object"
-      },
-      "UpdateResourceTypeRequestRequest": {
-        "properties": {
-          "category": {
-            "description": "(Optional) Category name (used to group similar resources on the UI).",
-            "nullable": true,
-            "type": "string"
-          },
-          "inputs_schema": {
-            "additionalProperties": true,
-            "description": "(Optional) A JSON Schema specifying the type-specific parameters for the driver (input).",
-            "type": "object"
-          },
-          "name": {
-            "description": "(Optional) Resource display name",
-            "nullable": true,
-            "type": "string"
-          },
-          "outputs_schema": {
-            "additionalProperties": true,
-            "description": "(Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).",
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
-      "UpdateResourceTypeRequestResponse": {
-        "properties": {
-          "category": {
-            "description": "(Optional) Category name (used to group similar resources on the UI).",
-            "nullable": true,
-            "type": "string"
-          },
-          "inputs_schema": {
-            "additionalProperties": true,
-            "description": "(Optional) A JSON Schema specifying the type-specific parameters for the driver (input).",
-            "type": "object"
-          },
-          "name": {
-            "description": "(Optional) Resource display name",
-            "nullable": true,
-            "type": "string"
-          },
-          "outputs_schema": {
-            "additionalProperties": true,
-            "description": "(Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).",
-            "type": "object"
-          }
-        },
-        "required": [
-          "name",
-          "category",
-          "inputs_schema",
-          "outputs_schema"
+          "name"
         ],
         "type": "object"
       },
@@ -13435,52 +12052,6 @@
         ],
         "type": "object"
       },
-      "EnvironmentPausedInfoRequest": {
-        "description": "EnvironmentPausedInfo",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "paused": {
-            "type": "boolean"
-          }
-        },
-        "type": "object"
-      },
-      "EnvironmentPausedInfoResponse": {
-        "description": "EnvironmentPausedInfo",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "paused": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "id",
-          "paused"
-        ],
-        "type": "object"
-      },
-      "EnvironmentRuntimeInfoRequest": {
-        "description": "EnvironmentRuntimeInfo",
-        "properties": {
-          "error": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "paused": {
-            "type": "boolean"
-          },
-          "status": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "EnvironmentRuntimeInfoResponse": {
         "description": "EnvironmentRuntimeInfo",
         "properties": {
@@ -13594,556 +12165,7 @@
         ],
         "type": "object"
       },
-      "IdPRequest": {
-        "description": "IdP metadata needed by Humanitec to interact with a SAML IdP",
-        "example": {
-          "authorizing_user_id": "example-user",
-          "domains": [
-            "example.com"
-          ],
-          "id": "example-idp",
-          "metadata": "PCEtLSBUaGUgZW50aXR5IGRlc2NyaWJpbmcgdGhlIFNBTUx0ZXN0IElkUCwgbmFtZWQgYnkgdGhlIGVudGl0eUlEIGJlbG93IC0tPiAKCjxFbnRpdHlEZXNjcmlwdG9yIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6bWV0YWRhdGEiIElEPSJTQU1MdGVzdElkUCIgeG1sbnM6ZHM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHhtbG5zOnNoaWJtZD0idXJuOm1hY2U6c2hpYmJvbGV0aDptZXRhZGF0YToxLjAiIHhtbG5zOnhtbD0iaHR0cDovL3d3dy53My5vcmcvWE1MLzE5OTgvbmFtZXNwYWNlIiB4bWxuczptZHVpPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDptZXRhZGF0YTp1aSIgdmFsaWRVbnRpbD0iMjEwMC0wMS0wMVQwMDowMDo0MloiIGVudGl0eUlEPSJodHRwczovL3NhbWx0ZXN0LmlkL3NhbWwvaWRwIj4KCiAgICA8SURQU1NPRGVzY3JpcHRvciBwcm90b2NvbFN1cHBvcnRFbnVtZXJhdGlvbj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIHVybjpvYXNpczpuYW1lczp0YzpTQU1MOjEuMTpwcm90b2NvbCB1cm46bWFjZTpzaGliYm9sZXRoOjEuMCI+CgogICAgICAgIDxFeHRlbnNpb25zPgo8IS0tIEFuIGVudW1lcmF0aW9uIG9mIHRoZSBkb21haW5zIHRoaXMgSWRQIGlzIGFibGUgdG8gYXNzZXJ0IHNjb3BlZCBhdHRyaWJ1dGVzLCB3aGljaCBhcmUKdHlwaWNhbGx5IHRob3NlIHdpdGggYSBAIGRlbGltaXRlciwgbGlrZSBtYWlsLiAgTW9zdCBJZFAncyBzZXJ2ZSBvbmx5IGEgc2luZ2xlIGRvbWFpbi4gIEl0J3MgY3J1Y2lhbApmb3IgdGhlIFNQIHRvIGNoZWNrIHJlY2VpdmVkIGF0dHJpYnV0ZSB2YWx1ZXMgbWF0Y2ggcGVybWl0dGVkIGRvbWFpbnMgdG8gcHJldmVudCBhIHJlY29nbml6ZWQgSWRQIGZyb20gCnNlbmRpbmcgYXR0cmlidXRlIHZhbHVlcyBmb3Igd2hpY2ggYSBkaWZmZXJlbnQgcmVjb2duaXplZCBJZFAgaXMgYXV0aG9yaXRhdGl2ZS4gLS0+CiAgICAgICAgICAgIDxzaGlibWQ6U2NvcGUgcmVnZXhwPSJmYWxzZSI+c2FtbHRlc3QuaWQ8L3NoaWJtZDpTY29wZT4KCjwhLS0gRGlzcGxheSBpbmZvcm1hdGlvbiBhYm91dCB0aGlzIElkUCB0aGF0IGNhbiBiZSB1c2VkIGJ5IFNQJ3MgYW5kIGRpc2NvdmVyeQpzZXJ2aWNlcyB0byBpZGVudGlmeSB0aGUgSWRQIG1lYW5pbmdmdWxseSBmb3IgZW5kIHVzZXJzIC0tPiAKICAgICAgICAgICAgPG1kdWk6VUlJbmZvPgogICAgICAgICAgICAgICAgPG1kdWk6RGlzcGxheU5hbWUgeG1sOmxhbmc9ImVuIj5TQU1MdGVzdCBJZFA8L21kdWk6RGlzcGxheU5hbWU+CiAgICAgICAgICAgICAgICA8bWR1aTpEZXNjcmlwdGlvbiB4bWw6bGFuZz0iZW4iPkEgZnJlZSBhbmQgYmFzaWMgSWRQIGZvciB0ZXN0aW5nIFNBTUwgZGVwbG95bWVudHM8L21kdWk6RGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICA8bWR1aTpMb2dvIGhlaWdodD0iOTAiIHdpZHRoPSIyMjUiPmh0dHBzOi8vc2FtbHRlc3QuaWQvc2FtbC9sb2dvLnBuZzwvbWR1aTpMb2dvPgogICAgICAgICAgICA8L21kdWk6VUlJbmZvPgogICAgICAgIDwvRXh0ZW5zaW9ucz4KCiAgICAgICAgPEtleURlc2NyaXB0b3IgdXNlPSJzaWduaW5nIj4KICAgICAgICAgICAgPGRzOktleUluZm8+CiAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlEYXRhPgogICAgICAgICAgICAgICAgICAgICAgICA8ZHM6WDUwOUNlcnRpZmljYXRlPgpNSUlERVRDQ0FmbWdBd0lCQWdJVVpScERoa05LbDVlV3RKcWswQnUxQmdUVGFyZ3dEUVlKS29aSWh2Y05BUUVMCkJRQXdGakVVTUJJR0ExVUVBd3dMYzJGdGJIUmxjM1F1YVdRd0hoY05NVGd3T0RJME1qRXhOREV3V2hjTk16Z3cKT0RJME1qRXhOREV3V2pBV01SUXdFZ1lEVlFRRERBdHpZVzFzZEdWemRDNXBaRENDQVNJd0RRWUpLb1pJaHZjTgpBUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSnJoOS9QY0RzaXYzVWVMOEl2OXJmNFdmTFB4dU9tOVc2YUNudEVBCjhsNmMxTFExWnlyeitYYS80MFpnUDI5RU5mM29LS2JQQ3pEY2M2em9vSE1qaTJmQm1nWHA2TGkzZlFVenU3eWQKK25JQzJ0ZWVqaWpWdHJOTGpuMVdVVHdtcWpMdHV6cktDL2VQb1p5SVJqcG9VeHlFTUpvcEFkNGRKbUFjQ3EvSwprMmVZWDlHWVJscXZJakxGb0dOZ3kyUjRkV3dBS3dsanloNnBkblBVZ3lPL1dqUkRycVVCUkZyTFFKb3JSMmtECmM0c2VaVWJtcFpaZnA0TWptV01EZ3lHTTFablIwWHZOTHRZZVdBeXQwS2tTdkZvT01qWlVlVksvNHhSNzRGOGUKOFRvUHFMbVpFZzlaVXgrNHoyS2pWSzAwTHBkUmtIOVV4aGgwM1JRMEZhYkhXNlVDQXdFQUFhTlhNRlV3SFFZRApWUjBPQkJZRUZKRGJlNnVTbVlRU2N4cFZKaG10N1BzQ0c0SWVNRFFHQTFVZEVRUXRNQ3VDQzNOaGJXeDBaWE4wCkxtbGtoaHhvZEhSd2N6b3ZMM05oYld4MFpYTjBMbWxrTDNOaGJXd3ZhV1J3TUEwR0NTcUdTSWIzRFFFQkN3VUEKQTRJQkFRQk5jRjN6a3cvZzUxcTI2dXhneXV5NGdRd25TcjAxTWh2aXgzRGovR2FrNHRjNFh3dnhVZExRcStqQwpjeHIyUGllOTZrbFdoWS92L0ppSERVMkZKbzkvVld4bWMvWU9rODN3aHZOZDdtV2FOTVVzWDN4R3Y2QWxadENPCkwzSmhDcEhqaU4ra0JjTWdTNWpydEdnVjFMejMvMXpwR3h5a2R2UzBCNHNQbkZPY2FDd0hlMkI5U09DV2JEQU4KSlhwVGp6MURtSk80SW15V1BKcE4xeHNZS3RtNjdQZWZ4bW4wYXgwdUUydXV6cTI1aDB4YlRrcUlRZ0p6eW9FLwpEUGtCRksxdkRrTWZBVzExZFEwQlhhdEVuVzdHdGtjMGxoMi9QSWJIV2o0QXp4WU15QmY1R3k2SFNWT2Z0d2pDCnZvUVIycXIyeEpCaXhzZytNSU9SS3RtS0hMZlUKICAgICAgICAgICAgICAgICAgICAgICAgPC9kczpYNTA5Q2VydGlmaWNhdGU+CiAgICAgICAgICAgICAgICAgICAgPC9kczpYNTA5RGF0YT4KICAgICAgICAgICAgPC9kczpLZXlJbmZvPgoKICAgICAgICA8L0tleURlc2NyaXB0b3I+CiAgICAgICAgPEtleURlc2NyaXB0b3IgdXNlPSJzaWduaW5nIj4KICAgICAgICAgICAgPGRzOktleUluZm8+CiAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlEYXRhPgogICAgICAgICAgICAgICAgICAgICAgICA8ZHM6WDUwOUNlcnRpZmljYXRlPgpNSUlERWpDQ0FmcWdBd0lCQWdJVkFNRUNRMXRqZ2hhZm01T3hXRGg5aHdaZnh0aFdNQTBHQ1NxR1NJYjNEUUVCCkN3VUFNQll4RkRBU0JnTlZCQU1NQzNOaGJXeDBaWE4wTG1sa01CNFhEVEU0TURneU5ESXhNVFF3T1ZvWERUTTQKTURneU5ESXhNVFF3T1Zvd0ZqRVVNQklHQTFVRUF3d0xjMkZ0YkhSbGMzUXVhV1F3Z2dFaU1BMEdDU3FHU0liMwpEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUMwWjRRWDFORktzNzF1ZmJRd29Rb1c3cWtOQUpSSUFOR0E0aU0wClRoWWdodWwzcEMrRndyR3YzN2FUeFdYZkExVUc5bmpLYmJEcmVpREFaS25nQ2d5anhqMHVKNGxBcmdrcjRBT0UKamo1elhBODF1R0hBUmZVQmN0dlFjc1pwQkl4RE92VVVJbUFsKzNOcUxnTUdGMmZrdHhNRzdrWDNHRVZOYzFrbApiTjNkZllzYXc1ZFVydzI1RGhlTDlucDdHLysyOEd3SFB2TGI0YXB0T2lPTmJDYVZ2aDlVTUhFQTlGN2MwemZGCi9jTDVmT3BkVmE1NHdUSTB1MTJDc0ZLdDc4aDZsRUdHNWpVcy9xWDljbFpuY0pNN0VGa04zaW1QUHkrMEhDOG4Kc3BYaUgvTVpXOG8yY3FXUmtydzNNekJaVzNPams1blFqNDBWNk5VYmpiN2tmZWp6QWdNQkFBR2pWekJWTUIwRwpBMVVkRGdRV0JCUVQ2WTlKM1R3L2hPR2M4UE5WN0pFRTRrMlpOVEEwQmdOVkhSRUVMVEFyZ2d0ellXMXNkR1Z6CmRDNXBaSVljYUhSMGNITTZMeTl6WVcxc2RHVnpkQzVwWkM5ellXMXNMMmxrY0RBTkJna3Foa2lHOXcwQkFRc0YKQUFPQ0FRRUFTazNndUtmVGtWaEVhSVZ2eEVQTlIydzN2V3QzZndtd0pDY2NXOThYWExXZ05idTNZYU1iMlJTbgo3VGg0cDNoK21meWsyZG9uNmF1N1V5emMxSmQzOVJOdjgwVEc1aVFveGZDZ3BoeTFGWW1tZGFTZk84d3ZEdEhUClROaUxBckF4T1l0emZZYnpiNVFyTk5IL2dRRU44UkphRWYvZy8xR1R3OXgvMTAzZFNNSzBSWHRsK2ZSczJuYmwKRDFKSktTUTNBZGh4Sy93ZVAzYVVQdEx4VlZKOXdNT1FPZmN5MDJsK2hITWI2dUFqc1BPcE9WS3FpM004WG1jVQpaT3B4NHN3dGdHZGVvU3BlUnlydE12UndkY2NpTkJwOVVab21lNDRxWkFZSDFpcXJwbW1qc2ZJOXBKSXRzZ1d1CjNrWFBqaFNmajFBSkdSMWw5Skd2SnJIa2kxaUhUQT09CiAgICAgICAgICAgICAgICAgICAgICAgIDwvZHM6WDUwOUNlcnRpZmljYXRlPgogICAgICAgICAgICAgICAgICAgIDwvZHM6WDUwOURhdGE+CiAgICAgICAgICAgIDwvZHM6S2V5SW5mbz4KCiAgICAgICAgPC9LZXlEZXNjcmlwdG9yPgogICAgICAgIDxLZXlEZXNjcmlwdG9yIHVzZT0iZW5jcnlwdGlvbiI+CiAgICAgICAgICAgIDxkczpLZXlJbmZvPgogICAgICAgICAgICAgICAgICAgIDxkczpYNTA5RGF0YT4KICAgICAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlDZXJ0aWZpY2F0ZT4KTUlJREVqQ0NBZnFnQXdJQkFnSVZBUFZib2RvOFN1Ny9CYUhYVUh5a3gwUGk1Q0ZhTUEwR0NTcUdTSWIzRFFFQgpDd1VBTUJZeEZEQVNCZ05WQkFNTUMzTmhiV3gwWlhOMExtbGtNQjRYRFRFNE1EZ3lOREl4TVRRd09Wb1hEVE00Ck1EZ3lOREl4TVRRd09Wb3dGakVVTUJJR0ExVUVBd3dMYzJGdGJIUmxjM1F1YVdRd2dnRWlNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDUWIrMWE3dURkVFRCQkZmd09VdW4zSVE5bkV1S005OFNtSkRXYQpNd004NzdlbHN3S1VUSUJWaDVnQjJSSVhBUFp0N0ovS0dxeXBtZ3c5VU5YRm5vc2xwZVpiQTlmY0FxcXUyOFo0CnNTYjJZU2FqVjFaZ0VZUFVLdlh3UUVtTFdONmFEaGtuOEhuRVpOcm1lWGloVEZkeXI3d2pzTGowSnBRK1ZVbGMKNC9KK2hOdVU3ckdZWjFyS1k4QUEzNHFEVmQ0RGlKK0RYVzJQRVNmT3U4bEpTT3RlRWFOdGJtbnZIOEtsd2tEcwoxTnZQVHNJMFcvbTRTSzBVZFhvNkxMYVY4c2FJcEpmbmtWQy9Gd3BCb2xCclJDL0VtNjRVbEJzUlptMlQ4OWNhCnV6RGVlMnlQVXZiQmQ1a0xFcncrc0M3aTR4WGEyckdtc1FMWWNCUGhzUndubUJtbEFnTUJBQUdqVnpCVk1CMEcKQTFVZERnUVdCQlJaM2V4RXU2ckN3UmU1QzdmNVFyUGNBS1JQVWpBMEJnTlZIUkVFTFRBcmdndHpZVzFzZEdWegpkQzVwWklZY2FIUjBjSE02THk5ellXMXNkR1Z6ZEM1cFpDOXpZVzFzTDJsa2NEQU5CZ2txaGtpRzl3MEJBUXNGCkFBT0NBUUVBQlpERlJOdGNidklSbWJsblpJdG9XQ0ZoVlVscTgxY2VTUWRkTFlzOERxSzM0MC8vaFdOQWJZZGoKV2NQODVIaElabnJ3Nk5HQ080YlVpcHhaWGhpcVRBL0E5ZDFCVWxsMHZZQjhxY2tZREVkUERkdVlDT1llbUtrRApkbW5ITVFXczlZNnpXaVl1TktFSjltZjMrMU44a25OL1BLMFRZVmpWalhBZjJDbk9FVERiTHRsajZOcWI4TGEzCnNRa1ltVSthVWRvcGJqZDVKRkZ3YlpSYWo2S2lIWEh0bklSZ3U4c1VYTlByZ2lwVWdaVU9WaFAwQzBONU9mRTQKSlc4WkJyS2dRQy82dkoyclNhOVRsekk2SkFhNVd3N2dNWE1QOU0rY0pVTlFrbGNxK1NCblRLOEcrdUJIZ1BLUgp6QkRzTUlFelJ0UVptNEdJb0hKYWU0em1uQ2Vra1E9PQogICAgICAgICAgICAgICAgICAgICAgICA8L2RzOlg1MDlDZXJ0aWZpY2F0ZT4KICAgICAgICAgICAgICAgICAgICA8L2RzOlg1MDlEYXRhPgogICAgICAgICAgICA8L2RzOktleUluZm8+CgogICAgICAgIDwvS2V5RGVzY3JpcHRvcj4KCjwhLS0gQW4gZW5kcG9pbnQgZm9yIGFydGlmYWN0IHJlc29sdXRpb24uICBQbGVhc2Ugc2VlIFdpa2lwZWRpYSBmb3IgbW9yZSBkZXRhaWxzIGFib3V0IFNBTUwKICAgICBhcnRpZmFjdHMgYW5kIHdoZW4geW91IG1heSBmaW5kIHRoZW0gdXNlZnVsLiAtLT4KCiAgICAgICAgPEFydGlmYWN0UmVzb2x1dGlvblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOlNPQVAiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1NPQVAvQXJ0aWZhY3RSZXNvbHV0aW9uIiBpbmRleD0iMSIgLz4KCjwhLS0gQSBzZXQgb2YgZW5kcG9pbnRzIHdoZXJlIHRoZSBJZFAgY2FuIHJlY2VpdmUgbG9nb3V0IG1lc3NhZ2VzLiBUaGVzZSBtdXN0IG1hdGNoIHRoZSBwdWJsaWMKZmFjaW5nIGFkZHJlc3NlcyBpZiB0aGlzIElkUCBpcyBob3N0ZWQgYmVoaW5kIGEgcmV2ZXJzZSBwcm94eS4gIC0tPiAKICAgICAgICA8U2luZ2xlTG9nb3V0U2VydmljZSBCaW5kaW5nPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YmluZGluZ3M6SFRUUC1SZWRpcmVjdCIgTG9jYXRpb249Imh0dHBzOi8vc2FtbHRlc3QuaWQvaWRwL3Byb2ZpbGUvU0FNTDIvUmVkaXJlY3QvU0xPIi8+CiAgICAgICAgPFNpbmdsZUxvZ291dFNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUE9TVCIgTG9jYXRpb249Imh0dHBzOi8vc2FtbHRlc3QuaWQvaWRwL3Byb2ZpbGUvU0FNTDIvUE9TVC9TTE8iLz4KICAgICAgICA8U2luZ2xlTG9nb3V0U2VydmljZSBCaW5kaW5nPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YmluZGluZ3M6SFRUUC1QT1NULVNpbXBsZVNpZ24iIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1BPU1QtU2ltcGxlU2lnbi9TTE8iLz4KCjwhLS0gQSBzZXQgb2YgZW5kcG9pbnRzIHRoZSBTUCBjYW4gc2VuZCBBdXRoblJlcXVlc3RzIHRvIGluIG9yZGVyIHRvIHRyaWdnZXIgdXNlciBhdXRoZW50aWNhdGlvbi4gLS0+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm1hY2U6c2hpYmJvbGV0aDoxLjA6cHJvZmlsZXM6QXV0aG5SZXF1ZXN0IiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TaGliYm9sZXRoL1NTTyIvPgogICAgICAgIDxTaW5nbGVTaWduT25TZXJ2aWNlIEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpIVFRQLVBPU1QiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1BPU1QvU1NPIi8+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUE9TVC1TaW1wbGVTaWduIiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TQU1MMi9QT1NULVNpbXBsZVNpZ24vU1NPIi8+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUmVkaXJlY3QiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1JlZGlyZWN0L1NTTyIvPgogICAgICAgIDxTaW5nbGVTaWduT25TZXJ2aWNlIEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpTT0FQIiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TQU1MMi9TT0FQL0VDUCIvPgoKICAgIDwvSURQU1NPRGVzY3JpcHRvcj4KCjwvRW50aXR5RGVzY3JpcHRvcj4K",
-          "object_roles": [
-            {
-              "object": "/orgs/example-org/apps/example-app",
-              "role": "developer"
-            }
-          ],
-          "org_id": "example-org",
-          "role": "member"
-        },
-        "properties": {
-          "authorizing_user_id": {
-            "description": "ID of an existing user with permissions to apply roles to new users within the org.",
-            "type": "string"
-          },
-          "domains": {
-            "description": "One or more domains that this IdP should be associated to.",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "id": {
-            "description": "ID used to refere to the IdP in Humanitec",
-            "type": "string"
-          },
-          "metadata": {
-            "description": "Base64 encoded SAML IdP Metadata XML",
-            "items": {
-              "minimum": 0,
-              "type": "integer"
-            },
-            "type": "array"
-          },
-          "object_roles": {
-            "description": "A possibly empty array of additional roles on objects that the user should have.",
-            "items": {
-              "$ref": "#/components/schemas/ObjectRoleRequest"
-            },
-            "type": "array"
-          },
-          "org_id": {
-            "description": "ID of the Organization that the new user should be added to.",
-            "type": "string"
-          },
-          "role": {
-            "description": "The role that the new user should have on the organization",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "metadata",
-          "authorizing_user_id",
-          "org_id",
-          "role",
-          "domains",
-          "object_roles"
-        ],
-        "type": "object"
-      },
-      "IdPResponse": {
-        "description": "IdP metadata needed by Humanitec to interact with a SAML IdP",
-        "example": {
-          "authorizing_user_id": "example-user",
-          "domains": [
-            "example.com"
-          ],
-          "id": "example-idp",
-          "metadata": "PCEtLSBUaGUgZW50aXR5IGRlc2NyaWJpbmcgdGhlIFNBTUx0ZXN0IElkUCwgbmFtZWQgYnkgdGhlIGVudGl0eUlEIGJlbG93IC0tPiAKCjxFbnRpdHlEZXNjcmlwdG9yIHhtbG5zPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6bWV0YWRhdGEiIElEPSJTQU1MdGVzdElkUCIgeG1sbnM6ZHM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyMiIHhtbG5zOnNoaWJtZD0idXJuOm1hY2U6c2hpYmJvbGV0aDptZXRhZGF0YToxLjAiIHhtbG5zOnhtbD0iaHR0cDovL3d3dy53My5vcmcvWE1MLzE5OTgvbmFtZXNwYWNlIiB4bWxuczptZHVpPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDptZXRhZGF0YTp1aSIgdmFsaWRVbnRpbD0iMjEwMC0wMS0wMVQwMDowMDo0MloiIGVudGl0eUlEPSJodHRwczovL3NhbWx0ZXN0LmlkL3NhbWwvaWRwIj4KCiAgICA8SURQU1NPRGVzY3JpcHRvciBwcm90b2NvbFN1cHBvcnRFbnVtZXJhdGlvbj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOnByb3RvY29sIHVybjpvYXNpczpuYW1lczp0YzpTQU1MOjEuMTpwcm90b2NvbCB1cm46bWFjZTpzaGliYm9sZXRoOjEuMCI+CgogICAgICAgIDxFeHRlbnNpb25zPgo8IS0tIEFuIGVudW1lcmF0aW9uIG9mIHRoZSBkb21haW5zIHRoaXMgSWRQIGlzIGFibGUgdG8gYXNzZXJ0IHNjb3BlZCBhdHRyaWJ1dGVzLCB3aGljaCBhcmUKdHlwaWNhbGx5IHRob3NlIHdpdGggYSBAIGRlbGltaXRlciwgbGlrZSBtYWlsLiAgTW9zdCBJZFAncyBzZXJ2ZSBvbmx5IGEgc2luZ2xlIGRvbWFpbi4gIEl0J3MgY3J1Y2lhbApmb3IgdGhlIFNQIHRvIGNoZWNrIHJlY2VpdmVkIGF0dHJpYnV0ZSB2YWx1ZXMgbWF0Y2ggcGVybWl0dGVkIGRvbWFpbnMgdG8gcHJldmVudCBhIHJlY29nbml6ZWQgSWRQIGZyb20gCnNlbmRpbmcgYXR0cmlidXRlIHZhbHVlcyBmb3Igd2hpY2ggYSBkaWZmZXJlbnQgcmVjb2duaXplZCBJZFAgaXMgYXV0aG9yaXRhdGl2ZS4gLS0+CiAgICAgICAgICAgIDxzaGlibWQ6U2NvcGUgcmVnZXhwPSJmYWxzZSI+c2FtbHRlc3QuaWQ8L3NoaWJtZDpTY29wZT4KCjwhLS0gRGlzcGxheSBpbmZvcm1hdGlvbiBhYm91dCB0aGlzIElkUCB0aGF0IGNhbiBiZSB1c2VkIGJ5IFNQJ3MgYW5kIGRpc2NvdmVyeQpzZXJ2aWNlcyB0byBpZGVudGlmeSB0aGUgSWRQIG1lYW5pbmdmdWxseSBmb3IgZW5kIHVzZXJzIC0tPiAKICAgICAgICAgICAgPG1kdWk6VUlJbmZvPgogICAgICAgICAgICAgICAgPG1kdWk6RGlzcGxheU5hbWUgeG1sOmxhbmc9ImVuIj5TQU1MdGVzdCBJZFA8L21kdWk6RGlzcGxheU5hbWU+CiAgICAgICAgICAgICAgICA8bWR1aTpEZXNjcmlwdGlvbiB4bWw6bGFuZz0iZW4iPkEgZnJlZSBhbmQgYmFzaWMgSWRQIGZvciB0ZXN0aW5nIFNBTUwgZGVwbG95bWVudHM8L21kdWk6RGVzY3JpcHRpb24+CiAgICAgICAgICAgICAgICA8bWR1aTpMb2dvIGhlaWdodD0iOTAiIHdpZHRoPSIyMjUiPmh0dHBzOi8vc2FtbHRlc3QuaWQvc2FtbC9sb2dvLnBuZzwvbWR1aTpMb2dvPgogICAgICAgICAgICA8L21kdWk6VUlJbmZvPgogICAgICAgIDwvRXh0ZW5zaW9ucz4KCiAgICAgICAgPEtleURlc2NyaXB0b3IgdXNlPSJzaWduaW5nIj4KICAgICAgICAgICAgPGRzOktleUluZm8+CiAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlEYXRhPgogICAgICAgICAgICAgICAgICAgICAgICA8ZHM6WDUwOUNlcnRpZmljYXRlPgpNSUlERVRDQ0FmbWdBd0lCQWdJVVpScERoa05LbDVlV3RKcWswQnUxQmdUVGFyZ3dEUVlKS29aSWh2Y05BUUVMCkJRQXdGakVVTUJJR0ExVUVBd3dMYzJGdGJIUmxjM1F1YVdRd0hoY05NVGd3T0RJME1qRXhOREV3V2hjTk16Z3cKT0RJME1qRXhOREV3V2pBV01SUXdFZ1lEVlFRRERBdHpZVzFzZEdWemRDNXBaRENDQVNJd0RRWUpLb1pJaHZjTgpBUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBSnJoOS9QY0RzaXYzVWVMOEl2OXJmNFdmTFB4dU9tOVc2YUNudEVBCjhsNmMxTFExWnlyeitYYS80MFpnUDI5RU5mM29LS2JQQ3pEY2M2em9vSE1qaTJmQm1nWHA2TGkzZlFVenU3eWQKK25JQzJ0ZWVqaWpWdHJOTGpuMVdVVHdtcWpMdHV6cktDL2VQb1p5SVJqcG9VeHlFTUpvcEFkNGRKbUFjQ3EvSwprMmVZWDlHWVJscXZJakxGb0dOZ3kyUjRkV3dBS3dsanloNnBkblBVZ3lPL1dqUkRycVVCUkZyTFFKb3JSMmtECmM0c2VaVWJtcFpaZnA0TWptV01EZ3lHTTFablIwWHZOTHRZZVdBeXQwS2tTdkZvT01qWlVlVksvNHhSNzRGOGUKOFRvUHFMbVpFZzlaVXgrNHoyS2pWSzAwTHBkUmtIOVV4aGgwM1JRMEZhYkhXNlVDQXdFQUFhTlhNRlV3SFFZRApWUjBPQkJZRUZKRGJlNnVTbVlRU2N4cFZKaG10N1BzQ0c0SWVNRFFHQTFVZEVRUXRNQ3VDQzNOaGJXeDBaWE4wCkxtbGtoaHhvZEhSd2N6b3ZMM05oYld4MFpYTjBMbWxrTDNOaGJXd3ZhV1J3TUEwR0NTcUdTSWIzRFFFQkN3VUEKQTRJQkFRQk5jRjN6a3cvZzUxcTI2dXhneXV5NGdRd25TcjAxTWh2aXgzRGovR2FrNHRjNFh3dnhVZExRcStqQwpjeHIyUGllOTZrbFdoWS92L0ppSERVMkZKbzkvVld4bWMvWU9rODN3aHZOZDdtV2FOTVVzWDN4R3Y2QWxadENPCkwzSmhDcEhqaU4ra0JjTWdTNWpydEdnVjFMejMvMXpwR3h5a2R2UzBCNHNQbkZPY2FDd0hlMkI5U09DV2JEQU4KSlhwVGp6MURtSk80SW15V1BKcE4xeHNZS3RtNjdQZWZ4bW4wYXgwdUUydXV6cTI1aDB4YlRrcUlRZ0p6eW9FLwpEUGtCRksxdkRrTWZBVzExZFEwQlhhdEVuVzdHdGtjMGxoMi9QSWJIV2o0QXp4WU15QmY1R3k2SFNWT2Z0d2pDCnZvUVIycXIyeEpCaXhzZytNSU9SS3RtS0hMZlUKICAgICAgICAgICAgICAgICAgICAgICAgPC9kczpYNTA5Q2VydGlmaWNhdGU+CiAgICAgICAgICAgICAgICAgICAgPC9kczpYNTA5RGF0YT4KICAgICAgICAgICAgPC9kczpLZXlJbmZvPgoKICAgICAgICA8L0tleURlc2NyaXB0b3I+CiAgICAgICAgPEtleURlc2NyaXB0b3IgdXNlPSJzaWduaW5nIj4KICAgICAgICAgICAgPGRzOktleUluZm8+CiAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlEYXRhPgogICAgICAgICAgICAgICAgICAgICAgICA8ZHM6WDUwOUNlcnRpZmljYXRlPgpNSUlERWpDQ0FmcWdBd0lCQWdJVkFNRUNRMXRqZ2hhZm01T3hXRGg5aHdaZnh0aFdNQTBHQ1NxR1NJYjNEUUVCCkN3VUFNQll4RkRBU0JnTlZCQU1NQzNOaGJXeDBaWE4wTG1sa01CNFhEVEU0TURneU5ESXhNVFF3T1ZvWERUTTQKTURneU5ESXhNVFF3T1Zvd0ZqRVVNQklHQTFVRUF3d0xjMkZ0YkhSbGMzUXVhV1F3Z2dFaU1BMEdDU3FHU0liMwpEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUMwWjRRWDFORktzNzF1ZmJRd29Rb1c3cWtOQUpSSUFOR0E0aU0wClRoWWdodWwzcEMrRndyR3YzN2FUeFdYZkExVUc5bmpLYmJEcmVpREFaS25nQ2d5anhqMHVKNGxBcmdrcjRBT0UKamo1elhBODF1R0hBUmZVQmN0dlFjc1pwQkl4RE92VVVJbUFsKzNOcUxnTUdGMmZrdHhNRzdrWDNHRVZOYzFrbApiTjNkZllzYXc1ZFVydzI1RGhlTDlucDdHLysyOEd3SFB2TGI0YXB0T2lPTmJDYVZ2aDlVTUhFQTlGN2MwemZGCi9jTDVmT3BkVmE1NHdUSTB1MTJDc0ZLdDc4aDZsRUdHNWpVcy9xWDljbFpuY0pNN0VGa04zaW1QUHkrMEhDOG4Kc3BYaUgvTVpXOG8yY3FXUmtydzNNekJaVzNPams1blFqNDBWNk5VYmpiN2tmZWp6QWdNQkFBR2pWekJWTUIwRwpBMVVkRGdRV0JCUVQ2WTlKM1R3L2hPR2M4UE5WN0pFRTRrMlpOVEEwQmdOVkhSRUVMVEFyZ2d0ellXMXNkR1Z6CmRDNXBaSVljYUhSMGNITTZMeTl6WVcxc2RHVnpkQzVwWkM5ellXMXNMMmxrY0RBTkJna3Foa2lHOXcwQkFRc0YKQUFPQ0FRRUFTazNndUtmVGtWaEVhSVZ2eEVQTlIydzN2V3QzZndtd0pDY2NXOThYWExXZ05idTNZYU1iMlJTbgo3VGg0cDNoK21meWsyZG9uNmF1N1V5emMxSmQzOVJOdjgwVEc1aVFveGZDZ3BoeTFGWW1tZGFTZk84d3ZEdEhUClROaUxBckF4T1l0emZZYnpiNVFyTk5IL2dRRU44UkphRWYvZy8xR1R3OXgvMTAzZFNNSzBSWHRsK2ZSczJuYmwKRDFKSktTUTNBZGh4Sy93ZVAzYVVQdEx4VlZKOXdNT1FPZmN5MDJsK2hITWI2dUFqc1BPcE9WS3FpM004WG1jVQpaT3B4NHN3dGdHZGVvU3BlUnlydE12UndkY2NpTkJwOVVab21lNDRxWkFZSDFpcXJwbW1qc2ZJOXBKSXRzZ1d1CjNrWFBqaFNmajFBSkdSMWw5Skd2SnJIa2kxaUhUQT09CiAgICAgICAgICAgICAgICAgICAgICAgIDwvZHM6WDUwOUNlcnRpZmljYXRlPgogICAgICAgICAgICAgICAgICAgIDwvZHM6WDUwOURhdGE+CiAgICAgICAgICAgIDwvZHM6S2V5SW5mbz4KCiAgICAgICAgPC9LZXlEZXNjcmlwdG9yPgogICAgICAgIDxLZXlEZXNjcmlwdG9yIHVzZT0iZW5jcnlwdGlvbiI+CiAgICAgICAgICAgIDxkczpLZXlJbmZvPgogICAgICAgICAgICAgICAgICAgIDxkczpYNTA5RGF0YT4KICAgICAgICAgICAgICAgICAgICAgICAgPGRzOlg1MDlDZXJ0aWZpY2F0ZT4KTUlJREVqQ0NBZnFnQXdJQkFnSVZBUFZib2RvOFN1Ny9CYUhYVUh5a3gwUGk1Q0ZhTUEwR0NTcUdTSWIzRFFFQgpDd1VBTUJZeEZEQVNCZ05WQkFNTUMzTmhiV3gwWlhOMExtbGtNQjRYRFRFNE1EZ3lOREl4TVRRd09Wb1hEVE00Ck1EZ3lOREl4TVRRd09Wb3dGakVVTUJJR0ExVUVBd3dMYzJGdGJIUmxjM1F1YVdRd2dnRWlNQTBHQ1NxR1NJYjMKRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDUWIrMWE3dURkVFRCQkZmd09VdW4zSVE5bkV1S005OFNtSkRXYQpNd004NzdlbHN3S1VUSUJWaDVnQjJSSVhBUFp0N0ovS0dxeXBtZ3c5VU5YRm5vc2xwZVpiQTlmY0FxcXUyOFo0CnNTYjJZU2FqVjFaZ0VZUFVLdlh3UUVtTFdONmFEaGtuOEhuRVpOcm1lWGloVEZkeXI3d2pzTGowSnBRK1ZVbGMKNC9KK2hOdVU3ckdZWjFyS1k4QUEzNHFEVmQ0RGlKK0RYVzJQRVNmT3U4bEpTT3RlRWFOdGJtbnZIOEtsd2tEcwoxTnZQVHNJMFcvbTRTSzBVZFhvNkxMYVY4c2FJcEpmbmtWQy9Gd3BCb2xCclJDL0VtNjRVbEJzUlptMlQ4OWNhCnV6RGVlMnlQVXZiQmQ1a0xFcncrc0M3aTR4WGEyckdtc1FMWWNCUGhzUndubUJtbEFnTUJBQUdqVnpCVk1CMEcKQTFVZERnUVdCQlJaM2V4RXU2ckN3UmU1QzdmNVFyUGNBS1JQVWpBMEJnTlZIUkVFTFRBcmdndHpZVzFzZEdWegpkQzVwWklZY2FIUjBjSE02THk5ellXMXNkR1Z6ZEM1cFpDOXpZVzFzTDJsa2NEQU5CZ2txaGtpRzl3MEJBUXNGCkFBT0NBUUVBQlpERlJOdGNidklSbWJsblpJdG9XQ0ZoVlVscTgxY2VTUWRkTFlzOERxSzM0MC8vaFdOQWJZZGoKV2NQODVIaElabnJ3Nk5HQ080YlVpcHhaWGhpcVRBL0E5ZDFCVWxsMHZZQjhxY2tZREVkUERkdVlDT1llbUtrRApkbW5ITVFXczlZNnpXaVl1TktFSjltZjMrMU44a25OL1BLMFRZVmpWalhBZjJDbk9FVERiTHRsajZOcWI4TGEzCnNRa1ltVSthVWRvcGJqZDVKRkZ3YlpSYWo2S2lIWEh0bklSZ3U4c1VYTlByZ2lwVWdaVU9WaFAwQzBONU9mRTQKSlc4WkJyS2dRQy82dkoyclNhOVRsekk2SkFhNVd3N2dNWE1QOU0rY0pVTlFrbGNxK1NCblRLOEcrdUJIZ1BLUgp6QkRzTUlFelJ0UVptNEdJb0hKYWU0em1uQ2Vra1E9PQogICAgICAgICAgICAgICAgICAgICAgICA8L2RzOlg1MDlDZXJ0aWZpY2F0ZT4KICAgICAgICAgICAgICAgICAgICA8L2RzOlg1MDlEYXRhPgogICAgICAgICAgICA8L2RzOktleUluZm8+CgogICAgICAgIDwvS2V5RGVzY3JpcHRvcj4KCjwhLS0gQW4gZW5kcG9pbnQgZm9yIGFydGlmYWN0IHJlc29sdXRpb24uICBQbGVhc2Ugc2VlIFdpa2lwZWRpYSBmb3IgbW9yZSBkZXRhaWxzIGFib3V0IFNBTUwKICAgICBhcnRpZmFjdHMgYW5kIHdoZW4geW91IG1heSBmaW5kIHRoZW0gdXNlZnVsLiAtLT4KCiAgICAgICAgPEFydGlmYWN0UmVzb2x1dGlvblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOlNPQVAiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1NPQVAvQXJ0aWZhY3RSZXNvbHV0aW9uIiBpbmRleD0iMSIgLz4KCjwhLS0gQSBzZXQgb2YgZW5kcG9pbnRzIHdoZXJlIHRoZSBJZFAgY2FuIHJlY2VpdmUgbG9nb3V0IG1lc3NhZ2VzLiBUaGVzZSBtdXN0IG1hdGNoIHRoZSBwdWJsaWMKZmFjaW5nIGFkZHJlc3NlcyBpZiB0aGlzIElkUCBpcyBob3N0ZWQgYmVoaW5kIGEgcmV2ZXJzZSBwcm94eS4gIC0tPiAKICAgICAgICA8U2luZ2xlTG9nb3V0U2VydmljZSBCaW5kaW5nPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YmluZGluZ3M6SFRUUC1SZWRpcmVjdCIgTG9jYXRpb249Imh0dHBzOi8vc2FtbHRlc3QuaWQvaWRwL3Byb2ZpbGUvU0FNTDIvUmVkaXJlY3QvU0xPIi8+CiAgICAgICAgPFNpbmdsZUxvZ291dFNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUE9TVCIgTG9jYXRpb249Imh0dHBzOi8vc2FtbHRlc3QuaWQvaWRwL3Byb2ZpbGUvU0FNTDIvUE9TVC9TTE8iLz4KICAgICAgICA8U2luZ2xlTG9nb3V0U2VydmljZSBCaW5kaW5nPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YmluZGluZ3M6SFRUUC1QT1NULVNpbXBsZVNpZ24iIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1BPU1QtU2ltcGxlU2lnbi9TTE8iLz4KCjwhLS0gQSBzZXQgb2YgZW5kcG9pbnRzIHRoZSBTUCBjYW4gc2VuZCBBdXRoblJlcXVlc3RzIHRvIGluIG9yZGVyIHRvIHRyaWdnZXIgdXNlciBhdXRoZW50aWNhdGlvbi4gLS0+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm1hY2U6c2hpYmJvbGV0aDoxLjA6cHJvZmlsZXM6QXV0aG5SZXF1ZXN0IiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TaGliYm9sZXRoL1NTTyIvPgogICAgICAgIDxTaW5nbGVTaWduT25TZXJ2aWNlIEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpIVFRQLVBPU1QiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1BPU1QvU1NPIi8+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUE9TVC1TaW1wbGVTaWduIiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TQU1MMi9QT1NULVNpbXBsZVNpZ24vU1NPIi8+CiAgICAgICAgPFNpbmdsZVNpZ25PblNlcnZpY2UgQmluZGluZz0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmJpbmRpbmdzOkhUVFAtUmVkaXJlY3QiIExvY2F0aW9uPSJodHRwczovL3NhbWx0ZXN0LmlkL2lkcC9wcm9maWxlL1NBTUwyL1JlZGlyZWN0L1NTTyIvPgogICAgICAgIDxTaW5nbGVTaWduT25TZXJ2aWNlIEJpbmRpbmc9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpiaW5kaW5nczpTT0FQIiBMb2NhdGlvbj0iaHR0cHM6Ly9zYW1sdGVzdC5pZC9pZHAvcHJvZmlsZS9TQU1MMi9TT0FQL0VDUCIvPgoKICAgIDwvSURQU1NPRGVzY3JpcHRvcj4KCjwvRW50aXR5RGVzY3JpcHRvcj4K",
-          "object_roles": [
-            {
-              "object": "/orgs/example-org/apps/example-app",
-              "role": "developer"
-            }
-          ],
-          "org_id": "example-org",
-          "role": "member"
-        },
-        "properties": {
-          "authorizing_user_id": {
-            "description": "ID of an existing user with permissions to apply roles to new users within the org.",
-            "type": "string"
-          },
-          "domains": {
-            "description": "One or more domains that this IdP should be associated to.",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "id": {
-            "description": "ID used to refere to the IdP in Humanitec",
-            "type": "string"
-          },
-          "metadata": {
-            "description": "Base64 encoded SAML IdP Metadata XML",
-            "items": {
-              "minimum": 0,
-              "type": "integer"
-            },
-            "type": "array"
-          },
-          "object_roles": {
-            "description": "A possibly empty array of additional roles on objects that the user should have.",
-            "items": {
-              "$ref": "#/components/schemas/ObjectRoleResponse"
-            },
-            "type": "array"
-          },
-          "org_id": {
-            "description": "ID of the Organization that the new user should be added to.",
-            "type": "string"
-          },
-          "role": {
-            "description": "The role that the new user should have on the organization",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "metadata",
-          "authorizing_user_id",
-          "org_id",
-          "role",
-          "domains",
-          "object_roles"
-        ],
-        "type": "object"
-      },
-      "IdentityTokenRequest": {
-        "description": "IdentityToken holds the Identity providers temporary token along with the provider it is associated to.",
-        "example": {
-          "provider": "github",
-          "token": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "provider": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "IdentityTokenResponse": {
-        "description": "IdentityToken holds the Identity providers temporary token along with the provider it is associated to.",
-        "example": {
-          "provider": "github",
-          "token": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "provider": {
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "provider",
-          "token"
-        ],
-        "type": "object"
-      },
-      "LegacyTokenRequestRequest": {
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "org_id": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "LegacyTokenRequestResponse": {
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "org_id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "org_id",
-          "id",
-          "label"
-        ],
-        "type": "object"
-      },
-      "NewServiceUserRequest": {
-        "description": "NewServiceUser holds the definition of a new service user.",
-        "example": {
-          "email": "ci-service-notifications@awesomecorp.com",
-          "name": "CI Robot",
-          "role": "artefactContributer"
-        },
-        "properties": {
-          "email": {
-            "description": "The email address that should get notifications about this service user. (Optional)",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name that should be shown for this service user.",
-            "type": "string"
-          },
-          "role": {
-            "description": "The role that the service user should have on the organization it is created in",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "NewServiceUserResponse": {
-        "description": "NewServiceUser holds the definition of a new service user.",
-        "example": {
-          "email": "ci-service-notifications@awesomecorp.com",
-          "name": "CI Robot",
-          "role": "artefactContributer"
-        },
-        "properties": {
-          "email": {
-            "description": "The email address that should get notifications about this service user. (Optional)",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name that should be shown for this service user.",
-            "type": "string"
-          },
-          "role": {
-            "description": "The role that the service user should have on the organization it is created in",
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "role"
-        ],
-        "type": "object"
-      },
-      "RegisterIdentityTokenRequest": {
-        "description": "RegisterIdentityToken holds the Identity providers temporary token along with the provider it is associated to. It also has a required field of `privacy_policy_accepted`.",
-        "example": {
-          "privacy_policy_accepted": true,
-          "provider": "github",
-          "token": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "privacy_policy_accepted": {
-            "type": "boolean"
-          },
-          "provider": {
-            "type": "string"
-          },
-          "signup_ref": {
-            "description": "(optional) The reference to the source of the signup.",
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "RegisterIdentityTokenResponse": {
-        "description": "RegisterIdentityToken holds the Identity providers temporary token along with the provider it is associated to. It also has a required field of `privacy_policy_accepted`.",
-        "example": {
-          "privacy_policy_accepted": true,
-          "provider": "github",
-          "token": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "privacy_policy_accepted": {
-            "type": "boolean"
-          },
-          "provider": {
-            "type": "string"
-          },
-          "signup_ref": {
-            "description": "(optional) The reference to the source of the signup.",
-            "type": "string"
-          },
-          "token": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "provider",
-          "token",
-          "privacy_policy_accepted",
-          "signup_ref"
-        ],
-        "type": "object"
-      },
-      "TokenDefinitionRequest": {
-        "description": "Defines the token to be created.",
-        "example": {
-          "description": "Humanitec API Calls from CircleCI Pipelines",
-          "expires_at": "2022-04-30T19:47:01UTC",
-          "id": "circle-ci-token",
-          "type": "static"
-        },
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "expires_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "TokenDefinitionResponse": {
-        "description": "Defines the token to be created.",
-        "example": {
-          "description": "Humanitec API Calls from CircleCI Pipelines",
-          "expires_at": "2022-04-30T19:47:01UTC",
-          "id": "circle-ci-token",
-          "type": "static"
-        },
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "expires_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "id",
-          "description"
-        ],
-        "type": "object"
-      },
-      "TokenInfoRequest": {
-        "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
-        "example": {
-          "created_at": "2021-04-30T19:47:01UTC",
-          "description": "Humanitec API Calls from CircleCI Pipelines",
-          "expires_at": "2022-04-30T19:47:01UTC",
-          "id": "circle-ci-token",
-          "type": "static",
-          "user_id": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "expires_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "TokenInfoResponse": {
-        "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
-        "example": {
-          "created_at": "2021-04-30T19:47:01UTC",
-          "description": "Humanitec API Calls from CircleCI Pipelines",
-          "expires_at": "2022-04-30T19:47:01UTC",
-          "id": "circle-ci-token",
-          "type": "static",
-          "user_id": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "expires_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "created_by",
-          "created_at",
-          "type",
-          "id",
-          "description"
-        ],
-        "type": "object"
-      },
-      "TokenRequest": {
-        "description": "Token holds the token and its type.",
-        "example": {
-          "token": "a7a04740ae985f12af58545e4edbac6a",
-          "type": "jwt"
-        },
-        "properties": {
-          "token": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "TokenResponse": {
-        "description": "Token holds the token and its type.",
-        "example": {
-          "token": "a7a04740ae985f12af58545e4edbac6a",
-          "type": "jwt"
-        },
-        "properties": {
-          "token": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "token"
-        ],
-        "type": "object"
-      },
-      "UserInviteRequest": {
-        "description": "UserInvite stores the invitation details.",
-        "example": {
-          "created_at": "2020-12-19T09:32:46Z",
-          "created_by": "admin-user-id",
-          "email": "jo.trigg@awesomecorp.com",
-          "expires_at": "2020-12-30T09:32:46Z",
-          "user_id": "new-user-id"
-        },
-        "properties": {
-          "created_at": {
-            "description": "The timestamp this invitation was created.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "description": "The ID of the user who created this invitation.",
-            "type": "string"
-          },
-          "email": {
-            "description": "The email address of the user from the profile.",
-            "type": "string"
-          },
-          "expires_at": {
-            "description": "The timestamp this invitation would expire.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "user_id": {
-            "description": "The User ID for this user.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "UserInviteRequestRequest": {
-        "description": "UserInviteRequest describes a new user invitation.",
-        "example": {
-          "email": "jo.trigg@awesomecorp.com",
-          "role": "manager"
-        },
-        "properties": {
-          "email": {
-            "description": "The email address of the user from the profile.",
-            "type": "string"
-          },
-          "role": {
-            "description": "The role that this user would hold.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "email",
-          "role"
-        ],
-        "type": "object"
-      },
-      "UserInviteRequestResponse": {
         "description": "UserInviteRequest describes a new user invitation.",
         "example": {
           "email": "jo.trigg@awesomecorp.com",
@@ -14336,42 +12358,6 @@
         },
         "type": "object"
       },
-      "UserProfileResponse": {
-        "description": "UserProfile holds the profile information of a user",
-        "example": {
-          "created_at": "2020-12-19T09:32:46Z",
-          "email": "jo.trigg@awesomecorp.com",
-          "id": "d510224a-4641-48fd-8054-68efd3537ee2",
-          "name": "Jo Trigg"
-        },
-        "properties": {
-          "created_at": {
-            "description": "The time the user was first registered with Humanitec",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "email": {
-            "description": "The email address of the user from the profile",
-            "type": "string"
-          },
-          "id": {
-            "description": "The User ID for this user",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name the user goes by",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "created_at"
-        ],
-        "type": "object"
-      },
       "InternalValueRequest": {
         "properties": {
           "description": {
@@ -14409,7 +12395,7 @@
         "properties": {
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14442,7 +12428,7 @@
           },
           "updated_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14475,97 +12461,6 @@
         "additionalProperties": {
           "$ref": "#/components/schemas/InternalValueResponse"
         },
-        "type": "object"
-      },
-      "InternalValueSetVersionRequest": {
-        "properties": {
-          "change": {
-            "$ref": "#/components/schemas/JSONPatchesRequest"
-          },
-          "comment": {
-            "type": "string"
-          },
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "result_of": {
-            "nullable": true,
-            "type": "string"
-          },
-          "source_value_set_version_id": {
-            "nullable": true,
-            "type": "string"
-          },
-          "updated_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "values": {
-            "$ref": "#/components/schemas/InternalValueSetRequest"
-          }
-        },
-        "type": "object"
-      },
-      "InternalValueSetVersionResponse": {
-        "properties": {
-          "change": {
-            "$ref": "#/components/schemas/JSONPatchesResponse"
-          },
-          "comment": {
-            "type": "string"
-          },
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "result_of": {
-            "nullable": true,
-            "type": "string"
-          },
-          "source_value_set_version_id": {
-            "nullable": true,
-            "type": "string"
-          },
-          "updated_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "values": {
-            "$ref": "#/components/schemas/InternalValueSetResponse"
-          }
-        },
-        "required": [
-          "id",
-          "values",
-          "change",
-          "created_at",
-          "created_by",
-          "updated_at",
-          "result_of",
-          "comment",
-          "source_value_set_version_id"
-        ],
         "type": "object"
       },
       "JSONPatchRequest": {
@@ -14631,31 +12526,6 @@
         ],
         "type": "object"
       },
-      "ValueCreatePayloadResponse": {
-        "properties": {
-          "description": {
-            "nullable": true,
-            "type": "string"
-          },
-          "is_secret": {
-            "type": "boolean"
-          },
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "required": [
-          "key",
-          "is_secret",
-          "value",
-          "description"
-        ],
-        "type": "object"
-      },
       "ValueEditPayloadRequest": {
         "properties": {
           "description": {
@@ -14665,22 +12535,11 @@
           "value": {
             "nullable": true,
             "type": "string"
-          }
-        },
-        "required": [
-          "value",
-          "description"
-        ],
-        "type": "object"
-      },
-      "ValueEditPayloadResponse": {
-        "properties": {
-          "description": {
-            "nullable": true,
-            "type": "string"
           },
-          "value": {
-            "nullable": true,
+          "is_secret": {
+            "type": "boolean"
+          },
+          "key": {
             "type": "string"
           }
         },
@@ -14701,23 +12560,6 @@
             "type": "string"
           }
         },
-        "type": "object"
-      },
-      "ValuePatchPayloadResponse": {
-        "properties": {
-          "description": {
-            "nullable": true,
-            "type": "string"
-          },
-          "value": {
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "required": [
-          "value",
-          "description"
-        ],
         "type": "object"
       },
       "ValueRequest": {
@@ -14759,7 +12601,7 @@
         "properties": {
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14786,7 +12628,7 @@
           },
           "updated_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14815,17 +12657,6 @@
         },
         "type": "object"
       },
-      "ValueSetActionPayloadResponse": {
-        "properties": {
-          "comment": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "comment"
-        ],
-        "type": "object"
-      },
       "ValueSetRequest": {
         "additionalProperties": {
           "$ref": "#/components/schemas/ValueRequest"
@@ -14835,47 +12666,6 @@
       "ValueSetResponse": {
         "additionalProperties": {
           "$ref": "#/components/schemas/ValueResponse"
-        },
-        "type": "object"
-      },
-      "ValueSetVersionRequest": {
-        "description": "Value Set Version can be used as a track record of Shared Value changes, restore to a previous Shared Value or purge an accidentally added Shared Value.",
-        "properties": {
-          "change": {
-            "$ref": "#/components/schemas/JSONPatchesRequest"
-          },
-          "comment": {
-            "type": "string"
-          },
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "result_of": {
-            "nullable": true,
-            "type": "string"
-          },
-          "source_value_set_version_id": {
-            "nullable": true,
-            "type": "string"
-          },
-          "updated_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "values": {
-            "$ref": "#/components/schemas/ValueSetRequest"
-          }
         },
         "type": "object"
       },
@@ -14890,7 +12680,7 @@
           },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14910,7 +12700,7 @@
           },
           "updated_at": {
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
           },
@@ -14928,92 +12718,6 @@
           "result_of",
           "comment",
           "source_value_set_version_id"
-        ],
-        "type": "object"
-      },
-      "InternalWorkloadProfileRequest": {
-        "properties": {
-          "id": {
-            "description": "Workload Profile ID",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ],
-        "type": "object"
-      },
-      "InternalWorkloadProfileResponse": {
-        "properties": {
-          "created_at": {
-            "description": "Creation date",
-            "example": "2020-06-22T09:37:23.523Z",
-            "format": "date-time",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "description": "User created the profile",
-            "type": "string"
-          },
-          "id": {
-            "description": "Workload Profile ID",
-            "type": "string"
-          },
-          "latest": {
-            "description": "The latest version of the profile",
-            "type": "string"
-          },
-          "latest_schema": {
-            "description": "The latest version of the profile schema"
-          },
-          "org_id": {
-            "description": "Organization ID",
-            "type": "string"
-          }
-        },
-        "required": [
-          "org_id",
-          "id",
-          "created_at",
-          "created_by",
-          "latest",
-          "latest_schema"
-        ],
-        "type": "object"
-      },
-      "WorkloadProfileFeatureRequest": {
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "org_id": {
-            "type": "string"
-          },
-          "schema": {
-            "additionalProperties": true,
-            "type": "object"
-          }
-        },
-        "type": "object"
-      },
-      "WorkloadProfileFeatureResponse": {
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "org_id": {
-            "type": "string"
-          },
-          "schema": {
-            "additionalProperties": true,
-            "type": "object"
-          }
-        },
-        "required": [
-          "org_id",
-          "id",
-          "schema"
         ],
         "type": "object"
       },
