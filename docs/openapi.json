@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.12",
+    "version": "0.20.13",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -81,12 +81,12 @@
           }
         ],
         "requestBody": {
-          "description": "The request ID and Human-friendly name of the Application.\n\n",
+          "description": "The request ID, Human-friendly name and environment of the Application.\n\n",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApplicationRequest"
+                "$ref": "#/components/schemas/ApplicationCreationRequest"
               }
             }
           }
@@ -2118,11 +2118,12 @@
             }
           },
           "400": {
-            "description": "Some of the values supplied are invalid.\n\n",
+            "description": "The request was invalid or the payload malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -2217,11 +2218,12 @@
             }
           },
           "400": {
-            "description": "Some of the values supplied are invalid.\n\n",
+            "description": "The request was invalid or the payload malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "string",
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -6217,6 +6219,16 @@
               }
             }
           },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "No token supplied.\n\n"
           },
@@ -6273,6 +6285,16 @@
               }
             }
           },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Object does not exist.\n\n"
           }
@@ -6322,6 +6344,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -6408,6 +6440,16 @@
                     "$ref": "#/components/schemas/UserRoleResponse"
                   },
                   "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -6596,7 +6638,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -6630,7 +6673,8 @@
           "public",
           "ValueSetVersion"
         ],
-        "summary": "Purge the value of a specific key Value Set Version in an Environment of an App",
+        "summary": "Purge the value of a specific Shared Value from the App Environment Version history.",
+        "description": "Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -6665,7 +6709,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -6722,6 +6767,7 @@
           "ValueSetVersion"
         ],
         "summary": "Restore a Value Set Version in an Environment of an App",
+        "description": "Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -6756,7 +6802,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -6800,7 +6847,8 @@
           "public",
           "ValueSetVersion"
         ],
-        "summary": "Restore a specific key Value Set Version in an Environment of an App",
+        "summary": "Restore a specific key from the Value Set Version in an Environment of an App",
+        "description": "Restore the values of a single Shared Value in an Environment from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -6835,7 +6883,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -7404,7 +7453,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -7438,7 +7488,8 @@
           "public",
           "ValueSetVersion"
         ],
-        "summary": "Purge the value of a specific key Value Set Version in an App",
+        "summary": "Purge the value of a specific Shared Value from the App Version history.",
+        "description": "Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can't be restored and can't be used\nby deployments referencing a Value Set Version where the value was present.\n\nLearn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -7464,7 +7515,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -7521,6 +7573,7 @@
           "ValueSetVersion"
         ],
         "summary": "Restore a Value Set Version in an App",
+        "description": "Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -7546,7 +7599,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -7590,7 +7644,8 @@
           "public",
           "ValueSetVersion"
         ],
-        "summary": "Restore a specific key Value Set Version in an App",
+        "summary": "Restore a specific key from the Value Set Version in an App",
+        "description": "Restore the values of a single Shared Value in an application from a specific version.\n\nLearn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert).\n",
         "parameters": [
           {
             "name": "orgId",
@@ -7616,7 +7671,8 @@
             "description": "The ValueSetVersion ID.\n\n",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           },
           {
@@ -8448,6 +8504,28 @@
   },
   "components": {
     "schemas": {
+      "ApplicationCreationRequest": {
+        "properties": {
+          "env": {
+            "$ref": "#/components/schemas/EnvironmentBaseRequest",
+            "description": "The Environment that will be automatically created with application. If not provided, default environment will be created instead."
+          },
+          "id": {
+            "description": "The ID which refers to a specific application.",
+            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "type": "string"
+          },
+          "name": {
+            "description": "The Human-friendly name for the Application.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object"
+      },
       "ApplicationRequest": {
         "description": "An Application is a collection of Modules that work together. When deployed, all Modules in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.",
         "example": {
@@ -8684,6 +8762,29 @@
           "from_id",
           "export_status",
           "export_file"
+        ],
+        "type": "object"
+      },
+      "EnvironmentBaseRequest": {
+        "properties": {
+          "id": {
+            "description": "The ID the Environment is referenced as.",
+            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "type": "string"
+          },
+          "name": {
+            "description": "The Human-friendly name for the Environment.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The Environment Type. This is used for organizing and managing Environments.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
         ],
         "type": "object"
       },
@@ -8934,7 +9035,9 @@
         "type": "object",
         "example": {
           "error": "Could not validate token.",
-          "message": "Could not validate token."
+          "message": "Could not validate token.",
+          "object": "/orgs/my-org",
+          "role": "manager"
         }
       },
       "AddArtefactVersionPayloadRequest": {
@@ -12424,7 +12527,7 @@
             "type": "string"
           },
           "source": {
-            "type": "string"
+            "$ref": "#/components/schemas/ValueSource"
           },
           "updated_at": {
             "example": "2020-06-22T09:37:23.523Z",
@@ -12449,12 +12552,6 @@
           "secret_version",
           "secret_store_id"
         ],
-        "type": "object"
-      },
-      "InternalValueSetRequest": {
-        "additionalProperties": {
-          "$ref": "#/components/schemas/InternalValueRequest"
-        },
         "type": "object"
       },
       "InternalValueSetResponse": {
@@ -12491,12 +12588,6 @@
         ],
         "type": "object"
       },
-      "JSONPatchesRequest": {
-        "items": {
-          "$ref": "#/components/schemas/JSONPatchRequest"
-        },
-        "type": "array"
-      },
       "JSONPatchesResponse": {
         "items": {
           "$ref": "#/components/schemas/JSONPatchResponse"
@@ -12513,14 +12604,15 @@
             "type": "boolean"
           },
           "key": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_.-]+$"
           },
           "value": {
-            "nullable": true,
             "type": "string"
           }
         },
         "required": [
+          "key",
           "value",
           "description"
         ],
@@ -12540,6 +12632,7 @@
             "type": "boolean"
           },
           "key": {
+            "pattern": "^[A-Za-z0-9_.-]+$",
             "type": "string"
           }
         },
@@ -12623,8 +12716,7 @@
             "type": "string"
           },
           "source": {
-            "description": "Source of the value, \"app\" for app level, \"env\" for app env level.",
-            "type": "string"
+            "$ref": "#/components/schemas/ValueSource"
           },
           "updated_at": {
             "example": "2020-06-22T09:37:23.523Z",
@@ -12657,12 +12749,6 @@
         },
         "type": "object"
       },
-      "ValueSetRequest": {
-        "additionalProperties": {
-          "$ref": "#/components/schemas/ValueRequest"
-        },
-        "type": "object"
-      },
       "ValueSetResponse": {
         "additionalProperties": {
           "$ref": "#/components/schemas/ValueResponse"
@@ -12670,7 +12756,7 @@
         "type": "object"
       },
       "ValueSetVersionResponse": {
-        "description": "Value Set Version can be used as a track record of Shared Value changes, restore to a previous Shared Value or purge an accidentally added Shared Value.",
+        "description": "A Value Set Version can be used as a track record of Shared Values changes, to restore a previous version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn't be accessible anymore.",
         "properties": {
           "change": {
             "$ref": "#/components/schemas/JSONPatchesResponse"
@@ -12691,8 +12777,7 @@
             "type": "string"
           },
           "result_of": {
-            "nullable": true,
-            "type": "string"
+            "$ref": "#/components/schemas/ValueSetVersionResultOf"
           },
           "source_value_set_version_id": {
             "nullable": true,
@@ -12720,6 +12805,32 @@
           "source_value_set_version_id"
         ],
         "type": "object"
+      },
+      "ValueSource": {
+        "description": "Source of the value, \"app\" for app level, \"env\" for app env level.",
+        "type": "string",
+        "enum": [
+          "app",
+          "env"
+        ]
+      },
+      "ValueSetVersionResultOf": {
+        "type": "string",
+        "nullable": true,
+        "enum": [
+          "app_value_create",
+          "app_value_update",
+          "app_value_delete",
+          "app_values_delete",
+          "app_value_set_version_restore",
+          "app_value_set_version_purge",
+          "env_value_create",
+          "env_value_update",
+          "env_value_delete",
+          "env_values_delete",
+          "env_value_set_version_restore",
+          "env_value_set_version_purge"
+        ]
       },
       "WorkloadProfileRequest": {
         "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.",
@@ -12857,7 +12968,8 @@
         "Organization",
         "Registry",
         "RuntimeInfo",
-        "Value"
+        "Value",
+        "ValueSetVersion"
       ]
     },
     {
@@ -12883,7 +12995,7 @@
       "name": "Automation",
       "tags": [
         "AutomationRule",
-        "Webhook"
+        "Event"
       ]
     },
     {
@@ -13021,7 +13133,12 @@
       "description": "Shared Values can be used to manage variables and configuration that might vary between environments. They are also the way that secrets can be stored securely.\n\nShared Values are by default shared across all environments in an application. However, they can be overridden on an Environment by Environment basis.\n\nFor example: There might be 2 API keys that are used in an application. One development key used in the development and staging environments and another used for production. The development API key would be set at the Application level. The value would then be overridden at the Environment level for the production Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/ValueRequest\" />\n"
     },
     {
-      "name": "Webhook",
+      "name": "ValueSetVersion",
+      "x-displayName": "Shared Value Set Version",
+      "description": "A Value Set Version can be used as a track record of Shared Values changes, to restore a previous version of a Shared Value or Value Set, or to purge a Shared Value if it shouldn't be accessible anymore.\n<SchemaDefinition schemaRef=\"#/components/schemas/ValueSetVersionResponse\" />\n"
+    },
+    {
+      "name": "Event",
       "x-displayName": "Webhooks",
       "description": "Webhook is a special type of a Job, it performs a HTTPS request to a specified URL with specified headers.\n<SchemaDefinition schemaRef=\"#/components/schemas/WebhookRequest\" />\n"
     }
