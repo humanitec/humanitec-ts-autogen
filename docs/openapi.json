@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.13",
+    "version": "0.20.15",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2233,6 +2233,168 @@
           },
           "403": {
             "description": "Token is not valid for a user.\n\n"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/users/{userId}": {
+      "get": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Get the role of a User on an Organization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Remove the role of a User on an Organization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role of the user successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Update the role of a User on an Organization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new user the role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
           }
         }
       }
@@ -6299,9 +6461,204 @@
             "description": "Object does not exist.\n\n"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Remove the role of a User on an Application",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role of the user successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Update the role of a User on an Application",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new user role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
       }
     },
-    "/orgs/{orgId}/env-type/{envType}/users/{userId}": {
+    "/orgs/{orgId}/env-types/{envType}/users": {
+      "post": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Adds a User to an Environment Type with a Role",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envType",
+            "in": "path",
+            "description": "The Environment Type.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The user ID and the role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleRequest"
+              },
+              "example": {
+                "id": "61048226-642c-438e-974f-ce5c013d94f8",
+                "role": "manager"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user ID and associated role.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified Application was not found.\n\n"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/env-types/{envType}/users/{userId}": {
       "get": {
         "tags": [
           "public",
@@ -6337,6 +6694,132 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Remove the role of a User on an Environment Type",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envType",
+            "in": "path",
+            "description": "The Environment Type.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role of the user successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Update the role of a User on an Environment Type",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envType",
+            "in": "path",
+            "description": "The Environment Type.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new user role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "The information on the user.\n\n",
@@ -8527,7 +9010,7 @@
         "type": "object"
       },
       "ApplicationRequest": {
-        "description": "An Application is a collection of Modules that work together. When deployed, all Modules in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.",
+        "description": "An Application is a collection of Workloads that work together. When deployed, all Workloads in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.",
         "example": {
           "created_at": "2020-05-22T14:53:27Z",
           "created_by": "a.user@example.com",
@@ -8558,7 +9041,7 @@
         "type": "object"
       },
       "ApplicationResponse": {
-        "description": "An Application is a collection of Modules that work together. When deployed, all Modules in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.",
+        "description": "An Application is a collection of Workloads that work together. When deployed, all Workloads in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.",
         "example": {
           "created_at": "2020-05-22T14:53:27Z",
           "created_by": "a.user@example.com",
@@ -9497,10 +9980,12 @@
         "example": {
           "role": "manager",
           "user": "61048226-642c-438e-974f-ce5c013d94f8",
+          "created_at": "2020-12-19T09:32:46Z",
           "email": "jo.trigg@awesomecorp.com",
           "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
           "invite": "accepted",
-          "name": "Jo Trigg"
+          "name": "Jo Trigg",
+          "type": "user"
         },
         "properties": {
           "role": {
@@ -9532,6 +10017,10 @@
           },
           "name": {
             "description": "The name the user goes by",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
             "type": "string"
           }
         },
@@ -9542,10 +10031,12 @@
         "example": {
           "role": "manager",
           "user": "61048226-642c-438e-974f-ce5c013d94f8",
+          "created_at": "2020-12-19T09:32:46Z",
           "email": "jo.trigg@awesomecorp.com",
           "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
           "invite": "accepted",
-          "name": "Jo Trigg"
+          "name": "Jo Trigg",
+          "type": "user"
         },
         "properties": {
           "role": {
@@ -9578,18 +10069,23 @@
           "name": {
             "description": "The name the user goes by",
             "type": "string"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
+            "type": "string"
           }
         },
         "required": [
           "id",
           "name",
           "created_at",
+          "type",
           "role"
         ],
         "type": "object"
       },
       "AutomationRuleRequest": {
-        "description": "An Automation Rule defining how and when images in an environment should be updated.",
+        "description": "An Automation Rule defining how and when artefacts in an environment should be updated.",
         "example": {
           "active": true,
           "artefacts_filter": [
@@ -9660,7 +10156,7 @@
         "type": "object"
       },
       "AutomationRuleResponse": {
-        "description": "An Automation Rule defining how and when images in an environment should be updated.",
+        "description": "An Automation Rule defining how and when artefacts in an environment should be updated.",
         "example": {
           "active": true,
           "artefacts_filter": [
@@ -9781,7 +10277,8 @@
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "nullable": true
           },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
@@ -9896,7 +10393,8 @@
             "items": {
               "$ref": "#/components/schemas/UpdateActionRequest"
             },
-            "type": "array"
+            "type": "array",
+            "nullable": true
           }
         },
         "type": "object"
@@ -10045,13 +10543,15 @@
             "additionalProperties": {
               "$ref": "#/components/schemas/ModuleRequest"
             },
-            "type": "object"
+            "type": "object",
+            "nullable": true
           },
           "remove": {
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "nullable": true
           },
           "update": {
             "additionalProperties": {
@@ -10060,7 +10560,8 @@
               },
               "type": "array"
             },
-            "type": "object"
+            "type": "object",
+            "nullable": true
           }
         },
         "type": "object"
@@ -10105,14 +10606,16 @@
           },
           "externals": {
             "additionalProperties": true,
-            "type": "object"
+            "type": "object",
+            "nullable": true
           },
           "profile": {
             "type": "string"
           },
           "spec": {
             "additionalProperties": true,
-            "type": "object"
+            "type": "object",
+            "nullable": true
           }
         },
         "type": "object",
@@ -10896,6 +11399,7 @@
         "example": {
           "app_id": "test-app",
           "def_id": "gcp-dev-postgres",
+          "deploy_id": "172a1013b",
           "env_id": "gcp-dev",
           "env_type": "development",
           "org_id": "test-org",
@@ -10917,6 +11421,10 @@
           },
           "def_id": {
             "description": "The Resource Definition that this resource was provisioned from.",
+            "type": "string"
+          },
+          "deploy_id": {
+            "description": "The deployment that the resource was last provisioned in.",
             "type": "string"
           },
           "env_id": {
@@ -10963,6 +11471,7 @@
         "example": {
           "app_id": "test-app",
           "def_id": "gcp-dev-postgres",
+          "deploy_id": "172a1013b",
           "env_id": "gcp-dev",
           "env_type": "development",
           "org_id": "test-org",
@@ -10984,6 +11493,10 @@
           },
           "def_id": {
             "description": "The Resource Definition that this resource was provisioned from.",
+            "type": "string"
+          },
+          "deploy_id": {
+            "description": "The deployment that the resource was last provisioned in.",
             "type": "string"
           },
           "env_id": {
@@ -11033,7 +11546,8 @@
           "type",
           "status",
           "resource",
-          "updated_at"
+          "updated_at",
+          "deploy_id"
         ],
         "type": "object"
       },
@@ -12268,6 +12782,18 @@
         ],
         "type": "object"
       },
+      "RoleRequest": {
+        "description": "Role defines the role that will be used in request",
+        "example": {
+          "role": "user"
+        },
+        "properties": {
+          "role": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "UserInviteRequestRequest": {
         "description": "UserInviteRequest describes a new user invitation.",
         "example": {
@@ -12375,6 +12901,10 @@
               "type": "string"
             },
             "type": "object"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
+            "type": "string"
           }
         },
         "type": "object"
@@ -12419,12 +12949,17 @@
               "type": "string"
             },
             "type": "object"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
+            "type": "string"
           }
         },
         "required": [
           "id",
           "name",
           "created_at",
+          "type",
           "properties",
           "roles"
         ],
@@ -12436,7 +12971,8 @@
           "created_at": "2020-12-19T09:32:46Z",
           "email": "jo.trigg@awesomecorp.com",
           "id": "d510224a-4641-48fd-8054-68efd3537ee2",
-          "name": "Jo Trigg"
+          "name": "Jo Trigg",
+          "type": "user"
         },
         "properties": {
           "created_at": {
@@ -12456,6 +12992,10 @@
           },
           "name": {
             "description": "The name the user goes by",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
             "type": "string"
           }
         },
@@ -13050,7 +13590,7 @@
     {
       "name": "Application",
       "x-displayName": "Applications",
-      "description": "An Application is a collection of Modules that work together. When deployed, all Modules in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.\n<SchemaDefinition schemaRef=\"#/components/schemas/ApplicationRequest\" />\n"
+      "description": "An Application is a collection of Workloads that work together. When deployed, all Workloads in an Application are deployed to the same namespace.\n\nApps are the root of the configuration tree holding Environments, Deployments, Shared Values, and Secrets.\n<SchemaDefinition schemaRef=\"#/components/schemas/ApplicationRequest\" />\n"
     },
     {
       "name": "Artefact",
@@ -13065,7 +13605,7 @@
     {
       "name": "AutomationRule",
       "x-displayName": "Automation Rules",
-      "description": "An Automation Rule defining how and when images in an environment should be updated.\n<SchemaDefinition schemaRef=\"#/components/schemas/AutomationRuleRequest\" />\n"
+      "description": "An Automation Rule defining how and when artefacts in an environment should be updated.\n<SchemaDefinition schemaRef=\"#/components/schemas/AutomationRuleRequest\" />\n"
     },
     {
       "name": "Delta",
