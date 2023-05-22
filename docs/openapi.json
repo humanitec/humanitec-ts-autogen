@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.16",
+    "version": "0.20.18",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2201,7 +2201,8 @@
               },
               "example": {
                 "id": "61048226-642c-438e-974f-ce5c013d94f8",
-                "role": "manager"
+                "role": "manager",
+                "name": "CI Robot"
               }
             }
           }
@@ -2212,7 +2213,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileExtendedResponse"
+                  "$ref": "#/components/schemas/UserProfileResponse"
                 }
               }
             }
@@ -4898,6 +4899,68 @@
           }
         }
       },
+      "delete": {
+        "tags": [
+          "public",
+          "ResourceAccount"
+        ],
+        "summary": "Delete an unused Resource Account.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "accId",
+            "in": "path",
+            "description": "The Resource Account ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The account was successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "One or more request parameters is missing or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A Resource Account with the 'accId' ID is not found or does not belong to the organization.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "patch": {
         "tags": [
           "public",
@@ -6099,11 +6162,25 @@
               }
             }
           },
-          "404": {
-            "description": "Environment not found.\n\n"
+          "400": {
+            "description": "Cluster not well configured or unreachable.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
-          "500": {
-            "description": "Internal application error.\n\n"
+          "404": {
+            "description": "Environment not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -6161,19 +6238,34 @@
             "description": "Success.\n\n"
           },
           "400": {
-            "description": "Bad Request.\n\n"
-          },
-          "401": {
-            "description": "Request Unauthorised.\n\n"
+            "description": "Missing or malformed input.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden (insufficient privileges to perform the action).\n\n"
+            "description": "Forbidden (insufficient privileges to perform the action).\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Environment not found.\n\n"
-          },
-          "500": {
-            "description": "Internal application error.\n\n"
+            "description": "Environment not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -6233,22 +6325,34 @@
             "description": "Success.\n\n"
           },
           "400": {
-            "description": "Bad Request.\n\n"
-          },
-          "401": {
-            "description": "Request Unauthorised.\n\n"
+            "description": "Missing or malformed input.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
           "403": {
-            "description": "Forbidden (default cluster limitations or insufficient privileges to perform the action).\n\n"
+            "description": "Forbidden (default cluster limitations or insufficient privileges to perform the action).\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           },
           "404": {
-            "description": "Environment not found.\n\n"
-          },
-          "500": {
-            "description": "Internal application error.\n\n"
-          },
-          "501": {
-            "description": "The provider is not supported.\n\n"
+            "description": "Environment not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -6320,10 +6424,14 @@
             }
           },
           "400": {
-            "description": "Bad Request.\n\n"
-          },
-          "500": {
-            "description": "Internal application error.\n\n"
+            "description": "Bad Request.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -7014,6 +7122,191 @@
           },
           "403": {
             "description": "Token is not valid for a user.\n\n"
+          }
+        }
+      }
+    },
+    "/users/{userId}/tokens": {
+      "get": {
+        "tags": [
+          "public",
+          "TokenInfo"
+        ],
+        "summary": "Lists tokens associated with a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A possibly empty list of tokens.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TokenInfoResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Calling user does not have permission to list tokens for this user.\n\n"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "TokenInfo"
+        ],
+        "summary": "Creates a new static token for a user.",
+        "description": "This is only supported for users of type `service`.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The definition of the token.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenDefinitionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The issued static token.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Calling user does not have permission to list tokens for this user.\n\n"
+          },
+          "409": {
+            "description": "There is already a token with the given ID.\n\n"
+          }
+        }
+      }
+    },
+    "/users/{userId}/tokens/{tokenId}": {
+      "get": {
+        "tags": [
+          "public",
+          "TokenInfo"
+        ],
+        "summary": "Gets a specific token associated with a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenId",
+            "in": "path",
+            "description": "The token ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Metadata about the token.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenInfoResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Calling user does not have permission to list tokens for this user.\n\n"
+          },
+          "404": {
+            "description": "This token ID is not available for the user.\n\n"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "TokenInfo"
+        ],
+        "summary": "Deletes a specific token associated with a user",
+        "description": "This is only possible for static tokens. To revoke session tokens - use `POST /auth/logout` with the required session token.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenId",
+            "in": "path",
+            "description": "The token ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The token was successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "The request is invalid.\n\n"
+          },
+          "403": {
+            "description": "The calling user does not have permission to delete the token.\n\n"
+          },
+          "404": {
+            "description": "This token id is not available for the user or the user does not exist.\n\n"
           }
         }
       }
@@ -8969,6 +9262,58 @@
           },
           "404": {
             "description": "Workload Profile Versions not found or not accessible by the organization.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/workload-profiles/{profileQid}/versions/latest": {
+      "get": {
+        "tags": [
+          "public",
+          "WorkloadProfile"
+        ],
+        "operationId": "getLatestWorkloadProfileVersion",
+        "summary": "Latest version of the given workload profile with optional constraint.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "profileQid",
+            "in": "path",
+            "description": "The Workload profile qualified ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A possibly empty list of Workload Profile Versions.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkloadProfileVersionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Latest Workload Profile Version not found or not accessible by the organization.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -11656,6 +12001,12 @@
           "driver_type": "humanitec/cloudsql",
           "id": "dev-postgres",
           "name": "Dev Postgres Instance",
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false
+            },
+            "dns#my-dns": {}
+          },
           "type": "postgres"
         },
         "properties": {
@@ -11687,6 +12038,13 @@
           "name": {
             "description": "The display name.",
             "type": "string"
+          },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesRequest"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.",
+            "type": "object"
           },
           "type": {
             "description": "The Resource Type.",
@@ -11938,6 +12296,12 @@
             "values": {
               "instance": "my-dev-project:my-region:dev-db"
             }
+          },
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false
+            },
+            "dns#my-dns": {}
           }
         },
         "properties": {
@@ -11955,8 +12319,46 @@
             "description": "(Optional) Resource display name",
             "nullable": true,
             "type": "string"
+          },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesRequest"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.",
+            "type": "object"
           }
         },
+        "type": "object"
+      },
+      "ProvisionDependenciesRequest": {
+        "description": "ProvisionDependencies defines resources which are needed to be co-provisioned with the current resource.",
+        "properties": {
+          "is_dependent": {
+            "description": "If the co-provisioned resource is dependendent on the current one.",
+            "type": "boolean"
+          },
+          "match_dependents": {
+            "description": "If the resources dependant on the main resource, are also dependant on the co-provisioned one.",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "ProvisionDependenciesResponse": {
+        "description": "ProvisionDependencies defines resources which are needed to be co-provisioned with the current resource.",
+        "properties": {
+          "is_dependent": {
+            "description": "If the co-provisioned resource is dependendent on the current one.",
+            "type": "boolean"
+          },
+          "match_dependents": {
+            "description": "If the resources dependant on the main resource, are also dependant on the co-provisioned one.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "is_dependent"
+        ],
         "type": "object"
       },
       "ResourceAccountRequest": {
@@ -12107,6 +12509,13 @@
           "is_deleted": false,
           "name": "Dev Postgres Instance",
           "org_id": "test-org",
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false,
+              "match_dependents": false
+            },
+            "dns#my-dns": {}
+          },
           "type": "postgres"
         },
         "properties": {
@@ -12160,6 +12569,13 @@
             "description": "The Organization ID.",
             "type": "string"
           },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesRequest"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.",
+            "type": "object"
+          },
           "type": {
             "description": "The Resource Type.",
             "type": "string"
@@ -12190,6 +12606,13 @@
           "is_deleted": false,
           "name": "Dev Postgres Instance",
           "org_id": "test-org",
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false,
+              "match_dependents": false
+            },
+            "dns#my-dns": {}
+          },
           "type": "postgres"
         },
         "properties": {
@@ -12242,6 +12665,13 @@
           "org_id": {
             "description": "The Organization ID.",
             "type": "string"
+          },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesResponse"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.",
+            "type": "object"
           },
           "type": {
             "description": "The Resource Type.",
@@ -12530,7 +12960,13 @@
               "instance": "my-dev-project:my-region:dev-db"
             }
           },
-          "name": "Dev Postgres Instance"
+          "name": "Dev Postgres Instance",
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false
+            },
+            "dns#my-dns": {}
+          }
         },
         "properties": {
           "driver_account": {
@@ -12546,6 +12982,13 @@
           "name": {
             "description": "The display name.",
             "type": "string"
+          },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesRequest"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.",
+            "type": "object"
           }
         },
         "required": [
@@ -12801,6 +13244,10 @@
             "type": "string"
           }
         },
+        "required": [
+          "name",
+          "role"
+        ],
         "type": "object"
       },
       "RoleRequest": {
@@ -12813,6 +13260,143 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "TokenDefinitionRequest": {
+        "description": "Defines the token to be created.",
+        "example": {
+          "description": "Humanitec API Calls from CircleCI Pipelines",
+          "expires_at": "2022-04-30T19:47:01Z",
+          "id": "circle-ci-token",
+          "type": "static"
+        },
+        "properties": {
+          "description": {
+            "description": "A description of the token. (Optional)",
+            "type": "string"
+          },
+          "expires_at": {
+            "description": "The time the token expires. If not set, the token will not expire. (Optional)",
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "id": {
+            "description": "Identifier of the token. Must be unique for the user.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the token. Can only be \"static\".",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object"
+      },
+      "TokenInfoRequest": {
+        "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
+        "example": {
+          "created_at": "2021-04-30T19:47:01Z",
+          "description": "Humanitec API Calls from CircleCI Pipelines",
+          "expires_at": "2022-04-30T19:47:01Z",
+          "id": "circle-ci-token",
+          "type": "static",
+          "user_id": "a7a04740ae985f12af58545e4edbac6a"
+        },
+        "properties": {
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "expires_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TokenInfoResponse": {
+        "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
+        "example": {
+          "created_at": "2021-04-30T19:47:01Z",
+          "description": "Humanitec API Calls from CircleCI Pipelines",
+          "expires_at": "2022-04-30T19:47:01Z",
+          "id": "circle-ci-token",
+          "type": "static",
+          "user_id": "a7a04740ae985f12af58545e4edbac6a"
+        },
+        "properties": {
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "expires_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "created_by",
+          "created_at",
+          "type",
+          "id",
+          "description"
+        ],
+        "type": "object"
+      },
+      "TokenResponse": {
+        "description": "Token holds the token and its type.",
+        "example": {
+          "token": "a7a04740ae985f12af58545e4edbac6a",
+          "type": "jwt"
+        },
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ],
         "type": "object"
       },
       "UserInviteRequestRequest": {
@@ -13020,6 +13604,48 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "UserProfileResponse": {
+        "description": "UserProfile holds the profile information of a user",
+        "example": {
+          "created_at": "2020-12-19T09:32:46Z",
+          "email": "jo.trigg@awesomecorp.com",
+          "id": "d510224a-4641-48fd-8054-68efd3537ee2",
+          "name": "Jo Trigg",
+          "type": "user"
+        },
+        "properties": {
+          "created_at": {
+            "description": "The time the user was first registered with Humanitec",
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "email": {
+            "description": "The email address of the user from the profile",
+            "type": "string"
+          },
+          "id": {
+            "description": "The User ID for this user",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name the user goes by",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service or system",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "created_at",
+          "type"
+        ],
         "type": "object"
       },
       "InternalValueRequest": {
@@ -13569,7 +14195,8 @@
       "name": "Users",
       "tags": [
         "UserProfile",
-        "UserRole"
+        "UserRole",
+        "TokenInfo"
       ]
     }
   ],
@@ -13588,6 +14215,11 @@
       "name": "ResourceDefinition",
       "x-displayName": "Definitions",
       "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionRequest\" />\n"
+    },
+    {
+      "name": "TokenInfo",
+      "x-displayName": "Token Info",
+      "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.\n<SchemaDefinition schemaRef=\"#/components/schemas/TokenInfoRequest\" />\n"
     },
     {
       "name": "UserProfile",
