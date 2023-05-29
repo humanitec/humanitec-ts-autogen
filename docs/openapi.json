@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.18",
+    "version": "0.20.19",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2005,16 +2005,6 @@
                 }
               }
             }
-          },
-          "422": {
-            "description": "The request body was not parseable.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -3800,7 +3790,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -3810,13 +3800,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
-          },
-          "422": {
-            "description": "The request body was not parsable.\n\n"
           }
         }
       }
@@ -3869,11 +3856,69 @@
             }
           },
           "404": {
-            "description": "The requested webhook not found.\n\n"
+            "description": "The requested webhook not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       },
-      "post": {
+      "delete": {
+        "tags": [
+          "public",
+          "Event"
+        ],
+        "summary": "Delete a Webhook",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "The Webhook ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted successfully\n\n"
+          },
+          "404": {
+            "description": "The requested webhook not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
         "tags": [
           "public",
           "Event"
@@ -3929,55 +3974,25 @@
               }
             }
           },
-          "404": {
-            "description": "The requested webhook not found.\n\n"
-          },
-          "422": {
-            "description": "The request body was not parsable.\n\n"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "public",
-          "Event"
-        ],
-        "summary": "Delete a Webhook",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "400": {
+            "description": "Bad request\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
             }
-          },
-          {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "jobId",
-            "in": "path",
-            "description": "The Webhook ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Deleted successfully\n\n"
           },
           "404": {
-            "description": "The requested webhook not found.\n\n"
+            "description": "The requested webhook not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -9336,7 +9351,7 @@
           },
           "id": {
             "description": "The ID which refers to a specific application.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9367,7 +9382,7 @@
         "properties": {
           "id": {
             "description": "The ID which refers to a specific application.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9416,7 +9431,7 @@
           },
           "id": {
             "description": "The ID which refers to a specific application.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9593,7 +9608,7 @@
         "properties": {
           "id": {
             "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9616,7 +9631,7 @@
         "properties": {
           "id": {
             "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9643,7 +9658,7 @@
           },
           "id": {
             "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9697,7 +9712,7 @@
         "properties": {
           "id": {
             "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "name": {
@@ -9765,7 +9780,7 @@
           },
           "id": {
             "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           },
           "last_deploy": {
@@ -9803,7 +9818,7 @@
           },
           "id": {
             "description": "The ID of the Environment Type. (Must be unique within an Organization.)",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           }
         },
@@ -9825,7 +9840,7 @@
           },
           "id": {
             "description": "The ID of the Environment Type. (Must be unique within an Organization.)",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
             "type": "string"
           }
         },
@@ -14108,6 +14123,9 @@
             "description": "A map of Features. If referencing built in Humanitec features, the fully qualified feature name must be used: e.g. `humanitec/annotations`.\n\n{\n\n}",
             "type": "object"
           },
+          "spec_definition": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinition"
+          },
           "notes": {
             "description": "Notes",
             "type": "string"
@@ -14135,6 +14153,80 @@
           "created_by"
         ],
         "type": "object"
+      },
+      "WorkloadProfileVersionSpecDefinition": {
+        "type": "object",
+        "properties": {
+          "properties": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperties"
+          }
+        }
+      },
+      "WorkloadProfileVersionSpecDefinitionProperties": {
+        "type": "object",
+        "description": "Workload spec definition",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperty"
+        }
+      },
+      "WorkloadProfileVersionSpecDefinitionProperty": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionPropertyType"
+          },
+          "feature_name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "runtime_properties": {
+            "items": {
+              "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimeProperty"
+            },
+            "type": "array"
+          },
+          "properties": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperties"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "WorkloadProfileVersionSpecDefinitionRuntimeProperty": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionPropertyType"
+          },
+          "feature_name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "WorkloadProfileVersionPropertyType": {
+        "type": "string",
+        "enum": [
+          "feature",
+          "collection",
+          "schema"
+        ]
       }
     }
   },
