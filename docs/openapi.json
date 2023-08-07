@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.20.20",
+    "version": "0.21.0",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -878,7 +878,7 @@
             "description": "Rebase successful.\n\n"
           },
           "400": {
-            "description": "No Deployment with ID in Application.\n\n",
+            "description": "No Deployment with ID found in Application.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -888,7 +888,7 @@
             }
           },
           "404": {
-            "description": "No Environment with ID Application and Organization.\n\n",
+            "description": "No Environment with ID found in Application and Organization.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -3969,7 +3969,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WebhookResponse"
+                  "$ref": "#/components/schemas/WebhookUpdateResponse"
                 }
               }
             }
@@ -4604,6 +4604,93 @@
         }
       }
     },
+    "/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graph": {
+      "post": {
+        "tags": [
+          "public",
+          "ResourceProvision"
+        ],
+        "summary": "Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envId",
+            "in": "path",
+            "description": "The Environment ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Resources to provision.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/ResourceProvisionRequestRequest"
+                },
+                "type": "array"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A list of objects which hold information to provision resources, sorted according to resources provisioning order.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/NodeBodyResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request payload is not provided or is malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}": {
       "delete": {
         "tags": [
@@ -4831,16 +4918,6 @@
               }
             }
           },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal application error.\n\n",
             "content": {
@@ -5035,16 +5112,6 @@
           },
           "404": {
             "description": "A Resource Account with the 'accId' ID is not found or does not belong to the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -5505,16 +5572,6 @@
               }
             }
           },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal application error.\n\n",
             "content": {
@@ -5594,16 +5651,6 @@
           },
           "409": {
             "description": "A Matching Criteria already exists.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -5869,16 +5916,6 @@
               }
             }
           },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal application error.\n\n",
             "content": {
@@ -6012,16 +6049,6 @@
           },
           "404": {
             "description": "A Resources Driver with the 'driverId' ID is not found.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Request payload is not provided or malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -9448,11 +9475,42 @@
         ],
         "type": "object"
       },
-      "DeploymentErrorResponse": {
-        "description": "DeploymentError is an error happening during deployment",
+      "DeploymentErrorRequest": {
+        "description": "Error happening during deployment.",
         "example": {
           "code": "CLD-001",
-          "message": "Incorrect cloud provider credentials",
+          "message": "Incorrect cloud provider credentials.",
+          "object_id": "my-workload",
+          "scope": "workload",
+          "summary": "Provider error"
+        },
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "error_type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "object_id": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "DeploymentErrorResponse": {
+        "description": "Error happening during deployment.",
+        "example": {
+          "code": "CLD-001",
+          "message": "Incorrect cloud provider credentials.",
           "object_id": "my-workload",
           "scope": "workload",
           "summary": "Provider error"
@@ -11247,7 +11305,7 @@
         "type": "object"
       },
       "WebhookRequest": {
-        "description": "Webhook is a special type of a Job, it performs a HTTPS request to a specified URL with specified headers.",
+        "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.",
         "properties": {
           "disabled": {
             "description": "Defines whether this job is currently disabled.",
@@ -11256,7 +11314,7 @@
           },
           "headers": {
             "$ref": "#/components/schemas/JSONFieldRequest",
-            "description": "Thw webhook's HTTP headers"
+            "description": "The webhook's HTTP headers."
           },
           "id": {
             "description": "Job ID, unique within the Organization",
@@ -11264,7 +11322,7 @@
           },
           "payload": {
             "$ref": "#/components/schemas/JSONFieldRequest",
-            "description": "Thw webhook's HTTP headers"
+            "description": "The webhook's HTTP headers."
           },
           "triggers": {
             "description": "A list of Events by which the Job is triggered",
@@ -11274,7 +11332,7 @@
             "type": "array"
           },
           "url": {
-            "description": "Thw webhook's URL (without protocol, only HTTPS is supported)",
+            "description": "The webhook's URL (without protocol, only HTTPS is supported).",
             "nullable": true,
             "type": "string"
           }
@@ -11282,7 +11340,7 @@
         "type": "object"
       },
       "WebhookResponse": {
-        "description": "Webhook is a special type of a Job, it performs a HTTPS request to a specified URL with specified headers.",
+        "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.",
         "properties": {
           "created_at": {
             "description": "The timestamp of when this Job was created.",
@@ -11302,7 +11360,7 @@
           },
           "headers": {
             "$ref": "#/components/schemas/JSONFieldResponse",
-            "description": "Thw webhook's HTTP headers"
+            "description": "The webhook's HTTP headers."
           },
           "id": {
             "description": "Job ID, unique within the Organization",
@@ -11310,7 +11368,7 @@
           },
           "payload": {
             "$ref": "#/components/schemas/JSONFieldResponse",
-            "description": "Thw webhook's HTTP headers"
+            "description": "The webhook's HTTP headers."
           },
           "triggers": {
             "description": "A list of Events by which the Job is triggered",
@@ -11320,13 +11378,52 @@
             "type": "array"
           },
           "url": {
-            "description": "Thw webhook's URL (without protocol, only HTTPS is supported)",
+            "description": "The webhook's URL (without protocol, only HTTPS is supported).",
             "nullable": true,
             "type": "string"
           }
         },
         "required": [
           "id",
+          "disabled",
+          "triggers",
+          "url",
+          "headers",
+          "payload"
+        ],
+        "type": "object"
+      },
+      "WebhookUpdateResponse": {
+        "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.",
+        "properties": {
+          "disabled": {
+            "description": "Defines whether this job is currently disabled.",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "headers": {
+            "$ref": "#/components/schemas/JSONFieldResponse",
+            "description": "The webhook's HTTP headers."
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JSONFieldResponse",
+            "description": "The webhook's HTTP headers."
+          },
+          "triggers": {
+            "description": "A list of Events by which the Job is triggered",
+            "items": {
+              "$ref": "#/components/schemas/EventBaseResponse"
+            },
+            "nullable": true,
+            "type": "array"
+          },
+          "url": {
+            "description": "The webhook's URL (without protocol, only HTTPS is supported)",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "required": [
           "disabled",
           "triggers",
           "url",
@@ -11941,10 +12038,6 @@
             "description": "A JSON Schema specifying the driver-specific input parameters.",
             "type": "object"
           },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
-          },
           "target": {
             "description": "The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.",
             "type": "string"
@@ -12106,10 +12199,6 @@
             "description": "A JSON Schema specifying the driver-specific input parameters.",
             "type": "object"
           },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
-          },
           "org_id": {
             "description": "The Organization this driver exists under. Useful as public drivers are accessible to other orgs.",
             "type": "string"
@@ -12160,10 +12249,6 @@
             "description": "A JSON Schema specifying the driver-specific input parameters.",
             "type": "object"
           },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
-          },
           "org_id": {
             "description": "The Organization this driver exists under. Useful as public drivers are accessible to other orgs.",
             "type": "string"
@@ -12184,7 +12269,6 @@
           "org_id",
           "id",
           "type",
-          "is_public",
           "inputs_schema",
           "account_types"
         ],
@@ -12295,6 +12379,89 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "NodeBodyResponse": {
+        "description": "NodeBody represents a node of a Resource Dependency Graph.",
+        "example": {
+          "criteria_id": "09876545321",
+          "def_id": "dns-res-def",
+          "depends_on": [
+            "ff09876545321"
+          ],
+          "driver": {
+            "secrets": {},
+            "values": {
+              "domain": "my-domain"
+            }
+          },
+          "driver_type": "humanitec/dns-aws-route53",
+          "guresid": "1234567890ff",
+          "id": "modules.sample-app.my-dns",
+          "resource": null,
+          "resource_schema": {
+            "properties": {
+              "host": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "dns"
+        },
+        "properties": {
+          "criteria_id": {
+            "type": "string"
+          },
+          "def_id": {
+            "type": "string"
+          },
+          "depends_on": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "driver": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "driver_type": {
+            "type": "string"
+          },
+          "guresid": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "resource": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "resource_schema": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "target": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "id",
+          "guresid",
+          "resource",
+          "driver",
+          "def_id",
+          "criteria_id",
+          "driver_type",
+          "resource_schema",
+          "depends_on"
+        ],
         "type": "object"
       },
       "PatchResourceDefinitionRequestRequest": {
@@ -12701,6 +12868,35 @@
         ],
         "type": "object"
       },
+      "ResourceProvisionRequestRequest": {
+        "description": "ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.",
+        "example": {
+          "id": "shared.postgres",
+          "resource": {
+            "host": "127.0.0.1",
+            "name": "my-database"
+          },
+          "type": "postgres"
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "resource": {
+            "additionalProperties": true,
+            "description": "(Optional) The input parameters for the resource passed from the deployment set.",
+            "type": "object"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object"
+      },
       "ResourceTypeRequest": {
         "description": "Resources Types define the technology that Applications can have dependencies on.\n\nEach Resource Type also defines a set of input parameters (`inputs_schema`), and a set of output data (`outputs_schema`). When provisioning a resource, these are treated as inputs and outputs respectively.",
         "example": {
@@ -12913,10 +13109,6 @@
             "additionalProperties": true,
             "description": "A JSON Schema specifying the driver-specific input parameters.",
             "type": "object"
-          },
-          "is_public": {
-            "description": "Defines whether this driver is accessible to all Organizations.",
-            "type": "boolean"
           },
           "target": {
             "description": "The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.",
@@ -14126,6 +14318,9 @@
             "description": "A map of Features. If referencing built in Humanitec features, the fully qualified feature name must be used: e.g. `humanitec/annotations`.\n\n{\n\n}",
             "type": "object"
           },
+          "spec_schema": {
+            "description": "OpenAPI schema used to validate the spec."
+          },
           "spec_definition": {
             "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinition"
           },
@@ -14153,7 +14348,8 @@
           "features",
           "notes",
           "created_at",
-          "created_by"
+          "created_by",
+          "spec_schema"
         ],
         "type": "object"
       },
@@ -14162,6 +14358,12 @@
         "properties": {
           "properties": {
             "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperties"
+          },
+          "runtime_properties": {
+            "items": {
+              "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimeProperty"
+            },
+            "type": "array"
           }
         }
       },
@@ -14177,7 +14379,7 @@
         "additionalProperties": false,
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionPropertyType"
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyType"
           },
           "feature_name": {
             "type": "string"
@@ -14187,6 +14389,13 @@
           },
           "version": {
             "type": "string"
+          },
+          "ui_hints": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyUIHints"
+          },
+          "schema": {
+            "additionalProperties": true,
+            "type": "object"
           },
           "runtime_properties": {
             "items": {
@@ -14207,7 +14416,7 @@
         "additionalProperties": false,
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionPropertyType"
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimePropertyType"
           },
           "feature_name": {
             "type": "string"
@@ -14217,19 +14426,41 @@
           },
           "version": {
             "type": "string"
+          },
+          "ui_hints": {
+            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyUIHints"
           }
         },
         "required": [
           "type"
         ]
       },
-      "WorkloadProfileVersionPropertyType": {
+      "WorkloadProfileVersionSpecDefinitionPropertyType": {
         "type": "string",
         "enum": [
           "feature",
           "collection",
           "schema"
         ]
+      },
+      "WorkloadProfileVersionSpecDefinitionRuntimePropertyType": {
+        "type": "string",
+        "enum": [
+          "feature",
+          "collection"
+        ]
+      },
+      "WorkloadProfileVersionSpecDefinitionPropertyUIHints": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "hidden": {
+            "type": "boolean"
+          }
+        }
       }
     }
   },
@@ -14275,6 +14506,7 @@
         "DriverDefinition",
         "MatchingCriteria",
         "ResourceDefinition",
+        "ResourceProvision",
         "ResourceAccount",
         "ResourceType"
       ]
@@ -14310,6 +14542,11 @@
       "name": "ResourceDefinition",
       "x-displayName": "Definitions",
       "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionRequest\" />\n"
+    },
+    {
+      "name": "ResourceProvision",
+      "x-displayName": "Resources Dependency",
+      "description": "ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceProvisionRequestRequest\" />\n"
     },
     {
       "name": "TokenInfo",
@@ -14434,7 +14671,7 @@
     {
       "name": "Event",
       "x-displayName": "Webhooks",
-      "description": "Webhook is a special type of a Job, it performs a HTTPS request to a specified URL with specified headers.\n<SchemaDefinition schemaRef=\"#/components/schemas/WebhookRequest\" />\n"
+      "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.\n<SchemaDefinition schemaRef=\"#/components/schemas/WebhookRequest\" />\n"
     }
   ]
 }
