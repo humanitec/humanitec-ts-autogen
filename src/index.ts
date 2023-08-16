@@ -8,7 +8,7 @@ export interface APIConfig {
   internalApp?: string
 }
 
-const defaultAPIHost = 'https://api.humanitec.com'
+const defaultAPIHost = 'https://api.humanitec.io'
 const sdk = 'humanitec-ts-autogen'
 const sdkVersion = 'latest'
 
