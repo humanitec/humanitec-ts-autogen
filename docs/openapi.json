@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.21.2",
+    "version": "0.22.0",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -5601,7 +5601,7 @@
           "MatchingCriteria"
         ],
         "summary": "Add a new Matching Criteria to a Resource Definition.",
-        "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that time was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resources definitions matching the criteria: #1 & #3. Definition #3 will be chosen because it's matching criteria is the most specific.",
+        "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that time was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
         "parameters": [
           {
             "name": "orgId",
@@ -6475,6 +6475,275 @@
           },
           "400": {
             "description": "Bad Request.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/secretstores": {
+      "get": {
+        "tags": [
+          "public",
+          "SecretStore"
+        ],
+        "summary": "Get list of Secret Stores for the given organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Secret Stores.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SecretStoreResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "SecretStore"
+        ],
+        "summary": "Create a Secret Store for the given organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Secret Store data.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSecretStorePayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Secret Store successfully added.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretStoreResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more request body parameters are either missing, invalid, or the requested payload is not provided or is malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Request unauthorised.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/secretstores/{storeId}": {
+      "get": {
+        "tags": [
+          "public",
+          "SecretStore"
+        ],
+        "summary": "Get the Secret Store.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "The Secret Store ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns Secret Stores.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretStoreResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Secret Store not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "SecretStore"
+        ],
+        "summary": "Delete the Secret Store.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "The Secret Store ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Secret Store successfully deleted.\n\n"
+          },
+          "404": {
+            "description": "Secret Store not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "SecretStore"
+        ],
+        "summary": "Update the Secret Store.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "storeId",
+            "in": "path",
+            "description": "The Secret Store ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Secret Store data.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSecretStorePayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Secret Store successfully updated.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SecretStoreResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more request body parameters are either missing, invalid, or the requested payload is not provided or is malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Secret Store not found.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -13507,6 +13776,367 @@
         ],
         "type": "object"
       },
+      "AWSAuthRequest": {
+        "description": "Credentials to authenticate AWS Secret Manager.",
+        "properties": {
+          "access_key_id": {
+            "type": "string"
+          },
+          "secret_access_key": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AWSSMRequest": {
+        "description": "AWS Secret Manager specification.",
+        "properties": {
+          "auth": {
+            "$ref": "#/components/schemas/AWSAuthRequest"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AWSSMResponse": {
+        "description": "AWS Secret Manager specification.",
+        "properties": {
+          "endpoint": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AzureAuthRequest": {
+        "description": "Credentials to authenticate Azure Key Vault.",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AzureKVRequest": {
+        "description": "Azure Key Vault specification.",
+        "properties": {
+          "auth": {
+            "$ref": "#/components/schemas/AzureAuthRequest"
+          },
+          "tenant_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "AzureKVResponse": {
+        "description": "Azure Key Vault specification.",
+        "properties": {
+          "tenant_id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "CreateSecretStorePayloadRequest": {
+        "description": "Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec. It must contain exactly one of the following elements to define Secret Store specification: `awssm` (AWS Secret Manager), `azurekv` (Azure Key Vault), `gcpsm` (GCP Secret Manager), `vault` (HashiCorp Vault).",
+        "example": {
+          "awssm": {
+            "auth": {
+              "access_key_id": "...",
+              "secret_access_key": "..."
+            },
+            "region": "us-east-1"
+          },
+          "config_namespace": "configuration-dev",
+          "id": "my-aws-secret-manager",
+          "primary": true
+        },
+        "properties": {
+          "awssm": {
+            "$ref": "#/components/schemas/AWSSMRequest",
+            "description": "AWS Secret Manager specification."
+          },
+          "azurekv": {
+            "$ref": "#/components/schemas/AzureKVRequest",
+            "description": "Azure Key Vault specification."
+          },
+          "config_namespace": {
+            "description": "A Kubernetes namespace where the Secret Store configuration should be stored.",
+            "type": "string"
+          },
+          "gcpsm": {
+            "$ref": "#/components/schemas/GCPSMRequest",
+            "description": "GCP Secret Manager specification."
+          },
+          "id": {
+            "description": "The Secret Store ID.",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "type": "string"
+          },
+          "primary": {
+            "description": "Defines whether the Secret Store is the primary secret management system for the organization.",
+            "type": "boolean"
+          },
+          "vault": {
+            "$ref": "#/components/schemas/VaultRequest",
+            "description": "Vault specification."
+          }
+        },
+        "required": [
+          "id",
+          "primary"
+        ],
+        "type": "object"
+      },
+      "GCPAuthRequest": {
+        "description": "Credentials to authenticate GCP Secret Manager.",
+        "properties": {
+          "secret_access_key": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GCPSMRequest": {
+        "description": "GCP Secret Manager specification.",
+        "properties": {
+          "auth": {
+            "$ref": "#/components/schemas/GCPAuthRequest"
+          },
+          "project_id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "GCPSMResponse": {
+        "description": "GCP Secret Manager specification.",
+        "properties": {
+          "project_id": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "HumanitecRequest": {
+        "description": "Humanitec built-in Secret Store specification.",
+        "properties": {},
+        "type": "object"
+      },
+      "HumanitecResponse": {
+        "description": "Humanitec built-in Secret Store specification.",
+        "properties": {},
+        "type": "object"
+      },
+      "SecretStoreRequest": {
+        "description": "Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.",
+        "properties": {
+          "awssm": {
+            "$ref": "#/components/schemas/AWSSMRequest"
+          },
+          "azurekv": {
+            "$ref": "#/components/schemas/AzureKVRequest"
+          },
+          "config_namespace": {
+            "type": "string"
+          },
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "gcpsm": {
+            "$ref": "#/components/schemas/GCPSMRequest"
+          },
+          "humanitec": {
+            "$ref": "#/components/schemas/HumanitecRequest"
+          },
+          "id": {
+            "type": "string"
+          },
+          "primary": {
+            "type": "boolean"
+          },
+          "updated_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          },
+          "vault": {
+            "$ref": "#/components/schemas/VaultRequest"
+          }
+        },
+        "type": "object"
+      },
+      "SecretStoreResponse": {
+        "description": "Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.",
+        "properties": {
+          "awssm": {
+            "$ref": "#/components/schemas/AWSSMResponse"
+          },
+          "azurekv": {
+            "$ref": "#/components/schemas/AzureKVResponse"
+          },
+          "config_namespace": {
+            "type": "string"
+          },
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "gcpsm": {
+            "$ref": "#/components/schemas/GCPSMResponse"
+          },
+          "humanitec": {
+            "$ref": "#/components/schemas/HumanitecResponse"
+          },
+          "id": {
+            "type": "string"
+          },
+          "primary": {
+            "type": "boolean"
+          },
+          "updated_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "updated_by": {
+            "type": "string"
+          },
+          "vault": {
+            "$ref": "#/components/schemas/VaultResponse"
+          }
+        },
+        "required": [
+          "id",
+          "primary",
+          "config_namespace",
+          "created_at",
+          "created_by",
+          "updated_at",
+          "updated_by"
+        ],
+        "type": "object"
+      },
+      "UpdateSecretStorePayloadRequest": {
+        "description": "Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.",
+        "example": {
+          "awssm": {
+            "auth": {
+              "secret_access_key": "s0mE_te$t_wrIte_kee"
+            },
+            "region": "us-east-1"
+          },
+          "config_namespace": "awssm-configuration-dev",
+          "primary": true
+        },
+        "properties": {
+          "awssm": {
+            "$ref": "#/components/schemas/AWSSMRequest",
+            "description": "AWS Secret Manager specification."
+          },
+          "azurekv": {
+            "$ref": "#/components/schemas/AzureKVRequest",
+            "description": "Azure Key Vault specification."
+          },
+          "config_namespace": {
+            "description": "A Kubernetes namespace where the Secret Store configuration should be stored.",
+            "nullable": true,
+            "type": "string"
+          },
+          "gcpsm": {
+            "$ref": "#/components/schemas/GCPSMRequest",
+            "description": "GCP Secret Manager specification."
+          },
+          "primary": {
+            "description": "Defines whether the Secret Store is the primary secret management system for the organization.",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "vault": {
+            "$ref": "#/components/schemas/VaultRequest",
+            "description": "Vault specification."
+          }
+        },
+        "type": "object"
+      },
+      "VaultAuthRequest": {
+        "description": "Credentials to authenticate Vault.",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "VaultRequest": {
+        "description": "Vault specification.",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "auth": {
+            "$ref": "#/components/schemas/VaultAuthRequest"
+          },
+          "path": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "VaultResponse": {
+        "description": "Vault specification.",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "NewServiceUserRequest": {
         "description": "NewServiceUser holds the definition of a new service user.",
         "example": {
@@ -13932,105 +14562,6 @@
         ],
         "type": "object"
       },
-      "InternalValueRequest": {
-        "properties": {
-          "description": {
-            "description": "A Human friendly description of what the Shared Value is.",
-            "type": "string"
-          },
-          "is_secret": {
-            "description": "Specified that the Shared Value contains a secret.",
-            "type": "boolean"
-          },
-          "key": {
-            "description": "The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.",
-            "type": "string"
-          },
-          "secret_key": {
-            "nullable": true,
-            "type": "string"
-          },
-          "secret_store_id": {
-            "nullable": true,
-            "type": "string"
-          },
-          "secret_version": {
-            "nullable": true,
-            "type": "string"
-          },
-          "value": {
-            "description": "The value that will be stored. (Will be always empty for secrets.)",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "InternalValueResponse": {
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "format": "date-time",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "description": {
-            "description": "A Human friendly description of what the Shared Value is.",
-            "type": "string"
-          },
-          "is_secret": {
-            "description": "Specified that the Shared Value contains a secret.",
-            "type": "boolean"
-          },
-          "key": {
-            "description": "The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.",
-            "type": "string"
-          },
-          "secret_key": {
-            "nullable": true,
-            "type": "string"
-          },
-          "secret_store_id": {
-            "nullable": true,
-            "type": "string"
-          },
-          "secret_version": {
-            "nullable": true,
-            "type": "string"
-          },
-          "source": {
-            "$ref": "#/components/schemas/ValueSource"
-          },
-          "updated_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "format": "date-time",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "value": {
-            "description": "The value that will be stored. (Will be always empty for secrets.)",
-            "type": "string"
-          }
-        },
-        "required": [
-          "key",
-          "value",
-          "is_secret",
-          "description",
-          "created_at",
-          "updated_at",
-          "source",
-          "secret_key",
-          "secret_version",
-          "secret_store_id"
-        ],
-        "type": "object"
-      },
-      "InternalValueSetResponse": {
-        "additionalProperties": {
-          "$ref": "#/components/schemas/InternalValueResponse"
-        },
-        "type": "object"
-      },
       "JSONPatchRequest": {
         "properties": {
           "op": {
@@ -14186,6 +14717,10 @@
             "nullable": true,
             "type": "string"
           },
+          "secret_store_id": {
+            "nullable": true,
+            "type": "string"
+          },
           "secret_version": {
             "description": "Version of the current secret value as returned by the secret store.",
             "nullable": true,
@@ -14214,7 +14749,8 @@
           "updated_at",
           "source",
           "secret_key",
-          "secret_version"
+          "secret_version",
+          "secret_store_id"
         ],
         "type": "object"
       },
@@ -14564,6 +15100,7 @@
         "Organization",
         "Registry",
         "RuntimeInfo",
+        "SecretStore",
         "Value",
         "ValueSetVersion"
       ]
@@ -14729,6 +15266,11 @@
       "name": "RuntimeInfo",
       "x-displayName": "Runtime Information",
       "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).\n<SchemaDefinition schemaRef=\"#/components/schemas/RuntimeInfoRequest\" />\n"
+    },
+    {
+      "name": "SecretStore",
+      "x-displayName": "Secret Store",
+      "description": "Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.\n<SchemaDefinition schemaRef=\"#/components/schemas/SecretStoreRequest\" />\n"
     },
     {
       "name": "Set",
