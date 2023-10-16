@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.22.0",
+    "version": "0.23.2",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -4096,7 +4096,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -4112,10 +4112,1237 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/pipelines": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "ListPipelinesByOrg",
+        "summary": "List all pipelines within an application. This can be filtered by app.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byAppIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byTriggerTypeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byMetadata"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PipelineResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "ListPipelines",
+        "summary": "List pipelines within an application.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byTriggerTypeQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byMetadata"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PipelineResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "CreatePipeline",
+        "summary": "Create a pipeline within an application.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-yaml": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineSchemaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "GetPipeline",
+        "summary": "Get a pipeline within an application.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byVersionQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "UpdatePipeline",
+        "summary": "Update a pipeline within an application.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/ifMatchHeaderParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-yaml": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineSchemaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/412PreconditionFailed"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "DeletePipeline",
+        "summary": "Delete a pipeline within an application.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/ifMatchHeaderParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Pipeline has been successfully deleted"
+          },
+          "202": {
+            "description": "Request for pipeline deletion successfully committed"
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/412PreconditionFailed"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/versions": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "ListPipelineVersions",
+        "summary": "List all versions of the pipeline",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PipelineVersionResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/schema": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "GetPipelineSchema",
+        "summary": "Get a pipeline schema.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byVersionQueryParam"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "content": {
+              "application/x.humanitec-pipelines-v1.0+yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/pipeline-schemas/latest": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "GetLatestPipelineSchema",
+        "summary": "Gets the latest pipeline schema",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/pipeline-runs": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "ListPipelineRunsByOrg",
+        "summary": "List all pipeline runs within the Org. This can be filtered by app, pipeline, and status.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byAppIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byPipelineIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCompletedQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCreatedAfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCreatedBeforeParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RunResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "ListPipelineRuns",
+        "summary": "List runs within a pipeline.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCompletedQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCreatedAfterParam"
+          },
+          {
+            "$ref": "#/components/parameters/byCreatedBeforeParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RunResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "CreatePipelineRun",
+        "summary": "Create a run within a pipeline.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RunCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableContent"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "GetRun",
+        "summary": "Get a run within an pipeline.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "DeleteRun",
+        "summary": "Deleting a completed Run within a Pipeline.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/ifMatchHeaderParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the Run."
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/412PreconditionFailed"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/cancel": {
+      "post": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "CancelRun",
+        "summary": "Cancel a Run within an Pipeline.",
+        "description": "Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied\nimmediately. If the Run is executing, the cancellation will be stored and will be resolved by the next\nJob or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/ifMatchHeaderParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful cancellation or the Run was already cancelled."
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "412": {
+            "$ref": "#/components/responses/412PreconditionFailed"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/restart": {
+      "post": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "RestartRun",
+        "summary": "Restart a Run within an Pipeline by cloning it with the same trigger and inputs.",
+        "description": "Attempts to copy and restart the specified Run. The run must be in a completed state.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful restart response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableContent"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "ListRunJobs",
+        "summary": "List the details of the jobs with in a pipeline run.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byStatusQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RunJobListResponse"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "GetRunJob",
+        "summary": "List the details of a Job including Step information",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/jobIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunJobResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/steps/{stepIndex}/logs": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "ListRunJobStepLogs",
+        "summary": "Get a page of log output for a given step within a job.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/jobIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/stepIndexPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              },
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RunJobStepLog"
+                  }
+                }
+              }
+            }
+          },
+          "307": {
+            "$ref": "#/components/responses/307TemporaryRedirect"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/approvals": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineApprovals"
+        ],
+        "operationId": "ListApprovalRequests",
+        "summary": "List of the approval requests",
+        "description": "List of the approval requests with in an app.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byPipelineIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byRunIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byApprovalStatusQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApprovalRequest"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}": {
+      "get": {
+        "tags": [
+          "public",
+          "PipelineApprovals"
+        ],
+        "operationId": "GetApprovalRequest",
+        "summary": "Get an approval request",
+        "description": "Get an approval request.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/jobIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/approvalIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get approval request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalRequest"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/approve": {
+      "post": {
+        "tags": [
+          "public",
+          "PipelineApprovals"
+        ],
+        "operationId": "ApproveApprovalRequest",
+        "summary": "Approve the approval request",
+        "description": "Approve the approval requested.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/jobIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/approvalIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully approved.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/deny": {
+      "post": {
+        "tags": [
+          "public",
+          "PipelineApprovals"
+        ],
+        "operationId": "DenyApprovalRequest",
+        "summary": "Deny the approval request",
+        "description": "Deny the approval requested.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/runIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/jobIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/approvalIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully denied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApprovalRequest"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           }
         }
       }
@@ -9643,6 +10870,86 @@
           }
         }
       }
+    },
+    "/orgs/{orgId}/workload-profile-chart-versions": {
+      "post": {
+        "tags": [
+          "public",
+          "WorkloadProfile"
+        ],
+        "summary": "Add new Workload Profile Chart Version",
+        "operationId": "postWorkloadProfileChartVersion",
+        "description": "Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes one part:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\" \tContent-Type: application/x-gzip \t[TGZ_DATA] \t----boundary",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "Workload profile chart version.\n\n",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created Workload Profile Chart Version metadata.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkloadProfileChartVersionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "public",
+          "WorkloadProfile"
+        ],
+        "summary": "Workload Profile Chart Versions for the given organization.",
+        "operationId": "getWorkloadProfileChartVersions",
+        "description": "Returns all Workload Profile Chart Versions for the given organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The newly created Workload Profile Chart Version metadata.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkloadProfileChartVersionResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -9741,11 +11048,16 @@
           "name": {
             "description": "The Human-friendly name for the Application.",
             "type": "string"
+          },
+          "org_id": {
+            "description": "The Organization id of this Application",
+            "type": "string"
           }
         },
         "required": [
           "id",
           "name",
+          "org_id",
           "created_at",
           "created_by",
           "envs"
@@ -11765,6 +13077,499 @@
         ],
         "type": "object"
       },
+      "ErrorResponse": {
+        "description": "A standard error response",
+        "properties": {
+          "error": {
+            "description": "A short code representing the class of error. This code can be used for tracking and observability or to\nfind appropriate troubleshooting documentation.\n",
+            "type": "string",
+            "example": "API-000"
+          },
+          "message": {
+            "description": "A human-readable explanation of the error.",
+            "type": "string",
+            "example": "Something happened!"
+          },
+          "details": {
+            "description": "An optional payload of metadata associated with the error.",
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object"
+      },
+      "PipelineResponse": {
+        "description": "An object containing the details of a Pipeline.",
+        "required": [
+          "id",
+          "etag",
+          "org_id",
+          "app_id",
+          "name",
+          "status",
+          "version",
+          "created_at",
+          "trigger_types"
+        ],
+        "properties": {
+          "id": {
+            "description": "The id of the Pipeline.",
+            "example": "sample-pipeline",
+            "type": "string"
+          },
+          "etag": {
+            "description": "The current entity tag value for this Pipeline.",
+            "example": "1234567890abcdef",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The id of the Organization containing this Pipeline.",
+            "example": "sample-org",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "The id of the Application containing this Pipeline.",
+            "example": "sample-app",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the Pipeline.",
+            "example": "Sample Pipeline",
+            "type": "string"
+          },
+          "status": {
+            "description": "The current status of the Pipeline.",
+            "example": "active",
+            "type": "string"
+          },
+          "version": {
+            "description": "The unique id of the current Pipeline Version.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when the Pipeline was created.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "trigger_types": {
+            "description": "The list of trigger types in the current schema.",
+            "example": [
+              "pipeline_call"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "metadata": {
+            "description": "The map of key value pipeline additional information",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PipelineSchemaRequest": {
+        "description": "A request containing the pipeline schema.",
+        "type": "object"
+      },
+      "PipelineVersionResponse": {
+        "description": "An object containing the details of a Pipeline.",
+        "required": [
+          "id",
+          "org_id",
+          "app_id",
+          "pipeline_id",
+          "created_by",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "description": "The unique id of the current Pipeline Version.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The id of the Organization containing this Run.",
+            "example": "sample-org",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "The id of the Application containing this Run.",
+            "example": "sample-app",
+            "type": "string"
+          },
+          "pipeline_id": {
+            "description": "The id of the Pipeline associated with the Run.",
+            "example": "sample-pipeline",
+            "type": "string"
+          },
+          "created_by": {
+            "description": "User id of the pipeline version.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when the specific pipeline version was created.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RunResponse": {
+        "description": "Details of a Run within the Pipeline.",
+        "required": [
+          "waiting_for"
+        ],
+        "properties": {
+          "id": {
+            "description": "The unique id of the Run.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "etag": {
+            "description": "The current entity tag value for this Run.",
+            "example": "1234567890abcdef",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The id of the Organization containing this Run.",
+            "example": "sample-org",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "The id of the Application containing this Run.",
+            "example": "sample-app",
+            "type": "string"
+          },
+          "pipeline_id": {
+            "description": "The id of the Pipeline associated with the Run.",
+            "example": "sample-pipeline",
+            "type": "string"
+          },
+          "pipeline_version": {
+            "description": "The id of the Pipeline Version associated with the Run.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "status": {
+            "description": "The current status of this Run.",
+            "example": "executing",
+            "type": "string"
+          },
+          "status_message": {
+            "description": "A human-readable message indicating the reason for the status.",
+            "example": "Example text",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when this Run was first created.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "executing_at": {
+            "description": "The date and time when this Run entered executing status.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancellation_requested_at": {
+            "description": "The date and time when cancellation of this Run was requested.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "description": "The date and time when this Run entered a successful, failed, or cancelled status.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeout_seconds": {
+            "description": "The timeout for this Run.",
+            "example": 3600,
+            "type": "integer"
+          },
+          "inputs": {
+            "description": "The inputs that were provided for this Run.",
+            "example": {
+              "fizz": "buzz"
+            },
+            "type": "object",
+            "additionalProperties": true
+          },
+          "run_as": {
+            "description": "The user id that the pipeline run is executing as when it calls Humanitec APIs.",
+            "type": "string",
+            "example": "s-01234567-89ab-cdef-0123-456789abcdef"
+          },
+          "concurrency_group": {
+            "description": "The optional concurrency group for this run within the application",
+            "type": "string",
+            "example": "my-group"
+          },
+          "waiting_for": {
+            "description": "Aggregated events on which run's jobs are waiting for",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "RunCreateRequest": {
+        "description": "The parameters for creating a new Run for the Pipeline.",
+        "properties": {
+          "inputs": {
+            "description": "The inputs provided for this Run.",
+            "example": {
+              "fizz": "buzz"
+            },
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "RunJobListResponse": {
+        "description": "Details of a Job within the Run.",
+        "properties": {
+          "id": {
+            "description": "The id of the Job within the Run.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "etag": {
+            "description": "The current entity tag value for this Job.",
+            "example": "1234567890abcdef",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The id of the Organization containing this Job.",
+            "example": "sample-org",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "The id of the Application containing this Job.",
+            "example": "sample-app",
+            "type": "string"
+          },
+          "pipeline_id": {
+            "description": "The id of the Pipeline.",
+            "example": "sample-pipeline",
+            "type": "string"
+          },
+          "pipeline_version": {
+            "description": "The id of the Pipeline Version associated with the Run.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "run_id": {
+            "description": "The id of the Run containing this Job.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "status": {
+            "description": "The current status of this Job.",
+            "example": "executing",
+            "type": "string"
+          },
+          "waiting_for": {
+            "description": "An event on which job is waiting",
+            "type": "string",
+            "example": "application.environment.deployment(test-deployment-id)"
+          },
+          "status_message": {
+            "description": "A human-readable message indicating the reason for the status.",
+            "example": "Example text",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when this Job was first created within the Run.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancellation_requested_at": {
+            "description": "The date and time when cancellation of this Job was requested.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "description": "The date and time when this Job entered a successful, failed, or cancelled status.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeout_seconds": {
+            "description": "The timeout for this Job.",
+            "example": 3600,
+            "type": "integer"
+          }
+        }
+      },
+      "RunJobResponse": {
+        "description": "A response containing all of the details of an executing or completed Job including Step information.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/RunJobListResponse"
+          },
+          {
+            "properties": {
+              "steps": {
+                "description": "The collection of Steps that completed along with the current Step being executed.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RunJobStep"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RunJobStep": {
+        "description": "A Step within a Job.",
+        "properties": {
+          "index": {
+            "description": "The index of the Step within the Pipeline Schema.",
+            "type": "integer"
+          },
+          "status": {
+            "description": "The current status of this Step within the Job.",
+            "example": "executing",
+            "type": "string"
+          },
+          "status_message": {
+            "description": "A human-readable message indicating the reason for the status.",
+            "example": "Example text",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when this Step was first created within the Job.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "description": "The date and time when this Step entered a successful, failed, or cancelled status.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "timeout_seconds": {
+            "description": "The timeout for this Job.",
+            "example": 3600,
+            "type": "integer"
+          }
+        }
+      },
+      "RunJobStepLog": {
+        "description": "An item from the logs of a Step.",
+        "required": [
+          "at",
+          "level",
+          "message"
+        ],
+        "properties": {
+          "at": {
+            "description": "The date and time when this message was emitted or captured.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "level": {
+            "description": "The log level of the message.",
+            "example": "INFO",
+            "type": "string"
+          },
+          "message": {
+            "description": "The content of the message.",
+            "example": "Example message",
+            "type": "string"
+          }
+        }
+      },
+      "ApprovalRequest": {
+        "description": "An approval object",
+        "properties": {
+          "id": {
+            "description": "The id of the approval object.",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The id of the Organization.",
+            "example": "sample-org",
+            "type": "string"
+          },
+          "app_id": {
+            "description": "The id of the Application.",
+            "example": "sample-app",
+            "type": "string"
+          },
+          "pipeline_id": {
+            "description": "The id of the Pipeline.",
+            "example": "sample-pipeline",
+            "type": "string"
+          },
+          "run_id": {
+            "description": "The id of the Pipeline's Run.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "job_id": {
+            "description": "The id of the Run's Job.",
+            "example": "deploy",
+            "type": "string"
+          },
+          "env_id": {
+            "description": "The environment for which the approver needs to have deploy permission to approve the job.",
+            "example": "production",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable message indicating the reason for approval.",
+            "example": "Promoting app to production",
+            "type": "string"
+          },
+          "created_at": {
+            "description": "The date and time when the approval request was created.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "description": "The current status of the approval request.",
+            "example": "waiting",
+            "type": "string",
+            "enum": [
+              "waiting",
+              "approved",
+              "denied",
+              "cancelled"
+            ]
+          },
+          "approved_by": {
+            "description": "The user who approved or denied the request.",
+            "type": "string",
+            "example": "0123456789ab-cdef-0123-456789abcdef"
+          },
+          "approved_at": {
+            "description": "The date and time when the request was approved or denied.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "AccountCredsRequest": {
         "description": "AccountCreds represents an account credentials (either, username- or token-based).",
         "example": {
@@ -12454,7 +14259,7 @@
             "type": "string"
           },
           "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
+            "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "driver_type": {
@@ -12810,10 +14615,16 @@
         "example": {
           "driver_account": "gcp-dev-cloudsql",
           "driver_inputs": {
-            "secrets": {
+            "secret_refs": {
               "dbcredentials": {
-                "password": "***",
-                "username": "***"
+                "password": {
+                  "ref": "path--to--password",
+                  "store": "my-store",
+                  "version": "1"
+                },
+                "username": {
+                  "value": "***"
+                }
               }
             },
             "values": {
@@ -12835,7 +14646,7 @@
             "type": "string"
           },
           "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
+            "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "name": {
@@ -13022,6 +14833,18 @@
           ],
           "driver_account": "gcp-dev-cloudsql",
           "driver_inputs": {
+            "secret_refs": {
+              "credentials": {
+                "password": {
+                  "value": "<secret>"
+                },
+                "user": {
+                  "ref": "vault/path/to/data/secrets/user",
+                  "store": "my-external-vault",
+                  "version": "1"
+                }
+              }
+            },
             "values": {
               "instance": "my-dev-project:my-region:dev-db"
             }
@@ -13065,7 +14888,7 @@
             "type": "string"
           },
           "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
+            "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "driver_type": {
@@ -13119,6 +14942,18 @@
           ],
           "driver_account": "gcp-dev-cloudsql",
           "driver_inputs": {
+            "secret_refs": {
+              "credentials": {
+                "password": {
+                  "value": "<secret>"
+                },
+                "user": {
+                  "ref": "vault/path/to/data/secrets/user",
+                  "store": "my-external-vault",
+                  "version": "1"
+                }
+              }
+            },
             "values": {
               "instance": "my-dev-project:my-region:dev-db"
             }
@@ -13162,7 +14997,7 @@
             "type": "string"
           },
           "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsResponse",
+            "$ref": "#/components/schemas/ValuesSecretsRefsResponse",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "driver_type": {
@@ -13503,10 +15338,16 @@
         "example": {
           "driver_account": "gcp-dev-cloudsql",
           "driver_inputs": {
-            "secrets": {
+            "secret_refs": {
               "dbcredentials": {
-                "password": "***",
-                "username": "***"
+                "password": {
+                  "ref": "path--to--password",
+                  "store": "my-store",
+                  "version": "1"
+                },
+                "username": {
+                  "value": "***"
+                }
               }
             },
             "values": {
@@ -13529,7 +15370,7 @@
             "type": "string"
           },
           "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsRequest",
+            "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
           "name": {
@@ -13549,9 +15390,21 @@
         ],
         "type": "object"
       },
-      "ValuesSecretsRequest": {
-        "description": "ValuesSecrets stores data that should be passed around split by sensitivity.",
+      "ValuesSecretsRefsRequest": {
+        "description": "ValuesSecretsRefs stores data that should be passed around split by sensitivity.",
         "example": {
+          "secret_refs": {
+            "credentials": {
+              "password": {
+                "value": "<secret>"
+              },
+              "user": {
+                "ref": "vault/path/to/data/secrets/user",
+                "store": "my-external-vault",
+                "version": "1"
+              }
+            }
+          },
           "secrets": {
             "password": "vault/path/to/data/.secrets/password",
             "user": "vault/path/to/data/.secrets/user"
@@ -13562,9 +15415,14 @@
           }
         },
         "properties": {
+          "secret_refs": {
+            "additionalProperties": true,
+            "description": "Secrets section of the data set. They can hold sensitive information that will be stored in the primary organization secret store and replaced with the secret store paths when sent outside, or secret references stored in a defined secret store. Can't be used together with `secrets`.\n\nThey can hold a nested structure but leaf objects need to be of type SecretReference, where:\n\n- `store` is a Secret Store id. It can't be `humanitec`. It's mandatory if `ref` is defined and can't be used in request payloads if `value` is defined.\n\n- `ref` is the secret key in the format of the target store. It can't be used in request payloads if `value` is defined.\n\n- `version` is the version of the secret as defined in the target store. It can be defined only if `ref` is defined.\n\n- `value` is the value to store in the organizations primary secret store. It can't be used in request payloads if `ref` is defined.",
+            "type": "object"
+          },
           "secrets": {
             "additionalProperties": true,
-            "description": "Secrets section of the data set. Sensitive information is stored in the Vault and replaced with the Vault paths when sent outside.",
+            "description": "Secrets section of the data set. Sensitive information is stored in the primary organization secret store and replaced with the secret store paths when sent outside. Can't be used together with `secret_refs`.",
             "type": "object"
           },
           "values": {
@@ -13575,9 +15433,21 @@
         },
         "type": "object"
       },
-      "ValuesSecretsResponse": {
-        "description": "ValuesSecrets stores data that should be passed around split by sensitivity.",
+      "ValuesSecretsRefsResponse": {
+        "description": "ValuesSecretsRefs stores data that should be passed around split by sensitivity.",
         "example": {
+          "secret_refs": {
+            "credentials": {
+              "password": {
+                "value": "<secret>"
+              },
+              "user": {
+                "ref": "vault/path/to/data/secrets/user",
+                "store": "my-external-vault",
+                "version": "1"
+              }
+            }
+          },
           "secrets": {
             "password": "vault/path/to/data/.secrets/password",
             "user": "vault/path/to/data/.secrets/user"
@@ -13588,9 +15458,14 @@
           }
         },
         "properties": {
+          "secret_refs": {
+            "additionalProperties": true,
+            "description": "Secrets section of the data set. They can hold sensitive information that will be stored in the primary organization secret store and replaced with the secret store paths when sent outside, or secret references stored in a defined secret store. Can't be used together with `secrets`.\n\nThey can hold a nested structure but leaf objects need to be of type SecretReference, where:\n\n- `store` is a Secret Store id. It can't be `humanitec`. It's mandatory if `ref` is defined and can't be used in request payloads if `value` is defined.\n\n- `ref` is the secret key in the format of the target store. It can't be used in request payloads if `value` is defined.\n\n- `version` is the version of the secret as defined in the target store. It can be defined only if `ref` is defined.\n\n- `value` is the value to store in the organizations primary secret store. It can't be used in request payloads if `ref` is defined.",
+            "type": "object"
+          },
           "secrets": {
             "additionalProperties": true,
-            "description": "Secrets section of the data set. Sensitive information is stored in the Vault and replaced with the Vault paths when sent outside.",
+            "description": "Secrets section of the data set. Sensitive information is stored in the primary organization secret store and replaced with the secret store paths when sent outside. Can't be used together with `secret_refs`.",
             "type": "object"
           },
           "values": {
@@ -13864,7 +15739,6 @@
             },
             "region": "us-east-1"
           },
-          "config_namespace": "configuration-dev",
           "id": "my-aws-secret-manager",
           "primary": true
         },
@@ -13876,10 +15750,6 @@
           "azurekv": {
             "$ref": "#/components/schemas/AzureKVRequest",
             "description": "Azure Key Vault specification."
-          },
-          "config_namespace": {
-            "description": "A Kubernetes namespace where the Secret Store configuration should be stored.",
-            "type": "string"
           },
           "gcpsm": {
             "$ref": "#/components/schemas/GCPSMRequest",
@@ -13954,9 +15824,6 @@
           "azurekv": {
             "$ref": "#/components/schemas/AzureKVRequest"
           },
-          "config_namespace": {
-            "type": "string"
-          },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
@@ -14002,9 +15869,6 @@
           "azurekv": {
             "$ref": "#/components/schemas/AzureKVResponse"
           },
-          "config_namespace": {
-            "type": "string"
-          },
           "created_at": {
             "example": "2020-06-22T09:37:23.523Z",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
@@ -14042,7 +15906,6 @@
         "required": [
           "id",
           "primary",
-          "config_namespace",
           "created_at",
           "created_by",
           "updated_at",
@@ -14059,7 +15922,6 @@
             },
             "region": "us-east-1"
           },
-          "config_namespace": "awssm-configuration-dev",
           "primary": true
         },
         "properties": {
@@ -14070,11 +15932,6 @@
           "azurekv": {
             "$ref": "#/components/schemas/AzureKVRequest",
             "description": "Azure Key Vault specification."
-          },
-          "config_namespace": {
-            "description": "A Kubernetes namespace where the Secret Store configuration should be stored.",
-            "nullable": true,
-            "type": "string"
           },
           "gcpsm": {
             "$ref": "#/components/schemas/GCPSMRequest",
@@ -14610,12 +16467,17 @@
             "pattern": "^[A-Za-z0-9_.-]+$"
           },
           "value": {
+            "nullable": true,
             "type": "string"
+          },
+          "secret_ref": {
+            "nullable": true,
+            "description": "A sensitive value to store or a reference to an already stored sensitive value.",
+            "$ref": "#/components/schemas/SecretReference"
           }
         },
         "required": [
           "key",
-          "value",
           "description"
         ],
         "type": "object"
@@ -14636,10 +16498,14 @@
           "key": {
             "pattern": "^[A-Za-z0-9_.-]+$",
             "type": "string"
+          },
+          "secret_ref": {
+            "nullable": true,
+            "description": "A sensitive value to store or a reference to an already stored sensitive value.",
+            "$ref": "#/components/schemas/SecretReference"
           }
         },
         "required": [
-          "value",
           "description"
         ],
         "type": "object"
@@ -14653,6 +16519,11 @@
           "value": {
             "nullable": true,
             "type": "string"
+          },
+          "secret_ref": {
+            "description": "A sensitive value to store or a reference to an already stored sensitive value.",
+            "nullable": true,
+            "$ref": "#/components/schemas/SecretReference"
           }
         },
         "type": "object"
@@ -14681,6 +16552,10 @@
           "value": {
             "description": "The value that will be stored. (Will be always empty for secrets.)",
             "type": "string"
+          },
+          "secret_ref": {
+            "description": "A sensitive value to store or a reference to an already stored sensitive value.",
+            "$ref": "#/components/schemas/SecretReference"
           }
         },
         "type": "object"
@@ -14844,6 +16719,29 @@
           "env_value_set_version_restore",
           "env_value_set_version_purge"
         ]
+      },
+      "SecretReference": {
+        "type": "object",
+        "nullable": true,
+        "description": "It stores sensitive value in the organization primary store or a reference to a sensitive value stored in a store registered under the organization.",
+        "properties": {
+          "store": {
+            "description": "Secret Store id. This can't be `humanitec` (our internal Secret Store). It's mandatory if `ref` is defined and can't be used if `value` is defined.",
+            "type": "string"
+          },
+          "ref": {
+            "description": "Secret reference in the format of the target store. It can't be defined if `value` is defined.",
+            "type": "string"
+          },
+          "version": {
+            "description": "Optional, only valid if `ref` is defined. It's the version of the secret as defined in the target store.",
+            "type": "string"
+          },
+          "value": {
+            "description": "Value to store in the secret store. It can't be defined if `ref` is defined.",
+            "type": "string"
+          }
+        }
       },
       "WorkloadProfileRequest": {
         "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.",
@@ -15074,6 +16972,396 @@
             "type": "boolean"
           }
         }
+      },
+      "WorkloadProfileChartVersionResponse": {
+        "description": "Each Workload Profile Chart has one or more Versions associated with it.",
+        "properties": {
+          "created_at": {
+            "description": "Creation date",
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "description": "User created the profile",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "Organization ID",
+            "type": "string"
+          },
+          "id": {
+            "description": "Workload Profile Chart Version ID",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "org_id",
+          "id",
+          "version",
+          "created_at",
+          "created_by"
+        ],
+        "type": "object"
+      }
+    },
+    "headers": {
+      "Etag": {
+        "description": "The Etag of the resource",
+        "example": "1234567890abcdef",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "parameters": {
+      "orgIdPathParam": {
+        "name": "orgId",
+        "in": "path",
+        "description": "The Organization ID",
+        "example": "sample-org",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "appIdPathParam": {
+        "name": "appId",
+        "in": "path",
+        "description": "The Application ID",
+        "example": "sample-app",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pipelineIdPathParam": {
+        "name": "pipelineId",
+        "in": "path",
+        "description": "The Pipeline ID",
+        "example": "sample-pipeline",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "idempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "description": "The HTTP Idempotency-Key",
+        "example": "0xr$P0Cu4@DB",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "runIdPathParam": {
+        "name": "runId",
+        "in": "path",
+        "description": "The Run ID",
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "jobIdPathParam": {
+        "name": "jobId",
+        "in": "path",
+        "description": "The Job ID",
+        "example": "deploy",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "approvalIdPathParam": {
+        "name": "approvalId",
+        "in": "path",
+        "description": "The Approval ID",
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "stepIndexPathParam": {
+        "name": "stepIndex",
+        "in": "path",
+        "description": "The index of the step within the Job",
+        "example": 0,
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "byOrgIdQueryParam": {
+        "name": "org",
+        "description": "An optional Organization ID",
+        "in": "query",
+        "required": false,
+        "example": "sample-org",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byAppIdQueryParam": {
+        "name": "app",
+        "description": "An optional Application ID",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "example": "sample-app",
+            "type": "string"
+          }
+        }
+      },
+      "byPipelineIdQueryParam": {
+        "name": "pipeline",
+        "description": "An optional Pipeline ID.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "sample-pipeline"
+          }
+        }
+      },
+      "byRunIdQueryParam": {
+        "name": "run",
+        "description": "An optional Pipeline Run ID.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "sample-run"
+          }
+        }
+      },
+      "byVersionQueryParam": {
+        "name": "version",
+        "in": "query",
+        "description": "An optional Pipeline Version ID.",
+        "required": false,
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byStatusQueryParam": {
+        "name": "status",
+        "description": "Optional filter by status.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "executing"
+          }
+        }
+      },
+      "byCompletedQueryParam": {
+        "name": "completed",
+        "in": "query",
+        "description": "Optional filer by completed or not.",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "byWaitingForQueryParam": {
+        "name": "waiting_for",
+        "in": "query",
+        "description": "Optional filter by waiting for an event.",
+        "required": false,
+        "example": "application.environment.deployment(test-deployment-id)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byCreatedAfterParam": {
+        "name": "created_after",
+        "in": "query",
+        "description": "Optional filter by creation after date time.",
+        "example": "2018-03-20T09:12:28Z",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "byCreatedBeforeParam": {
+        "name": "created_before",
+        "in": "query",
+        "description": "Optional filter by creation before date time",
+        "example": "2018-03-20T09:12:28Z",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "byMetadata": {
+        "name": "metadata",
+        "description": "Optional filter by pipeline metadata",
+        "in": "query",
+        "required": false,
+        "style": "deepObject",
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "perPageQueryParam": {
+        "name": "per_page",
+        "in": "query",
+        "description": "The maximum number of items to return in a page of results",
+        "required": false,
+        "example": 50,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "pageTokenQueryParam": {
+        "name": "page",
+        "in": "query",
+        "description": "The page token to request from",
+        "required": false,
+        "example": "AAAAAAAAAA==",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ifMatchHeaderParam": {
+        "name": "If-Match",
+        "in": "header",
+        "description": "Indicate that the request should only succeed if there is an etag match",
+        "required": false,
+        "example": "1234567890abcdef",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byApprovalStatusQueryParam": {
+        "name": "status",
+        "in": "query",
+        "description": "Optional filter by status.",
+        "required": false,
+        "example": "denied",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byTriggerTypeQueryParam": {
+        "name": "trigger",
+        "description": "An optional filter by trigger type.",
+        "in": "query",
+        "required": false,
+        "example": "pipeline_call",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "batchTypeParam": {
+        "name": "batchType",
+        "description": "The batch type",
+        "in": "path",
+        "required": true,
+        "example": "image",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "responses": {
+      "307TemporaryRedirect": {
+        "description": "The content is available at a different location specified in the Location header.",
+        "headers": {
+          "location": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "400BadRequest": {
+        "description": "The request was invalid. More detail can be found in the error body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "403Forbidden": {
+        "description": "Server understands the request but refuses to authorize it.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "404NotFound": {
+        "description": "Either the resource or a related resource could not be found. More detail can be found in the error body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "409Conflict": {
+        "description": "The request itself is valid however it could not be applied based on the current state of the resource.\nMore detail can be found in the error body.\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "412PreconditionFailed": {
+        "description": "The request itself is valid however it could not be applied because the Etag does not match.\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "422UnprocessableContent": {
+        "description": "Server understands the content type of the request, and the syntax of the request is correct, but it was unable to process the contained instructions\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
       }
     }
   },
@@ -15129,7 +17417,10 @@
       "name": "Automation",
       "tags": [
         "AutomationRule",
-        "Event"
+        "Event",
+        "Pipelines",
+        "PipelineRuns",
+        "PipelineApprovals"
       ]
     },
     {
@@ -15151,6 +17442,21 @@
       "name": "Organization",
       "x-displayName": "Organization",
       "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.\n<SchemaDefinition schemaRef=\"#/components/schemas/OrganizationRequest\" />\n"
+    },
+    {
+      "name": "PipelineApprovals",
+      "x-displayName": "Pipeline Approvals",
+      "description": "An approval object\n<SchemaDefinition schemaRef=\"#/components/schemas/ApprovalRequest\" />\n"
+    },
+    {
+      "name": "PipelineRuns",
+      "x-displayName": "Pipeline Runs",
+      "description": "Details of a Run within the Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/RunResponse\" />\n"
+    },
+    {
+      "name": "Pipelines",
+      "x-displayName": "Pipelines",
+      "description": "An object containing the details of a Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineResponse\" />\n"
     },
     {
       "name": "ResourceDefinition",
