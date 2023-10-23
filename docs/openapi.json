@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.23.2",
+    "version": "0.24.1",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -4032,6 +4032,282 @@
         }
       }
     },
+    "/orgs/{orgId}/keys": {
+      "post": {
+        "tags": [
+          "public",
+          "PublicKeys"
+        ],
+        "operationId": "createPublicKey",
+        "summary": "Associate a new RSA public key to an organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits. It should be provided as a single line. This might be accomplished through the usage of `awk` bash tool: `awk -v ORS='\\n' '1' public_key.pem`",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              },
+              "example": "-----BEGIN PUBLIC KEY-----\\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAo22jj/h+WPhL5M8RUyqC\\nEqRK3FOYD6KuDTyUHZL2QUX/q35bT1aGIOtu+22oM/8hTZ/6+BTknvF+Z+e7At8E\\n/I6/qNZilJFH/HqNHYflykceILVCFQM6v0ar6CSPh88DjwQPGLrh+UYp0NKBF6D5\\n2LEVQpxsM/0qV4fOZngRVI9UeKiYehk8aXJi20nI5Cj9GnV7BuEo7sKq7NewTOMN\\nwHqSnCtMV+E7SIgyy4+aKAFHOR0Y4FgJN14bAjE2GX/VUmAYBNtPgGwkCNDbA9v1\\nJJnFmdKflp8foqeWwC9UcUDLqjZzMT2a16pnL89iHV4fJ4vI6h26Jf2wUJbb7xE3\\nxJNhCR9Qf2IHx8TTVetIRl5I/ZUPkRrq5iskOIWV4+I+NzS+gbnCUv6sCO3cnZaa\\noZ4Wk5V+5qfctANeTn0TEAabYAJ/zFgYcs2IwYNqcN5eTss99zGNgtDL3oJr/A6g\\neGBgzad3p80qPMb1le64cHAAFZaerI2kcdnNpWGLXJ/J7IKF9uNfsrvi7Zdv8AXg\\nVAyqBARfzSkgnUKN6iWkWxAAzylKnQ3Etw81huaLwDG/6Lqd8I5OePMwHEZkollD\\nEBD16L/iyV9veru2zLVXkX/nL64YtZERLOWI5NUMaSurAR4N3ptFAsDRcO5Z4+Dq\\nO3pqszSh1aCyJvyl6cjQLT8CAwEAAQ==\\n-----END PUBLIC KEY-----\\n"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Public Key added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad input provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, only administrators can create new public key.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A public key with the same value already exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "public",
+          "PublicKeys"
+        ],
+        "operationId": "getPublicKeys",
+        "summary": "List all public keys associated to an organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fingerprint",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The fingerprint of the requested key. If a value is provided, the result will contain a single key, if any."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A possible empty list of public keys associated to an organization, sorted descending by creation date.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PublicKey"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Provided fingerprint is not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/keys/{keyId}": {
+      "delete": {
+        "tags": [
+          "public",
+          "PublicKeys"
+        ],
+        "operationId": "deletePublicKey",
+        "summary": "Delete a public key associated to an organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "The public key ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Public Key successfully removed."
+          },
+          "403": {
+            "description": "Forbidden, only administrators can delete public keys.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Public key not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "public",
+          "PublicKeys"
+        ],
+        "operationId": "getPublicKey",
+        "summary": "Retrieve a single public key associated to an organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyId",
+            "in": "path",
+            "description": "The public key ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A public key associated to an organization.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicKey"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Public key not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/humanitec-keys": {
+      "get": {
+        "tags": [
+          "public",
+          "HumanitecPublicKeys"
+        ],
+        "operationId": "getHumanitecPublicKeys",
+        "summary": "List all the public keys Humanitec shares with an organization.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "If set to true, the response includes only the active key, if set to false only non-active keys, otherwise both active and non-active keys."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A possible empty list of public keys which Humanitec shares with an organization, sorted by the active value and descending by creation date.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/HumanitecPublicKey"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs": {
       "get": {
         "tags": [
@@ -4126,8 +4402,8 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "ListPipelinesByOrg",
-        "summary": "List all pipelines within an application. This can be filtered by app.",
+        "operationId": "listPipelinesInOrg",
+        "summary": "List all Pipelines within an Organization. This can be filtered by Application.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4164,7 +4440,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PipelineResponse"
+                    "$ref": "#/components/schemas/Pipeline"
                   }
                 }
               }
@@ -4185,8 +4461,8 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "ListPipelines",
-        "summary": "List pipelines within an application.",
+        "operationId": "listPipelines",
+        "summary": "List Pipelines within an Application.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4223,7 +4499,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PipelineResponse"
+                    "$ref": "#/components/schemas/Pipeline"
                   }
                 }
               }
@@ -4242,8 +4518,8 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "CreatePipeline",
-        "summary": "Create a pipeline within an application.",
+        "operationId": "createPipeline",
+        "summary": "Create a Pipeline within an Application.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4257,7 +4533,7 @@
           "content": {
             "application/x-yaml": {
               "schema": {
-                "$ref": "#/components/schemas/PipelineSchemaRequest"
+                "type": "object"
               }
             }
           }
@@ -4273,7 +4549,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PipelineResponse"
+                  "$ref": "#/components/schemas/Pipeline"
                 }
               }
             }
@@ -4296,8 +4572,8 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "GetPipeline",
-        "summary": "Get a pipeline within an application.",
+        "operationId": "getPipeline",
+        "summary": "Get a Pipeline within an Application.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4323,7 +4599,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PipelineResponse"
+                  "$ref": "#/components/schemas/Pipeline"
                 }
               }
             }
@@ -4341,8 +4617,8 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "UpdatePipeline",
-        "summary": "Update a pipeline within an application.",
+        "operationId": "updatePipeline",
+        "summary": "update a Pipeline within an Application.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4362,7 +4638,7 @@
           "content": {
             "application/x-yaml": {
               "schema": {
-                "$ref": "#/components/schemas/PipelineSchemaRequest"
+                "type": "object"
               }
             }
           }
@@ -4378,7 +4654,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PipelineResponse"
+                  "$ref": "#/components/schemas/Pipeline"
                 }
               }
             }
@@ -4402,7 +4678,7 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "DeletePipeline",
+        "operationId": "deletePipeline",
         "summary": "Delete a pipeline within an application.",
         "parameters": [
           {
@@ -4446,7 +4722,7 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "ListPipelineVersions",
+        "operationId": "listPipelineVersions",
         "summary": "List all versions of the pipeline",
         "parameters": [
           {
@@ -4481,7 +4757,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PipelineVersionResponse"
+                    "$ref": "#/components/schemas/PipelineVersion"
                   }
                 }
               }
@@ -4502,7 +4778,7 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "GetPipelineSchema",
+        "operationId": "getPipelineDefinition",
         "summary": "Get a pipeline schema.",
         "parameters": [
           {
@@ -4557,7 +4833,7 @@
           "public",
           "Pipelines"
         ],
-        "operationId": "GetLatestPipelineSchema",
+        "operationId": "getLatestPipelineDefinitionSchema",
         "summary": "Gets the latest pipeline schema",
         "parameters": [
           {
@@ -10433,18 +10709,23 @@
         "summary": "List workload profiles available to the organization.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "A possibly empty list of Workload Profiles.\n\n",
+            "description": "List of Workload Profiles.",
+            "headers": {
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -10487,7 +10768,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "The newly created Workload Profile.\n\n",
             "content": {
               "application/json": {
@@ -10673,50 +10954,30 @@
           "public",
           "WorkloadProfile"
         ],
+        "operationId": "createWorkloadProfileVersion",
         "summary": "Add new Version of the Workload Profile",
-        "description": "Creates a Workload Profile Version from the uploaded Helm chart. The version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes two parts:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\n2. `metadata` with `application/json` content type which defines the version's metadata.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"metadata\" \tContent-Type: application/json; charset=UTF-8 \t{ \t  \"features\": { \t     \"humanitec/service\": {}, \t     \"humanitec/volumes\": {}, \t     \"custom\": {\"schema\": {}} \t  }, \t  \"notes\": \"Notes related to this version of the profile\" \t} \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\" \tContent-Type: application/x-gzip \t[TGZ_DATA] \t----boundary\n\n**NOTE:**\n\nA Workload Profile must be created before a version can be added to it.",
+        "description": "Creates a Workload Profile Version for the given Workload Profile.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileQid",
-            "in": "path",
-            "description": "The Workload Profile ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           }
         ],
         "requestBody": {
           "description": "Workload profile version metadata.\n\n",
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "metadata": {
-                    "$ref": "#/components/schemas/WorkloadProfileVersionRequest"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
+                "$ref": "#/components/schemas/WorkloadProfileVersionRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "The newly created Workload Profile Version metadata.\n\n",
             "content": {
               "application/json": {
@@ -10727,34 +10988,13 @@
             }
           },
           "400": {
-            "description": "One or more request parameters is missing or invalid.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "404": {
-            "description": "Workload Profile not found or not accessible by the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           },
           "409": {
-            "description": "A Workload Profile Version already exists.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409Conflict"
           }
         }
       },
@@ -10763,38 +11003,30 @@
           "public",
           "WorkloadProfile"
         ],
-        "summary": "List versions of the given workload profile with optional constraint.",
+        "operationId": "listWorkloadProfileVersions",
+        "summary": "List versions of the given workload profile.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileQid",
-            "in": "path",
-            "description": "The Workload profile qualified ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           },
           {
-            "name": "version",
-            "in": "query",
-            "description": "Optional query parameter, defines version constraint pattern (https://github.com/Masterminds/semver#checking-version-constraints).\n\n",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "A possibly empty list of Workload Profile Versions.\n\n",
+            "description": "List of Workload Profile Versions.",
+            "headers": {
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -10807,14 +11039,7 @@
             }
           },
           "404": {
-            "description": "Workload Profile Versions not found or not accessible by the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -10829,22 +11054,10 @@
         "summary": "Latest version of the given workload profile with optional constraint.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileQid",
-            "in": "path",
-            "description": "The Workload profile qualified ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           }
         ],
         "responses": {
@@ -10859,14 +11072,7 @@
             }
           },
           "404": {
-            "description": "Latest Workload Profile Version not found or not accessible by the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -10878,7 +11084,7 @@
           "WorkloadProfile"
         ],
         "summary": "Add new Workload Profile Chart Version",
-        "operationId": "postWorkloadProfileChartVersion",
+        "operationId": "createWorkloadProfileChartVersion",
         "description": "Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart's metadata (Charts.yaml file).\n\nThe request has content type `multipart/form-data` and the request body includes one part:\n\n1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.\n\nRequest body example:\n\n\tContent-Type: multipart/form-data; boundary=----boundary \t----boundary \tContent-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\" \tContent-Type: application/x-gzip \t[TGZ_DATA] \t----boundary",
         "parameters": [
           {
@@ -10927,16 +11133,27 @@
           "WorkloadProfile"
         ],
         "summary": "Workload Profile Chart Versions for the given organization.",
-        "operationId": "getWorkloadProfileChartVersions",
+        "operationId": "listWorkloadProfileChartVersions",
         "description": "Returns all Workload Profile Chart Versions for the given organization.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "The newly created Workload Profile Chart Version metadata.\n\n",
+            "description": "List of Workload Profile Chart Versions.",
+            "headers": {
+              "Link": {
+                "$ref": "#/components/headers/Link"
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -11516,6 +11733,9 @@
           "message": {
             "type": "string",
             "description": "A Human readable message about the error."
+          },
+          "status_code": {
+            "type": "integer"
           }
         },
         "required": [
@@ -13025,6 +13245,97 @@
         ],
         "type": "object"
       },
+      "PublicKey": {
+        "description": "PublicKey stores a Public Key an organization shares with Humanitec.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string"
+          },
+          "expired_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Date of key expiration.",
+            "type": "string"
+          },
+          "fingerprint": {
+            "description": "Key is the sha256 public key fingerprint, it's computed and stored when a new key is uploaded.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "key",
+          "created_at",
+          "created_by",
+          "expired_at",
+          "fingerprint"
+        ]
+      },
+      "HumanitecPublicKey": {
+        "description": "HumanitecPublicKey stores a Public Key Humanitec shared with an organization.",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "pub_key": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "updated_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "expired_at": {
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Date of key expiration.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "pub_key",
+          "active",
+          "created_at",
+          "updated_at",
+          "expired_at"
+        ]
+      },
+      "LogoResponse": {
+        "properties": {
+          "dark_url": {
+            "nullable": true,
+            "type": "string"
+          },
+          "light_url": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "OrganizationRequest": {
         "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.",
         "properties": {
@@ -13060,9 +13371,9 @@
             "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
             "type": "string"
           },
-          "logo_url": {
-            "nullable": true,
-            "type": "string"
+          "logo": {
+            "$ref": "#/components/schemas/LogoResponse",
+            "description": "Organization logo details."
           },
           "name": {
             "description": "Human friendly name for the Organization.",
@@ -13102,7 +13413,7 @@
         ],
         "type": "object"
       },
-      "PipelineResponse": {
+      "Pipeline": {
         "description": "An object containing the details of a Pipeline.",
         "required": [
           "id",
@@ -13176,11 +13487,7 @@
           }
         }
       },
-      "PipelineSchemaRequest": {
-        "description": "A request containing the pipeline schema.",
-        "type": "object"
-      },
-      "PipelineVersionResponse": {
+      "PipelineVersion": {
         "description": "An object containing the details of a Pipeline.",
         "required": [
           "id",
@@ -15140,7 +15447,8 @@
               "type": "object"
             }
           },
-          "type": "postgres"
+          "type": "postgres",
+          "use": "direct"
         },
         "properties": {
           "category": {
@@ -15164,8 +15472,16 @@
           "type": {
             "description": "Unique resource type identifier (system-wide, across all organizations).",
             "type": "string"
+          },
+          "use": {
+            "description": "Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.",
+            "type": "string"
           }
         },
+        "required": [
+          "type",
+          "use"
+        ],
         "type": "object"
       },
       "ResourceTypeResponse": {
@@ -15230,7 +15546,8 @@
               "type": "object"
             }
           },
-          "type": "postgres"
+          "type": "postgres",
+          "use": "direct"
         },
         "properties": {
           "category": {
@@ -15254,10 +15571,15 @@
           "type": {
             "description": "Unique resource type identifier (system-wide, across all organizations).",
             "type": "string"
+          },
+          "use": {
+            "description": "Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.",
+            "type": "string"
           }
         },
         "required": [
           "type",
+          "use",
           "name",
           "category",
           "inputs_schema",
@@ -16806,9 +17128,20 @@
           },
           "spec_definition": {
             "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinition"
+          },
+          "version": {
+            "description": "Version",
+            "type": "string"
+          },
+          "workload_profile_chart": {
+            "$ref": "#/components/schemas/WorkloadProfileChartReference"
           }
         },
-        "type": "object"
+        "type": "object",
+        "required": [
+          "version",
+          "workload_profile_chart"
+        ]
       },
       "WorkloadProfileVersionResponse": {
         "description": "Each Workload Profile has one or more Versions associated with it. In order to add a version, a Workload Profile must first be created.",
@@ -16850,6 +17183,9 @@
           "version": {
             "description": "Version",
             "type": "string"
+          },
+          "workload_profile_chart": {
+            "$ref": "#/components/schemas/WorkloadProfileChartReference"
           }
         },
         "required": [
@@ -16860,7 +17196,8 @@
           "notes",
           "created_at",
           "created_by",
-          "spec_schema"
+          "spec_schema",
+          "workload_profile_chart"
         ],
         "type": "object"
       },
@@ -17008,6 +17345,26 @@
           "created_by"
         ],
         "type": "object"
+      },
+      "WorkloadProfileChartReference": {
+        "description": "References a workload profile chart.",
+        "properties": {
+          "id": {
+            "description": "Workload Profile Chart ID",
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "description": "Version",
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "object"
       }
     },
     "headers": {
@@ -17017,6 +17374,12 @@
         "schema": {
           "type": "string"
         }
+      },
+      "Link": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "A list of request links, optionally including a \"next\" page link for pagination."
       }
     },
     "parameters": {
@@ -17112,7 +17475,7 @@
       },
       "byAppIdQueryParam": {
         "name": "app",
-        "description": "An optional Application ID",
+        "description": "An optional list of Application IDs.",
         "in": "query",
         "explode": true,
         "required": false,
@@ -17126,7 +17489,7 @@
       },
       "byPipelineIdQueryParam": {
         "name": "pipeline",
-        "description": "An optional Pipeline ID.",
+        "description": "An optional list of Pipeline IDs.",
         "in": "query",
         "explode": true,
         "required": false,
@@ -17238,7 +17601,10 @@
         "required": false,
         "example": 50,
         "schema": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
         }
       },
       "pageTokenQueryParam": {
@@ -17287,6 +17653,15 @@
         "in": "path",
         "required": true,
         "example": "image",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "profileQidPathParam": {
+        "name": "profileQid",
+        "in": "path",
+        "description": "The Workload Profile ID.",
+        "required": true,
         "schema": {
           "type": "string"
         }
@@ -17385,6 +17760,7 @@
         "EnvironmentType",
         "Environment",
         "Image",
+        "PublicKeys",
         "Organization",
         "Registry",
         "RuntimeInfo",
@@ -17456,7 +17832,7 @@
     {
       "name": "Pipelines",
       "x-displayName": "Pipelines",
-      "description": "An object containing the details of a Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineResponse\" />\n"
+      "description": "An object containing the details of a Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/Pipeline\" />\n"
     },
     {
       "name": "ResourceDefinition",
@@ -17547,6 +17923,11 @@
       "name": "Image",
       "x-displayName": "Image",
       "description": "DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nContainer Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.\n<SchemaDefinition schemaRef=\"#/components/schemas/ImageRequest\" />\n"
+    },
+    {
+      "name": "PublicKeys",
+      "x-displayName": "Keys",
+      "description": "PublicKey stores a Public Key an organization shares with Humanitec.\n<SchemaDefinition schemaRef=\"#/components/schemas/PublicKey\" />\n"
     },
     {
       "name": "Registry",
