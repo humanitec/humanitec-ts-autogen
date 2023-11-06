@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.24.1",
+    "version": "0.24.2",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -531,6 +531,7 @@
         ],
         "summary": "List Deployments in an Environment.",
         "description": "List all of the Deployments that have been carried out in the current Environment. Deployments are returned with the newest first.",
+        "operationId": "listDeployments",
         "parameters": [
           {
             "name": "orgId",
@@ -692,6 +693,7 @@
         ],
         "summary": "Get a specific Deployment.",
         "description": "Gets a specific Deployment in an Application and an Environment.",
+        "operationId": "getDeployment",
         "parameters": [
           {
             "name": "orgId",
@@ -762,6 +764,7 @@
           "Deployment"
         ],
         "summary": "List errors that occurred in a Deployment.",
+        "operationId": "listDeploymentErrors",
         "parameters": [
           {
             "name": "orgId",
@@ -1152,8 +1155,9 @@
           "public",
           "ArtefactVersion"
         ],
-        "summary": "List all Artefacts Versions.",
+        "summary": "List all Artefacts Versions in the org.",
         "description": "Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned.",
+        "operationId": "listArtefactVersionsInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -1185,7 +1189,7 @@
             "in": "query",
             "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
             "schema": {
-              "type": "string"
+              "type": "boolean"
             }
           }
         ],
@@ -1251,6 +1255,7 @@
           "ArtefactVersion"
         ],
         "summary": "Register a new Artefact Version with your organization.",
+        "operationId": "createArtefactVersion",
         "parameters": [
           {
             "name": "orgId",
@@ -1323,6 +1328,7 @@
         ],
         "summary": "Get an Artefacts Versions.",
         "description": "Returns a specific Artefact Version.",
+        "operationId": "getArtefactVersion",
         "parameters": [
           {
             "name": "orgId",
@@ -1399,6 +1405,7 @@
         ],
         "summary": "List all Artefacts.",
         "description": "Returns the Artefacts registered with your organization. If no elements are found, an empty list is returned.",
+        "operationId": "listArtefacts",
         "parameters": [
           {
             "name": "orgId",
@@ -1471,6 +1478,7 @@
         ],
         "summary": "Delete Artefact and all related Artefact Versions",
         "description": "The specified Artefact and its Artefact Versions will be permanently deleted. Only Administrators can delete an Artefact.",
+        "operationId": "deleteArtefact",
         "parameters": [
           {
             "name": "orgId",
@@ -1526,6 +1534,7 @@
         ],
         "summary": "List all Artefact Versions of an Artefact.",
         "description": "Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned.",
+        "operationId": "listArtefactVersions",
         "parameters": [
           {
             "name": "orgId",
@@ -1550,7 +1559,7 @@
             "in": "query",
             "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
             "schema": {
-              "type": "string"
+              "type": "boolean"
             }
           },
           {
@@ -1566,7 +1575,7 @@
             "in": "query",
             "description": "(Optional) Limit the number of versions returned by the endpoint.\n\n",
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -1645,6 +1654,7 @@
         ],
         "summary": "Update Version of an Artefact.",
         "description": "Update the version of a specified Artefact registered with your organization\".",
+        "operationId": "patchArtefactVersion",
         "parameters": [
           {
             "name": "orgId",
@@ -1747,6 +1757,7 @@
         ],
         "summary": "List all Container Images",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nLists all of the Container Images registered for this organization.",
+        "operationId": "listDeprecatedImages",
         "parameters": [
           {
             "name": "orgId",
@@ -1798,6 +1809,7 @@
         ],
         "summary": "Get a specific Image Object",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.\n\nNote, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds.",
+        "operationId": "getDeprecatedImage",
         "parameters": [
           {
             "name": "orgId",
@@ -1869,6 +1881,7 @@
         ],
         "summary": "Lists all the Builds of an Image",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThe response lists all available Image Builds of an Image.",
+        "operationId": "listDeprecatedImageBuilds",
         "parameters": [
           {
             "name": "orgId",
@@ -1936,6 +1949,7 @@
         ],
         "summary": "Add a new Image Build",
         "description": "DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nThis endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.\n\nIf there is no Image with ID `imageId`, it will be automatically created.",
+        "operationId": "createDeprecatedImageBuild",
         "parameters": [
           {
             "name": "orgId",
@@ -4111,7 +4125,7 @@
           "public",
           "PublicKeys"
         ],
-        "operationId": "getPublicKeys",
+        "operationId": "listPublicKeys",
         "summary": "List all public keys associated to an organization.",
         "parameters": [
           {
@@ -4270,7 +4284,7 @@
           "public",
           "HumanitecPublicKeys"
         ],
-        "operationId": "getHumanitecPublicKeys",
+        "operationId": "listHumanitecPublicKeys",
         "summary": "List all the public keys Humanitec shares with an organization.",
         "parameters": [
           {
@@ -4863,7 +4877,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "ListPipelineRunsByOrg",
+        "operationId": "listPipelineRunsByOrg",
         "summary": "List all pipeline runs within the Org. This can be filtered by app, pipeline, and status.",
         "parameters": [
           {
@@ -4910,7 +4924,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RunResponse"
+                    "$ref": "#/components/schemas/PipelineRun"
                   }
                 }
               }
@@ -4931,7 +4945,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "ListPipelineRuns",
+        "operationId": "listPipelineRuns",
         "summary": "List runs within a pipeline.",
         "parameters": [
           {
@@ -4978,7 +4992,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RunResponse"
+                    "$ref": "#/components/schemas/PipelineRun"
                   }
                 }
               }
@@ -4997,7 +5011,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "CreatePipelineRun",
+        "operationId": "createPipelineRun",
         "summary": "Create a run within a pipeline.",
         "parameters": [
           {
@@ -5018,7 +5032,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RunCreateRequest"
+                "$ref": "#/components/schemas/PipelineRunCreateBody"
               }
             }
           }
@@ -5034,7 +5048,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RunResponse"
+                  "$ref": "#/components/schemas/PipelineRun"
                 }
               }
             }
@@ -5060,7 +5074,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "GetRun",
+        "operationId": "getPipelineRun",
         "summary": "Get a run within an pipeline.",
         "parameters": [
           {
@@ -5087,7 +5101,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RunResponse"
+                  "$ref": "#/components/schemas/PipelineRun"
                 }
               }
             }
@@ -5102,7 +5116,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "DeleteRun",
+        "operationId": "deletePipelineRun",
         "summary": "Deleting a completed Run within a Pipeline.",
         "parameters": [
           {
@@ -5146,7 +5160,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "CancelRun",
+        "operationId": "cancelPipelineRun",
         "summary": "Cancel a Run within an Pipeline.",
         "description": "Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied\nimmediately. If the Run is executing, the cancellation will be stored and will be resolved by the next\nJob or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable.\n",
         "parameters": [
@@ -5191,7 +5205,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "RestartRun",
+        "operationId": "restartPipelineRun",
         "summary": "Restart a Run within an Pipeline by cloning it with the same trigger and inputs.",
         "description": "Attempts to copy and restart the specified Run. The run must be in a completed state.\n",
         "parameters": [
@@ -5222,7 +5236,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RunResponse"
+                  "$ref": "#/components/schemas/PipelineRun"
                 }
               }
             }
@@ -5248,8 +5262,8 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "ListRunJobs",
-        "summary": "List the details of the jobs with in a pipeline run.",
+        "operationId": "listPipelineJobs",
+        "summary": "List the details of the jobs within a pipeline run.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -5289,7 +5303,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RunJobListResponse"
+                    "$ref": "#/components/schemas/PipelineJobPartial"
                   }
                 }
               }
@@ -5307,7 +5321,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "GetRunJob",
+        "operationId": "getPipelineJob",
         "summary": "List the details of a Job including Step information",
         "parameters": [
           {
@@ -5337,7 +5351,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RunJobResponse"
+                  "$ref": "#/components/schemas/PipelineJob"
                 }
               }
             }
@@ -5354,7 +5368,7 @@
           "public",
           "PipelineRuns"
         ],
-        "operationId": "ListRunJobStepLogs",
+        "operationId": "listPipelineStepLogs",
         "summary": "Get a page of log output for a given step within a job.",
         "parameters": [
           {
@@ -5398,7 +5412,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RunJobStepLog"
+                    "$ref": "#/components/schemas/PipelineStepLog"
                   }
                 }
               }
@@ -5419,7 +5433,7 @@
           "public",
           "PipelineApprovals"
         ],
-        "operationId": "ListApprovalRequests",
+        "operationId": "listPipelineApprovalRequests",
         "summary": "List of the approval requests",
         "description": "List of the approval requests with in an app.\n",
         "parameters": [
@@ -5461,7 +5475,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ApprovalRequest"
+                    "$ref": "#/components/schemas/PipelineApprovalRequest"
                   }
                 }
               }
@@ -5479,7 +5493,7 @@
           "public",
           "PipelineApprovals"
         ],
-        "operationId": "GetApprovalRequest",
+        "operationId": "getPipelineApprovalRequest",
         "summary": "Get an approval request",
         "description": "Get an approval request.",
         "parameters": [
@@ -5508,7 +5522,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApprovalRequest"
+                  "$ref": "#/components/schemas/PipelineApprovalRequest"
                 }
               }
             }
@@ -5525,7 +5539,7 @@
           "public",
           "PipelineApprovals"
         ],
-        "operationId": "ApproveApprovalRequest",
+        "operationId": "approvePipelineApprovalRequest",
         "summary": "Approve the approval request",
         "description": "Approve the approval requested.",
         "parameters": [
@@ -5554,7 +5568,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApprovalRequest"
+                  "$ref": "#/components/schemas/PipelineApprovalRequest"
                 }
               }
             }
@@ -5577,7 +5591,7 @@
           "public",
           "PipelineApprovals"
         ],
-        "operationId": "DenyApprovalRequest",
+        "operationId": "denyPipelineApprovalRequest",
         "summary": "Deny the approval request",
         "description": "Deny the approval requested.",
         "parameters": [
@@ -5606,7 +5620,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApprovalRequest"
+                  "$ref": "#/components/schemas/PipelineApprovalRequest"
                 }
               }
             }
@@ -10707,9 +10721,13 @@
           "WorkloadProfile"
         ],
         "summary": "List workload profiles available to the organization.",
+        "operationId": "listWorkloadProfiles",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/deprecatedQueryParam"
           },
           {
             "$ref": "#/components/parameters/perPageQueryParam"
@@ -10745,15 +10763,10 @@
           "WorkloadProfile"
         ],
         "summary": "Create new Workload Profile",
+        "operationId": "createWorkloadProfile",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "requestBody": {
@@ -10779,62 +10792,31 @@
             }
           },
           "400": {
-            "description": "One or more request parameters is missing or invalid.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "409": {
-            "description": "A Workload Profile already exists.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409Conflict"
           }
         }
       }
     },
-    "/orgs/{orgId}/workload-profiles/{profileId}/versions/{version}": {
+    "/orgs/{orgId}/workload-profiles/{profileQid}/versions/{version}": {
       "delete": {
         "tags": [
           "public",
           "WorkloadProfile"
         ],
         "summary": "Delete a Workload Profile Version",
+        "operationId": "deleteWorkloadProfileVersion",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileId",
-            "in": "path",
-            "description": "The Workload profile ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           },
           {
-            "name": "version",
-            "in": "path",
-            "description": "The Version.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/versionPathParam"
           }
         ],
         "responses": {
@@ -10842,14 +10824,7 @@
             "description": "The Workload Profile Version has been marked for deletion.\n\n"
           },
           "404": {
-            "description": "The Workload Profile Version is not found or is not accessible by the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -10861,24 +10836,13 @@
           "WorkloadProfile"
         ],
         "summary": "Get a Workload Profile",
+        "operationId": "getWorkloadProfile",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileQid",
-            "in": "path",
-            "description": "The fully qualified Workload ID. (If not a profile from the current org, must be prefixed with `{orgId}.` e.g. `humanitec.default-cronjob`)\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           }
         ],
         "responses": {
@@ -10892,15 +10856,56 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
           "404": {
-            "description": "The requested WorkloadProfile is not found.\n\n",
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "WorkloadProfile"
+        ],
+        "summary": "Patch a Workload Profile",
+        "operationId": "patchWorkloadProfile",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/profileQidPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "Workload profile details.\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkloadProfilePatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The resulting WorkloadProfile.\n\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                  "$ref": "#/components/schemas/WorkloadProfileResponse"
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10910,40 +10915,25 @@
           "WorkloadProfile"
         ],
         "summary": "Delete a Workload Profile",
+        "operationId": "deleteWorkloadProfile",
         "description": "This will also delete all versions of a workload profile.\n\nIt is not possible to delete profiles of other organizations.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "profileQid",
-            "in": "path",
-            "description": "The Workload profile ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/profileQidPathParam"
           }
         ],
         "responses": {
           "204": {
-            "description": "The Workload Profile has been marked for deletion.\n\n"
+            "description": "The Workload Profile has been marked for deletion.\n"
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
           },
           "404": {
-            "description": "The Workload Profile is not found or is not accessible by the organization.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -13531,9 +13521,21 @@
           }
         }
       },
-      "RunResponse": {
+      "PipelineRun": {
         "description": "Details of a Run within the Pipeline.",
         "required": [
+          "id",
+          "etag",
+          "org_id",
+          "app_id",
+          "pipeline_id",
+          "pipeline_version",
+          "status",
+          "status_message",
+          "created_at",
+          "timeout_seconds",
+          "inputs",
+          "run_as",
           "waiting_for"
         ],
         "properties": {
@@ -13633,8 +13635,11 @@
           }
         }
       },
-      "RunCreateRequest": {
+      "PipelineRunCreateBody": {
         "description": "The parameters for creating a new Run for the Pipeline.",
+        "required": [
+          "inputs"
+        ],
         "properties": {
           "inputs": {
             "description": "The inputs provided for this Run.",
@@ -13646,12 +13651,26 @@
           }
         }
       },
-      "RunJobListResponse": {
-        "description": "Details of a Job within the Run.",
+      "PipelineJobPartial": {
+        "description": "Partial details of a Job within the Run. The full details, including steps, can be retrieved using the GetPipelineJob operation.",
+        "required": [
+          "id",
+          "name",
+          "etag",
+          "org_id",
+          "app_id",
+          "pipeline_id",
+          "pipeline_version",
+          "run_id",
+          "status",
+          "status_message",
+          "created_at",
+          "timeout_seconds"
+        ],
         "properties": {
           "id": {
             "description": "The id of the Job within the Run.",
-            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "example": "my-job",
             "type": "string"
           },
           "etag": {
@@ -13724,31 +13743,51 @@
           }
         }
       },
-      "RunJobResponse": {
+      "PipelineJob": {
         "description": "A response containing all of the details of an executing or completed Job including Step information.",
         "allOf": [
           {
-            "$ref": "#/components/schemas/RunJobListResponse"
+            "$ref": "#/components/schemas/PipelineJobPartial"
           },
           {
+            "required": [
+              "steps"
+            ],
             "properties": {
               "steps": {
                 "description": "The collection of Steps that completed along with the current Step being executed.",
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/RunJobStep"
+                  "$ref": "#/components/schemas/PipelineStep"
                 }
               }
             }
           }
         ]
       },
-      "RunJobStep": {
+      "PipelineStep": {
         "description": "A Step within a Job.",
+        "required": [
+          "index",
+          "name",
+          "uses",
+          "status",
+          "status_message",
+          "created_at",
+          "timeout_seconds"
+        ],
         "properties": {
           "index": {
             "description": "The index of the Step within the Pipeline Schema.",
             "type": "integer"
+          },
+          "name": {
+            "description": "The name of the step or a generated default.",
+            "type": "string"
+          },
+          "uses": {
+            "description": "The action used by this step.",
+            "type": "string"
           },
           "status": {
             "description": "The current status of this Step within the Job.",
@@ -13779,7 +13818,7 @@
           }
         }
       },
-      "RunJobStepLog": {
+      "PipelineStepLog": {
         "description": "An item from the logs of a Step.",
         "required": [
           "at",
@@ -13805,8 +13844,20 @@
           }
         }
       },
-      "ApprovalRequest": {
+      "PipelineApprovalRequest": {
         "description": "An approval object",
+        "required": [
+          "id",
+          "org_id",
+          "app_id",
+          "pipeline_id",
+          "run_id",
+          "job_id",
+          "env_id",
+          "message",
+          "created_at",
+          "status"
+        ],
         "properties": {
           "id": {
             "description": "The id of the approval object.",
@@ -17071,11 +17122,33 @@
           "id": {
             "description": "Workload Profile ID",
             "type": "string"
+          },
+          "description": {
+            "description": "Describes the workload profile",
+            "type": "string"
+          },
+          "deprecation_message": {
+            "description": "A not-empty string indicates that the workload profile is deprecated.",
+            "type": "string"
           }
         },
         "required": [
           "id"
         ],
+        "type": "object"
+      },
+      "WorkloadProfilePatchRequest": {
+        "description": "The proposed properties to update a workload profile.",
+        "properties": {
+          "description": {
+            "description": "Describes the workload profile",
+            "type": "string"
+          },
+          "deprecation_message": {
+            "description": "A not-empty string indicates that the workload profile is deprecated.",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "WorkloadProfileResponse": {
@@ -17103,6 +17176,23 @@
           "org_id": {
             "description": "Organization ID",
             "type": "string"
+          },
+          "description": {
+            "description": "Describes the workload profile",
+            "type": "string"
+          },
+          "deprecation_message": {
+            "description": "A not-empty string indicates that the workload profile is deprecated.",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "Timestamp when the entity was last updated.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_by": {
+            "description": "User who last updated the entity.",
+            "type": "string"
           }
         },
         "required": [
@@ -17110,7 +17200,9 @@
           "id",
           "created_at",
           "created_by",
-          "latest"
+          "description",
+          "updated_at",
+          "updated_by"
         ],
         "type": "object"
       },
@@ -17665,6 +17757,26 @@
         "schema": {
           "type": "string"
         }
+      },
+      "versionPathParam": {
+        "name": "version",
+        "in": "path",
+        "description": "The Version.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "deprecatedQueryParam": {
+        "name": "deprecated",
+        "in": "query",
+        "description": "Whether to include deprecated profiles",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
       }
     },
     "responses": {
@@ -17822,12 +17934,12 @@
     {
       "name": "PipelineApprovals",
       "x-displayName": "Pipeline Approvals",
-      "description": "An approval object\n<SchemaDefinition schemaRef=\"#/components/schemas/ApprovalRequest\" />\n"
+      "description": "An approval object\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineApprovalRequest\" />\n"
     },
     {
       "name": "PipelineRuns",
       "x-displayName": "Pipeline Runs",
-      "description": "Details of a Run within the Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/RunResponse\" />\n"
+      "description": "Details of a Run within the Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineRun\" />\n"
     },
     {
       "name": "Pipelines",
