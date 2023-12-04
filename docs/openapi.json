@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.24.2",
+    "version": "0.24.4",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -556,6 +556,14 @@
             "in": "path",
             "description": "The Environment ID.\n\n",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pipelineRunId",
+            "in": "query",
+            "description": "An optional filter by the Pipeline Run ID.\n\n",
             "schema": {
               "type": "string"
             }
@@ -1162,8 +1170,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1171,7 +1180,8 @@
           {
             "name": "name",
             "in": "query",
-            "description": "(Optional) Filter Artefact Versions by name.\n\n",
+            "description": "(Optional) Filter Artefact Versions by name.",
+            "example": "registry.humanitec.io/public/sample-app",
             "schema": {
               "type": "string"
             }
@@ -1179,7 +1189,8 @@
           {
             "name": "reference",
             "in": "query",
-            "description": "(Optional) Filter Artefact Versions by the reference to a Version of the same Artefact. This cannot be used together with `name`.\n\n",
+            "description": "(Optional) Filter Artefact Versions by the reference to a Version of the same Artefact. This cannot be used together with `name`.",
+            "example": "registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
             "schema": {
               "type": "string"
             }
@@ -1187,58 +1198,38 @@
           {
             "name": "archived",
             "in": "query",
-            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
+            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.",
+            "example": false,
             "schema": {
               "type": "boolean"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "(Optional) Filter by artefact type.",
+            "example": "containers",
+            "schema": {
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of Artefact Versions registered with your organization.\n\n",
+            "description": "A list of Artefact Versions registered with your organization.",
             "content": {
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/ArtefactVersionResponse"
+                    "$ref": "#/components/schemas/ArtefactVersion"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "archived": false,
-                    "artefact_id": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
-                    "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-                    "id": "662b80db-cc71-40cf-b601-08d57983f6e4",
-                    "name": "registry.humanitec.io/public/sample-app",
-                    "ref": "refs/heads/master",
-                    "updated_at": "2020-06-12T10:00:00Z",
-                    "updated_by": "987654321",
-                    "version": "1.3.0"
-                  },
-                  {
-                    "archived": false,
-                    "artefact_id": "8a76aff7-cc3d-4d06-994d-4825bce80529",
-                    "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "digest": "",
-                    "id": "abf214a0-5de0-430d-a0b4-bb9871567ade",
-                    "name": "registry.humanitec.io/public/sample-service",
-                    "ref": "refs/heads/master",
-                    "updated_at": "2020-06-13T10:00:00Z",
-                    "updated_by": "987654321",
-                    "version": "1.2.0"
-                  }
-                ]
+                }
               }
             }
           },
           "400": {
-            "description": "Bad request.\n\n",
+            "description": "Bad request.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1260,8 +1251,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1269,36 +1261,42 @@
           {
             "name": "vcs",
             "in": "query",
-            "description": "(Optional) Which version control system the version comes from. Default value is \"git\". If this parameter is not supplied or its value is \"git\", the provided ref, if not empty, is checked to ensure that it has the prefix \"refs/\".\n\n",
+            "description": "(Optional) Which version control system the version comes from. Default value is \"git\". If this parameter is not supplied or its value is \"git\", the provided ref, if not empty, is checked to ensure that it has the prefix \"refs/\".",
+            "example": "git",
             "schema": {
               "type": "string"
             }
           }
         ],
         "requestBody": {
-          "description": "The data needed to register a new Artefact Version within the organization.\n\n",
+          "description": "The data needed to register a new Artefact Version within the organization.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AddArtefactVersionPayloadRequest"
+                "$ref": "#/components/schemas/CreateArtefactVersion"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateArtefactVersion"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "An Artefact Version.\n\n",
+            "description": "An Artefact Version.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArtefactVersionResponse"
+                  "$ref": "#/components/schemas/ArtefactVersion"
                 }
               }
             }
           },
           "400": {
-            "description": "Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.\n\n",
+            "description": "Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1308,7 +1306,7 @@
             }
           },
           "401": {
-            "description": "Request unauthorised.\n\n",
+            "description": "Request unauthorised.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1333,8 +1331,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1342,7 +1341,8 @@
           {
             "name": "artefactVersionId",
             "in": "path",
-            "description": "The Artefact Version ID.\n\n",
+            "description": "The Artefact Version ID.",
+            "example": "662b80db-cc71-40cf-b601-08d57983f6e4",
             "required": true,
             "schema": {
               "type": "string"
@@ -1351,31 +1351,17 @@
         ],
         "responses": {
           "200": {
-            "description": "An Artefact Version.\n\n",
+            "description": "An Artefact Version.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArtefactVersionResponse"
-                },
-                "example": {
-                  "archived": false,
-                  "artefact_id": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
-                  "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
-                  "created_at": "2020-06-10T10:00:00Z",
-                  "created_by": "1234567789",
-                  "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-                  "id": "662b80db-cc71-40cf-b601-08d57983f6e4",
-                  "name": "registry.humanitec.io/public/sample-app",
-                  "ref": "refs/heads/master",
-                  "updated_at": "2020-06-12T10:00:00Z",
-                  "updated_by": "987654321",
-                  "version": "1.3.0"
+                  "$ref": "#/components/schemas/ArtefactVersion"
                 }
               }
             }
           },
           "400": {
-            "description": "Malformed Artefact Version ID.\n\n",
+            "description": "Malformed Artefact Version ID.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1385,7 +1371,169 @@
             }
           },
           "404": {
-            "description": "Artefact Version not found.\n\n",
+            "description": "Artefact Version not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-spec": {
+      "get": {
+        "tags": [
+          "public",
+          "Artefact"
+        ],
+        "summary": "Get the spec of this Workload Artefact Version",
+        "description": "Returns the spec of this Artefact Version if it is of type workload. An error will be\nreturned if it is not.\n",
+        "operationId": "getWorkloadArtefactVersionSpec",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "example": "sample-org",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artefactVersionId",
+            "in": "path",
+            "description": "The Artefact Version ID.",
+            "example": "662b80db-cc71-40cf-b601-08d57983f6e4",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "The accepted content type.",
+            "example": "application/json",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workload spec, returned in JSON format by default or in YAML if specified by the Accept header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              },
+              "application/x-yaml": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed Artefact Version ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Artefact Version not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-deployment-set": {
+      "get": {
+        "tags": [
+          "public",
+          "Artefact"
+        ],
+        "summary": "Get the Humanitec module definition of this Workload Artefact Version as a deployment set",
+        "description": "Returns the Humanitec workload module of this Artefact Version if it is of type workload. An error will be\nreturned if it is not.\n",
+        "operationId": "getWorkloadArtefactVersionDeploymentSet",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "example": "sample-org",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artefactVersionId",
+            "in": "path",
+            "description": "The Artefact Version ID.",
+            "example": "662b80db-cc71-40cf-b601-08d57983f6e4",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "The accepted content type.",
+            "example": "application/json",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The workload spec as a Humanitec deployment set, returned in JSON format by default or in YAML if specified by the Accept header.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkloadArtefactVersionDeploymentSet"
+                }
+              },
+              "application/x-yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkloadArtefactVersionDeploymentSet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed Artefact Version ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Artefact Version not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1410,8 +1558,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1419,7 +1568,8 @@
           {
             "name": "type",
             "in": "query",
-            "description": "(Optional) Filter Artefacts by type.\n\n",
+            "description": "(Optional) Filter Artefacts by type.",
+            "example": "container",
             "schema": {
               "type": "string"
             }
@@ -1427,7 +1577,8 @@
           {
             "name": "name",
             "in": "query",
-            "description": "(Optional) Filter Artefacts by name.\n\n",
+            "description": "(Optional) Filter Artefacts by name.",
+            "example": "registry.humanitec.io/public/sample-app",
             "schema": {
               "type": "string"
             }
@@ -1435,7 +1586,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The list of Artefacts within the organization.\n\n",
+            "description": "The list of Artefacts within the organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1443,27 +1594,7 @@
                     "$ref": "#/components/schemas/ArtefactResponse"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "id": "662b80db-cc71-40cf-b601-08d57983f6e4",
-                    "name": "registry.humanitec.io/public/sample-app",
-                    "type": "container",
-                    "updated_at": "2020-06-12T10:00:00Z",
-                    "updated_by": "987654321"
-                  },
-                  {
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "id": "abf214a0-5de0-430d-a0b4-bb9871567ade",
-                    "name": "registry.humanitec.io/public/sample-service",
-                    "type": "container",
-                    "updated_at": "2020-06-12T10:00:00Z",
-                    "updated_by": "987654321"
-                  }
-                ]
+                }
               }
             }
           }
@@ -1483,8 +1614,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1492,7 +1624,8 @@
           {
             "name": "artefactId",
             "in": "path",
-            "description": "The Artefact ID.\n\n",
+            "description": "The Artefact ID.",
+            "example": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
             "required": true,
             "schema": {
               "type": "string"
@@ -1501,10 +1634,10 @@
         ],
         "responses": {
           "204": {
-            "description": "Artefact and related Artefact Versions successfully deleted.\n\n"
+            "description": "Artefact and related Artefact Versions successfully deleted."
           },
           "403": {
-            "description": "Request forbidden. This action can only be performed by users holding the Administrator role. It is not possible to delete a built-in artefact.\n\n",
+            "description": "Request forbidden. This action can only be performed by users holding the Administrator role. It is not possible to delete a built-in artefact.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1514,7 +1647,7 @@
             }
           },
           "404": {
-            "description": "Artefact not found within your organization.\n\n",
+            "description": "Artefact not found within your organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1539,8 +1672,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1548,7 +1682,8 @@
           {
             "name": "artefactId",
             "in": "path",
-            "description": "The Artefact ID.\n\n",
+            "description": "The Artefact ID.",
+            "example": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
             "required": true,
             "schema": {
               "type": "string"
@@ -1557,7 +1692,8 @@
           {
             "name": "archived",
             "in": "query",
-            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.\n\n",
+            "description": "(Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.",
+            "example": false,
             "schema": {
               "type": "boolean"
             }
@@ -1565,7 +1701,8 @@
           {
             "name": "reference",
             "in": "query",
-            "description": "(Optional) Filter Artefact Versions by by name including a version or digest.\n\n",
+            "description": "(Optional) Filter Artefact Versions by by name including a version or digest.",
+            "example": "registry.humanitec.io/public/sample-app:v1@sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
             "schema": {
               "type": "string"
             }
@@ -1573,7 +1710,8 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "(Optional) Limit the number of versions returned by the endpoint.\n\n",
+            "description": "(Optional) Limit the number of versions returned by the endpoint.",
+            "example": 20,
             "schema": {
               "type": "integer"
             }
@@ -1581,50 +1719,20 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns all Versions of the specified Artefact.\n\n",
+            "description": "Returns all Versions of the specified Artefact.",
             "content": {
               "application/json": {
                 "schema": {
                   "items": {
-                    "$ref": "#/components/schemas/ArtefactVersionResponse"
+                    "$ref": "#/components/schemas/ArtefactVersion"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "archived": false,
-                    "artefact_id": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
-                    "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-                    "id": "662b80db-cc71-40cf-b601-08d57983f6e4",
-                    "name": "registry.humanitec.io/public/sample-app",
-                    "ref": "refs/heads/master",
-                    "updated_at": "2020-06-12T10:00:00Z",
-                    "updated_by": "987654321",
-                    "version": "1.3.0"
-                  },
-                  {
-                    "archived": false,
-                    "artefact_id": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
-                    "commit": "a5cf4ab4b8a958005202916bf3bb627ebd62a11f",
-                    "created_at": "2020-06-10T10:00:00Z",
-                    "created_by": "1234567789",
-                    "digest": "",
-                    "id": "abf214a0-5de0-430d-a0b4-bb9871567ade",
-                    "name": "registry.humanitec.io/public/sample-app",
-                    "ref": "refs/heads/master",
-                    "updated_at": "2020-06-13T10:00:00Z",
-                    "updated_by": "987654321",
-                    "version": "1.2.0"
-                  }
-                ]
+                }
               }
             }
           },
           "400": {
-            "description": "Invalid inputs provided.\n\n",
+            "description": "Invalid inputs provided.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1634,7 +1742,7 @@
             }
           },
           "404": {
-            "description": "No Artefact with the supplied ID `artefactID` has been found within the organization.\n\n",
+            "description": "No Artefact with the supplied ID `artefactID` has been found within the organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1659,8 +1767,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1668,7 +1777,8 @@
           {
             "name": "artefactId",
             "in": "path",
-            "description": "The Artefact ID.\n\n",
+            "description": "The Artefact ID.",
+            "example": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
             "required": true,
             "schema": {
               "type": "string"
@@ -1677,7 +1787,8 @@
           {
             "name": "versionId",
             "in": "path",
-            "description": "The Version ID.\n\n",
+            "description": "The Version ID.",
+            "example": "da97af75-2e7c-4ef3-bec0-755ce1e8dd29",
             "required": true,
             "schema": {
               "type": "string"
@@ -1685,7 +1796,7 @@
           }
         ],
         "requestBody": {
-          "description": "The Artefact Version Update Request. Only the field `archive` can be updated.\n\n",
+          "description": "The Artefact Version Update Request. Only the field `archive` can be updated.",
           "required": true,
           "content": {
             "application/json": {
@@ -1697,17 +1808,17 @@
         },
         "responses": {
           "200": {
-            "description": "The updated Artefact Version.\n\n",
+            "description": "The updated Artefact Version.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArtefactVersionResponse"
+                  "$ref": "#/components/schemas/ArtefactVersion"
                 }
               }
             }
           },
           "400": {
-            "description": "One or more request parameters are missing or invalid, or the requested payload is not provided or malformed.\n\n",
+            "description": "One or more request parameters are missing or invalid, or the requested payload is not provided or malformed.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1717,7 +1828,7 @@
             }
           },
           "401": {
-            "description": "Request unauthorised.\n\n",
+            "description": "Request unauthorised.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1727,7 +1838,7 @@
             }
           },
           "403": {
-            "description": "Update requested on a version of a builtin artefact.\n\n",
+            "description": "Update requested on a version of a builtin artefact.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1737,7 +1848,7 @@
             }
           },
           "404": {
-            "description": "No Artefact with the supplied artefactId or no Artefact Version with the supplied versionId have been found within the organization.\n\n",
+            "description": "No Artefact with the supplied artefactId or no Artefact Version with the supplied versionId have been found within the organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1762,8 +1873,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1771,7 +1883,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Possibly empty list of Container Images.\n\n",
+            "description": "Possibly empty list of Container Images.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1779,22 +1891,7 @@
                     "$ref": "#/components/schemas/ImageResponse"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "added_at": "2020-05-12T16:12:13Z",
-                    "builds": [
-                      {
-                        "added_at": "2020-06-25T19:37:22Z",
-                        "branch": "master",
-                        "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-                        "image": "registry.humanitec.io/my-org/my-service:1.2.7"
-                      }
-                    ],
-                    "id": "my-service",
-                    "source": "github"
-                  }
-                ]
+                }
               }
             }
           }
@@ -1814,8 +1911,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1823,7 +1921,8 @@
           {
             "name": "imageId",
             "in": "path",
-            "description": "The Image ID.\n\n",
+            "description": "The Image ID.",
+            "example": "sample-app",
             "required": true,
             "schema": {
               "type": "string"
@@ -1832,36 +1931,17 @@
         ],
         "responses": {
           "200": {
-            "description": "The Image Object requested.\n\n",
+            "description": "The Image Object requested.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ImageResponse"
-                },
-                "example": {
-                  "added_at": "22020-06-25T17:41:57Z",
-                  "builds": [
-                    {
-                      "added_at": "2020-06-25T19:37:22Z",
-                      "branch": "master",
-                      "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-                      "image": "registry.humanitec.io/my-org/my-service:1.2.7"
-                    },
-                    {
-                      "added_at": "2020-06-25T17:41:57Z",
-                      "branch": "master",
-                      "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-                      "image": "registry.humanitec.io/my-org/my-service:1.2.6"
-                    }
-                  ],
-                  "id": "my-service",
-                  "source": "github"
                 }
               }
             }
           },
           "404": {
-            "description": "No Image with an ID of `imageId` found within the organization.\n\n",
+            "description": "No Image with an ID of `imageId` found within the organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1886,8 +1966,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1895,7 +1976,8 @@
           {
             "name": "imageId",
             "in": "path",
-            "description": "The Image ID.\n\n",
+            "description": "The Image ID.",
+            "example": "sample-app",
             "required": true,
             "schema": {
               "type": "string"
@@ -1904,7 +1986,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Possibly empty list of Builds of Container Images.\n\n",
+            "description": "Possibly empty list of Builds of Container Images.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1912,26 +1994,12 @@
                     "$ref": "#/components/schemas/ImageBuildResponse"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "added_at": "2020-06-25T19:37:22Z",
-                    "branch": "master",
-                    "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-                    "image": "registry.humanitec.io/my-org/my-service:1.2.7"
-                  },
-                  {
-                    "added_at": "2020-06-25T17:41:57Z",
-                    "branch": "master",
-                    "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-                    "image": "registry.humanitec.io/my-org/my-service:1.2.6"
-                  }
-                ]
+                }
               }
             }
           },
           "404": {
-            "description": "No Image with an ID of `imageId` found within the organization.\n\n",
+            "description": "No Image with an ID of `imageId` found within the organization.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1954,8 +2022,9 @@
           {
             "name": "orgId",
             "in": "path",
-            "description": "The organization ID.\n\n",
+            "description": "The organization ID.",
             "required": true,
+            "example": "sample-org",
             "schema": {
               "type": "string"
             }
@@ -1963,7 +2032,8 @@
           {
             "name": "imageId",
             "in": "path",
-            "description": "The Image ID.\n\n",
+            "description": "The Image ID.",
+            "example": "sample-app",
             "required": true,
             "schema": {
               "type": "string"
@@ -1971,27 +2041,22 @@
           }
         ],
         "requestBody": {
-          "description": "The metadata associated with the build.\n\n",
+          "description": "The metadata associated with the build.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ImageBuildRequest"
-              },
-              "example": {
-                "branch": "master",
-                "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-                "image": "registry.humanitec.io/my-org/my-service:1.2.7"
               }
             }
           }
         },
         "responses": {
           "204": {
-            "description": "Build successfully added.\n\n"
+            "description": "Build successfully added."
           },
           "400": {
-            "description": "The supplied `imageId` is invalid or a required field is missing.\n\n",
+            "description": "The supplied `imageId` is invalid or a required field is missing.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2001,7 +2066,7 @@
             }
           },
           "401": {
-            "description": "Request unauthorised.\n\n",
+            "description": "Request unauthorised.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2011,7 +2076,7 @@
             }
           },
           "403": {
-            "description": "A build cannot be added to a builtin image.\n\n",
+            "description": "A build cannot be added to a builtin image.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2019,6 +2084,82 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/audit-logs": {
+      "get": {
+        "tags": [
+          "public",
+          "AuditLogs"
+        ],
+        "operationId": "listAuditLogEntries",
+        "summary": "List audit log entries by Organization",
+        "description": "List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest.\nThis API requires administrator permissions in the Organization.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Optional filter for entries created after the given time.",
+            "required": false,
+            "example": "2023-01-01T00:00:00Z",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Optional filter for entries created before the given time.",
+            "required": false,
+            "example": "2023-01-01T00:00:00Z",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLogEntry"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -2798,22 +2939,10 @@
         "summary": "List Deltas in an Application",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "archived",
@@ -2828,7 +2957,8 @@
             "in": "query",
             "description": "Only return Deltas associated with the specified Environment.\n\n",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
             }
           }
         ],
@@ -2856,22 +2986,10 @@
         "summary": "Create a new Delta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           }
         ],
         "requestBody": {
@@ -2943,22 +3061,10 @@
         "operationId": "getDelta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3001,22 +3107,10 @@
         "summary": "Update an existing Delta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3099,22 +3193,10 @@
         "operationId": "putDelta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3174,22 +3256,10 @@
         "description": "Archived Deltas are still accessible but can no longer be updated.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3249,22 +3319,10 @@
         "summary": "Change the Environment of a Delta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3282,7 +3340,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/EnvironmentID"
               },
               "example": "new-env"
             }
@@ -3324,22 +3382,10 @@
         "summary": "Change the name of a Delta",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "deltaId",
@@ -3400,22 +3446,10 @@
         "summary": "Get all Deployment Sets",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           }
         ],
         "responses": {
@@ -3454,22 +3488,10 @@
         "summary": "Get a Deployment Set",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "setId",
@@ -3527,22 +3549,10 @@
         "summary": "Apply a Deployment Delta to a Deployment Set",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "setId",
@@ -3615,22 +3625,10 @@
         "summary": "Get the difference between 2 Deployment Sets",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "setId",
@@ -4089,34 +4087,13 @@
             }
           },
           "400": {
-            "description": "Bad input provided.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "403": {
-            "description": "Forbidden, only administrators can create new public key.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/403Forbidden"
           },
           "409": {
-            "description": "A public key with the same value already exists.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/409Conflict"
           }
         }
       },
@@ -4143,7 +4120,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The fingerprint of the requested key. If a value is provided, the result will contain a single key, if any."
+            "description": "The fingerprint (the hexadecimal representation of the sha256 hash of the DER representation of the key) of the requested key. If a value is provided, the result will contain a single key, if any."
           }
         ],
         "responses": {
@@ -4161,14 +4138,7 @@
             }
           },
           "400": {
-            "description": "Provided fingerprint is not valid.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           }
         }
       }
@@ -4206,24 +4176,10 @@
             "description": "Public Key successfully removed."
           },
           "403": {
-            "description": "Forbidden, only administrators can delete public keys.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Public key not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -4266,14 +4222,7 @@
             }
           },
           "404": {
-            "description": "Public key not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -4837,6 +4786,179 @@
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipeline-deployment-request-criteria": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "listPipelineDeploymentRequestCriteriaInApp",
+        "summary": "List the deployment matching criteria defined for Pipelines in this Application.",
+        "description": "Lists the matching criteria defined for the deployment request trigger for Pipelines in this Application. Deployment request criteria link deployment requests in an environment to a Pipeline that will enact the actual deployment and any testing, policy enforcement, or promotion in that environment. This API can be filtered by Pipeline and returns data in sorted order from least to most specific.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "name": "pipeline",
+            "description": "An optional filter by Pipeline ID.",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "sample-pipeline"
+            }
+          },
+          {
+            "name": "match",
+            "description": "Optional key value match filters on the criteria.",
+            "in": "query",
+            "explode": true,
+            "style": "deepObject",
+            "required": false,
+            "example": {
+              "env_type": "development"
+            },
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response. If the Link header is present, more data may be available.",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PipelineDeploymentRequestCriteria"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/deployment-request-criteria": {
+      "post": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "createPipelineDeploymentRequestCriteria",
+        "summary": "Create a new deployment matching criteria for this Pipeline.",
+        "description": "Create a new deployment matching criteria for this Pipeline. This must not conflict with an existing criteria on this or any other Pipeline that applies to this Application.\n",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The criteria was successfully added.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineDeploymentRequestCriteria"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/deployment-request-criteria/{criteriaId}": {
+      "delete": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "deletePipelineDeploymentRequestCriteria",
+        "summary": "Delete the Pipeline Deployment Request Criteria with the given id.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "name": "criteriaId",
+            "in": "path",
+            "description": "The Criteria ID",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the criteria."
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -9110,7 +9232,7 @@
           "TokenInfo"
         ],
         "summary": "Deletes a specific token associated with a user",
-        "description": "This is only possible for static tokens. To revoke session tokens - use `POST /auth/logout` with the required session token.",
+        "description": "This endpoint deletes a user's session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used.",
         "parameters": [
           {
             "name": "userId",
@@ -10714,6 +10836,36 @@
         }
       }
     },
+    "/orgs/{orgId}/workload-profile-features": {
+      "get": {
+        "tags": [
+          "public",
+          "WorkloadProfileFeatures"
+        ],
+        "summary": "List workload profile features available to the organization.",
+        "operationId": "listWorkloadProfileFeatures",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of usable Workload Profiles Features.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/WorkloadProfileFeatureResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/workload-profiles": {
       "get": {
         "tags": [
@@ -10800,35 +10952,6 @@
         }
       }
     },
-    "/orgs/{orgId}/workload-profiles/{profileQid}/versions/{version}": {
-      "delete": {
-        "tags": [
-          "public",
-          "WorkloadProfile"
-        ],
-        "summary": "Delete a Workload Profile Version",
-        "operationId": "deleteWorkloadProfileVersion",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/orgIdPathParam"
-          },
-          {
-            "$ref": "#/components/parameters/profileQidPathParam"
-          },
-          {
-            "$ref": "#/components/parameters/versionPathParam"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "The Workload Profile Version has been marked for deletion.\n\n"
-          },
-          "404": {
-            "$ref": "#/components/responses/404NotFound"
-          }
-        }
-      }
-    },
     "/orgs/{orgId}/workload-profiles/{profileQid}": {
       "get": {
         "tags": [
@@ -10864,13 +10987,13 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "tags": [
           "public",
           "WorkloadProfile"
         ],
-        "summary": "Patch a Workload Profile",
-        "operationId": "patchWorkloadProfile",
+        "summary": "Update a Workload Profile",
+        "operationId": "updateWorkloadProfile",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -10885,7 +11008,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkloadProfilePatchRequest"
+                "$ref": "#/components/schemas/WorkloadProfileUpdateRequest"
               }
             }
           }
@@ -10906,6 +11029,9 @@
           },
           "404": {
             "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
           }
         }
       },
@@ -10939,55 +11065,6 @@
       }
     },
     "/orgs/{orgId}/workload-profiles/{profileQid}/versions": {
-      "post": {
-        "tags": [
-          "public",
-          "WorkloadProfile"
-        ],
-        "operationId": "createWorkloadProfileVersion",
-        "summary": "Add new Version of the Workload Profile",
-        "description": "Creates a Workload Profile Version for the given Workload Profile.",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/orgIdPathParam"
-          },
-          {
-            "$ref": "#/components/parameters/profileQidPathParam"
-          }
-        ],
-        "requestBody": {
-          "description": "Workload profile version metadata.\n\n",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WorkloadProfileVersionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "The newly created Workload Profile Version metadata.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/WorkloadProfileVersionResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400BadRequest"
-          },
-          "404": {
-            "$ref": "#/components/responses/404NotFound"
-          },
-          "409": {
-            "$ref": "#/components/responses/409Conflict"
-          }
-        }
-      },
       "get": {
         "tags": [
           "public",
@@ -11050,9 +11127,10 @@
             "$ref": "#/components/parameters/profileQidPathParam"
           }
         ],
+        "deprecated": true,
         "responses": {
           "200": {
-            "description": "A possibly empty list of Workload Profile Versions.\n\n",
+            "description": "The latest version of a Workload profile\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -11341,6 +11419,54 @@
         ],
         "type": "object"
       },
+      "DeploymentPipelineReferenceRequest": {
+        "properties": {
+          "id": {
+            "description": "The ID of the Pipeline",
+            "type": "string"
+          },
+          "job_id": {
+            "description": "The ID of the Pipeline Job within the Run.",
+            "type": "string"
+          },
+          "run_id": {
+            "description": "The ID of the Pipeline Run",
+            "type": "string"
+          },
+          "step_index": {
+            "description": "The index of the step with in the Job.",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "DeploymentPipelineReferenceResponse": {
+        "properties": {
+          "id": {
+            "description": "The ID of the Pipeline",
+            "type": "string"
+          },
+          "job_id": {
+            "description": "The ID of the Pipeline Job within the Run.",
+            "type": "string"
+          },
+          "run_id": {
+            "description": "The ID of the Pipeline Run",
+            "type": "string"
+          },
+          "step_index": {
+            "description": "The index of the step with in the Job.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "run_id",
+          "job_id",
+          "step_index"
+        ],
+        "type": "object"
+      },
       "DeploymentRequest": {
         "description": "Deployments represent updates to the running state of an Environment.\n\nDeployments are made by applying _Deltas_ to a state defined by an existing Deployment. The Environment’s from_deploy property defines the Deployment. This Deployment is usually but not always in the current Environment. If the Deployment is from another Environment, the state of that Environment will be \"cloned\" into the current Environment with the option to apply a Delta.",
         "example": {
@@ -11362,6 +11488,10 @@
           "delta_id": {
             "description": "ID of the Deployment Delta describing the changes to the current Environment for this Deployment.",
             "type": "string"
+          },
+          "pipeline": {
+            "$ref": "#/components/schemas/DeploymentPipelineReferenceRequest",
+            "description": "The Pipeline that created this deployment. This may be blank if no Pipeline is associated."
           },
           "set_id": {
             "description": "ID of the Deployment Set describing the state of the Environment after Deployment.",
@@ -11425,6 +11555,10 @@
           "id": {
             "description": "The ID of the Deployment.",
             "type": "string"
+          },
+          "pipeline": {
+            "$ref": "#/components/schemas/DeploymentPipelineReferenceResponse",
+            "description": "The Pipeline that created this deployment. This may be blank if no Pipeline is associated."
           },
           "set_id": {
             "description": "ID of the Deployment Set describing the state of the Environment after Deployment.",
@@ -11718,14 +11852,13 @@
           },
           "error": {
             "type": "string",
+            "example": "API-000",
             "description": "A short code to help with error identification."
           },
           "message": {
             "type": "string",
+            "example": "Could not validate token",
             "description": "A Human readable message about the error."
-          },
-          "status_code": {
-            "type": "integer"
           }
         },
         "required": [
@@ -11734,98 +11867,177 @@
         ],
         "type": "object",
         "example": {
-          "error": "Could not validate token.",
-          "message": "Could not validate token.",
           "object": "/orgs/my-org",
-          "role": "manager"
+          "role": "manager",
+          "error": "Could not validate token.",
+          "message": "Could not validate token."
         }
       },
-      "AddArtefactVersionPayloadRequest": {
-        "description": "AddArtefactVersionPayload describes the payload for a new ArtefactVersion request.",
-        "example": {
-          "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-          "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "ref": "refs/heads/main",
-          "type": "container",
-          "version": "1.2.7"
-        },
+      "CreateArtefactVersionBase": {
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ],
         "properties": {
-          "commit": {
-            "description": "(Optional) The commit ID the Artefact Version was built on.",
-            "pattern": "^[0-9a-f]{5,40}$",
-            "type": "string"
-          },
-          "digest": {
-            "description": "(Optional) The Artefact Version digest.",
-            "type": "string"
+          "type": {
+            "description": "The Artefact Version type.",
+            "type": "string",
+            "example": "container"
           },
           "name": {
             "description": "The Artefact name.",
-            "type": "string"
-          },
-          "ref": {
-            "description": "(Optional) The ref the Artefact Version was built from.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Artefact Version type.",
-            "type": "string"
+            "type": "string",
+            "example": "registry.humanitec.io/my-org/my-service"
           },
           "version": {
             "description": "(Optional) The Artefact Version.",
+            "type": "string",
+            "example": "1.2.7"
+          },
+          "ref": {
+            "description": "(Optional) The ref the Artefact Version was built from.",
+            "type": "string",
+            "example": "refs/heads/main"
+          },
+          "commit": {
+            "description": "(Optional) The commit ID the Artefact Version was built on.",
+            "pattern": "^[0-9a-f]{5,40}$",
+            "example": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
             "type": "string"
           }
-        },
-        "required": [
-          "name",
-          "type"
-        ],
-        "type": "object"
+        }
       },
-      "ArtefactRequest": {
-        "description": "Artefacts can be registered with Humanitec. Continuous Integration (CI) pipelines notify Humanitec when a new version of an Artefact becomes available. Humanitec tracks the Artefact along with metadata about how it was built.",
-        "example": {
-          "created_at": "2020-05-12T16:12:13Z",
-          "created_by": "123456789",
-          "id": "123e4567-e89b-12d3-a456-426614174000",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "type": "container",
-          "updated_at": "2020-06-12T16:12:13Z",
-          "updated_by": "987654321"
-        },
+      "CreateContainerArtefactVersion": {
+        "description": "Details for creating a new Container Artefact Version",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CreateArtefactVersionBase"
+          },
+          {
+            "properties": {
+              "digest": {
+                "description": "(Optional) The Artefact Version digest.",
+                "type": "string",
+                "example": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244"
+              }
+            }
+          }
+        ]
+      },
+      "CreateWorkloadArtefactVersion": {
+        "description": "Details for creating a new Workload Artefact Version",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CreateArtefactVersionBase"
+          },
+          {
+            "required": [
+              "spec"
+            ],
+            "properties": {
+              "spec": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "A Json object containing the workload specification. Score v1b1 is expected.",
+                "example": {
+                  "apiVersion": "score.dev/v1b1",
+                  "metadata": {
+                    "name": "hello-world"
+                  }
+                }
+              },
+              "image": {
+                "type": "string",
+                "description": "An optional default image to assign to any containers in the workload that do not have an image set or whose image is '.'",
+                "example": "busybox:latest"
+              },
+              "overrides": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "An optional Json object containing the workload overrides. Score v1b1 is expected.",
+                "example": {
+                  "apiVersion": "score.dev/v1b1",
+                  "profile": "humanitec/default-module"
+                }
+              },
+              "property_overrides": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "An optional set of path overrides that will be applied to the workload.",
+                "example": {
+                  "containers.my-container.image": "busybox:latest",
+                  "containers.my-container.variables.DEBUG": null
+                }
+              },
+              "extensions": {
+                "$ref": "#/components/schemas/CreateWorkloadArtefactVersionExtensions"
+              }
+            }
+          }
+        ]
+      },
+      "CreateWorkloadArtefactVersionExtensions": {
+        "description": "Humanitec workload extensions for the Workload Artefact Version. These can be used to override the profile, or workload module spec and resource attributes.",
+        "required": [
+          "apiVersion"
+        ],
         "properties": {
-          "id": {
-            "description": "The UUID of the Artefact.",
+          "apiVersion": {
+            "description": "The api version describing the format of the extensions.",
             "type": "string"
           },
-          "name": {
-            "description": "The name of the Artefact.",
+          "profile": {
+            "description": "An optional override for the workload profile",
             "type": "string"
           },
-          "type": {
-            "description": "The type of the Artefact.",
-            "type": "string"
+          "spec": {
+            "description": "A map of additional workload spec fields that will be merged.",
+            "type": "object",
+            "additionalProperties": true
           }
         },
+        "example": {
+          "apiVersion": "humanitec.org/v1b1",
+          "profile": "humanitec/default-module",
+          "spec": {
+            "labels": {
+              "my-label": "my-value"
+            }
+          }
+        }
+      },
+      "CreateArtefactVersion": {
+        "description": "The details of a new Artefact Version to register. The type field is required and dictates the type of Artefact to register.",
+        "type": "object",
         "required": [
-          "id",
-          "name",
           "type"
         ],
-        "type": "object"
+        "properties": {
+          "type": {
+            "description": "The Artefact Version type.",
+            "type": "string",
+            "example": "container"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CreateContainerArtefactVersion"
+          },
+          {
+            "$ref": "#/components/schemas/CreateWorkloadArtefactVersion"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "container": "#/components/schemas/CreateContainerArtefactVersion",
+            "workload": "#/components/schemas/CreateWorkloadArtefactVersion"
+          }
+        }
       },
       "ArtefactResponse": {
         "description": "Artefacts can be registered with Humanitec. Continuous Integration (CI) pipelines notify Humanitec when a new version of an Artefact becomes available. Humanitec tracks the Artefact along with metadata about how it was built.",
-        "example": {
-          "created_at": "2020-05-12T16:12:13Z",
-          "created_by": "123456789",
-          "id": "123e4567-e89b-12d3-a456-426614174000",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "type": "container",
-          "updated_at": "2020-06-12T16:12:13Z",
-          "updated_by": "987654321"
-        },
         "properties": {
           "created_at": {
             "description": "The time when the Artefact was added to Humanitec.",
@@ -11836,18 +12048,22 @@
           },
           "created_by": {
             "description": "The user ID of the user who added the Artefact to Humanitec.",
-            "type": "string"
+            "type": "string",
+            "example": "01234567-89ab-cdef-0123-456789abcdef"
           },
           "id": {
             "description": "The UUID of the Artefact.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           },
           "name": {
             "description": "The name of the Artefact.",
+            "example": "registry.humanitec.io/my-org/my-service",
             "type": "string"
           },
           "type": {
             "description": "The type of the Artefact.",
+            "example": "container",
             "type": "string"
           },
           "updated_at": {
@@ -11859,6 +12075,7 @@
           },
           "updated_by": {
             "description": "The user ID of the user who updated the Artefact for the last time.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           }
         },
@@ -11869,90 +12086,29 @@
         ],
         "type": "object"
       },
-      "ArtefactVersionRequest": {
-        "description": "An Artefact Version represents a particular version of an Artefact that can be added to an Application.",
-        "example": {
-          "archived": false,
-          "artefact_id": "123e4567-e89b-12d3-a456-426614174000",
-          "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-          "created_at": "2020-05-25T17:41:57Z",
-          "created_by": "987654321",
-          "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-          "id": "b4c9e4e2-b3e5-11ec-b909-0242ac120002",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "ref": "refs/heads/main",
-          "updated_at": "2020-06-25T17:41:57Z",
-          "updated_by": "123456789",
-          "version": "1.2.6"
-        },
-        "properties": {
-          "archived": {
-            "description": "If the Artefact Version is archived.",
-            "type": "boolean"
-          },
-          "artefact_id": {
-            "description": "The UUID of the Artefact.",
-            "type": "string"
-          },
-          "commit": {
-            "description": "(Optional) The commit ID the Artefact Version was built on.",
-            "type": "string"
-          },
-          "digest": {
-            "description": "(Optional) The Artefact Version digest.",
-            "type": "string"
-          },
-          "id": {
-            "description": "The UUID of the Artefact Version.",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name of the Artefact.",
-            "type": "string"
-          },
-          "ref": {
-            "description": "(Optional) The ref the Artefact Version was built from.",
-            "type": "string"
-          },
-          "version": {
-            "description": "(Optional) The version of the Artefact Version.",
-            "type": "string"
-          }
-        },
+      "ArtefactVersionBase": {
+        "type": "object",
         "required": [
+          "type",
           "id",
           "name",
-          "artefact_id"
+          "artefact_id",
+          "archived"
         ],
-        "type": "object"
-      },
-      "ArtefactVersionResponse": {
-        "description": "An Artefact Version represents a particular version of an Artefact that can be added to an Application.",
-        "example": {
-          "archived": false,
-          "artefact_id": "123e4567-e89b-12d3-a456-426614174000",
-          "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-          "created_at": "2020-05-25T17:41:57Z",
-          "created_by": "987654321",
-          "digest": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244",
-          "id": "b4c9e4e2-b3e5-11ec-b909-0242ac120002",
-          "name": "registry.humanitec.io/my-org/my-service",
-          "ref": "refs/heads/main",
-          "updated_at": "2020-06-25T17:41:57Z",
-          "updated_by": "123456789",
-          "version": "1.2.6"
-        },
         "properties": {
           "archived": {
             "description": "If the Artefact Version is archived.",
+            "example": false,
             "type": "boolean"
           },
           "artefact_id": {
             "description": "The UUID of the Artefact.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           },
           "commit": {
             "description": "(Optional) The commit ID the Artefact Version was built on.",
+            "example": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
             "type": "string"
           },
           "created_at": {
@@ -11964,22 +12120,22 @@
           },
           "created_by": {
             "description": "The user ID of the user who added the Artefact Version to Humanitec.",
-            "type": "string"
-          },
-          "digest": {
-            "description": "(Optional) The Artefact Version digest.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           },
           "id": {
             "description": "The UUID of the Artefact Version.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           },
           "name": {
             "description": "The name of the Artefact.",
+            "example": "registry.humanitec.io/my-org/my-service",
             "type": "string"
           },
           "ref": {
             "description": "(Optional) The ref the Artefact Version was built from.",
+            "example": "refs/heads/main",
             "type": "string"
           },
           "updated_at": {
@@ -11991,38 +12147,119 @@
           },
           "updated_by": {
             "description": "The user ID of the user who performed the last updated on the Artefact Version.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
             "type": "string"
           },
           "version": {
             "description": "(Optional) The version of the Artefact Version.",
+            "example": "1.2.7",
             "type": "string"
           }
-        },
+        }
+      },
+      "ContainerArtefactVersion": {
+        "description": "Details of a Container Artefact Version",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ArtefactVersionBase"
+          },
+          {
+            "required": [
+              "ref",
+              "commit",
+              "digest"
+            ],
+            "properties": {
+              "digest": {
+                "description": "(Optional) The Artefact Version digest.",
+                "type": "string",
+                "example": "sha256:8414aa82208bc4c2761dc149df67e25c6b8a9380e5d8c4e7b5c84ca2d04bb244"
+              }
+            }
+          }
+        ]
+      },
+      "WorkloadArtefactVersion": {
+        "description": "Details of a Workload Artefact Version",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ArtefactVersionBase"
+          },
+          {
+            "properties": {}
+          }
+        ]
+      },
+      "ArtefactVersion": {
+        "description": "The details of an Artefact Version. The type field dictates the type of Artefact along with any additional fields.",
+        "type": "object",
         "required": [
-          "id",
-          "name",
-          "version",
-          "artefact_id",
-          "commit",
-          "ref",
-          "digest",
-          "archived"
+          "type"
         ],
-        "type": "object"
+        "properties": {
+          "type": {
+            "description": "The Artefact Version type.",
+            "type": "string",
+            "example": "container"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ContainerArtefactVersion"
+          },
+          {
+            "$ref": "#/components/schemas/WorkloadArtefactVersion"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "container": "#/components/schemas/ContainerArtefactVersion",
+            "workload": "#/components/schemas/WorkloadArtefactVersion"
+          }
+        }
+      },
+      "WorkloadArtefactVersionDeploymentSet": {
+        "description": "Humanitec definition for a Workload Artefact.",
+        "required": [
+          "modules",
+          "shared"
+        ],
+        "properties": {
+          "modules": {
+            "description": "The set of workloads to add when deployed, the key is the name of the workload.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "shared": {
+            "description": "The set of shared resources to depend on, the key is the resource identifier.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
       },
       "ImageBuildRequest": {
         "description": "DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nHolds the metadata associated withe a Container Image Build",
         "properties": {
           "branch": {
             "description": "The branch name of the branch the build was built on",
+            "example": "master",
             "type": "string"
           },
           "commit": {
             "description": "The commit ID that this build was built from.",
+            "example": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
             "type": "string"
           },
           "image": {
             "description": "The fully qualified Image URL including registry, repository and tag.",
+            "example": "registry.humanitec.io/my-org/my-service:1.2.7",
             "pattern": "^((?:[\\w.\\-_]+(?:(?::\\d+|)(?=/[a-z0-9._-]+/[a-z0-9._-]+))|)(?:/|)(?:[a-z0-9.\\-_]+(?:/[a-z0-9.\\-_]+|)))(?::)?((?:[\\w.\\-]{1,127}|)(?:0[xX][0-9a-fA-F]+|))?$'",
             "type": "string"
           },
@@ -12048,14 +12285,17 @@
           },
           "branch": {
             "description": "The branch name of the branch the build was built on",
+            "example": "master",
             "type": "string"
           },
           "commit": {
             "description": "The commit ID that this build was built from.",
+            "example": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
             "type": "string"
           },
           "image": {
             "description": "The fully qualified Image URL including registry, repository and tag.",
+            "example": "registry.humanitec.io/my-org/my-service:1.2.7",
             "pattern": "^((?:[\\w.\\-_]+(?:(?::\\d+|)(?=/[a-z0-9._-]+/[a-z0-9._-]+))|)(?:/|)(?:[a-z0-9.\\-_]+(?:/[a-z0-9.\\-_]+|)))(?::)?((?:[\\w.\\-]{1,127}|)(?:0[xX][0-9a-fA-F]+|))?$'",
             "type": "string"
           },
@@ -12077,25 +12317,6 @@
       },
       "ImageRequest": {
         "description": "DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nContainer Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.",
-        "example": {
-          "added_at": "22020-06-25T17:41:57Z",
-          "builds": [
-            {
-              "added_at": "2020-06-25T19:37:22Z",
-              "branch": "master",
-              "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-              "image": "registry.humanitec.io/my-org/my-service:1.2.7"
-            },
-            {
-              "added_at": "2020-06-25T17:41:57Z",
-              "branch": "master",
-              "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-              "image": "registry.humanitec.io/my-org/my-service:1.2.6"
-            }
-          ],
-          "id": "my-service",
-          "source": "github"
-        },
         "properties": {
           "added_at": {
             "description": "The time the first build of this Image was added to the organization",
@@ -12113,10 +12334,12 @@
           },
           "id": {
             "description": "The ID used to group different builds of the same Image together.",
+            "example": "my-service",
             "type": "string"
           },
           "source": {
             "description": "The Image Source that this Image is added via",
+            "example": "github",
             "type": "string"
           }
         },
@@ -12124,25 +12347,6 @@
       },
       "ImageResponse": {
         "description": "DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nContainer Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.",
-        "example": {
-          "added_at": "22020-06-25T17:41:57Z",
-          "builds": [
-            {
-              "added_at": "2020-06-25T19:37:22Z",
-              "branch": "master",
-              "commit": "884bccaa807ea27cc1997a7492a3b6279fd7bd55",
-              "image": "registry.humanitec.io/my-org/my-service:1.2.7"
-            },
-            {
-              "added_at": "2020-06-25T17:41:57Z",
-              "branch": "master",
-              "commit": "060c3d6530a881afb808f105f36af25e1ad1b2f3",
-              "image": "registry.humanitec.io/my-org/my-service:1.2.6"
-            }
-          ],
-          "id": "my-service",
-          "source": "github"
-        },
         "properties": {
           "added_at": {
             "description": "The time the first build of this Image was added to the organization",
@@ -12160,10 +12364,12 @@
           },
           "id": {
             "description": "The ID used to group different builds of the same Image together.",
+            "example": "my-service",
             "type": "string"
           },
           "source": {
             "description": "The Image Source that this Image is added via",
+            "example": "github",
             "type": "string"
           }
         },
@@ -12177,12 +12383,10 @@
       },
       "UpdateArtefactVersionPayloadRequest": {
         "description": "UpdateArtefactVersionPayload contains the `archived` field that should be set in the Artefact Version to update.",
-        "example": {
-          "archived": true
-        },
         "properties": {
           "archived": {
             "description": "The Value of the archived value.",
+            "example": true,
             "nullable": true,
             "type": "boolean"
           }
@@ -12191,6 +12395,49 @@
           "archived"
         ],
         "type": "object"
+      },
+      "AuditLogEntry": {
+        "description": "An entry in the audit log",
+        "required": [
+          "at",
+          "user_id",
+          "request_method",
+          "request_path",
+          "response_status"
+        ],
+        "properties": {
+          "at": {
+            "description": "The date and time when the event was recorded.",
+            "example": "2023-01-01T00:00:00Z",
+            "type": "string",
+            "format": "date-time"
+          },
+          "org_id": {
+            "description": "The id of the Organization this event occurred in.",
+            "example": "my-organization",
+            "type": "string"
+          },
+          "user_id": {
+            "description": "The id of the User who triggered the event.",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "type": "string"
+          },
+          "request_method": {
+            "description": "The HTTP method that was requested. Only POST, PATCH, PUT, and DELETE are audited.",
+            "example": "POST",
+            "type": "string"
+          },
+          "request_path": {
+            "description": "The URL path that was called.",
+            "example": "/orgs/some-org/apps",
+            "type": "string"
+          },
+          "response_status": {
+            "description": "The status code of the response. Only successful responses are audited.",
+            "example": 201,
+            "type": "integer"
+          }
+        }
       },
       "UserRoleRequest": {
         "description": "UserRole holds the mapping of role to user for a particular object.",
@@ -12485,6 +12732,11 @@
         ],
         "type": "object"
       },
+      "EnvironmentID": {
+        "type": "string",
+        "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+        "example": "my-env"
+      },
       "DeltaMetadataRequest": {
         "properties": {
           "archived": {
@@ -12507,7 +12759,7 @@
             "type": "string"
           },
           "env_id": {
-            "type": "string"
+            "$ref": "#/components/schemas/EnvironmentID"
           },
           "last_modified_at": {
             "example": "2020-06-22T09:37:23.523Z",
@@ -12545,7 +12797,7 @@
             "type": "string"
           },
           "env_id": {
-            "type": "string"
+            "$ref": "#/components/schemas/EnvironmentID"
           },
           "last_modified_at": {
             "example": "2020-06-22T09:37:23.523Z",
@@ -13260,7 +13512,7 @@
             "type": "string"
           },
           "fingerprint": {
-            "description": "Key is the sha256 public key fingerprint, it's computed and stored when a new key is uploaded.",
+            "description": "It's the hexadecimal representation of the sha256 hash of the DER representation of the key, it's computed and stored when a new key is uploaded.",
             "type": "string"
           }
         },
@@ -13368,13 +13620,22 @@
           "name": {
             "description": "Human friendly name for the Organization.",
             "type": "string"
+          },
+          "trial_expires_at": {
+            "description": "Timestamp the trial expires at.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "nullable": true,
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
           }
         },
         "required": [
           "id",
           "name",
           "created_at",
-          "created_by"
+          "created_by",
+          "trial_expires_at"
         ],
         "type": "object"
       },
@@ -13518,6 +13779,78 @@
             "example": "2023-01-01T00:00:00Z",
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "PipelineDeploymentRequestCriteriaCreateBody": {
+        "description": "The details required to create a new deployment request matching criteria for a Pipeline.",
+        "type": "object",
+        "properties": {
+          "env_type": {
+            "description": "The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.\n",
+            "type": "string",
+            "example": "development"
+          },
+          "app_id": {
+            "description": "The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.\n",
+            "type": "string",
+            "example": "my-application"
+          },
+          "env_id": {
+            "description": "The exact id of the Environment which this criteria will match.\n",
+            "type": "string",
+            "example": "my-environment"
+          },
+          "deployment_type": {
+            "description": "The type of deployment that this criteria will match. Valid values are \"deploy\" and \"redeploy\". \"redeploy\"  applies only to deployment request to redeploy a previous deployment id while \"deploy\" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.\n",
+            "type": "string",
+            "example": "deploy"
+          }
+        }
+      },
+      "PipelineDeploymentRequestCriteria": {
+        "description": "A deployment request matching criteria for a Pipeline.",
+        "type": "object",
+        "required": [
+          "id",
+          "pipeline_id",
+          "pipeline_name"
+        ],
+        "properties": {
+          "pipeline_id": {
+            "description": "The id of the Pipeline tied to this deployment request criteria.",
+            "type": "string",
+            "example": "sample-pipeline"
+          },
+          "pipeline_name": {
+            "description": "The current display name of the Pipeline.",
+            "type": "string",
+            "example": "Sample Pipeline"
+          },
+          "id": {
+            "description": "The unique id of the criteria within this Pipeline.",
+            "type": "string",
+            "example": "01234567-89ab-cdef-0123-456789abcdef"
+          },
+          "env_type": {
+            "description": "The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.\n",
+            "type": "string",
+            "example": "development"
+          },
+          "app_id": {
+            "description": "The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.\n",
+            "type": "string",
+            "example": "my-application"
+          },
+          "env_id": {
+            "description": "The exact id of the Environment which this criteria will match.\n",
+            "type": "string",
+            "example": "my-environment"
+          },
+          "deployment_type": {
+            "description": "The type of deployment that this criteria will match. Valid values are \"deploy\" and \"redeploy\". \"redeploy\"  applies only to deployment request to redeploy a previous deployment id while \"deploy\" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.\n",
+            "type": "string",
+            "example": "deploy"
           }
         }
       },
@@ -17116,6 +17449,30 @@
           }
         }
       },
+      "WorkloadProfileFeatureResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "org_id": {
+            "type": "string"
+          },
+          "schema": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "org_id",
+          "id",
+          "schema",
+          "version"
+        ],
+        "type": "object"
+      },
       "WorkloadProfileRequest": {
         "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.",
         "properties": {
@@ -17130,14 +17487,26 @@
           "deprecation_message": {
             "description": "A not-empty string indicates that the workload profile is deprecated.",
             "type": "string"
+          },
+          "spec_definition": {
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinition"
+          },
+          "version": {
+            "description": "Version identifier. The version must be unique, but the API doesn't not enforce any ordering. Currently workloads will always use the latest update.\n\nIf no identifier is provided, the each update will generate a random version identifier.",
+            "type": "string"
+          },
+          "workload_profile_chart": {
+            "$ref": "#/components/schemas/WorkloadProfileChartReference"
           }
         },
         "required": [
-          "id"
+          "id",
+          "spec_definition",
+          "workload_profile_chart"
         ],
         "type": "object"
       },
-      "WorkloadProfilePatchRequest": {
+      "WorkloadProfileUpdateRequest": {
         "description": "The proposed properties to update a workload profile.",
         "properties": {
           "description": {
@@ -17147,8 +17516,22 @@
           "deprecation_message": {
             "description": "A not-empty string indicates that the workload profile is deprecated.",
             "type": "string"
+          },
+          "spec_definition": {
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinition"
+          },
+          "version": {
+            "description": "Version identifier. The version must be unique, but the API doesn't not enforce any ordering. Currently workloads will always use the latest update.\n\nIf no identifier is provided, the each update will generate a random version identifier.",
+            "type": "string"
+          },
+          "workload_profile_chart": {
+            "$ref": "#/components/schemas/WorkloadProfileChartReference"
           }
         },
+        "required": [
+          "spec_definition",
+          "workload_profile_chart"
+        ],
         "type": "object"
       },
       "WorkloadProfileResponse": {
@@ -17165,18 +17548,6 @@
             "description": "User created the profile",
             "type": "string"
           },
-          "id": {
-            "description": "Workload Profile ID",
-            "type": "string"
-          },
-          "latest": {
-            "description": "The latest version of the profile",
-            "type": "string"
-          },
-          "org_id": {
-            "description": "Organization ID",
-            "type": "string"
-          },
           "description": {
             "description": "Describes the workload profile",
             "type": "string"
@@ -17184,6 +17555,20 @@
           "deprecation_message": {
             "description": "A not-empty string indicates that the workload profile is deprecated.",
             "type": "string"
+          },
+          "id": {
+            "description": "Workload Profile ID",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "Organization ID",
+            "type": "string"
+          },
+          "spec_definition": {
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinition"
+          },
+          "spec_schema": {
+            "description": "OpenAPI schema used to validate the spec."
           },
           "updated_at": {
             "description": "Timestamp when the entity was last updated.",
@@ -17193,50 +17578,32 @@
           "updated_by": {
             "description": "User who last updated the entity.",
             "type": "string"
-          }
-        },
-        "required": [
-          "org_id",
-          "id",
-          "created_at",
-          "created_by",
-          "description",
-          "updated_at",
-          "updated_by"
-        ],
-        "type": "object"
-      },
-      "WorkloadProfileVersionRequest": {
-        "description": "Each Workload Profile has one or more Versions associated with it. In order to add a version, a Workload Profile must first be created.",
-        "properties": {
-          "features": {
-            "additionalProperties": true,
-            "description": "A map of Features. If referencing built in Humanitec features, the fully qualified feature name must be used: e.g. `humanitec/annotations`.\n\n{\n\n}",
-            "type": "object"
-          },
-          "notes": {
-            "description": "Notes",
-            "type": "string"
-          },
-          "spec_definition": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinition"
           },
           "version": {
-            "description": "Version",
+            "description": "Version identifier.",
             "type": "string"
           },
           "workload_profile_chart": {
             "$ref": "#/components/schemas/WorkloadProfileChartReference"
           }
         },
-        "type": "object",
         "required": [
+          "created_at",
+          "created_by",
+          "description",
+          "id",
+          "org_id",
+          "spec_definition",
+          "spec_schema",
+          "updated_at",
+          "updated_by",
           "version",
           "workload_profile_chart"
-        ]
+        ],
+        "type": "object"
       },
       "WorkloadProfileVersionResponse": {
-        "description": "Each Workload Profile has one or more Versions associated with it. In order to add a version, a Workload Profile must first be created.",
+        "description": "A version of a workload profile.",
         "properties": {
           "created_at": {
             "description": "Creation date",
@@ -17249,77 +17616,78 @@
             "description": "User created the profile",
             "type": "string"
           },
-          "features": {
-            "additionalProperties": true,
-            "description": "A map of Features. If referencing built in Humanitec features, the fully qualified feature name must be used: e.g. `humanitec/annotations`.\n\n{\n\n}",
-            "type": "object"
+          "description": {
+            "description": "Describes the workload profile",
+            "type": "string"
           },
-          "spec_schema": {
-            "description": "OpenAPI schema used to validate the spec."
+          "deprecation_message": {
+            "description": "A not-empty string indicates that the workload profile is deprecated.",
+            "type": "string"
           },
-          "spec_definition": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinition"
-          },
-          "notes": {
-            "description": "Notes",
+          "id": {
+            "description": "ID",
             "type": "string"
           },
           "org_id": {
             "description": "Organization ID",
             "type": "string"
           },
-          "profile_id": {
-            "description": "Workload Profile ID",
-            "type": "string"
+          "spec_definition": {
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinition"
           },
-          "version": {
-            "description": "Version",
-            "type": "string"
+          "spec_schema": {
+            "description": "OpenAPI schema used to validate the spec."
           },
           "workload_profile_chart": {
             "$ref": "#/components/schemas/WorkloadProfileChartReference"
+          },
+          "workload_profile_id": {
+            "description": "Workload Profile ID",
+            "type": "string"
           }
         },
         "required": [
-          "org_id",
-          "profile_id",
-          "version",
-          "features",
-          "notes",
           "created_at",
           "created_by",
+          "description",
+          "id",
+          "org_id",
+          "spec_definition",
           "spec_schema",
-          "workload_profile_chart"
+          "version",
+          "workload_profile_chart",
+          "workload_profile_id"
         ],
         "type": "object"
       },
-      "WorkloadProfileVersionSpecDefinition": {
+      "WorkloadProfileSpecDefinition": {
+        "description": "Workload spec definition",
         "type": "object",
         "properties": {
           "properties": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperties"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionProperties"
           },
           "runtime_properties": {
             "items": {
-              "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimeProperty"
+              "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionRuntimeProperty"
             },
             "type": "array"
           }
         }
       },
-      "WorkloadProfileVersionSpecDefinitionProperties": {
+      "WorkloadProfileSpecDefinitionProperties": {
         "type": "object",
         "description": "Workload spec definition",
         "additionalProperties": {
-          "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperty"
+          "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionProperty"
         }
       },
-      "WorkloadProfileVersionSpecDefinitionProperty": {
+      "WorkloadProfileSpecDefinitionProperty": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyType"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionPropertyType"
           },
           "feature_name": {
             "type": "string"
@@ -17331,7 +17699,7 @@
             "type": "string"
           },
           "ui_hints": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyUIHints"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionPropertyUIHints"
           },
           "schema": {
             "additionalProperties": true,
@@ -17339,24 +17707,24 @@
           },
           "runtime_properties": {
             "items": {
-              "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimeProperty"
+              "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionRuntimeProperty"
             },
             "type": "array"
           },
           "properties": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionProperties"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionProperties"
           }
         },
         "required": [
           "type"
         ]
       },
-      "WorkloadProfileVersionSpecDefinitionRuntimeProperty": {
+      "WorkloadProfileSpecDefinitionRuntimeProperty": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionRuntimePropertyType"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionRuntimePropertyType"
           },
           "feature_name": {
             "type": "string"
@@ -17368,14 +17736,14 @@
             "type": "string"
           },
           "ui_hints": {
-            "$ref": "#/components/schemas/WorkloadProfileVersionSpecDefinitionPropertyUIHints"
+            "$ref": "#/components/schemas/WorkloadProfileSpecDefinitionPropertyUIHints"
           }
         },
         "required": [
           "type"
         ]
       },
-      "WorkloadProfileVersionSpecDefinitionPropertyType": {
+      "WorkloadProfileSpecDefinitionPropertyType": {
         "type": "string",
         "enum": [
           "feature",
@@ -17383,14 +17751,14 @@
           "schema"
         ]
       },
-      "WorkloadProfileVersionSpecDefinitionRuntimePropertyType": {
+      "WorkloadProfileSpecDefinitionRuntimePropertyType": {
         "type": "string",
         "enum": [
           "feature",
           "collection"
         ]
       },
-      "WorkloadProfileVersionSpecDefinitionPropertyUIHints": {
+      "WorkloadProfileSpecDefinitionPropertyUIHints": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -17459,21 +17827,6 @@
         "type": "object"
       }
     },
-    "headers": {
-      "Etag": {
-        "description": "The Etag of the resource",
-        "example": "1234567890abcdef",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "Link": {
-        "schema": {
-          "type": "string"
-        },
-        "description": "A list of request links, optionally including a \"next\" page link for pagination."
-      }
-    },
     "parameters": {
       "orgIdPathParam": {
         "name": "orgId",
@@ -17481,6 +17834,30 @@
         "description": "The Organization ID",
         "example": "sample-org",
         "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "perPageQueryParam": {
+        "name": "per_page",
+        "in": "query",
+        "description": "The maximum number of items to return in a page of results",
+        "required": false,
+        "example": 50,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      "pageTokenQueryParam": {
+        "name": "page",
+        "in": "query",
+        "description": "The page token to request from",
+        "required": false,
+        "example": "AAAAAAAAAA==",
         "schema": {
           "type": "string"
         }
@@ -17492,7 +17869,8 @@
         "example": "sample-app",
         "required": true,
         "schema": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
         }
       },
       "pipelineIdPathParam": {
@@ -17686,29 +18064,6 @@
           }
         }
       },
-      "perPageQueryParam": {
-        "name": "per_page",
-        "in": "query",
-        "description": "The maximum number of items to return in a page of results",
-        "required": false,
-        "example": 50,
-        "schema": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 100,
-          "default": 50
-        }
-      },
-      "pageTokenQueryParam": {
-        "name": "page",
-        "in": "query",
-        "description": "The page token to request from",
-        "required": false,
-        "example": "AAAAAAAAAA==",
-        "schema": {
-          "type": "string"
-        }
-      },
       "ifMatchHeaderParam": {
         "name": "If-Match",
         "in": "header",
@@ -17780,16 +18135,6 @@
       }
     },
     "responses": {
-      "307TemporaryRedirect": {
-        "description": "The content is available at a different location specified in the Location header.",
-        "headers": {
-          "location": {
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      },
       "400BadRequest": {
         "description": "The request was invalid. More detail can be found in the error body.",
         "content": {
@@ -17816,6 +18161,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "307TemporaryRedirect": {
+        "description": "The content is available at a different location specified in the Location header.",
+        "headers": {
+          "location": {
+            "schema": {
+              "type": "string"
             }
           }
         }
@@ -17850,6 +18205,21 @@
           }
         }
       }
+    },
+    "headers": {
+      "Etag": {
+        "description": "The Etag of the resource",
+        "example": "1234567890abcdef",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Link": {
+        "schema": {
+          "type": "string"
+        },
+        "description": "A list of request links, optionally including a \"next\" page link for pagination."
+      }
     }
   },
   "servers": [
@@ -17868,6 +18238,7 @@
         "Application",
         "Artefact",
         "ArtefactVersion",
+        "AuditLogs",
         "Deployment",
         "EnvironmentType",
         "Environment",
@@ -17994,12 +18365,17 @@
     {
       "name": "Artefact",
       "x-displayName": "Artefact",
-      "description": "Artefacts can be registered with Humanitec. Continuous Integration (CI) pipelines notify Humanitec when a new version of an Artefact becomes available. Humanitec tracks the Artefact along with metadata about how it was built.\n<SchemaDefinition schemaRef=\"#/components/schemas/ArtefactRequest\" />\n"
+      "description": "Artefacts can be registered with Humanitec. Continuous Integration (CI) pipelines notify Humanitec when a new version of an Artefact becomes available. Humanitec tracks the Artefact along with metadata about how it was built.\n<SchemaDefinition schemaRef=\"#/components/schemas/ArtefactResponse\" />\n"
     },
     {
       "name": "ArtefactVersion",
       "x-displayName": "Artefact Version",
-      "description": "An Artefact Version represents a particular version of an Artefact that can be added to an Application.\n<SchemaDefinition schemaRef=\"#/components/schemas/ArtefactVersionRequest\" />\n"
+      "description": "Details of a Container Artefact Version\n<SchemaDefinition schemaRef=\"#/components/schemas/ContainerArtefactVersion\" />\n"
+    },
+    {
+      "name": "AuditLogs",
+      "x-displayName": "Audit Logs",
+      "description": "An entry in the audit log\n<SchemaDefinition schemaRef=\"#/components/schemas/AuditLogEntry\" />\n"
     },
     {
       "name": "AutomationRule",
