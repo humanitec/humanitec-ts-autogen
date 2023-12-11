@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.24.4",
+    "version": "0.24.5",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -355,7 +355,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "The new Environment.\n\n",
             "content": {
               "application/json": {
@@ -1266,6 +1266,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Optionally validate the request but do not persist the actual artefact.",
+            "example": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -1294,6 +1303,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "The request was valid, but no Artefact Version was created."
           },
           "400": {
             "description": "Either one or more request body parameters are missing or invalid, or the requested payload is not provided or malformed.",
@@ -4278,6 +4290,7 @@
           "Organization"
         ],
         "summary": "List active organizations the user has access to.",
+        "operationId": "listOrganizations",
         "responses": {
           "200": {
             "description": "A list of available organizations (based on the current user access level).\n\n",
@@ -4292,11 +4305,8 @@
               }
             }
           },
-          "401": {
-            "description": "Required HTTP Authorization header is missing or malformed.\n\n"
-          },
           "403": {
-            "description": "Current user is not authorized to perform the request.\n\n"
+            "$ref": "#/components/responses/403Forbidden"
           }
         }
       }
@@ -4308,6 +4318,7 @@
           "Organization"
         ],
         "summary": "Get the specified Organization.",
+        "operationId": "getOrganization",
         "parameters": [
           {
             "name": "orgId",
@@ -4330,31 +4341,8 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request parameters or payload. E.g. invalid `orgId` format.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Required HTTP Authorization header is missing or malformed.\n\n"
-          },
           "403": {
-            "description": "Current user is not authorized to perform the request.\n\n"
-          },
-          "409": {
-            "description": "Organization can't be accessed with this request.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/403Forbidden"
           }
         }
       }
@@ -4790,15 +4778,15 @@
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/pipeline-deployment-request-criteria": {
+    "/orgs/{orgId}/apps/{appId}/pipeline-criteria": {
       "get": {
         "tags": [
           "public",
           "Pipelines"
         ],
-        "operationId": "listPipelineDeploymentRequestCriteriaInApp",
-        "summary": "List the deployment matching criteria defined for Pipelines in this Application.",
-        "description": "Lists the matching criteria defined for the deployment request trigger for Pipelines in this Application. Deployment request criteria link deployment requests in an environment to a Pipeline that will enact the actual deployment and any testing, policy enforcement, or promotion in that environment. This API can be filtered by Pipeline and returns data in sorted order from least to most specific.\n",
+        "operationId": "listPipelineCriteriaInApp",
+        "summary": "List the trigger matching criteria defined for Pipelines in this Application.",
+        "description": "Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4856,7 +4844,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PipelineDeploymentRequestCriteria"
+                    "$ref": "#/components/schemas/PipelineCriteria"
                   }
                 }
               }
@@ -4868,15 +4856,15 @@
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/deployment-request-criteria": {
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria": {
       "post": {
         "tags": [
           "public",
           "Pipelines"
         ],
-        "operationId": "createPipelineDeploymentRequestCriteria",
-        "summary": "Create a new deployment matching criteria for this Pipeline.",
-        "description": "Create a new deployment matching criteria for this Pipeline. This must not conflict with an existing criteria on this or any other Pipeline that applies to this Application.\n",
+        "operationId": "createPipelineCriteria",
+        "summary": "Create a new trigger matching criteria for this Pipeline.",
+        "description": "Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -4893,7 +4881,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody"
+                "$ref": "#/components/schemas/PipelineCriteriaCreateBody"
               }
             }
           }
@@ -4904,7 +4892,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PipelineDeploymentRequestCriteria"
+                  "$ref": "#/components/schemas/PipelineCriteria"
                 }
               }
             }
@@ -4921,14 +4909,14 @@
         }
       }
     },
-    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/deployment-request-criteria/{criteriaId}": {
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}": {
       "delete": {
         "tags": [
           "public",
           "Pipelines"
         ],
-        "operationId": "deletePipelineDeploymentRequestCriteria",
-        "summary": "Delete the Pipeline Deployment Request Criteria with the given id.",
+        "operationId": "deletePipelineCriteria",
+        "summary": "Delete the Pipeline Criteria with the given id.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -5057,6 +5045,66 @@
           },
           "404": {
             "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipeline-runs": {
+      "post": {
+        "tags": [
+          "public",
+          "PipelineRuns"
+        ],
+        "operationId": "createPipelineRunByTriggerCriteria",
+        "summary": "Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/idempotencyKey"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PipelineRunCreateByTriggerCriteriaBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful creation response.",
+            "headers": {
+              "Etag": {
+                "$ref": "#/components/headers/Etag"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineRun"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/422UnprocessableContent"
           }
         }
       }
@@ -7810,39 +7858,22 @@
           "public",
           "RuntimeInfo"
         ],
+        "operationId": "getRuntime",
         "summary": "Get Runtime information about the environment.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "Runtime info returned.\n\n",
+            "description": "Runtime info returned.",
             "content": {
               "application/json": {
                 "schema": {
@@ -7852,24 +7883,10 @@
             }
           },
           "400": {
-            "description": "Cluster not well configured or unreachable.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "404": {
-            "description": "Environment not found.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -7878,41 +7895,24 @@
       "put": {
         "tags": [
           "public",
-          "RuntimeInfo"
+          "EnvironmentPausedInfo"
         ],
+        "operationId": "updatePaused",
         "summary": "Pause / Resume an environment.",
-        "description": "On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas.\n\nOn resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused.\n\nWhen an environment is paused, it is not possible to:\n\n```\n  - Deploy the environment within Humanitec.\n  - Scale the number of replicas running of any workload.\n```",
+        "description": "On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas. On resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused. When an environment is paused, it is not possible to:```\n  - Deploy the environment within Humanitec.\n  - Scale the number of replicas running of any workload.\n```",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           }
         ],
         "requestBody": {
-          "description": "If the value is `true` the request is to pause an environment, if it is `false` is to resume an environment.\n\n",
+          "description": "If the value is `true` the request is to pause an environment, if it is `false` is to resume an environment.",
           "required": true,
           "content": {
             "application/json": {
@@ -7924,37 +7924,16 @@
         },
         "responses": {
           "204": {
-            "description": "Success.\n\n"
+            "description": "Success."
           },
           "400": {
-            "description": "Missing or malformed input.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "403": {
-            "description": "Forbidden (insufficient privileges to perform the action).\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Environment not found.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -7963,40 +7942,23 @@
       "patch": {
         "tags": [
           "public",
-          "RuntimeInfo"
+          "Replicas"
         ],
+        "operationId": "patchReplicas",
         "summary": "Set number of replicas for an environment's modules.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           }
         ],
         "requestBody": {
-          "description": "map of replicas by modules.\n\n",
+          "description": "map of replicas by modules.",
           "required": true,
           "content": {
             "application/json": {
@@ -8011,37 +7973,16 @@
         },
         "responses": {
           "204": {
-            "description": "Success.\n\n"
+            "description": "Success."
           },
           "400": {
-            "description": "Missing or malformed input.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "403": {
-            "description": "Forbidden (default cluster limitations or insufficient privileges to perform the action).\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Environment not found.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -8052,38 +7993,30 @@
           "public",
           "RuntimeInfo"
         ],
-        "summary": "Get Runtime information about specific environments.",
+        "operationId": "listRuntime",
+        "summary": "Get Runtime information about specific multiple environments.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
             "name": "id",
             "in": "query",
-            "description": "Filter environments by ID (required). Up to 5 ids can be supplied per request.\n\n",
+            "description": "Filter environments by ID (required). Up to 5 ids can be supplied per request.",
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of the RuntimeInfo of the environments specified by the id parameter.\n\n",
+            "description": "A list of the RuntimeInfo of the environments specified by the id parameter.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8113,14 +8046,7 @@
             }
           },
           "400": {
-            "description": "Bad Request.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           }
         }
       }
@@ -11053,7 +10979,7 @@
         ],
         "responses": {
           "204": {
-            "description": "The Workload Profile has been marked for deletion.\n"
+            "description": "The Workload Profile has been deleted.\n"
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -13568,26 +13494,9 @@
       "LogoResponse": {
         "properties": {
           "dark_url": {
-            "nullable": true,
             "type": "string"
           },
           "light_url": {
-            "nullable": true,
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "OrganizationRequest": {
-        "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.",
-        "properties": {
-          "id": {
-            "description": "Unique ID for the Organization.",
-            "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
-            "type": "string"
-          },
-          "name": {
-            "description": "Human friendly name for the Organization.",
             "type": "string"
           }
         },
@@ -13600,8 +13509,7 @@
             "description": "Timestamp when the Organization was created.",
             "example": "2020-06-22T09:37:23.523Z",
             "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
             "type": "string"
           },
           "created_by": {
@@ -13625,8 +13533,7 @@
             "description": "Timestamp the trial expires at.",
             "example": "2020-06-22T09:37:23.523Z",
             "nullable": true,
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
             "type": "string"
           }
         },
@@ -13635,7 +13542,8 @@
           "name",
           "created_at",
           "created_by",
-          "trial_expires_at"
+          "trial_expires_at",
+          "logo"
         ],
         "type": "object"
       },
@@ -13782,6 +13690,29 @@
           }
         }
       },
+      "PipelineCriteriaCreateBody": {
+        "required": [
+          "trigger"
+        ],
+        "properties": {
+          "trigger": {
+            "description": "The trigger to call",
+            "type": "string",
+            "example": "deployment_request"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "trigger",
+          "mapping": {
+            "deployment_request": "#/components/schemas/PipelineDeploymentRequestCriteriaCreateBody"
+          }
+        }
+      },
       "PipelineDeploymentRequestCriteriaCreateBody": {
         "description": "The details required to create a new deployment request matching criteria for a Pipeline.",
         "type": "object",
@@ -13805,6 +13736,29 @@
             "description": "The type of deployment that this criteria will match. Valid values are \"deploy\" and \"redeploy\". \"redeploy\"  applies only to deployment request to redeploy a previous deployment id while \"deploy\" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.\n",
             "type": "string",
             "example": "deploy"
+          }
+        }
+      },
+      "PipelineCriteria": {
+        "required": [
+          "trigger"
+        ],
+        "properties": {
+          "trigger": {
+            "description": "The trigger to call",
+            "type": "string",
+            "example": "deployment_request"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PipelineDeploymentRequestCriteria"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "trigger",
+          "mapping": {
+            "deployment_request": "#/components/schemas/PipelineDeploymentRequestCriteria"
           }
         }
       },
@@ -13982,6 +13936,68 @@
             "type": "object",
             "additionalProperties": true
           }
+        }
+      },
+      "PipelineRunCreateByTriggerCriteriaBody": {
+        "description": "The parameters for creating a new Run based on trigger and inputs.",
+        "required": [
+          "trigger"
+        ],
+        "properties": {
+          "trigger": {
+            "description": "The trigger to call",
+            "type": "string",
+            "example": "deployment_request"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PipelineRunCreateByDeploymentRequestCriteriaBody"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "trigger",
+          "mapping": {
+            "deployment_request": "#/components/schemas/PipelineRunCreateByDeploymentRequestCriteriaBody"
+          }
+        }
+      },
+      "PipelineRunCreateByDeploymentRequestCriteriaBody": {
+        "description": "Trigger the pipeline that has a deployment_request trigger and criteria that match this target environment. If \"delta_id\" or \"set_id\" is provided, the matching criteria must support deployment type \"deploy\". If \"deployment_id\" is provided, the matching criteria must support deployment type \"re-deploy\".\nWhen \"delta_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"delta_id\" and \"value_set_version_id\" if provided. When \"deployment_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"deployment_id\", with \"set_id\", \"value_set_version_id\" being retrieved from the deployment itself. When \"set_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"set_id\", and \"value_set_version_id\" if provided.\n",
+        "required": [
+          "environment"
+        ],
+        "properties": {
+          "environment": {
+            "description": "The target environment within the Application to deploy to.",
+            "type": "string"
+          },
+          "delta_id": {
+            "description": "A deployment delta to apply to the target environment. This delta must already exist. This field is mutually exclusive with \"deployment_id\" and \"set_id\".",
+            "type": "string"
+          },
+          "deployment_id": {
+            "description": "An existing deployment to redeploy into the target environment. The deployment set and value set will be copied. This field is mutually exclusive with \"delta_id\" and \"set_id\".",
+            "type": "string"
+          },
+          "set_id": {
+            "description": "A direct deployment set to apply to the target environment. This deployment set must already exist. This field is mutually exclusive with \"delta_id\" and \"set_id\".",
+            "type": "string"
+          },
+          "value_set_version_id": {
+            "description": "The exact value set version to use when deploying to the target environment. This value set version must exist. This field can only be used when \"delta_id\" or \"set_id\" is specified.",
+            "type": "string"
+          },
+          "comment": {
+            "description": "An optional comment to apply to the Deployment.",
+            "type": "string"
+          }
+        },
+        "example": {
+          "trigger": "deployment_request",
+          "environment": "development",
+          "delta_id": "0123456789abcdef0123456789abcdef01234567",
+          "comment": "My deployment"
         }
       },
       "PipelineJobPartial": {
@@ -18104,6 +18120,16 @@
           "type": "string"
         }
       },
+      "envIdPathParam": {
+        "name": "envId",
+        "in": "path",
+        "description": "The Environment ID",
+        "example": "development",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
       "profileQidPathParam": {
         "name": "profileQid",
         "in": "path",
@@ -18150,7 +18176,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
             }
           }
         }
@@ -18300,7 +18326,7 @@
     {
       "name": "Organization",
       "x-displayName": "Organization",
-      "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.\n<SchemaDefinition schemaRef=\"#/components/schemas/OrganizationRequest\" />\n"
+      "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.\n<SchemaDefinition schemaRef=\"#/components/schemas/OrganizationResponse\" />\n"
     },
     {
       "name": "PipelineApprovals",
