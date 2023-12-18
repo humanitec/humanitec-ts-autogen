@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.24.5",
+    "version": "0.25.0",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -14,6 +14,262 @@
     }
   },
   "paths": {
+    "/orgs/{orgId}/agents": {
+      "post": {
+        "tags": [
+          "Agents",
+          "public"
+        ],
+        "operationId": "createAgent",
+        "summary": "Register a new Agent under an Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Agents",
+          "public"
+        ],
+        "operationId": "listAgents",
+        "summary": "List all the agents in an Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/fingerprintQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Agent"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/agents/{agentId}": {
+      "delete": {
+        "tags": [
+          "Agents",
+          "public"
+        ],
+        "operationId": "deleteAgent",
+        "summary": "Delete an Agent (and its keys) stored under an Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/agentIdPathParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Agent successfully deleted."
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Agents",
+          "public"
+        ],
+        "operationId": "patchAgent",
+        "summary": "Update the description of an Agent.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/agentIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentPatchBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agent"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/agents/{agentId}/keys": {
+      "get": {
+        "tags": [
+          "Agent",
+          "public"
+        ],
+        "operationId": "listKeysInAgent",
+        "summary": "List all the keys registered under an Agent in an Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/agentIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Key"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Agent",
+          "public"
+        ],
+        "operationId": "createKey",
+        "summary": "Register a new Key under an Agent in an Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/agentIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KeyCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful list response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Key"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/agents/{agentId}/keys/{fingerprint}": {
+      "delete": {
+        "tags": [
+          "Agents",
+          "public"
+        ],
+        "operationId": "deleteKeyInAgent",
+        "summary": "Delete a key registered under a Agent.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/agentIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/fingerprintPathParam"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Key successfully deleted."
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps": {
       "get": {
         "tags": [
@@ -4477,6 +4733,15 @@
           },
           {
             "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Optionally validate the request but do not persist the actual Pipeline.",
+            "example": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -4504,6 +4769,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "The request was valid, but no Pipeline was created."
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -4582,6 +4850,15 @@
           },
           {
             "$ref": "#/components/parameters/ifMatchHeaderParam"
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Optionally validate the request but do not persist the update.",
+            "example": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -4609,6 +4886,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "The request was valid, but no Pipeline was updated."
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -5066,6 +5346,15 @@
           },
           {
             "$ref": "#/components/parameters/idempotencyKey"
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Optionally validate the request but do not persist the actual Pipeline Run.",
+            "example": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -5093,6 +5382,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "The request was valid and matched a Pipeline, but not Pipeline Run was persisted."
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -5195,6 +5487,15 @@
           },
           {
             "$ref": "#/components/parameters/idempotencyKey"
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "description": "Optionally validate the request but do not persist the actual Pipeline Run.",
+            "example": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {
@@ -5222,6 +5523,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "The request was valid, but no Pipeline Run was created."
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -5971,7 +6275,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "A registry details.\n\n",
             "content": {
               "application/json": {
@@ -7281,6 +7585,109 @@
       }
     },
     "/orgs/{orgId}/resources/defs/{defId}/criteria": {
+      "put": {
+        "tags": [
+          "public",
+          "ResourceDefinition",
+          "MatchingCriteria"
+        ],
+        "summary": "Update all Matching Criteria of a Resource Definition.",
+        "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "defId",
+            "in": "path",
+            "description": "The Resource Definition ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Matching Criteria rules.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/MatchingCriteriaRuleRequest"
+                },
+                "type": "array"
+              },
+              "example": [
+                {
+                  "env_id": "production"
+                }
+              ]
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly added Matching Criteria details.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MatchingCriteriaResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more request parameters is missing or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Resource Definition is not found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A Matching Criteria already exists.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "public",
@@ -7288,7 +7695,7 @@
           "MatchingCriteria"
         ],
         "summary": "Add a new Matching Criteria to a Resource Definition.",
-        "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that time was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
+        "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
         "parameters": [
           {
             "name": "orgId",
@@ -7336,6 +7743,16 @@
           },
           "400": {
             "description": "One or more request parameters is missing or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Resource Definition is not found.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -8978,34 +9395,6 @@
         "responses": {
           "204": {
             "description": "Deleted\n\n"
-          }
-        }
-      }
-    },
-    "/users/me": {
-      "get": {
-        "tags": [
-          "public",
-          "UserProfile"
-        ],
-        "summary": "DEPRECATED",
-        "responses": {
-          "200": {
-            "description": "The extended user profile of the user.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": true,
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "No token supplied.\n\n"
-          },
-          "403": {
-            "description": "Token is not valid for a user.\n\n"
           }
         }
       }
@@ -11164,7 +11553,580 @@
     }
   },
   "components": {
+    "parameters": {
+      "orgIdPathParam": {
+        "name": "orgId",
+        "in": "path",
+        "description": "The Organization ID",
+        "example": "sample-org",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "agentIdPathParam": {
+        "name": "agentId",
+        "in": "path",
+        "description": "The Agent id.",
+        "example": "my-agent",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "proxyUrlPathParam": {
+        "name": "proxyUrl",
+        "in": "path",
+        "description": "The Proxy Url associated to an Agent.",
+        "example": "http://my-org_my-agent:9be36d7e31323a00@proxy.namespace:8080",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "fingerprintPathParam": {
+        "name": "fingerprint",
+        "in": "path",
+        "description": "The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).",
+        "example": "9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "fingerprintQueryParam": {
+        "name": "fingerprint",
+        "in": "query",
+        "description": "The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).",
+        "example": "9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "perPageQueryParam": {
+        "name": "per_page",
+        "in": "query",
+        "description": "The maximum number of items to return in a page of results",
+        "required": false,
+        "example": 50,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      "pageTokenQueryParam": {
+        "name": "page",
+        "in": "query",
+        "description": "The page token to request from",
+        "required": false,
+        "example": "AAAAAAAAAA==",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "appIdPathParam": {
+        "name": "appId",
+        "in": "path",
+        "description": "The Application ID",
+        "example": "sample-app",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "pipelineIdPathParam": {
+        "name": "pipelineId",
+        "in": "path",
+        "description": "The Pipeline ID",
+        "example": "sample-pipeline",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "idempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "description": "The HTTP Idempotency-Key",
+        "example": "0xr$P0Cu4@DB",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "runIdPathParam": {
+        "name": "runId",
+        "in": "path",
+        "description": "The Run ID",
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "jobIdPathParam": {
+        "name": "jobId",
+        "in": "path",
+        "description": "The Job ID",
+        "example": "deploy",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "approvalIdPathParam": {
+        "name": "approvalId",
+        "in": "path",
+        "description": "The Approval ID",
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "stepIndexPathParam": {
+        "name": "stepIndex",
+        "in": "path",
+        "description": "The index of the step within the Job",
+        "example": 0,
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "byOrgIdQueryParam": {
+        "name": "org",
+        "description": "An optional Organization ID",
+        "in": "query",
+        "required": false,
+        "example": "sample-org",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byAppIdQueryParam": {
+        "name": "app",
+        "description": "An optional list of Application IDs.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "example": "sample-app",
+            "type": "string"
+          }
+        }
+      },
+      "byPipelineIdQueryParam": {
+        "name": "pipeline",
+        "description": "An optional list of Pipeline IDs.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "sample-pipeline"
+          }
+        }
+      },
+      "byRunIdQueryParam": {
+        "name": "run",
+        "description": "An optional Pipeline Run ID.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "sample-run"
+          }
+        }
+      },
+      "byVersionQueryParam": {
+        "name": "version",
+        "in": "query",
+        "description": "An optional Pipeline Version ID.",
+        "required": false,
+        "example": "01234567-89ab-cdef-0123-456789abcdef",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byStatusQueryParam": {
+        "name": "status",
+        "description": "Optional filter by status.",
+        "in": "query",
+        "explode": true,
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "executing"
+          }
+        }
+      },
+      "byCompletedQueryParam": {
+        "name": "completed",
+        "in": "query",
+        "description": "Optional filer by completed or not.",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "byWaitingForQueryParam": {
+        "name": "waiting_for",
+        "in": "query",
+        "description": "Optional filter by waiting for an event.",
+        "required": false,
+        "example": "application.environment.deployment(test-deployment-id)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byCreatedAfterParam": {
+        "name": "created_after",
+        "in": "query",
+        "description": "Optional filter by creation after date time.",
+        "example": "2018-03-20T09:12:28Z",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "byCreatedBeforeParam": {
+        "name": "created_before",
+        "in": "query",
+        "description": "Optional filter by creation before date time",
+        "example": "2018-03-20T09:12:28Z",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "byMetadata": {
+        "name": "metadata",
+        "description": "Optional filter by pipeline metadata",
+        "in": "query",
+        "required": false,
+        "style": "deepObject",
+        "schema": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "ifMatchHeaderParam": {
+        "name": "If-Match",
+        "in": "header",
+        "description": "Indicate that the request should only succeed if there is an etag match",
+        "required": false,
+        "example": "1234567890abcdef",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byApprovalStatusQueryParam": {
+        "name": "status",
+        "in": "query",
+        "description": "Optional filter by status.",
+        "required": false,
+        "example": "denied",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "byTriggerTypeQueryParam": {
+        "name": "trigger",
+        "description": "An optional filter by trigger type.",
+        "in": "query",
+        "required": false,
+        "example": "pipeline_call",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "batchTypeParam": {
+        "name": "batchType",
+        "description": "The batch type",
+        "in": "path",
+        "required": true,
+        "example": "image",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "envIdPathParam": {
+        "name": "envId",
+        "in": "path",
+        "description": "The Environment ID",
+        "example": "development",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "profileQidPathParam": {
+        "name": "profileQid",
+        "in": "path",
+        "description": "The Workload Profile ID.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "versionPathParam": {
+        "name": "version",
+        "in": "path",
+        "description": "The Version.",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "deprecatedQueryParam": {
+        "name": "deprecated",
+        "in": "query",
+        "description": "Whether to include deprecated profiles",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "responses": {
+      "307TemporaryRedirect": {
+        "description": "The content is available at a different location specified in the Location header.",
+        "headers": {
+          "location": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "400BadRequest": {
+        "description": "The request was invalid. More detail can be found in the error body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "403Forbidden": {
+        "description": "Server understands the request but refuses to authorize it.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "404NotFound": {
+        "description": "Either the resource or a related resource could not be found. More detail can be found in the error body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "409Conflict": {
+        "description": "The request itself is valid however it could not be applied based on the current state of the resource.\nMore detail can be found in the error body.\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
+            }
+          }
+        }
+      },
+      "412PreconditionFailed": {
+        "description": "The request itself is valid however it could not be applied because the Etag does not match.\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "422UnprocessableContent": {
+        "description": "Server understands the content type of the request, and the syntax of the request is correct, but it was unable to process the contained instructions\n",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "schemas": {
+      "ErrorResponse": {
+        "description": "A standard error response",
+        "properties": {
+          "error": {
+            "description": "A short code representing the class of error. This code can be used for tracking and observability or to\nfind appropriate troubleshooting documentation.\n",
+            "example": "API-000",
+            "type": "string"
+          },
+          "message": {
+            "description": "A human-readable explanation of the error.",
+            "example": "Something happened!",
+            "type": "string"
+          },
+          "details": {
+            "description": "An optional payload of metadata associated with the error.",
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "required": [
+          "error",
+          "message"
+        ],
+        "type": "object"
+      },
+      "AgentCreateBody": {
+        "description": "An object containing data needed to register an Agent.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "description": "The Agent id. It can't be empty and should contain only url safe characters.",
+            "example": "agent-id"
+          },
+          "public_key": {
+            "type": "string",
+            "description": "A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.",
+            "example": "-----BEGIN PUBLIC KEY-----\n...-----END PUBLIC KEY-----"
+          },
+          "description": {
+            "type": "string",
+            "description": "An optional description to show future users.",
+            "example": "One of my agents."
+          }
+        },
+        "required": [
+          "id",
+          "public_key"
+        ]
+      },
+      "AgentPatchBody": {
+        "description": "An object containing data to update the description field of an Agent.",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "A description to show future users. It can be empty.",
+            "example": "One of my agents."
+          }
+        },
+        "required": [
+          "description"
+        ]
+      },
+      "Agent": {
+        "description": "An object containing the details of an Agent.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The Agent id.",
+            "example": "agent-id"
+          },
+          "description": {
+            "type": "string",
+            "description": "A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.",
+            "example": "One of my agents."
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "description": "Time of the Agent being registered."
+          },
+          "created_by": {
+            "type": "string",
+            "description": "User ID of user that added the Agent.",
+            "example": "00000000-0000-0000-0000-000000000000"
+          }
+        },
+        "required": [
+          "id",
+          "created_at",
+          "created_by"
+        ]
+      },
+      "Key": {
+        "description": "An object containing the details of a Key.",
+        "properties": {
+          "fingerprint": {
+            "type": "string",
+            "description": "The Key fingerprint (sha256 hash of the DER representation of the key).",
+            "example": "9be36d7e31323a00e88facdd50843accd95ddbcffaefea28e49c28c08399417d"
+          },
+          "public_key": {
+            "type": "string",
+            "description": "A pcks8 RSA ublic key PEM encoded.",
+            "example": "-----BEGIN PUBLIC KEY-----\n...-----END PUBLIC KEY-----"
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "description": "Time of the Key being registered."
+          },
+          "created_by": {
+            "type": "string",
+            "description": "User ID of user that added the Key.",
+            "example": "00000000-0000-0000-0000-000000000000"
+          },
+          "expired_at": {
+            "type": "string",
+            "example": "2022-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "description": "Time when the Key should be replaced (2 years after its creation)."
+          }
+        },
+        "required": [
+          "fingerprint",
+          "public_key",
+          "created_at",
+          "created_by",
+          "expired_at"
+        ]
+      },
+      "KeyCreateBody": {
+        "properties": {
+          "public_key": {
+            "type": "string",
+            "description": "A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.",
+            "example": "-----BEGIN PUBLIC KEY-----\n...-----END PUBLIC KEY-----"
+          }
+        },
+        "required": [
+          "public_key"
+        ]
+      },
       "ApplicationCreationRequest": {
         "properties": {
           "env": {
@@ -11793,9 +12755,7 @@
         ],
         "type": "object",
         "example": {
-          "object": "/orgs/my-org",
-          "role": "manager",
-          "error": "Could not validate token.",
+          "error": "API-000",
           "message": "Could not validate token."
         }
       },
@@ -13547,31 +14507,6 @@
         ],
         "type": "object"
       },
-      "ErrorResponse": {
-        "description": "A standard error response",
-        "properties": {
-          "error": {
-            "description": "A short code representing the class of error. This code can be used for tracking and observability or to\nfind appropriate troubleshooting documentation.\n",
-            "type": "string",
-            "example": "API-000"
-          },
-          "message": {
-            "description": "A human-readable explanation of the error.",
-            "type": "string",
-            "example": "Something happened!"
-          },
-          "details": {
-            "description": "An optional payload of metadata associated with the error.",
-            "additionalProperties": true,
-            "type": "object"
-          }
-        },
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object"
-      },
       "Pipeline": {
         "description": "An object containing the details of a Pipeline.",
         "required": [
@@ -14659,11 +15594,12 @@
           "org_id": "test-org",
           "res_id": "modules.my-module.externals.my-db",
           "resource": {
-            "values": {
-              "host": "127.0.0.1",
-              "name": "db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9",
-              "port": 5432
-            }
+            "host": "127.0.0.1",
+            "name": "db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9",
+            "port": 5432
+          },
+          "secret_refs": {
+            "credentials": "orgs/test-org/resources/7bd3966c9ff8eaa66c5cce855c03d715857c3440/secrets/.credentials"
           },
           "type": "postgres",
           "updated_at": "2020-06-23T16:53:12Z"
@@ -14715,7 +15651,12 @@
           },
           "resource": {
             "additionalProperties": true,
-            "description": "The data that the resource passes into the deployment ('values' only).",
+            "description": "The resource provisioning outputs ('values' only).",
+            "type": "object"
+          },
+          "secret_refs": {
+            "additionalProperties": true,
+            "description": "Secret references from the resource provisioning output.",
             "type": "object"
           },
           "status": {
@@ -14749,11 +15690,12 @@
           "org_id": "test-org",
           "res_id": "modules.my-module.externals.my-db",
           "resource": {
-            "values": {
-              "host": "127.0.0.1",
-              "name": "db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9",
-              "port": 5432
-            }
+            "host": "127.0.0.1",
+            "name": "db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9",
+            "port": 5432
+          },
+          "secret_refs": {
+            "credentials": "orgs/test-org/resources/7bd3966c9ff8eaa66c5cce855c03d715857c3440/secrets/.credentials"
           },
           "type": "postgres",
           "updated_at": "2020-06-23T16:53:12Z"
@@ -14805,7 +15747,12 @@
           },
           "resource": {
             "additionalProperties": true,
-            "description": "The data that the resource passes into the deployment ('values' only).",
+            "description": "The resource provisioning outputs ('values' only).",
+            "type": "object"
+          },
+          "secret_refs": {
+            "additionalProperties": true,
+            "description": "Secret references from the resource provisioning output.",
             "type": "object"
           },
           "status": {
@@ -14835,6 +15782,7 @@
           "class",
           "status",
           "resource",
+          "secret_refs",
           "updated_at",
           "deploy_id",
           "gu_res_id"
@@ -17843,395 +18791,6 @@
         "type": "object"
       }
     },
-    "parameters": {
-      "orgIdPathParam": {
-        "name": "orgId",
-        "in": "path",
-        "description": "The Organization ID",
-        "example": "sample-org",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
-        }
-      },
-      "perPageQueryParam": {
-        "name": "per_page",
-        "in": "query",
-        "description": "The maximum number of items to return in a page of results",
-        "required": false,
-        "example": 50,
-        "schema": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 100,
-          "default": 50
-        }
-      },
-      "pageTokenQueryParam": {
-        "name": "page",
-        "in": "query",
-        "description": "The page token to request from",
-        "required": false,
-        "example": "AAAAAAAAAA==",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "appIdPathParam": {
-        "name": "appId",
-        "in": "path",
-        "description": "The Application ID",
-        "example": "sample-app",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
-        }
-      },
-      "pipelineIdPathParam": {
-        "name": "pipelineId",
-        "in": "path",
-        "description": "The Pipeline ID",
-        "example": "sample-pipeline",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "idempotencyKey": {
-        "name": "Idempotency-Key",
-        "in": "header",
-        "description": "The HTTP Idempotency-Key",
-        "example": "0xr$P0Cu4@DB",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "runIdPathParam": {
-        "name": "runId",
-        "in": "path",
-        "description": "The Run ID",
-        "example": "01234567-89ab-cdef-0123-456789abcdef",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "jobIdPathParam": {
-        "name": "jobId",
-        "in": "path",
-        "description": "The Job ID",
-        "example": "deploy",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "approvalIdPathParam": {
-        "name": "approvalId",
-        "in": "path",
-        "description": "The Approval ID",
-        "example": "01234567-89ab-cdef-0123-456789abcdef",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "stepIndexPathParam": {
-        "name": "stepIndex",
-        "in": "path",
-        "description": "The index of the step within the Job",
-        "example": 0,
-        "required": true,
-        "schema": {
-          "type": "integer"
-        }
-      },
-      "byOrgIdQueryParam": {
-        "name": "org",
-        "description": "An optional Organization ID",
-        "in": "query",
-        "required": false,
-        "example": "sample-org",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "byAppIdQueryParam": {
-        "name": "app",
-        "description": "An optional list of Application IDs.",
-        "in": "query",
-        "explode": true,
-        "required": false,
-        "schema": {
-          "type": "array",
-          "items": {
-            "example": "sample-app",
-            "type": "string"
-          }
-        }
-      },
-      "byPipelineIdQueryParam": {
-        "name": "pipeline",
-        "description": "An optional list of Pipeline IDs.",
-        "in": "query",
-        "explode": true,
-        "required": false,
-        "schema": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "example": "sample-pipeline"
-          }
-        }
-      },
-      "byRunIdQueryParam": {
-        "name": "run",
-        "description": "An optional Pipeline Run ID.",
-        "in": "query",
-        "explode": true,
-        "required": false,
-        "schema": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "example": "sample-run"
-          }
-        }
-      },
-      "byVersionQueryParam": {
-        "name": "version",
-        "in": "query",
-        "description": "An optional Pipeline Version ID.",
-        "required": false,
-        "example": "01234567-89ab-cdef-0123-456789abcdef",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "byStatusQueryParam": {
-        "name": "status",
-        "description": "Optional filter by status.",
-        "in": "query",
-        "explode": true,
-        "required": false,
-        "schema": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "example": "executing"
-          }
-        }
-      },
-      "byCompletedQueryParam": {
-        "name": "completed",
-        "in": "query",
-        "description": "Optional filer by completed or not.",
-        "required": false,
-        "example": true,
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      "byWaitingForQueryParam": {
-        "name": "waiting_for",
-        "in": "query",
-        "description": "Optional filter by waiting for an event.",
-        "required": false,
-        "example": "application.environment.deployment(test-deployment-id)",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "byCreatedAfterParam": {
-        "name": "created_after",
-        "in": "query",
-        "description": "Optional filter by creation after date time.",
-        "example": "2018-03-20T09:12:28Z",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "byCreatedBeforeParam": {
-        "name": "created_before",
-        "in": "query",
-        "description": "Optional filter by creation before date time",
-        "example": "2018-03-20T09:12:28Z",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "byMetadata": {
-        "name": "metadata",
-        "description": "Optional filter by pipeline metadata",
-        "in": "query",
-        "required": false,
-        "style": "deepObject",
-        "schema": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "ifMatchHeaderParam": {
-        "name": "If-Match",
-        "in": "header",
-        "description": "Indicate that the request should only succeed if there is an etag match",
-        "required": false,
-        "example": "1234567890abcdef",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "byApprovalStatusQueryParam": {
-        "name": "status",
-        "in": "query",
-        "description": "Optional filter by status.",
-        "required": false,
-        "example": "denied",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "byTriggerTypeQueryParam": {
-        "name": "trigger",
-        "description": "An optional filter by trigger type.",
-        "in": "query",
-        "required": false,
-        "example": "pipeline_call",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "batchTypeParam": {
-        "name": "batchType",
-        "description": "The batch type",
-        "in": "path",
-        "required": true,
-        "example": "image",
-        "schema": {
-          "type": "string"
-        }
-      },
-      "envIdPathParam": {
-        "name": "envId",
-        "in": "path",
-        "description": "The Environment ID",
-        "example": "development",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "profileQidPathParam": {
-        "name": "profileQid",
-        "in": "path",
-        "description": "The Workload Profile ID.",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "versionPathParam": {
-        "name": "version",
-        "in": "path",
-        "description": "The Version.",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      "deprecatedQueryParam": {
-        "name": "deprecated",
-        "in": "query",
-        "description": "Whether to include deprecated profiles",
-        "required": false,
-        "example": true,
-        "schema": {
-          "type": "boolean",
-          "default": false
-        }
-      }
-    },
-    "responses": {
-      "400BadRequest": {
-        "description": "The request was invalid. More detail can be found in the error body.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/HumanitecErrorResponse"
-            }
-          }
-        }
-      },
-      "403Forbidden": {
-        "description": "Server understands the request but refuses to authorize it.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/HumanitecErrorResponse"
-            }
-          }
-        }
-      },
-      "404NotFound": {
-        "description": "Either the resource or a related resource could not be found. More detail can be found in the error body.",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/HumanitecErrorResponse"
-            }
-          }
-        }
-      },
-      "307TemporaryRedirect": {
-        "description": "The content is available at a different location specified in the Location header.",
-        "headers": {
-          "location": {
-            "schema": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "409Conflict": {
-        "description": "The request itself is valid however it could not be applied based on the current state of the resource.\nMore detail can be found in the error body.\n",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/HumanitecErrorResponse"
-            }
-          }
-        }
-      },
-      "412PreconditionFailed": {
-        "description": "The request itself is valid however it could not be applied because the Etag does not match.\n",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
-          }
-        }
-      },
-      "422UnprocessableContent": {
-        "description": "Server understands the content type of the request, and the syntax of the request is correct, but it was unable to process the contained instructions\n",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
     "headers": {
       "Etag": {
         "description": "The Etag of the resource",
@@ -18261,6 +18820,7 @@
     {
       "name": "Core",
       "tags": [
+        "Agents",
         "Application",
         "Artefact",
         "ArtefactVersion",
@@ -18382,6 +18942,11 @@
       "name": "ActiveResource",
       "x-displayName": "Active Resources",
       "description": "Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.\n\nActive Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/ActiveResourceRequest\" />\n"
+    },
+    {
+      "name": "Agents",
+      "x-displayName": "Agents",
+      "description": "An object containing the details of an Agent.\n<SchemaDefinition schemaRef=\"#/components/schemas/Agent\" />\n"
     },
     {
       "name": "Application",
