@@ -2,8 +2,8 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.25.0",
-    "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\nAlmost all requests made to the Humanitec API require Authentication. Humanitec provides 2 ways of authenticating with the API: `Bearer` and `JWT`.\n\n### Bearer Authentication\nThis form of authentication makes use of a **static token**. It is intended to be used when machines interact with the Humanitec API. Bearer tokens should be used for very narrow purposes. This allows for the token to be revoked if it is compromised and so limit the scope of exposure.\nNew Bearer tokens can be obtained via the UI:\n\n1. Log into Humanitec at https://app.humanitec.io\n1. Go to **Organization Settings**\n1. Select **API tokens**\n1. Enter a *name* for the new token and click on **Generate new token**\n\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_TOKEN`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: Bearer HUMANITEC_TOKEN' https://api.humanitec.io/orgs/my-org/apps\n```\n\n### JWT Authentication\nThis form of authentication makes use of a **JSON Web Token (JWT)**. It is intended to be used when humans interact with the Humanitec API. JWTs expire after a period of time. This means that a new JWT will need to be generated regularly. This makes them well suited to working in short sessions, but not for automation. (See Bearer Authentication.)\nThe token is passed to the API via the `Authorization` header. Assuming the issued token is `HUMANITEC_JWT`, the request could be made as follows:\n\n```\n    curl -H 'Authorization: JWT HUMANITEC_JWT' https://api.humanitec.io/orgs/my-org/apps\n```\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
+    "version": "0.25.2",
+    "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
       "email": "apiteam@humanitec.com"
@@ -277,6 +277,7 @@
           "Application"
         ],
         "summary": "List all Applications in an Organization.",
+        "operationId": "listApplications",
         "description": "Listing or lists of all Applications that exist within a specific Organization.",
         "parameters": [
           {
@@ -324,6 +325,7 @@
           "Application"
         ],
         "summary": "Add a new Application to an Organization",
+        "operationId": "createApplication",
         "description": "Creates a new Application, then adds it to the specified Organization.",
         "parameters": [
           {
@@ -409,6 +411,7 @@
           "Application"
         ],
         "summary": "Get an existing Application",
+        "operationId": "getApplication",
         "description": "Gets a specific Application in the specified Organization by ID.",
         "parameters": [
           {
@@ -470,6 +473,7 @@
           "Application"
         ],
         "summary": "Delete an Application",
+        "operationId": "deleteApplication",
         "description": "Deleting an Application will also delete everything associated with it. This includes Environments, Deployment history on those Environments, and any shared values and secrets associated.\n\n_Deletions are currently irreversible._",
         "parameters": [
           {
@@ -525,6 +529,7 @@
           "Environment"
         ],
         "summary": "List all Environments.",
+        "operationId": "listEnvironments",
         "description": "Lists all of the Environments in the Application.",
         "parameters": [
           {
@@ -571,6 +576,7 @@
           "Environment"
         ],
         "summary": "Add a new Environment to an Application.",
+        "operationId": "createEnvironment",
         "description": "Creates a new Environment of the specified Type and associates it with the Application specified by `appId`.\n\nThe Environment is also initialized to the **current or past state of Deployment in another Environment**. This ensures that every Environment is derived from a previously known state. This means it is not possible to create a new Environment for an Application until at least one Deployment has occurred. (The Deployment does not have to be successful.)\n\nThe Type of the Environment must be already defined in the Organization.",
         "parameters": [
           {
@@ -662,6 +668,7 @@
           "Environment"
         ],
         "summary": "Get a specific Environment.",
+        "operationId": "getEnvironment",
         "description": "Gets a specific Environment in an Application.",
         "parameters": [
           {
@@ -722,6 +729,7 @@
           "Environment"
         ],
         "summary": "Delete a specific Environment.",
+        "operationId": "deleteEnvironment",
         "description": "Deletes a specific Environment in an Application.\n\nDeleting an Environment will also delete the Deployment history of the Environment.\n\n_Deletions are currently irreversible._",
         "parameters": [
           {
@@ -819,7 +827,8 @@
           {
             "name": "pipelineRunId",
             "in": "query",
-            "description": "An optional filter by the Pipeline Run ID.\n\n",
+            "description": "An optional filter by the Pipeline and Pipeline Run ID separated by a comma.\n",
+            "example": "default,01234567-89ab-cdef-0123-456789abcdef",
             "schema": {
               "type": "string"
             }
@@ -860,6 +869,7 @@
           "Deployment"
         ],
         "summary": "Start a new Deployment.",
+        "operationId": "createDeployment",
         "description": "At Humanitec, Deployments are defined as changes to the state of the Environment. The state can be changed by defining a set of desired changes to the current state via a Deployment Delta or by resetting the current state after a previous Deployment. (See Environment Rebase.) Both types of changes can be combined into a single Deployment during which the Delta is applied to the Rebased state.\n\nWhen specifying a Delta, a Delta ID must be used. That Delta must have been committed to the Delta store prior to the Deployment.\n\nA Set ID can also be defined in the deployment to force the state of the environment to a particular state. This will be ignored if the Delta is specified.\n\n**NOTE:**\n\nDirectly setting a `set_id` in a deployment is not recommended as it will not record history of where the set came from. If the intention is to replicate an existing environment, use the environment rebasing approach described above.",
         "parameters": [
           {
@@ -1099,6 +1109,7 @@
           "Environment"
         ],
         "summary": "Rebase to a different Deployment.",
+        "operationId": "rebaseEnvironment",
         "description": "Rebasing an Environment means that the next Deployment to the Environment will be based on the Deployment specified in the rebase rather than the last one in the Environment. The Deployment to rebase to can either be current or a previous Deployment. The Deployment can be from any Environment of the same Application.\n\n_Running code will only be affected on the next Deployment to the Environment._\n\nCommon use cases for rebasing an Environment:\n\n* _Rollback_: Rebasing to a previous Deployment in the current Environment and then Deploying without additional changes will execute a rollback to the previous Deployment state.\n\n* _Clone_: Rebasing to the current Deployment in a different Environment and then deploying without additional changes will clone all of the configuration of the other Environment into the current one. (NOTE: External Resources will not be cloned in the process - the current External Resources of the Environment will remain unchanged and will be used by the deployed Application in the Environment.",
         "parameters": [
           {
@@ -1174,6 +1185,7 @@
           "EnvironmentType"
         ],
         "summary": "List all Environment Types",
+        "operationId": "listEnvironmentTypes",
         "description": "Lists all Environment Types in an Organization.",
         "parameters": [
           {
@@ -1208,6 +1220,7 @@
           "EnvironmentType"
         ],
         "summary": "Add a new Environment Type",
+        "operationId": "createEnvironmentType",
         "description": "Adds a new Environment Type to an Organization.",
         "parameters": [
           {
@@ -1282,6 +1295,7 @@
           "EnvironmentType"
         ],
         "summary": "Get an Environment Type",
+        "operationId": "getEnvironmentType",
         "description": "Gets a specific Environment Type within an Organization.",
         "parameters": [
           {
@@ -1332,6 +1346,7 @@
           "EnvironmentType"
         ],
         "summary": "Deletes an Environment Type",
+        "operationId": "deleteEnvironmentType",
         "description": "Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail.",
         "parameters": [
           {
@@ -2364,7 +2379,7 @@
         ],
         "operationId": "listAuditLogEntries",
         "summary": "List audit log entries by Organization",
-        "description": "List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest.\nThis API requires administrator permissions in the Organization.\n",
+        "description": "List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest. Each response contains at most 32 days worth of data for performance reasons and may be empty if no records exist within that time range. Pagination links in the 'Link' header should always be followed when present.\nThis API requires administrator permissions in the Organization.\n",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -2476,7 +2491,8 @@
           "404": {
             "description": "Object does not exist.\n\n"
           }
-        }
+        },
+        "operationId": "listUserRolesInApp"
       },
       "post": {
         "tags": [
@@ -2547,7 +2563,8 @@
           "422": {
             "description": "The request body was not parseable.\n\n"
           }
-        }
+        },
+        "operationId": "createUserRoleInApp"
       }
     },
     "/orgs/{orgId}/users": {
@@ -2585,7 +2602,8 @@
           "404": {
             "description": "Object does not exist.\n\n"
           }
-        }
+        },
+        "operationId": "listUserRolesInOrg"
       },
       "post": {
         "tags": [
@@ -2648,7 +2666,8 @@
           "403": {
             "description": "Token is not valid for a user.\n\n"
           }
-        }
+        },
+        "operationId": "createServiceUserInOrg"
       }
     },
     "/orgs/{orgId}/users/{userId}": {
@@ -2658,6 +2677,7 @@
           "UserRole"
         ],
         "summary": "Get the role of a User on an Organization",
+        "operationId": "getUserRoleInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -2710,6 +2730,7 @@
           "UserRole"
         ],
         "summary": "Remove the role of a User on an Organization",
+        "operationId": "deleteUserRoleInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -2755,6 +2776,7 @@
           "UserRole"
         ],
         "summary": "Update the role of a User on an Organization",
+        "operationId": "updateUserRoleInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -5190,6 +5212,53 @@
       }
     },
     "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "getPipelineCriteria",
+        "summary": "Get the Pipeline Criteria with the given id.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "name": "criteriaId",
+            "in": "path",
+            "description": "The Criteria ID",
+            "example": "01234567-89ab-cdef-0123-456789abcdef",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PipelineCriteria"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "public",
@@ -5278,6 +5347,9 @@
           },
           {
             "$ref": "#/components/parameters/byPipelineIdQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/byEnvIdQueryParam"
           },
           {
             "$ref": "#/components/parameters/byStatusQueryParam"
@@ -5418,6 +5490,9 @@
           },
           {
             "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/byEnvIdQueryParam"
           },
           {
             "$ref": "#/components/parameters/byStatusQueryParam"
@@ -6539,6 +6614,7 @@
           "ActiveResource"
         ],
         "summary": "List Active Resources provisioned in an environment.",
+        "operationId": "listActiveResources",
         "parameters": [
           {
             "name": "orgId",
@@ -6602,6 +6678,7 @@
           "ResourceProvision"
         ],
         "summary": "Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+        "operationId": "queryResourceGraph",
         "parameters": [
           {
             "name": "orgId",
@@ -6689,6 +6766,7 @@
           "ActiveResource"
         ],
         "summary": "Delete Active Resources.",
+        "operationId": "deleteActiveResource",
         "parameters": [
           {
             "name": "orgId",
@@ -6759,6 +6837,7 @@
           "AccountType"
         ],
         "summary": "List Resource Account Types available to the organization.",
+        "operationId": "listResourceAccountTypes",
         "parameters": [
           {
             "name": "orgId",
@@ -6804,6 +6883,7 @@
           "ResourceAccount"
         ],
         "summary": "List Resource Accounts in the organization.",
+        "operationId": "listResourceAccounts",
         "parameters": [
           {
             "name": "orgId",
@@ -6847,6 +6927,7 @@
           "ResourceAccount"
         ],
         "summary": "Create a new Resource Account in the organization.",
+        "operationId": "createResourceAccount",
         "parameters": [
           {
             "name": "orgId",
@@ -6929,6 +7010,7 @@
           "ResourceAccount"
         ],
         "summary": "Get a Resource Account.",
+        "operationId": "getResourceAccount",
         "parameters": [
           {
             "name": "orgId",
@@ -6988,6 +7070,7 @@
           "ResourceAccount"
         ],
         "summary": "Delete an unused Resource Account.",
+        "operationId": "deleteResourceAccount",
         "parameters": [
           {
             "name": "orgId",
@@ -7050,6 +7133,7 @@
           "ResourceAccount"
         ],
         "summary": "Update a Resource Account.",
+        "operationId": "patchResourceAccount",
         "parameters": [
           {
             "name": "orgId",
@@ -7131,6 +7215,7 @@
           "ResourceDefinition"
         ],
         "summary": "List Resource Definitions.",
+        "operationId": "listResourceDefinitions",
         "description": "Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank.",
         "parameters": [
           {
@@ -7223,6 +7308,7 @@
           "ResourceDefinition"
         ],
         "summary": "Create a new Resource Definition.",
+        "operationId": "createResourceDefinition",
         "parameters": [
           {
             "name": "orgId",
@@ -7296,6 +7382,7 @@
           "ResourceDefinition"
         ],
         "summary": "Get a specific Resource Definition.",
+        "operationId": "getResourceDefinition",
         "parameters": [
           {
             "name": "orgId",
@@ -7355,6 +7442,7 @@
           "ResourceDefinition"
         ],
         "summary": "Update a Resource Definition.",
+        "operationId": "updateResourceDefinition",
         "parameters": [
           {
             "name": "orgId",
@@ -7435,6 +7523,7 @@
           "ResourceDefinition"
         ],
         "summary": "Delete a Resource Definition.",
+        "operationId": "deleteResourceDefinition",
         "description": "If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.\n\nIf there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.\n\nThe request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is **marked as** pending deletion and will be deleted (purged) as soon as no existing Active Resources reference it. With the next deployment matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).\n\nThe Resource Definition that has been marked for deletion cannot be used to provision new resources.",
         "parameters": [
           {
@@ -7509,6 +7598,7 @@
           "ResourceDefinition"
         ],
         "summary": "Update a Resource Definition.",
+        "operationId": "patchResourceDefinition",
         "parameters": [
           {
             "name": "orgId",
@@ -7592,6 +7682,7 @@
           "MatchingCriteria"
         ],
         "summary": "Update all Matching Criteria of a Resource Definition.",
+        "operationId": "updateResourceDefinitionCriteria",
         "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
         "parameters": [
           {
@@ -7695,6 +7786,7 @@
           "MatchingCriteria"
         ],
         "summary": "Add a new Matching Criteria to a Resource Definition.",
+        "operationId": "createResourceDefinitionCriteria",
         "description": "Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.\n\nFor example, given 3 sets of matching criteria for the same type:\n\n```\n 1. {\"env_type\":\"test\"}\n 2. {\"env_type\":\"development\"}\n 3. {\"env_type\":\"test\", \"app_id\":\"my-app\"}\n```\n\nIf, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.",
         "parameters": [
           {
@@ -7792,6 +7884,7 @@
           "MatchingCriteria"
         ],
         "summary": "Delete a Matching Criteria from a Resource Definition.",
+        "operationId": "deleteResourceDefinitionCriteria",
         "description": "If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.\n\nIf there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.\n\nThe request can take an optional `force` query parameter. If set to `true`, the Matching Criteria is deleted immediately. Referenced Active Resources would match to a different Resource Definition during the next deployment in the target environment.",
         "parameters": [
           {
@@ -7878,6 +7971,7 @@
           "ActiveResource"
         ],
         "summary": "List Active Resources provisioned via a specific Resource Definition.",
+        "operationId": "listActiveResourceByDefinition",
         "parameters": [
           {
             "name": "orgId",
@@ -7932,6 +8026,7 @@
           "DriverDefinition"
         ],
         "summary": "List Resource Drivers.",
+        "operationId": "listResourceDrivers",
         "parameters": [
           {
             "name": "orgId",
@@ -7975,6 +8070,7 @@
           "DriverDefinition"
         ],
         "summary": "Register a new Resource Driver.",
+        "operationId": "createResourceDriver",
         "parameters": [
           {
             "name": "orgId",
@@ -8048,6 +8144,7 @@
           "DriverDefinition"
         ],
         "summary": "Get a Resource Driver.",
+        "operationId": "getResourceDriver",
         "description": "# Only drivers that belongs to the given organization or registered as `public` are accessible through this endpoint",
         "parameters": [
           {
@@ -8108,6 +8205,7 @@
           "DriverDefinition"
         ],
         "summary": "Update a Resource Driver.",
+        "operationId": "updateResourceDriver",
         "parameters": [
           {
             "name": "orgId",
@@ -8187,6 +8285,7 @@
           "DriverDefinition"
         ],
         "summary": "Delete a Resources Driver.",
+        "operationId": "deleteResourceDriver",
         "parameters": [
           {
             "name": "orgId",
@@ -8231,6 +8330,7 @@
           "ResourceType"
         ],
         "summary": "List Resource Types.",
+        "operationId": "listResourceTypes",
         "parameters": [
           {
             "name": "orgId",
@@ -8294,7 +8394,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RuntimeInfoResponse"
+                  "$ref": "#/components/schemas/RuntimeInfoResponseV1"
+                }
+              },
+              "application/v2+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeInfoResponseV2"
                 }
               }
             }
@@ -8744,6 +8849,7 @@
           "UserProfile"
         ],
         "summary": "Gets the extended profile of the current user",
+        "operationId": "getCurrentUser",
         "responses": {
           "200": {
             "description": "The extended user profile of the user.\n\n",
@@ -8769,6 +8875,7 @@
           "UserProfile"
         ],
         "summary": "Updates the extended profile of the current user.",
+        "operationId": "updateCurrentUser",
         "requestBody": {
           "required": true,
           "content": {
@@ -8816,6 +8923,7 @@
           "UserRole"
         ],
         "summary": "Get the role of a User on an Application",
+        "operationId": "getUserRoleInApp",
         "parameters": [
           {
             "name": "orgId",
@@ -8877,6 +8985,7 @@
           "UserRole"
         ],
         "summary": "Remove the role of a User on an Application",
+        "operationId": "deleteUserRoleInApp",
         "parameters": [
           {
             "name": "orgId",
@@ -8931,6 +9040,7 @@
           "UserRole"
         ],
         "summary": "Update the role of a User on an Application",
+        "operationId": "updateUserRoleInApp",
         "parameters": [
           {
             "name": "orgId",
@@ -9005,6 +9115,7 @@
           "UserRole"
         ],
         "summary": "Adds a User to an Environment Type with a Role",
+        "operationId": "createUserRoleInEnvType",
         "parameters": [
           {
             "name": "orgId",
@@ -9074,6 +9185,7 @@
           "UserRole"
         ],
         "summary": "Get the role of a User on an Environment Type",
+        "operationId": "getUserRoleInEnvType",
         "parameters": [
           {
             "name": "orgId",
@@ -9135,6 +9247,7 @@
           "UserRole"
         ],
         "summary": "Remove the role of a User on an Environment Type",
+        "operationId": "deleteUserRoleInEnvType",
         "parameters": [
           {
             "name": "orgId",
@@ -9189,6 +9302,7 @@
           "UserRole"
         ],
         "summary": "Update the role of a User on an Environment Type",
+        "operationId": "updateUserRoleInEnvType",
         "parameters": [
           {
             "name": "orgId",
@@ -9263,6 +9377,7 @@
           "UserInvite"
         ],
         "summary": "List the invites issued for the organization.",
+        "operationId": "listInvitesInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -9296,6 +9411,7 @@
           "UserRole"
         ],
         "summary": "Invites a user to an Organization with a specified role.",
+        "operationId": "createInviteInOrg",
         "parameters": [
           {
             "name": "orgId",
@@ -9352,53 +9468,6 @@
         }
       }
     },
-    "/tokens": {
-      "get": {
-        "tags": [
-          "public",
-          "UserProfile"
-        ],
-        "summary": "DEPRECATED",
-        "responses": {
-          "200": {
-            "description": "The token structure.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": true,
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/tokens/{tokenId}": {
-      "delete": {
-        "tags": [
-          "public",
-          "UserProfile"
-        ],
-        "summary": "DEPRECATED",
-        "parameters": [
-          {
-            "name": "tokenId",
-            "in": "path",
-            "description": "The token ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Deleted\n\n"
-          }
-        }
-      }
-    },
     "/users/{userId}/tokens": {
       "get": {
         "tags": [
@@ -9406,6 +9475,7 @@
           "TokenInfo"
         ],
         "summary": "Lists tokens associated with a user",
+        "operationId": "listUserTokens",
         "parameters": [
           {
             "name": "userId",
@@ -9442,6 +9512,7 @@
           "TokenInfo"
         ],
         "summary": "Creates a new static token for a user.",
+        "operationId": "createUserToken",
         "description": "This is only supported for users of type `service`.",
         "parameters": [
           {
@@ -9502,6 +9573,7 @@
           "TokenInfo"
         ],
         "summary": "Gets a specific token associated with a user",
+        "operationId": "getUserToken",
         "parameters": [
           {
             "name": "userId",
@@ -9547,6 +9619,7 @@
           "TokenInfo"
         ],
         "summary": "Deletes a specific token associated with a user",
+        "operationId": "deleteUserToken",
         "description": "This endpoint deletes a user's session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used.",
         "parameters": [
           {
@@ -11722,6 +11795,16 @@
           }
         }
       },
+      "byEnvIdQueryParam": {
+        "name": "env",
+        "description": "An optional Environment ID",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "example": "development",
+          "type": "string"
+        }
+      },
       "byPipelineIdQueryParam": {
         "name": "pipeline",
         "description": "An optional list of Pipeline IDs.",
@@ -11976,6 +12059,16 @@
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "401Unauthorized": {
+        "description": "Request lacks valid authentication credentials.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HumanitecErrorResponse"
             }
           }
         }
@@ -12555,59 +12648,6 @@
           "name",
           "type",
           "from_deploy_id"
-        ],
-        "type": "object"
-      },
-      "EnvironmentRequest": {
-        "description": "Environments are independent spaces where Applications can run. An Application is always deployed into an Environment.",
-        "example": {
-          "created_at": "2020-05-22T14:58:07Z",
-          "created_by": "a.user@example.com",
-          "from_deploy": {
-            "comment": "Updated version of module-one to v0.3.1",
-            "created_at": "2020-05-22T14:58:07Z",
-            "created_by": "a.user@example.com",
-            "delta_id": "df1ad41807b0390a9b0eaf8688e1f5baece9d764",
-            "env_id": "my-env",
-            "from_id": "42d4b302fd3c",
-            "id": "67f1619a57d",
-            "status": "in progress",
-            "status_changed_at": "2020-05-22T14:59:01Z"
-          },
-          "id": "feature-test",
-          "last_deploy": {
-            "comment": "Updated version of module-one to v0.3.1",
-            "created_at": "2020-05-22T14:58:07Z",
-            "created_by": "a.user@example.com",
-            "delta_id": "df1ad41807b0390a9b0eaf8688e1f5baece9d764",
-            "env_id": "my-env",
-            "from_id": "42d4b302fd3c",
-            "id": "67f1619a57d",
-            "status": "in progress",
-            "status_changed_at": "2020-05-22T14:59:01Z"
-          },
-          "name": "Feature Test",
-          "type": "development"
-        },
-        "properties": {
-          "id": {
-            "description": "The ID the Environment is referenced as.",
-            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
-            "type": "string"
-          },
-          "name": {
-            "description": "The Human-friendly name for the Environment.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The Environment Type. This is used for organizing and managing Environments.",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type"
         ],
         "type": "object"
       },
@@ -13954,7 +13994,7 @@
         "type": "object"
       },
       "ModuleRequest": {
-        "description": "Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module",
+        "description": "Module single workload data",
         "properties": {
           "deploy": {
             "$ref": "#/components/schemas/DeployConditionRequest"
@@ -13974,10 +14014,7 @@
           }
         },
         "type": "object",
-        "nullable": true,
-        "additionalProperties": {
-          "$ref": "#/components/schemas/ControllerRequest"
-        }
+        "nullable": true
       },
       "ModuleResponse": {
         "description": "Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module",
@@ -14676,13 +14713,31 @@
       },
       "PipelineCriteria": {
         "required": [
-          "trigger"
+          "trigger",
+          "id",
+          "pipeline_id",
+          "pipeline_name"
         ],
         "properties": {
           "trigger": {
             "description": "The trigger to call",
             "type": "string",
             "example": "deployment_request"
+          },
+          "id": {
+            "description": "The unique id of the criteria within this Pipeline.",
+            "type": "string",
+            "example": "01234567-89ab-cdef-0123-456789abcdef"
+          },
+          "pipeline_id": {
+            "description": "The id of the Pipeline tied to this deployment request criteria.",
+            "type": "string",
+            "example": "sample-pipeline"
+          },
+          "pipeline_name": {
+            "description": "The current display name of the Pipeline.",
+            "type": "string",
+            "example": "Sample Pipeline"
           }
         },
         "oneOf": [
@@ -14701,11 +14756,22 @@
         "description": "A deployment request matching criteria for a Pipeline.",
         "type": "object",
         "required": [
+          "trigger",
           "id",
           "pipeline_id",
           "pipeline_name"
         ],
         "properties": {
+          "trigger": {
+            "description": "The trigger to call",
+            "type": "string",
+            "example": "deployment_request"
+          },
+          "id": {
+            "description": "The unique id of the criteria within this Pipeline.",
+            "type": "string",
+            "example": "01234567-89ab-cdef-0123-456789abcdef"
+          },
           "pipeline_id": {
             "description": "The id of the Pipeline tied to this deployment request criteria.",
             "type": "string",
@@ -14715,11 +14781,6 @@
             "description": "The current display name of the Pipeline.",
             "type": "string",
             "example": "Sample Pipeline"
-          },
-          "id": {
-            "description": "The unique id of the criteria within this Pipeline.",
-            "type": "string",
-            "example": "01234567-89ab-cdef-0123-456789abcdef"
           },
           "env_type": {
             "description": "The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.\n",
@@ -14750,12 +14811,14 @@
           "etag",
           "org_id",
           "app_id",
+          "env_ids",
           "pipeline_id",
           "pipeline_version",
           "status",
           "status_message",
           "created_at",
           "timeout_seconds",
+          "trigger",
           "inputs",
           "run_as",
           "waiting_for"
@@ -14780,6 +14843,16 @@
             "description": "The id of the Application containing this Run.",
             "example": "sample-app",
             "type": "string"
+          },
+          "env_ids": {
+            "description": "Environments linked to this Pipeline Run through input parameters or step executions.",
+            "example": [
+              "development"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "pipeline_id": {
             "description": "The id of the Pipeline associated with the Run.",
@@ -14829,6 +14902,11 @@
             "description": "The timeout for this Run.",
             "example": 3600,
             "type": "integer"
+          },
+          "trigger": {
+            "description": "The trigger type that was triggered this Run to start.",
+            "example": "pipeline_call",
+            "type": "string"
           },
           "inputs": {
             "description": "The inputs that were provided for this Run.",
@@ -14898,14 +14976,16 @@
         }
       },
       "PipelineRunCreateByDeploymentRequestCriteriaBody": {
-        "description": "Trigger the pipeline that has a deployment_request trigger and criteria that match this target environment. If \"delta_id\" or \"set_id\" is provided, the matching criteria must support deployment type \"deploy\". If \"deployment_id\" is provided, the matching criteria must support deployment type \"re-deploy\".\nWhen \"delta_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"delta_id\" and \"value_set_version_id\" if provided. When \"deployment_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"deployment_id\", with \"set_id\", \"value_set_version_id\" being retrieved from the deployment itself. When \"set_id\" is provided, the inputs to the Pipeline Run will be \"environment\", \"comment\", \"set_id\", and \"value_set_version_id\" if provided.\n",
-        "required": [
-          "environment"
-        ],
+        "description": "Trigger the pipeline that has a deployment_request trigger and criteria that match this target environment. If \"delta_id\" or \"set_id\" is provided, the matching criteria must support deployment type \"deploy\". If \"deployment_id\" is provided, the matching criteria must support deployment type \"re-deploy\".\nWhen \"delta_id\" is provided, the inputs to the Pipeline Run will be \"env_id\", \"comment\", \"delta_id\" and \"value_set_version_id\" if provided. When \"deployment_id\" is provided, the inputs to the Pipeline Run will be \"env_id\", \"comment\", \"deployment_id\", with \"set_id\", \"value_set_version_id\" being retrieved from the deployment itself. When \"set_id\" is provided, the inputs to the Pipeline Run will be \"env_id\", \"comment\", \"set_id\", and \"value_set_version_id\" if provided.\n",
         "properties": {
-          "environment": {
+          "env_id": {
             "description": "The target environment within the Application to deploy to.",
             "type": "string"
+          },
+          "environment": {
+            "description": "The target environment within the Application to deploy to.",
+            "type": "string",
+            "deprecated": true
           },
           "delta_id": {
             "description": "A deployment delta to apply to the target environment. This delta must already exist. This field is mutually exclusive with \"deployment_id\" and \"set_id\".",
@@ -14930,7 +15010,7 @@
         },
         "example": {
           "trigger": "deployment_request",
-          "environment": "development",
+          "env_id": "development",
           "delta_id": "0123456789abcdef0123456789abcdef01234567",
           "comment": "My deployment"
         }
@@ -15557,7 +15637,11 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ]
       },
       "AccountTypeResponse": {
         "description": "Resource Account Types define cloud providers or protocols to which a resource account can belong.",
@@ -15625,6 +15709,10 @@
             "description": "The deployment that the resource was last provisioned in.",
             "type": "string"
           },
+          "driver_account": {
+            "description": "(Optional) Security account required by the driver.",
+            "type": "string"
+          },
           "driver_type": {
             "description": "The driver to be used to create the resource.",
             "type": "string"
@@ -15670,12 +15758,27 @@
           "updated_at": {
             "description": "The time the resource was last provisioned as part of a deployment.",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
         },
-        "type": "object"
+        "type": "object",
+        "required": [
+          "org_id",
+          "app_id",
+          "env_id",
+          "env_type",
+          "res_id",
+          "def_id",
+          "type",
+          "driver_type",
+          "class",
+          "status",
+          "resource",
+          "updated_at",
+          "deploy_id",
+          "gu_res_id"
+        ]
       },
       "ActiveResourceResponse": {
         "description": "Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.\n\nActive Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.",
@@ -15721,6 +15824,10 @@
             "description": "The deployment that the resource was last provisioned in.",
             "type": "string"
           },
+          "driver_account": {
+            "description": "(Optional) Security account required by the driver.",
+            "type": "string"
+          },
           "driver_type": {
             "description": "The driver to be used to create the resource.",
             "type": "string"
@@ -15766,9 +15873,8 @@
           "updated_at": {
             "description": "The time the resource was last provisioned as part of a deployment.",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -15779,6 +15885,7 @@
           "res_id",
           "def_id",
           "type",
+          "driver_type",
           "class",
           "status",
           "resource",
@@ -15831,9 +15938,14 @@
           "type": {
             "description": "The type of resource produced by this driver",
             "type": "string"
+          },
+          "is_public": {
+            "type": "boolean",
+            "deprecated": true
           }
         },
         "required": [
+          "id",
           "type",
           "target",
           "inputs_schema",
@@ -15871,7 +15983,13 @@
             "type": "string"
           }
         },
-        "type": "object"
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "name",
+          "credentials"
+        ]
       },
       "CreateResourceDefinitionRequestRequest": {
         "description": "CreateResourceDefinitionRequest describes a new ResourceDefinition request.",
@@ -15904,7 +16022,7 @@
           "criteria": {
             "description": "(Optional) The criteria to use when looking for a Resource Definition during the deployment.",
             "items": {
-              "$ref": "#/components/schemas/MatchingCriteriaRequest"
+              "$ref": "#/components/schemas/MatchingCriteriaRuleRequest"
             },
             "type": "array"
           },
@@ -15948,56 +16066,6 @@
           "type",
           "driver_type"
         ],
-        "type": "object"
-      },
-      "DriverDefinitionRequest": {
-        "description": "DriverDefinition describes the resource driver.\n\nResource Drivers are code that fulfils the Humanitec Resource Driver Interface. This interface allows for certain actions to be performed on resources such as creation and destruction. Humanitec provides numerous Resource Drivers “out of the box”. It is also possible to use 3rd party Resource Drivers or write your own.",
-        "example": {
-          "account_types": [
-            "gcp",
-            "aws"
-          ],
-          "id": "route53",
-          "inputs_schema": {},
-          "is_public": false,
-          "org_id": "test-org",
-          "target": "https://drivers.example.com/route53/",
-          "template": "",
-          "type": "dns"
-        },
-        "properties": {
-          "account_types": {
-            "description": "List of resources accounts types supported by the driver",
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
-          "id": {
-            "description": "The ID for this driver. Is used as `driver_type`.",
-            "type": "string"
-          },
-          "inputs_schema": {
-            "additionalProperties": true,
-            "description": "A JSON Schema specifying the driver-specific input parameters.",
-            "type": "object"
-          },
-          "org_id": {
-            "description": "The Organization this driver exists under. Useful as public drivers are accessible to other orgs.",
-            "type": "string"
-          },
-          "target": {
-            "description": "The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see `target`.",
-            "type": "string"
-          },
-          "template": {
-            "description": "If the driver is a virtual driver, template defines a Go template that converts the driver inputs supplied in the resource definition into the driver inputs for the target driver."
-          },
-          "type": {
-            "description": "The type of resource produced by this driver",
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "DriverDefinitionResponse": {
@@ -16057,19 +16125,6 @@
         ],
         "type": "object"
       },
-      "ManifestRequest": {
-        "description": "Manifest represents a complete or a partial Kubernetes manifest, and a location for its injection.",
-        "properties": {
-          "data": {
-            "description": "Manifest data to inject."
-          },
-          "location": {
-            "description": "Location to inject the Manifest at.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ManifestResponse": {
         "description": "Manifest represents a complete or a partial Kubernetes manifest, and a location for its injection.",
         "properties": {
@@ -16085,36 +16140,6 @@
           "location",
           "data"
         ],
-        "type": "object"
-      },
-      "MatchingCriteriaRequest": {
-        "description": "Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.\n\nMatching criteria are made up in order of specificity with least specific first:\n\n- Environment Type (`env_type`)\n\n- Application (`app_id`)\n\n- Environment (`env_id`)\n\n- Resource (`res_id`)\n\nWhen selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.\n\n**NOTE:**\n\nHumanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.",
-        "properties": {
-          "app_id": {
-            "description": "(Optional) The ID of the Application that the Resources should belong to.",
-            "type": "string"
-          },
-          "class": {
-            "description": "(Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.",
-            "type": "string"
-          },
-          "env_id": {
-            "description": "(Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.",
-            "type": "string"
-          },
-          "env_type": {
-            "description": "(Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.",
-            "type": "string"
-          },
-          "id": {
-            "description": "Matching Criteria ID",
-            "type": "string"
-          },
-          "res_id": {
-            "description": "(Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.",
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "MatchingCriteriaResponse": {
@@ -16225,6 +16250,9 @@
           "driver": {
             "additionalProperties": true,
             "type": "object"
+          },
+          "driver_account": {
+            "type": "string"
           },
           "driver_type": {
             "type": "string"
@@ -16350,48 +16378,6 @@
         ],
         "type": "object"
       },
-      "ResourceAccountRequest": {
-        "description": "ResourceAccount represents the account being used to access a resource.\n\nResource Accounts hold credentials that are required to provision and manage resources.",
-        "example": {
-          "created_at": "2020-05-22T14:58:07Z",
-          "created_by": "test-user",
-          "id": "gcp-dev-postgres",
-          "is_default": false,
-          "is_used": true,
-          "name": "GCP Dev Postgres",
-          "type": "gcp"
-        },
-        "properties": {
-          "created_at": {
-            "description": "The timestamp of when the account was created.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "description": "The ID of the user who created the account.",
-            "type": "string"
-          },
-          "id": {
-            "description": "Unique identifier for the account (in scope of the organization it belongs to).",
-            "type": "string"
-          },
-          "is_used": {
-            "description": "Indicates if this account is being used (referenced) by any resource definition.",
-            "type": "boolean"
-          },
-          "name": {
-            "description": "Display name.",
-            "type": "string"
-          },
-          "type": {
-            "description": "The type of the account",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ResourceAccountResponse": {
         "description": "ResourceAccount represents the account being used to access a resource.\n\nResource Accounts hold credentials that are required to provision and manage resources.",
         "example": {
@@ -16475,115 +16461,6 @@
         ],
         "type": "object"
       },
-      "ResourceDefinitionRequest": {
-        "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.",
-        "example": {
-          "created_at": "2020-05-23T12:32:16Z",
-          "created_by": "a.user@example.com",
-          "criteria": [
-            {
-              "env_type": "development",
-              "id": "123456"
-            }
-          ],
-          "driver_account": "gcp-dev-cloudsql",
-          "driver_inputs": {
-            "secret_refs": {
-              "credentials": {
-                "password": {
-                  "value": "<secret>"
-                },
-                "user": {
-                  "ref": "vault/path/to/data/secrets/user",
-                  "store": "my-external-vault",
-                  "version": "1"
-                }
-              }
-            },
-            "values": {
-              "instance": "my-dev-project:my-region:dev-db"
-            }
-          },
-          "driver_type": "humanitec/postgres-cloudsql",
-          "id": "dev-postgres",
-          "is_default": false,
-          "is_deleted": false,
-          "name": "Dev Postgres Instance",
-          "org_id": "test-org",
-          "provision": {
-            "aws-policy": {
-              "is_dependent": false,
-              "match_dependents": false
-            },
-            "dns#my-dns": {}
-          },
-          "type": "postgres"
-        },
-        "properties": {
-          "created_at": {
-            "description": "The timestamp of when this record has been created.",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "description": "The user who created this record.",
-            "type": "string"
-          },
-          "criteria": {
-            "description": "(Optional) The criteria to use when looking for a Resource Definition during the deployment.",
-            "items": {
-              "$ref": "#/components/schemas/MatchingCriteriaRequest"
-            },
-            "type": "array"
-          },
-          "driver_account": {
-            "description": "(Optional) Security account required by the driver.",
-            "type": "string"
-          },
-          "driver_inputs": {
-            "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
-            "description": "(Optional) Additional input data to be passed to the driver."
-          },
-          "driver_type": {
-            "description": "The driver to be used to create the resource.",
-            "type": "string"
-          },
-          "id": {
-            "description": "The Resource Definition ID.",
-            "type": "string"
-          },
-          "is_default": {
-            "description": "Indicates this definition is a built-in one (provided by Humanitec).",
-            "type": "boolean"
-          },
-          "is_deleted": {
-            "description": "Indicates if this record has been marked for deletion. The Resource Definition that has been marked for deletion cannot be used to provision new resources.",
-            "type": "boolean"
-          },
-          "name": {
-            "description": "The display name.",
-            "type": "string"
-          },
-          "org_id": {
-            "description": "The Organization ID.",
-            "type": "string"
-          },
-          "provision": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/ProvisionDependenciesRequest"
-            },
-            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.",
-            "type": "object"
-          },
-          "type": {
-            "description": "The Resource Type.",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ResourceDefinitionResponse": {
         "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.",
         "example": {
@@ -16632,9 +16509,9 @@
           "created_at": {
             "description": "The timestamp of when this record has been created.",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "created_by": {
             "description": "The user who created this record.",
@@ -16695,7 +16572,12 @@
           "org_id",
           "id",
           "name",
-          "type"
+          "type",
+          "created_at",
+          "created_by",
+          "is_default",
+          "is_deleted",
+          "driver_type"
         ],
         "type": "object"
       },
@@ -16971,6 +16853,10 @@
           "type": {
             "description": "The type of resource produced by this driver",
             "type": "string"
+          },
+          "is_public": {
+            "type": "boolean",
+            "deprecated": true
           }
         },
         "required": [
@@ -17146,33 +17032,6 @@
         },
         "type": "object"
       },
-      "ControllerRequest": {
-        "description": "Controller represents deployment, stateful set etc",
-        "properties": {
-          "kind": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "pods": {
-            "items": {
-              "$ref": "#/components/schemas/PodStateRequest"
-            },
-            "type": "array"
-          },
-          "replicas": {
-            "type": "integer"
-          },
-          "revision": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "ControllerResponse": {
         "description": "Controller represents deployment, stateful set etc",
         "properties": {
@@ -17230,31 +17089,6 @@
         ],
         "type": "object"
       },
-      "PodStateRequest": {
-        "description": "PodState represents single pod status",
-        "properties": {
-          "containerStatuses": {
-            "items": {
-              "additionalProperties": true,
-              "type": "object"
-            },
-            "type": "array"
-          },
-          "phase": {
-            "type": "string"
-          },
-          "podName": {
-            "type": "string"
-          },
-          "revision": {
-            "type": "integer"
-          },
-          "status": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "PodStateResponse": {
         "description": "PodState represents single pod status",
         "properties": {
@@ -17287,22 +17121,7 @@
         ],
         "type": "object"
       },
-      "RuntimeInfoRequest": {
-        "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).",
-        "properties": {
-          "modules": {
-            "additionalProperties": {
-              "$ref": "#/components/schemas/ModuleRequest"
-            },
-            "type": "object"
-          },
-          "namespace": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "RuntimeInfoResponse": {
+      "RuntimeInfoResponseV1": {
         "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).",
         "properties": {
           "modules": {
@@ -17320,6 +17139,272 @@
           "modules"
         ],
         "type": "object"
+      },
+      "RuntimeInfoResponseV2": {
+        "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).",
+        "properties": {
+          "modules": {
+            "description": "Modules represent a collection of workloads for the application.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RuntimeInfoModule"
+            },
+            "type": "object"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "The namespace where the application runs."
+          }
+        },
+        "required": [
+          "namespace",
+          "modules"
+        ],
+        "type": "object"
+      },
+      "RuntimeInfoStatus": {
+        "type": "string",
+        "description": "Workload status.",
+        "enum": [
+          "Running",
+          "Succeeded",
+          "Starting",
+          "Partially Succeeded",
+          "Failed",
+          "Stopped",
+          "Unknown"
+        ]
+      },
+      "RuntimeInfoStatusClass": {
+        "type": "string",
+        "description": "Status class, statuses are aggregated into classes",
+        "enum": [
+          "Success",
+          "Failure",
+          "Warning",
+          "Stopped",
+          "Unknown"
+        ]
+      },
+      "RuntimeInfoModule": {
+        "description": "Module represents a collection of workload controllers (deployments/statefulsets/etc) for the module.",
+        "type": "object",
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/RuntimeInfoStatus"
+          },
+          "status_class": {
+            "$ref": "#/components/schemas/RuntimeInfoStatusClass"
+          },
+          "controllers": {
+            "description": "A collection of workload controllers.",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RuntimeInfoModuleController"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "status_class",
+          "controllers"
+        ]
+      },
+      "RuntimeInfoModuleController": {
+        "description": "K8s controller.",
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Controller kind."
+          },
+          "replicas": {
+            "type": "integer",
+            "description": "The most recently observed number of replicas."
+          },
+          "status": {
+            "$ref": "#/components/schemas/RuntimeInfoStatus"
+          },
+          "message": {
+            "type": "string",
+            "description": "If a controller is not in a successful status, the reason from its condition."
+          },
+          "pods": {
+            "description": "List of pods which belong to the controller.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuntimeInfoPod"
+            }
+          },
+          "revision": {
+            "type": "integer",
+            "description": "Revision of the controller."
+          }
+        },
+        "required": [
+          "kind",
+          "status"
+        ]
+      },
+      "RuntimeInfoPod": {
+        "description": "k8s pod.",
+        "type": "object",
+        "properties": {
+          "podName": {
+            "type": "string",
+            "description": "Pod name."
+          },
+          "revision": {
+            "type": "integer",
+            "description": "Revision of the pod."
+          },
+          "phase": {
+            "description": "A simple, high-level summary of where the Pod is in its lifecycle.",
+            "type": "string",
+            "enum": [
+              "Pending",
+              "Running",
+              "Succeeded",
+              "Failed",
+              "Unknown"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Failure",
+              "Success",
+              "Pending",
+              "Unknown"
+            ]
+          },
+          "containerStatuses": {
+            "description": "The list has one entry per container in the manifest.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RuntimeInfoContainerStatus"
+            }
+          }
+        },
+        "required": [
+          "podName",
+          "phase",
+          "status",
+          "containerStatuses"
+        ]
+      },
+      "RuntimeInfoContainerStatus": {
+        "description": "Container status.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Container name.",
+            "type": "string"
+          },
+          "ready": {
+            "description": "If a container is ready to start accept traffic.",
+            "type": "boolean"
+          },
+          "restart_count": {
+            "description": "The number of times the container has been restarted.",
+            "type": "integer"
+          },
+          "status": {
+            "description": "Container status derived from its state and readiness.",
+            "type": "string",
+            "enum": [
+              "Failure",
+              "Success",
+              "Pending",
+              "Unknown"
+            ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/RuntimeInfoContainerState"
+          }
+        },
+        "required": [
+          "name",
+          "ready",
+          "restartCount",
+          "status",
+          "state"
+        ]
+      },
+      "RuntimeInfoContainerState": {
+        "description": "Details about the container's current condition.",
+        "type": "object",
+        "properties": {
+          "waiting": {
+            "$ref": "#/components/schemas/RuntimeInfoControllerStateWaiting"
+          },
+          "running": {
+            "$ref": "#/components/schemas/RuntimeInfoContainerStateRunning"
+          },
+          "terminated": {
+            "$ref": "#/components/schemas/RuntimeInfoContainerStateTerminated"
+          }
+        }
+      },
+      "RuntimeInfoControllerStateWaiting": {
+        "description": "Details about a waiting container",
+        "type": "object",
+        "properties": {
+          "reason": {
+            "description": "Reason the container is not yet running.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Message regarding why the container is not yet running.",
+            "type": "string"
+          }
+        }
+      },
+      "RuntimeInfoContainerStateRunning": {
+        "description": "Details about a running container.",
+        "type": "object",
+        "properties": {
+          "started_at": {
+            "description": "Time at which the container was last (re-)started.",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RuntimeInfoContainerStateTerminated": {
+        "description": "Details about a terminated container.",
+        "type": "object",
+        "properties": {
+          "exit_code": {
+            "description": "Exit status from the last termination of the container.",
+            "type": "integer"
+          },
+          "signal": {
+            "description": "Signal from the last termination of the container.",
+            "type": "integer"
+          },
+          "reason": {
+            "description": "Reason from the last termination of the container.",
+            "type": "string"
+          },
+          "message": {
+            "description": "Message regarding the last termination of the container.",
+            "type": "string"
+          },
+          "started_at": {
+            "description": "Time at which previous execution of the container started.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished_at": {
+            "description": "Time at which the container last terminated.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "container_id": {
+            "description": "Container's ID in the format '<type>://<container_id>'.",
+            "type": "string"
+          }
+        }
       },
       "AWSAuthRequest": {
         "description": "Credentials to authenticate AWS Secret Manager.",
@@ -17738,44 +17823,6 @@
         ],
         "type": "object"
       },
-      "TokenInfoRequest": {
-        "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
-        "example": {
-          "created_at": "2021-04-30T19:47:01Z",
-          "description": "Humanitec API Calls from CircleCI Pipelines",
-          "expires_at": "2022-04-30T19:47:01Z",
-          "id": "circle-ci-token",
-          "type": "static",
-          "user_id": "a7a04740ae985f12af58545e4edbac6a"
-        },
-        "properties": {
-          "created_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "created_by": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "expires_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
       "TokenInfoResponse": {
         "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.",
         "example": {
@@ -17955,6 +18002,12 @@
         },
         "type": "object"
       },
+      "RolesResponse": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
       "UserProfileExtendedResponse": {
         "description": "UserProfileExtended holds the profile information of a user including properties only accessible to the user.",
         "example": {
@@ -17991,10 +18044,7 @@
             "type": "object"
           },
           "roles": {
-            "additionalProperties": {
-              "type": "string"
-            },
-            "type": "object"
+            "$ref": "#/components/schemas/RolesResponse"
           },
           "type": {
             "description": "The type of the account. Could be user, service or system",
@@ -18009,42 +18059,6 @@
           "properties",
           "roles"
         ],
-        "type": "object"
-      },
-      "UserProfileRequest": {
-        "description": "UserProfile holds the profile information of a user",
-        "example": {
-          "created_at": "2020-12-19T09:32:46Z",
-          "email": "jo.trigg@awesomecorp.com",
-          "id": "d510224a-4641-48fd-8054-68efd3537ee2",
-          "name": "Jo Trigg",
-          "type": "user"
-        },
-        "properties": {
-          "created_at": {
-            "description": "The time the user was first registered with Humanitec",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "email": {
-            "description": "The email address of the user from the profile",
-            "type": "string"
-          },
-          "id": {
-            "description": "The User ID for this user",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name the user goes by",
-            "type": "string"
-          },
-          "type": {
-            "description": "The type of the account. Could be user, service or system",
-            "type": "string"
-          }
-        },
         "type": "object"
       },
       "UserProfileResponse": {
@@ -18881,7 +18895,7 @@
     {
       "name": "MatchingCriteria",
       "x-displayName": "MatchingCriteria",
-      "description": "Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.\n\nMatching criteria are made up in order of specificity with least specific first:\n\n- Environment Type (`env_type`)\n\n- Application (`app_id`)\n\n- Environment (`env_id`)\n\n- Resource (`res_id`)\n\nWhen selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.\n\n**NOTE:**\n\nHumanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.\n<SchemaDefinition schemaRef=\"#/components/schemas/MatchingCriteriaRequest\" />\n"
+      "description": "Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.\n\nMatching criteria are made up in order of specificity with least specific first:\n\n- Environment Type (`env_type`)\n\n- Application (`app_id`)\n\n- Environment (`env_id`)\n\n- Resource (`res_id`)\n\nWhen selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.\n\n**NOTE:**\n\nHumanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.\n<SchemaDefinition schemaRef=\"#/components/schemas/MatchingCriteriaResponse\" />\n"
     },
     {
       "name": "Organization",
@@ -18906,7 +18920,7 @@
     {
       "name": "ResourceDefinition",
       "x-displayName": "Definitions",
-      "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionRequest\" />\n"
+      "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionResponse\" />\n"
     },
     {
       "name": "ResourceProvision",
@@ -18916,12 +18930,12 @@
     {
       "name": "TokenInfo",
       "x-displayName": "Token Info",
-      "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.\n<SchemaDefinition schemaRef=\"#/components/schemas/TokenInfoRequest\" />\n"
+      "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.\n<SchemaDefinition schemaRef=\"#/components/schemas/TokenInfoResponse\" />\n"
     },
     {
       "name": "UserProfile",
       "x-displayName": "User Profiles",
-      "description": "UserProfile holds the profile information of a user\n<SchemaDefinition schemaRef=\"#/components/schemas/UserProfileRequest\" />\n"
+      "description": "UserProfile holds the profile information of a user\n<SchemaDefinition schemaRef=\"#/components/schemas/UserProfileResponse\" />\n"
     },
     {
       "name": "UserRole",
@@ -18986,12 +19000,12 @@
     {
       "name": "DriverDefinition",
       "x-displayName": "Resource Drivers",
-      "description": "DriverDefinition describes the resource driver.\n\nResource Drivers are code that fulfils the Humanitec Resource Driver Interface. This interface allows for certain actions to be performed on resources such as creation and destruction. Humanitec provides numerous Resource Drivers “out of the box”. It is also possible to use 3rd party Resource Drivers or write your own.\n<SchemaDefinition schemaRef=\"#/components/schemas/DriverDefinitionRequest\" />\n"
+      "description": "DriverDefinition describes the resource driver.\n\nResource Drivers are code that fulfils the Humanitec Resource Driver Interface. This interface allows for certain actions to be performed on resources such as creation and destruction. Humanitec provides numerous Resource Drivers “out of the box”. It is also possible to use 3rd party Resource Drivers or write your own.\n<SchemaDefinition schemaRef=\"#/components/schemas/DriverDefinitionResponse\" />\n"
     },
     {
       "name": "Environment",
       "x-displayName": "Environments",
-      "description": "Environments are independent spaces where Applications can run. An Application is always deployed into an Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/EnvironmentRequest\" />\n"
+      "description": "Environments are independent spaces where Applications can run. An Application is always deployed into an Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/EnvironmentResponse\" />\n"
     },
     {
       "name": "EnvironmentType",
@@ -19021,7 +19035,7 @@
     {
       "name": "ResourceAccount",
       "x-displayName": "Resource Accounts",
-      "description": "ResourceAccount represents the account being used to access a resource.\n\nResource Accounts hold credentials that are required to provision and manage resources.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceAccountRequest\" />\n"
+      "description": "ResourceAccount represents the account being used to access a resource.\n\nResource Accounts hold credentials that are required to provision and manage resources.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceAccountResponse\" />\n"
     },
     {
       "name": "ResourceType",
@@ -19031,7 +19045,7 @@
     {
       "name": "RuntimeInfo",
       "x-displayName": "Runtime Information",
-      "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).\n<SchemaDefinition schemaRef=\"#/components/schemas/RuntimeInfoRequest\" />\n"
+      "description": "RuntimeInfo object returned by the runtime endpoint. Represents a list post statuses grouped by modules and controllers (deployments and stateful sets).\n<SchemaDefinition schemaRef=\"#/components/schemas/RuntimeInfoResponseV2\" />\n"
     },
     {
       "name": "SecretStore",
