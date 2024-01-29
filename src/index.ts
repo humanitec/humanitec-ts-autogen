@@ -17,7 +17,7 @@ interface UserAgentDetails {
   app?: string
 }
 
-const humanitecUserAgentHeader = ({sdk, app}: UserAgentDetails): string => {
+const humanitecUserAgentHeader = ({ sdk, app }: UserAgentDetails): string => {
   const elements = []
   if (sdk) {
     elements.push(`sdk ${sdk}`)
@@ -39,7 +39,7 @@ export const apiConfig = (config: APIConfig): Configuration => {
     baseOptions: {
       headers: {
         'Authorization': `Bearer ${config.token}`,
-        'Humanitec-User-Agent': humanitecUserAgentHeader({app: config.internalApp, sdk: `${sdk}/${sdkVersion}`})
+        'Humanitec-User-Agent': humanitecUserAgentHeader({ app: config.internalApp, sdk: `${sdk}/${sdkVersion}` })
       },
     },
   });

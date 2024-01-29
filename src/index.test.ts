@@ -1,5 +1,5 @@
-import {describe, expect, test, beforeEach, afterEach} from '@jest/globals';
-import {createServer, IncomingMessage, RequestListener } from 'node:http';
+import { describe, expect, test, beforeEach, afterEach } from '@jest/globals';
+import { createServer, IncomingMessage, RequestListener } from 'node:http';
 import { AddressInfo } from 'node:net';
 
 import { apiConfig, PublicApi } from '.'
@@ -50,7 +50,7 @@ describe('client', () => {
       apiHost: server.url,
     }))
 
-    await client.currentUserGet()
+    await client.getCurrentUser()
 
     expect(receivedRequests).toHaveLength(1)
     expect(receivedRequests[0].headers.authorization).toEqual('Bearer DUMMY')
@@ -63,7 +63,7 @@ describe('client', () => {
       internalApp: 'test/latest'
     }))
 
-    await client.currentUserGet()
+    await client.getCurrentUser()
 
     expect(receivedRequests).toHaveLength(1)
     expect(receivedRequests[0].headers['humanitec-user-agent']).toEqual(
