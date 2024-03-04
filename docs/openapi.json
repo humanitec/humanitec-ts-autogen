@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.25.6",
+    "version": "0.25.7",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2443,394 +2443,6 @@
           },
           "404": {
             "$ref": "#/components/responses/404NotFound"
-          }
-        }
-      }
-    },
-    "/orgs/{orgId}/apps/{appId}/users": {
-      "get": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "List Users with roles in an App",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of Users and the roles they hold.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleResponse"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object does not exist.\n\n"
-          }
-        },
-        "operationId": "listUserRolesInApp"
-      },
-      "post": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "Adds a User to an Application with a Role",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The user ID and the role\n\n",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserRoleRequest"
-              },
-              "example": {
-                "id": "61048226-642c-438e-974f-ce5c013d94f8",
-                "role": "manager"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The user ID and associated role.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRoleResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "The specified Application was not found.\n\n"
-          },
-          "422": {
-            "description": "The request body was not parseable.\n\n"
-          }
-        },
-        "operationId": "createUserRoleInApp"
-      }
-    },
-    "/orgs/{orgId}/users": {
-      "get": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "List Users with roles in an Organization",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of Users and the roles they hold.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/UserRoleResponse"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object does not exist.\n\n"
-          }
-        },
-        "operationId": "listUserRolesInOrg"
-      },
-      "post": {
-        "tags": [
-          "public",
-          "UserProfile"
-        ],
-        "summary": "Creates a new service user.",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The user ID and the role\n\n",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewServiceUserRequest"
-              },
-              "example": {
-                "id": "61048226-642c-438e-974f-ce5c013d94f8",
-                "role": "manager",
-                "name": "CI Robot"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The extended user profile of the user.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserProfileResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "The request body was not parseable.\n\n"
-          },
-          "403": {
-            "description": "Token is not valid for a user.\n\n"
-          }
-        },
-        "operationId": "createServiceUserInOrg"
-      }
-    },
-    "/orgs/{orgId}/users/{userId}": {
-      "get": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "Get the role of a User on an Organization",
-        "operationId": "getUserRoleInOrg",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The information on the user.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRoleResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object does not exist.\n\n"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "Remove the role of a User on an Organization",
-        "operationId": "deleteUserRoleInOrg",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Role of the user successfully deleted.\n\n"
-          },
-          "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object does not exist.\n\n"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "public",
-          "UserRole"
-        ],
-        "summary": "Update the role of a User on an Organization",
-        "operationId": "updateUserRoleInOrg",
-        "parameters": [
-          {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "The new user the role\n\n",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RoleRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "The information on the user.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRoleResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Object does not exist.\n\n"
           }
         }
       }
@@ -8948,6 +8560,122 @@
         }
       }
     },
+    "/orgs/{orgId}/apps/{appId}/users": {
+      "get": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "List Users with roles in an App",
+        "operationId": "listUserRolesInApp",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Users and the roles they hold.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Adds a User to an Application with a Role",
+        "operationId": "createUserRoleInApp",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The user ID and the role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRoleRequest"
+              },
+              "example": {
+                "id": "61048226-642c-438e-974f-ce5c013d94f8",
+                "role": "manager"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The user ID and associated role.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified Application was not found.\n\n"
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps/{appId}/users/{userId}": {
       "get": {
         "tags": [
@@ -9526,6 +9254,268 @@
                     "$ref": "#/components/schemas/UserRoleResponse"
                   },
                   "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/users": {
+      "get": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "List Users with roles in an Organization",
+        "operationId": "listUserRolesInOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of Users and the roles they hold.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/UserRoleResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "public",
+          "UserProfile"
+        ],
+        "summary": "Creates a new service user.",
+        "operationId": "createServiceUserInOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewServiceUserRequest"
+              },
+              "example": {
+                "name": "CI Robot",
+                "role": "manager"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The extended user profile of the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Token is not valid for a user.\n\n"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/users/{userId}": {
+      "get": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Get the role of a User on an Organization",
+        "operationId": "getUserRoleInOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Remove the role of a User on an Organization",
+        "operationId": "deleteUserRoleInOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Role of the user successfully deleted.\n\n"
+          },
+          "400": {
+            "description": "The request was invalid or the payload malformed.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Object does not exist.\n\n"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "UserRole"
+        ],
+        "summary": "Update the role of a User on an Organization",
+        "operationId": "updateUserRoleInOrg",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The User ID\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The new user the role\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The information on the user.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRoleResponse"
                 }
               }
             }
