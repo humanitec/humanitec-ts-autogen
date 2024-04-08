@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.25.8",
+    "version": "0.25.9",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -723,6 +723,76 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "public",
+          "Environment"
+        ],
+        "summary": "Update a specific Environment.",
+        "operationId": "updateEnvironment",
+        "description": "Update a specific Environment in an Application.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "The Application ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envId",
+            "in": "path",
+            "description": "The Environment ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnvironmentBaseUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated Environment.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentResponse"
+                },
+                "example": {}
+              }
+            }
+          },
+          "404": {
+            "description": "No Environment with `id` in Application.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "public",
@@ -1422,6 +1492,77 @@
                     "env_id": "bugfix-7951"
                   }
                 ]
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "EnvironmentType"
+        ],
+        "summary": "Updates Environment Type",
+        "operationId": "updateEnvironmentType",
+        "description": "Updates Environment Type.",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The Organization ID.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "envTypeId",
+            "in": "path",
+            "description": "ID of the Environment Type.\n\n",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEnvironmentTypePayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The Environment Type updated.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnvironmentTypeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The Authorization header was not present or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Environment Type with provided ID exists.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
               }
             }
           }
@@ -4169,6 +4310,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -4211,13 +4355,7 @@
         "operationId": "getOrganization",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "responses": {
@@ -5794,6 +5932,46 @@
           },
           "403": {
             "$ref": "#/components/responses/403Forbidden"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/batches/{batchType}": {
+      "get": {
+        "tags": [
+          "public",
+          "Pipelines"
+        ],
+        "operationId": "GetBatch",
+        "summary": "Read the current state of a trigger batch",
+        "description": "Read the current state of a trigger batch for a Pipeline if one exists",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/pipelineIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/batchTypeParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful get batch request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Batch"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -8570,13 +8748,7 @@
         "operationId": "listUserRolesInApp",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "appId",
@@ -8616,13 +8788,7 @@
         "operationId": "createUserRoleInApp",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "appId",
@@ -8686,13 +8852,7 @@
         "operationId": "getUserRoleInApp",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "appId",
@@ -8748,13 +8908,7 @@
         "operationId": "deleteUserRoleInApp",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "appId",
@@ -8803,13 +8957,7 @@
         "operationId": "updateUserRoleInApp",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "appId",
@@ -8878,13 +9026,7 @@
         "operationId": "listUserRolesInEnvType",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "envType",
@@ -8924,13 +9066,7 @@
         "operationId": "createUserRoleInEnvType",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "envType",
@@ -8994,13 +9130,7 @@
         "operationId": "getUserRoleInEnvType",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "envType",
@@ -9056,13 +9186,7 @@
         "operationId": "deleteUserRoleInEnvType",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "envType",
@@ -9111,13 +9235,7 @@
         "operationId": "updateUserRoleInEnvType",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "envType",
@@ -9186,13 +9304,7 @@
         "operationId": "listInvitesInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "responses": {
@@ -9220,13 +9332,7 @@
         "operationId": "createInviteInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "requestBody": {
@@ -9284,13 +9390,7 @@
         "operationId": "listUserRolesInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "responses": {
@@ -9321,13 +9421,7 @@
         "operationId": "createServiceUserInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           }
         ],
         "requestBody": {
@@ -9381,13 +9475,7 @@
         "operationId": "getUserRoleInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "userId",
@@ -9434,13 +9522,7 @@
         "operationId": "deleteUserRoleInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "userId",
@@ -9480,13 +9562,7 @@
         "operationId": "updateUserRoleInOrg",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
             "name": "userId",
@@ -11719,7 +11795,8 @@
         "required": true,
         "schema": {
           "type": "string",
-          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+          "maxLength": 50
         }
       },
       "agentIdPathParam": {
@@ -12028,10 +12105,10 @@
       },
       "batchTypeParam": {
         "name": "batchType",
-        "description": "The batch type",
+        "description": "The batch type, only artefact is implemented.",
         "in": "path",
         "required": true,
-        "example": "image",
+        "example": "artefact",
         "schema": {
           "type": "string"
         }
@@ -12593,6 +12670,7 @@
             "example": "2020-06-22T09:37:23.523Z",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
             "type": "string"
           },
           "created_by": {
@@ -12638,6 +12716,7 @@
             "example": "2020-06-22T09:37:23.523Z",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
             "type": "string"
           },
           "value_set_version_id": {
@@ -12682,6 +12761,15 @@
           "name",
           "type"
         ],
+        "type": "object"
+      },
+      "EnvironmentBaseUpdateRequest": {
+        "properties": {
+          "name": {
+            "description": "The Human-friendly name for the Environment.",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "EnvironmentBaseResponse": {
@@ -12771,6 +12859,7 @@
             "example": "2020-06-22T09:37:23.523Z",
             "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
             "type": "string"
           },
           "created_by": {
@@ -12881,6 +12970,19 @@
           "error": "API-000",
           "message": "Could not validate token."
         }
+      },
+      "UpdateEnvironmentTypePayloadRequest": {
+        "description": "UpdateEnvironmentTypePayload contains the `description` field that should be set in the Environment Type to update.",
+        "example": {
+          "description": "Example Environment Type description"
+        },
+        "properties": {
+          "description": {
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
       },
       "CreateArtefactVersionBase": {
         "type": "object",
@@ -14534,9 +14636,6 @@
       "HumanitecPublicKey": {
         "description": "HumanitecPublicKey stores a Public Key Humanitec shared with an organization.",
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "pub_key": {
             "type": "string"
           },
@@ -14548,27 +14647,54 @@
             "format": "date-time",
             "title": "Simplified extended ISO format date/time string.",
             "type": "string"
-          },
-          "updated_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "format": "date-time",
-            "title": "Simplified extended ISO format date/time string.",
+          }
+        },
+        "required": [
+          "pub_key",
+          "active",
+          "created_at"
+        ]
+      },
+      "Jwk": {
+        "description": "JSON Web Key",
+        "type": "object",
+        "properties": {
+          "alg": {
             "type": "string"
           },
-          "expired_at": {
-            "example": "2020-06-22T09:37:23.523Z",
-            "format": "date-time",
-            "title": "Date of key expiration.",
+          "kty": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          },
+          "x5c": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "n": {
+            "type": "string"
+          },
+          "e": {
+            "type": "string"
+          },
+          "kid": {
+            "type": "string"
+          },
+          "x5t": {
             "type": "string"
           }
         },
         "required": [
-          "id",
-          "pub_key",
-          "active",
-          "created_at",
-          "updated_at",
-          "expired_at"
+          "alg",
+          "kty",
+          "use",
+          "n",
+          "e",
+          "kid",
+          "x5t"
         ]
       },
       "LogoResponse": {
@@ -14614,6 +14740,10 @@
             "example": "2020-06-22T09:37:23.523Z",
             "nullable": true,
             "format": "date-time",
+            "type": "string"
+          },
+          "scaffolding_url": {
+            "description": "URL of the scaffolding service.",
             "type": "string"
           }
         },
@@ -15390,6 +15520,43 @@
             "example": "2023-01-01T00:00:00Z",
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "Batch": {
+        "description": "A batch of items that are being collected for a upcoming run.",
+        "required": [
+          "items"
+        ],
+        "properties": {
+          "items": {
+            "description": "The list of item ids that are currently contained in this batch.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BatchItem"
+            }
+          },
+          "scheduled_at": {
+            "description": "The time at which this batch is scheduled to trigger the pipeline.",
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BatchItem": {
+        "type": "object",
+        "required": [
+          "type",
+          "ref"
+        ],
+        "properties": {
+          "type": {
+            "description": "The type of item in the batch",
+            "type": "string"
+          },
+          "ref": {
+            "description": "The reference id of the item",
+            "type": "string"
           }
         }
       },
