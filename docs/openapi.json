@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.25.14",
+    "version": "0.26.2",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2612,39 +2612,22 @@
           "public",
           "AutomationRule"
         ],
+        "operationId": "listAutomationRules",
         "summary": "List all Automation Rules in an Environment.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "A possibly empty array of Automation Rules\n\n",
+            "description": "A possibly empty array of Automation Rules",
             "content": {
               "application/json": {
                 "schema": {
@@ -2652,32 +2635,9 @@
                     "$ref": "#/components/schemas/AutomationRuleResponse"
                   },
                   "type": "array"
-                },
-                "example": [
-                  {
-                    "active": true,
-                    "artefacts_filter": [
-                      "http://registry.org/sample-service"
-                    ],
-                    "created_at": "2021-07-22T14:53:27Z",
-                    "created_by": "0dbbdc88-b125-47f1-9a96-6c4c9d6ddc70",
-                    "exclude_artefacts_filter": false,
-                    "exclude_images_filter": false,
-                    "id": "923486d012f20324",
-                    "images_filter": [
-                      "sample-service"
-                    ],
-                    "match": "^pr-[0-9]+-.*$",
-                    "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-                    "type": "update",
-                    "update_to": "branch"
-                  }
-                ]
+                }
               }
             }
-          },
-          "500": {
-            "description": "Internal Server error.\n\n"
           }
         }
       },
@@ -2686,60 +2646,34 @@
           "public",
           "AutomationRule"
         ],
+        "operationId": "createAutomationRule",
         "summary": "Create a new Automation Rule for an Environment.",
         "description": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           }
         ],
         "requestBody": {
-          "description": "The definition of the Automation Rule.\n\n",
+          "description": "The definition of the Automation Rule.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AutomationRuleRequest"
-              },
-              "example": {
-                "active": true,
-                "artefacts_filter": [
-                  "http://registry.org/sample-service"
-                ],
-                "exclude_artefacts_filter": false,
-                "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-                "type": "update"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "The AutomationRule\n\n",
+            "description": "The Automation Rule that was created.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2749,17 +2683,13 @@
             }
           },
           "400": {
-            "description": "The input was not a valid Automation Rule.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "409": {
+            "$ref": "#/components/responses/409Conflict"
           },
           "422": {
-            "description": "The request body could not be processed.\n\n"
+            "$ref": "#/components/responses/422UnprocessableContent"
           }
         }
       }
@@ -2770,39 +2700,22 @@
           "public",
           "AutomationRule"
         ],
+        "operationId": "getAutomationRule",
         "summary": "Get a specific Automation Rule for an Environment.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           },
           {
             "name": "ruleId",
             "in": "path",
-            "description": "The Automation Rule ID.\n\n",
+            "description": "The Automation Rule ID.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2811,35 +2724,17 @@
         ],
         "responses": {
           "200": {
-            "description": "The AutomationRule\n\n",
+            "description": "The Automation Rule.",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AutomationRuleResponse"
-                },
-                "example": {
-                  "active": true,
-                  "artefacts_filter": [
-                    "http://registry.org/sample-service"
-                  ],
-                  "created_at": "2021-07-22T14:53:27Z",
-                  "created_by": "0dbbdc88-b125-47f1-9a96-6c4c9d6ddc70",
-                  "exclude_artefacts_filter": false,
-                  "exclude_images_filter": false,
-                  "id": "923486d012f20324",
-                  "images_filter": [
-                    "sample-service"
-                  ],
-                  "match": "^pr-[0-9]+-.*$",
-                  "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-                  "type": "update",
-                  "update_to": "branch"
                 }
               }
             }
           },
           "404": {
-            "description": "There is no automation rule with the supplied ID.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -2848,40 +2743,23 @@
           "public",
           "AutomationRule"
         ],
+        "operationId": "updateAutomationRule",
         "summary": "Update an existing Automation Rule for an Environment.",
         "description": "Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           },
           {
             "name": "ruleId",
             "in": "path",
-            "description": "The Automation Rule ID.\n\n",
+            "description": "The Automation Rule ID.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2889,28 +2767,19 @@
           }
         ],
         "requestBody": {
-          "description": "The definition of the Automation Rule.\n\n",
+          "description": "The definition of the Automation Rule.",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/AutomationRuleRequest"
-              },
-              "example": {
-                "active": true,
-                "artefacts_filter": [
-                  "http://registry.org/sample-service"
-                ],
-                "exclude_artefacts_filter": false,
-                "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-                "type": "update"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "The AutomationRule\n\n",
+            "description": "The updated Automation Rule.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2920,20 +2789,13 @@
             }
           },
           "400": {
-            "description": "The input was not a valid Automation Rule.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorInfoResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
           },
           "404": {
-            "description": "There is no automation rule with the supplied ID.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           },
           "422": {
-            "description": "The request body could not be processed.\n\n"
+            "$ref": "#/components/responses/422UnprocessableContent"
           }
         }
       },
@@ -2942,39 +2804,22 @@
           "public",
           "AutomationRule"
         ],
+        "operationId": "deleteAutomationRule",
         "summary": "Delete Automation Rule from an Environment.",
         "parameters": [
           {
-            "name": "orgId",
-            "in": "path",
-            "description": "The Organization ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "envId",
-            "in": "path",
-            "description": "The Environment ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envIdPathParam"
           },
           {
             "name": "ruleId",
             "in": "path",
-            "description": "The Automation Rule ID.\n\n",
+            "description": "The Automation Rule ID.",
             "required": true,
             "schema": {
               "type": "string"
@@ -2983,10 +2828,10 @@
         ],
         "responses": {
           "204": {
-            "description": "The AutomationRule was deleted.\n\n"
+            "description": "The Automation Rule was deleted."
           },
           "404": {
-            "description": "There is no automation rule with the supplied ID.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -7059,7 +6904,7 @@
         ],
         "summary": "List Resource Definitions.",
         "operationId": "listResourceDefinitions",
-        "description": "Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank.",
+        "description": "Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank. Resources marked as deleted are not listed in the response, unless specified via `deleted` query parameter.",
         "parameters": [
           {
             "name": "orgId",
@@ -7116,6 +6961,15 @@
             "description": "(Optional) Filter Resource Definitions that may match a specific Class.\n\n",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "description": "If returns also resource definitions which has been deleted.",
+            "schema": {
+              "type": "boolean",
+              "default": false
             }
           }
         ],
@@ -7224,7 +7078,8 @@
           "public",
           "ResourceDefinition"
         ],
-        "summary": "Get a specific Resource Definition.",
+        "summary": "Get a Resource Definition.",
+        "description": "If the resource is marked as deleted it is not shown in the response, unless specified via `deleted` query parameter.",
         "operationId": "getResourceDefinition",
         "parameters": [
           {
@@ -7243,6 +7098,15 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "deleted",
+            "in": "query",
+            "description": "If returns the resource definition even if it has been deleted.",
+            "schema": {
+              "type": "boolean",
+              "default": false
             }
           }
         ],
@@ -7307,7 +7171,7 @@
           }
         ],
         "requestBody": {
-          "description": "The Resource Definition record details.\n\nThe PUT operation updates a resource definition using the provided payload. An empty driver_account or driver_inputs property will unset the existing values.\n\nCurrently the resource and driver types can't be changed.",
+          "description": "The Resource Definition record details.\n\nThe PUT operation updates a resource definition using the provided payload. An empty driver_account or driver_inputs property will unset the existing values.\n\nIf driver_type changes and an Active Resource which uses this Resource Definition exists, the resource provisioned with the previous used driver_type will be deleted.\nAs driver_type can't be empty, an empty driver_type means existing value will be used.\n\nCurrently the resource can't be changed.",
           "required": true,
           "content": {
             "application/json": {
@@ -7367,7 +7231,7 @@
         ],
         "summary": "Delete a Resource Definition.",
         "operationId": "deleteResourceDefinition",
-        "description": "If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.\n\nIf there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.\n\nThe request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is **marked as** pending deletion and will be deleted (purged) as soon as no existing Active Resources reference it. With the next deployment matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).\n\nThe Resource Definition that has been marked for deletion cannot be used to provision new resources.",
+        "description": "If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.\n\nIf there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.\n\nThe request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is deleted immediately even if there are Active Resources linked to it.  \nThe Resource Definition that has been marked for deletion cannot be used to provision new resources.\n\nWith the next deployment, matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).",
         "parameters": [
           {
             "name": "orgId",
@@ -7398,7 +7262,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Resource Definition has been marked for deletion.\n\n"
+            "description": "Resource Definition has been marked as deleted.\n\n"
           },
           "404": {
             "description": "A Resource Driver with the 'driverId' ID is not found or is not accessible by the organization.\n\n",
@@ -7463,7 +7327,7 @@
           }
         ],
         "requestBody": {
-          "description": "The Resource Definition record details.\n\nThe PATCH operation would change the value of the property if it is included in the request payload JSON, and not `null`. Missing and `null` properties are ignored.\n\nFor the map properties, such as PatchResourceDefinitionRequest.DriverInputs, the merge operation is applied.\n\nMerge rules are as follows:\n\n- If a map property has a value, it is replaced (or added).\n\n- If a map property is set to `null`, it is removed.\n\n- If a map property is not included (missing in JSON), it remains unchanged.",
+          "description": "The Resource Definition record details.\n\nThe PATCH operation would change the value of the property if it is included in the request payload JSON, and not `null`. Missing and `null` properties are ignored.\n\nFor the map properties, such as PatchResourceDefinitionRequest.DriverInputs, the merge operation is applied.\n\nMerge rules are as follows:\n\n- If a map property has a value, it is replaced (or added).\n\n- If a map property is set to `null`, it is removed.\n\n- If a map property is not included (missing in JSON), it remains unchanged.\n\nIf driver_type changes and an Active Resource which uses this Resource Definition exists, the resource provisioned with the previous used driver_type will be deleted.",
           "required": true,
           "content": {
             "application/json": {
@@ -7506,6 +7370,120 @@
           },
           "500": {
             "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/resources/defs/{defId}/versions": {
+      "get": {
+        "tags": [
+          "public",
+          "ResourceDefinitionVersion"
+        ],
+        "summary": "Get Versions of a Resource Definition.",
+        "description": "First 50 Versions are kept along with all the Versions referenced by an Active Resource.\n\n To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used.",
+        "operationId": "listResourceDefinitionVersions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/defIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/deletedQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/perPageQueryParam"
+          },
+          {
+            "$ref": "#/components/parameters/pageTokenQueryParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list or Resource Definition Version.\n",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "A list of request links, optionally including a \"next\" page link for pagination."
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResourceDefinitionVersion"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Resource Definition is not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}": {
+      "get": {
+        "tags": [
+          "public",
+          "ResourceDefinitionVersion"
+        ],
+        "summary": "Get a Resource Definition Version.",
+        "operationId": "getResourceDefinitionVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/defIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/defVersionIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Resource Definition Version with the specified ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceDefinitionVersion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Resource Definition Version is not found.",
             "content": {
               "application/json": {
                 "schema": {
@@ -8201,6 +8179,308 @@
           },
           "500": {
             "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/resources/classes": {
+      "get": {
+        "tags": [
+          "public",
+          "ResourceClass"
+        ],
+        "summary": "List resource classes.",
+        "operationId": "listResourceClasses",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A possibly empty list of resources classes.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ResourceClassResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/resources/types/{typeId}/classes": {
+      "post": {
+        "tags": [
+          "public",
+          "ResourceClass"
+        ],
+        "summary": "Creates a new resources class.",
+        "operationId": "createResourceClass",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "The resource type.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResourceClassRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly created resources class details.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceClassResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One or more request parameters is missing or invalid.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A resources class of this ID already exists in this resource type.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/resources/types/{typeId}/classes/{classId}": {
+      "get": {
+        "tags": [
+          "public",
+          "ResourceClass"
+        ],
+        "summary": "Get resource class by ID.",
+        "operationId": "getResourceClass",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "The resource type.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "classId",
+            "in": "path",
+            "description": "The resource class ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Requested resource class details\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceClassResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A resource class with the 'classId' id is not found in resource type typeId.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "public",
+          "ResourceClass"
+        ],
+        "summary": "Update a resource class description.",
+        "operationId": "updateResourceClass",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "The resource type ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "classId",
+            "in": "path",
+            "description": "The resource class ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateResourceClassRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated resource class.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceClassResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "A resource class with the 'classId' id is not found in resource type 'typeId'.\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "public",
+          "ResourceClass"
+        ],
+        "summary": "Delete a resource class.",
+        "operationId": "deleteResourceClass",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "typeId",
+            "in": "path",
+            "description": "The resource type.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          },
+          {
+            "name": "classId",
+            "in": "path",
+            "description": "The resource class id.\n",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Resource class deleted successfully.\n"
+          },
+          "404": {
+            "description": "A resource class with the 'classId' id is not found in resource type 'typeId'.\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -11893,6 +12173,16 @@
           "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
         }
       },
+      "envIdPathParam": {
+        "name": "envId",
+        "in": "path",
+        "description": "The Environment ID",
+        "example": "development",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
       "pipelineIdPathParam": {
         "name": "pipelineId",
         "in": "path",
@@ -12134,14 +12424,35 @@
           "type": "string"
         }
       },
-      "envIdPathParam": {
-        "name": "envId",
+      "defVersionIdPathParam": {
+        "name": "defVersionId",
         "in": "path",
-        "description": "The Environment ID",
-        "example": "development",
+        "description": "The Resource Definition Version ID.",
+        "example": "01234567-89ab-cdef-0123-4567890abcdef",
         "required": true,
         "schema": {
           "type": "string"
+        }
+      },
+      "defIdPathParam": {
+        "name": "defId",
+        "in": "path",
+        "description": "The Resource Definition ID.",
+        "example": "sample-def",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "deletedQueryParam": {
+        "name": "deleted",
+        "in": "query",
+        "description": "If to show also deleted records in the response.",
+        "required": false,
+        "example": true,
+        "schema": {
+          "type": "boolean",
+          "default": false
         }
       },
       "profileQidPathParam": {
@@ -12838,8 +13149,7 @@
         },
         "required": [
           "id",
-          "name",
-          "from_deploy_id"
+          "name"
         ],
         "type": "object"
       },
@@ -13127,6 +13437,37 @@
             "description": "A map of additional workload spec fields that will be merged.",
             "type": "object",
             "additionalProperties": true
+          },
+          "deploy": {
+            "description": "An optional deploy condition for the workload.",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "when": {
+                "description": "The stage the deployment should occur. \"deploy\", deployed in-parallel with other workloads (the default). \"before\", deployed before other workloads. \"after\", deployed after other workloads.",
+                "type": "string",
+                "enum": [
+                  "before",
+                  "deploy",
+                  "after"
+                ],
+                "example": "before"
+              },
+              "success": {
+                "description": "The success criteria for the deployment. \"deploy\", workload deployed. \"available\", workload available. \"complete\", workload complete (often used with jobs).",
+                "type": "string",
+                "enum": [
+                  "deploy",
+                  "available",
+                  "complete"
+                ],
+                "example": "complete"
+              },
+              "timeout": {
+                "description": "The timeout in seconds for the deployment to reach it's success condition.",
+                "type": "integer"
+              }
+            }
           }
         },
         "example": {
@@ -13682,68 +14023,67 @@
       },
       "AutomationRuleRequest": {
         "description": "An Automation Rule defining how and when artefacts in an environment should be updated.",
-        "example": {
-          "active": true,
-          "artefacts_filter": [
-            "http://registry.org/sample-service"
-          ],
-          "created_at": "2021-07-22T14:53:27Z",
-          "created_by": "0dbbdc88-b125-47f1-9a96-6c4c9d6ddc70",
-          "exclude_artefacts_filter": false,
-          "exclude_images_filter": false,
-          "id": "923486d012f20324",
-          "images_filter": [
-            "sample-service"
-          ],
-          "match": "^pr-[0-9]+-.*$",
-          "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-          "type": "update",
-          "update_to": "branch"
-        },
         "properties": {
           "active": {
             "description": "Whether the rule will be processed or not.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "artefacts_filter": {
             "description": "A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.",
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "example": [
+              "http://registry.org/sample-service"
+            ]
           },
           "exclude_artefacts_filter": {
             "description": "Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "exclude_images_filter": {
             "description": "DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": false,
+            "deprecated": true
           },
           "images_filter": {
             "description": "DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.",
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "example": [
+              "sample-service"
+            ],
+            "deprecated": true
           },
           "match": {
             "description": "DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.",
-            "type": "string"
+            "type": "string",
+            "example": "^pr-[0-9]+-.*$",
+            "deprecated": true
           },
           "match_ref": {
             "description": "A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.",
-            "type": "string"
+            "type": "string",
+            "example": "^refs/heads/pr-[0-9]+-.*$"
           },
           "type": {
             "description": "Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `\"update\"`.",
             "pattern": "^(?:update)$",
-            "type": "string"
+            "type": "string",
+            "example": "update"
           },
           "update_to": {
             "description": "DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `\"branch\"` or `\"tag\"`.",
             "pattern": "^(?:branch|tag)$",
-            "type": "string"
+            "type": "string",
+            "example": "branch",
+            "deprecated": true
           }
         },
         "required": [
@@ -13753,86 +14093,86 @@
       },
       "AutomationRuleResponse": {
         "description": "An Automation Rule defining how and when artefacts in an environment should be updated.",
-        "example": {
-          "active": true,
-          "artefacts_filter": [
-            "http://registry.org/sample-service"
-          ],
-          "created_at": "2021-07-22T14:53:27Z",
-          "created_by": "0dbbdc88-b125-47f1-9a96-6c4c9d6ddc70",
-          "exclude_artefacts_filter": false,
-          "exclude_images_filter": false,
-          "id": "923486d012f20324",
-          "images_filter": [
-            "sample-service"
-          ],
-          "match": "^pr-[0-9]+-.*$",
-          "match_ref": "^refs/heads/pr-[0-9]+-.*$",
-          "type": "update",
-          "update_to": "branch"
-        },
         "properties": {
           "active": {
             "description": "Whether the rule will be processed or not.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": true
           },
           "artefacts_filter": {
             "description": "A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.",
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "example": [
+              "http://registry.org/sample-service"
+            ]
           },
           "created_at": {
             "description": "The timestamp in UTC of when the Automation Rule was created.",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           },
           "exclude_artefacts_filter": {
             "description": "Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": false
           },
           "exclude_images_filter": {
             "description": "DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.",
-            "type": "boolean"
+            "type": "boolean",
+            "example": false,
+            "deprecated": true
           },
           "id": {
             "description": "The unique ID for this rule.",
-            "type": "string"
+            "type": "string",
+            "example": "923486d012f20324"
           },
           "images_filter": {
             "description": "DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.",
             "items": {
               "type": "string"
             },
-            "type": "array"
+            "type": "array",
+            "example": [
+              "sample-service"
+            ],
+            "deprecated": true
           },
           "match": {
             "description": "DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.",
-            "type": "string"
+            "type": "string",
+            "example": "^pr-[0-9]+-.*$",
+            "deprecated": true
           },
           "match_ref": {
             "description": "A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.",
-            "type": "string"
+            "type": "string",
+            "example": "^refs/heads/pr-[0-9]+-.*$"
           },
           "type": {
             "description": "Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `\"update\"`.",
             "pattern": "^(?:update)$",
-            "type": "string"
+            "type": "string",
+            "example": "update"
           },
           "update_to": {
             "description": "DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `\"branch\"` or `\"tag\"`.",
             "pattern": "^(?:branch|tag)$",
-            "type": "string"
+            "type": "string",
+            "example": "branch",
+            "deprecated": true
           },
           "updated_at": {
             "description": "The timestamp in UTC of when the Automation Rule was updated.",
             "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
             "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
         },
         "required": [
@@ -13848,19 +14188,6 @@
           "match_ref",
           "created_at",
           "updated_at"
-        ],
-        "type": "object"
-      },
-      "ErrorInfoResponse": {
-        "description": "ErrorInfo is returned by a handler in case of an error.",
-        "properties": {
-          "error": {
-            "description": "An error details",
-            "type": "string"
-          }
-        },
-        "required": [
-          "error"
         ],
         "type": "object"
       },
@@ -15696,6 +16023,19 @@
         },
         "type": "object"
       },
+      "ErrorInfoResponse": {
+        "description": "ErrorInfo is returned by a handler in case of an error.",
+        "properties": {
+          "error": {
+            "description": "An error details",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "type": "object"
+      },
       "ImagesRegistryCredsRequest": {
         "description": "ImagesRegistryCreds stores registry credentials details alongside with associated images.",
         "properties": {
@@ -15966,6 +16306,7 @@
           "app_id": "test-app",
           "class": "default",
           "def_id": "gcp-dev-postgres",
+          "def_version_id": "01234567-89ab-cdef-0123-4567890abcdef",
           "deploy_id": "172a1013b",
           "env_id": "gcp-dev",
           "env_type": "development",
@@ -15998,6 +16339,10 @@
           },
           "def_id": {
             "description": "The Resource Definition that this resource was provisioned from.",
+            "type": "string"
+          },
+          "def_version_id": {
+            "description": "The Resource Definition Version that this resource was provisioned from.",
             "type": "string"
           },
           "deploy_id": {
@@ -16072,7 +16417,8 @@
           "resource",
           "updated_at",
           "deploy_id",
-          "gu_res_id"
+          "gu_res_id",
+          "def_version_id"
         ]
       },
       "ActiveResourceResponse": {
@@ -16081,6 +16427,7 @@
           "app_id": "test-app",
           "class": "default",
           "def_id": "gcp-dev-postgres",
+          "def_version_id": "01234567-89ab-cdef-0123-4567890abcdef",
           "deploy_id": "172a1013b",
           "env_id": "gcp-dev",
           "env_type": "development",
@@ -16113,6 +16460,10 @@
           },
           "def_id": {
             "description": "The Resource Definition that this resource was provisioned from.",
+            "type": "string"
+          },
+          "def_version_id": {
+            "description": "The Resource Definition Version that this resource was provisioned from.",
             "type": "string"
           },
           "deploy_id": {
@@ -16179,6 +16530,7 @@
           "env_type",
           "res_id",
           "def_id",
+          "def_version_id",
           "type",
           "driver_type",
           "class",
@@ -16503,6 +16855,7 @@
           "class": "default",
           "criteria_id": "09876545321",
           "def_id": "dns-res-def",
+          "def_version_id": "01234567-89ab-cdef-0123-4567890abcdef",
           "depends_on": [
             "ff09876545321"
           ],
@@ -16534,6 +16887,10 @@
             "type": "string"
           },
           "def_id": {
+            "type": "string"
+          },
+          "def_version_id": {
+            "description": "The Resource Definition Version ID that was used to provision the resource.",
             "type": "string"
           },
           "depends_on": {
@@ -16584,7 +16941,8 @@
           "criteria_id",
           "driver_type",
           "resource_schema",
-          "depends_on"
+          "depends_on",
+          "def_version_id"
         ],
         "type": "object"
       },
@@ -16592,6 +16950,7 @@
         "description": "PatchResourceDefinitionRequest describes a ResourceDefinition change request.",
         "example": {
           "driver_account": "gcp-dev-cloudsql",
+          "driver_type": "humanitec/terraform",
           "driver_inputs": {
             "secret_refs": {
               "dbcredentials": {
@@ -16626,6 +16985,10 @@
           "driver_inputs": {
             "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
+          },
+          "driver_type": {
+            "description": "(Optional) The driver to be used to create the resource.",
+            "type": "string"
           },
           "name": {
             "description": "(Optional) Resource display name",
@@ -16812,6 +17175,17 @@
             "description": "The user who created this record.",
             "type": "string"
           },
+          "updated_at": {
+            "description": "The timestamp of when this record has been updated.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_by": {
+            "description": "The user who updated this record.",
+            "type": "string"
+          },
           "criteria": {
             "description": "(Optional) The criteria to use when looking for a Resource Definition during the deployment.",
             "items": {
@@ -16833,6 +17207,10 @@
           },
           "id": {
             "description": "The Resource Definition ID.",
+            "type": "string"
+          },
+          "current_version_id": {
+            "description": "The Resource Definition Version ID.",
             "type": "string"
           },
           "is_default": {
@@ -16872,7 +17250,118 @@
           "created_by",
           "is_default",
           "is_deleted",
-          "driver_type"
+          "driver_type",
+          "current_version_id"
+        ],
+        "type": "object"
+      },
+      "ResourceDefinitionVersion": {
+        "description": "A Resource Definition Version represents a version of a Resource Definition.",
+        "example": {
+          "id": "01234567-89ab-cdef-0123-4567890abcdef",
+          "org_id": "test-org",
+          "def_id": "dev-postgres",
+          "name": "Dev Postgres Instance",
+          "type": "postgres",
+          "driver_type": "humanitec/postgres-cloudsql",
+          "driver_account": "gcp-dev-cloudsql",
+          "driver_inputs": {
+            "secret_refs": {
+              "credentials": {
+                "password": {
+                  "value": "<secret>"
+                },
+                "user": {
+                  "ref": "vault/path/to/data/secrets/user",
+                  "store": "my-external-vault",
+                  "version": "1"
+                }
+              }
+            },
+            "values": {
+              "instance": "my-dev-project:my-region:dev-db"
+            }
+          },
+          "provision": {
+            "aws-policy": {
+              "is_dependent": false,
+              "match_dependents": false
+            },
+            "dns#my-dns": {}
+          },
+          "created_at": "2020-05-23T12:32:16Z",
+          "created_by": "a.user@example.com",
+          "action": "created"
+        },
+        "properties": {
+          "id": {
+            "description": "The Resource Definition Version ID.",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "The Organization ID.",
+            "type": "string"
+          },
+          "def_id": {
+            "description": "The Resource Definition ID.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The display name.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The Resource Type.",
+            "type": "string"
+          },
+          "driver_type": {
+            "description": "The driver to be used to create the resource.",
+            "type": "string"
+          },
+          "driver_account": {
+            "description": "(Optional) Security account required by the driver.",
+            "type": "string"
+          },
+          "driver_inputs": {
+            "$ref": "#/components/schemas/ValuesSecretsRefsResponse",
+            "description": "(Optional) Additional input data to be passed to the driver."
+          },
+          "provision": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ProvisionDependenciesResponse"
+            },
+            "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.",
+            "type": "object"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action that generated the Resource Definition Version. Might be one of `created`, `updated` or `deleted`."
+          },
+          "created_at": {
+            "description": "The timestamp of when this record has been created.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_by": {
+            "description": "The user who created this record.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "org_id",
+          "id",
+          "name",
+          "def_id",
+          "type",
+          "driver_type",
+          "driver_account",
+          "driver_inputs",
+          "provision",
+          "action",
+          "created_at",
+          "created_by"
         ],
         "type": "object"
       },
@@ -17162,6 +17651,78 @@
         ],
         "type": "object"
       },
+      "ResourceClassRequest": {
+        "description": "Resource Classes provide a way of specializing Resource Types.\nDevelopers can set the class of a Resource alongside the type in their Score File.\nPlatform teams can match the class of a Resource via Matching Criteria.",
+        "type": "object",
+        "required": [
+          "id",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "description": "ID of the resource class.",
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+            "minLength": 2,
+            "maxLength": 63
+          },
+          "description": {
+            "description": "A human readable description when this class should be used.",
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 1024
+          }
+        }
+      },
+      "ResourceClassResponse": {
+        "description": "Resource Classes provide a way of specializing Resource Types.\nDevelopers can set the class of a Resource alongside the type in their Score File.\nPlatform teams can match the class of a Resource via Matching Criteria.",
+        "type": "object",
+        "required": [
+          "id",
+          "resource_type",
+          "description",
+          "created_by",
+          "created_at"
+        ],
+        "properties": {
+          "id": {
+            "description": "ID of the resource class.",
+            "type": "string"
+          },
+          "resource_type": {
+            "description": "Defines the resource type this class is applicable for.",
+            "type": "string"
+          },
+          "description": {
+            "description": "A human readable description when this class should be used.",
+            "type": "string"
+          },
+          "created_by": {
+            "type": "string",
+            "description": "usedID of the user who created the resource class"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "UTC timestamp at which the resource class was created",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateResourceClassRequest": {
+        "description": "UpdateResourceClassRequest describes the update class description request.",
+        "type": "object",
+        "required": [
+          "description"
+        ],
+        "properties": {
+          "description": {
+            "description": "New description for the resource class.",
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 1024
+          }
+        }
+      },
       "UpdateResourceAccountRequestRequest": {
         "description": "UpdateResourceAccountRequest describes the request to update the security account details.",
         "example": {
@@ -17187,6 +17748,7 @@
       "UpdateResourceDefinitionRequestRequest": {
         "description": "UpdateResourceDefinitionRequest describes a ResourceDefinition change request.",
         "example": {
+          "driver_type": "humanitec/terraform",
           "driver_account": "gcp-dev-cloudsql",
           "driver_inputs": {
             "secret_refs": {
@@ -17214,6 +17776,10 @@
           }
         },
         "properties": {
+          "driver_type": {
+            "description": "(Optional) The driver to be used to create the resource.",
+            "type": "string"
+          },
           "driver_account": {
             "description": "(Optional) Security account required by the driver.",
             "nullable": true,
@@ -19162,9 +19728,11 @@
         "DriverDefinition",
         "MatchingCriteria",
         "ResourceDefinition",
+        "ResourceDefinitionVersion",
         "ResourceProvision",
         "ResourceAccount",
-        "ResourceType"
+        "ResourceType",
+        "ResourceClass"
       ]
     },
     {
@@ -19216,6 +19784,11 @@
       "name": "ResourceDefinition",
       "x-displayName": "Definitions",
       "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionResponse\" />\n"
+    },
+    {
+      "name": "ResourceDefinitionVersion",
+      "x-displayName": "Definition Versions",
+      "description": "A Resource Definition Version represents a version of a Resource Definition.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionVersion\" />\n"
     },
     {
       "name": "ResourceProvision",
