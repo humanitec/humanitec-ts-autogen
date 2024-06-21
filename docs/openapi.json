@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.26.2",
+    "version": "0.26.3",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nAll of the Humanitec API unless explicitly only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `200` | Success |\n| `201` | Success (In future, `201` will be replaced by `200`) |\n| `204` | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` should be regarded as an error which can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning** |\n| --- | --- |\n| `400` | General error. (Body will contain details) |\n| `401` | Attempt to access protected resource without `Authorization` Header. |\n| `403` | The `Bearer` or `JWT` does not grant access to the requested resource. |\n| `404` | Resource not found. |\n| `405` | Method not allowed |\n| `409` | Conflict. Usually indicated a resource with that ID already exists. |\n| `422` | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429` | Too many requests - request rate limit has been reached. |\n| `500` | Internal Error. If it occurs repeatedly, contact support. |\n",
     "contact": {
       "name": "API Support",
@@ -2933,9 +2933,6 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    {
-                      "type": "string"
-                    },
                     {
                       "$ref": "#/components/schemas/DeltaResponse"
                     }
@@ -6334,7 +6331,9 @@
           "ResourceProvision"
         ],
         "summary": "Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+        "description": "This endpoint is deprecated. Use `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs` instead.",
         "operationId": "queryResourceGraph",
+        "deprecated": true,
         "parameters": [
           {
             "name": "orgId",
@@ -6404,6 +6403,63 @@
           },
           "500": {
             "description": "Internal application error.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs": {
+      "post": {
+        "tags": [
+          "public",
+          "ResourceProvision"
+        ],
+        "summary": "Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.",
+        "operationId": "createDependencyGraph",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/envIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "Resources to provision.\n\n",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/ResourceProvisionRequestRequest"
+                },
+                "type": "array"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A list of objects which hold information to provision resources, sorted according to resources provisioning order.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DependencyGraphResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request payload is not provided or is malformed.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -6539,7 +6595,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A possibly empty list of Resources Accounts Types.\n\n",
+            "description": "A possibly empty list of Resources Accounts Types.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6547,16 +6603,6 @@
                     "$ref": "#/components/schemas/AccountTypeResponse"
                   },
                   "type": "array"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal application error.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -6758,6 +6804,7 @@
           "ResourceAccount"
         ],
         "summary": "Delete an unused Resource Account.",
+        "description": "A Resource Account can be deleted if it is not referenced or referenced only by deleted Resource Definitions.\nResource Definition Versions which reference the deleted Resource Account cannot be used in deployments.\n",
         "operationId": "deleteResourceAccount",
         "parameters": [
           {
@@ -12455,6 +12502,14 @@
           "default": false
         }
       },
+      "deployIdQueryParam": {
+        "name": "deploy_id",
+        "in": "query",
+        "description": "The ID of the deployment that this provision is happening in. (Used to avoid re-provisioning resources.)",
+        "schema": {
+          "type": "string"
+        }
+      },
       "profileQidPathParam": {
         "name": "profileQid",
         "in": "path",
@@ -16270,13 +16325,24 @@
           "type": {
             "description": "Unique account type identifier (system-wide, across all organizations).",
             "type": "string"
+          },
+          "inputs_schema": {
+            "additionalProperties": true,
+            "description": "A JSON Schema specifying the type-specific parameters for the account credentials (input).",
+            "type": "object"
+          },
+          "outputs_schema": {
+            "additionalProperties": true,
+            "description": "A JSON Schema specifying the type-specific data of returned account credentials (output).",
+            "type": "object"
           }
         },
         "type": "object",
         "required": [
           "type",
           "name"
-        ]
+        ],
+        "additionalProperties": false
       },
       "AccountTypeResponse": {
         "description": "Resource Account Types define cloud providers or protocols to which a resource account can belong.",
@@ -16292,6 +16358,16 @@
           "type": {
             "description": "Unique account type identifier (system-wide, across all organizations).",
             "type": "string"
+          },
+          "inputs_schema": {
+            "additionalProperties": true,
+            "description": "A JSON Schema specifying the type-specific parameters for the account credentials (input).",
+            "type": "object"
+          },
+          "outputs_schema": {
+            "additionalProperties": true,
+            "description": "A JSON Schema specifying the type-specific data of returned account credentials (output).",
+            "type": "object"
           }
         },
         "required": [
@@ -16848,6 +16924,48 @@
           }
         },
         "type": "object"
+      },
+      "DependencyGraphResponse": {
+        "description": "The Dependency Graph which holds the list of objects which contain information to provision resources, sorted according to resources provisioning order.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the Dependency Graph.",
+            "example": "01234567-89ab-cdef-0123-4567890abcdef"
+          },
+          "hash": {
+            "type": "string",
+            "description": "The sha256 hash of the graph list of nodes. Two graphs with same hash cannot exist, unless they are exactly the same graph, so they contain the same sorted list of nodes."
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/NodeBodyResponse"
+            },
+            "type": "array"
+          },
+          "created_at": {
+            "description": "The timestamp of when the graph was generated for.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "used_at": {
+            "description": "The timestamp of when the graph was generated for the last time.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "format": "date-time",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "nodes",
+          "hash",
+          "created_at",
+          "used_at"
+        ]
       },
       "NodeBodyResponse": {
         "description": "NodeBody represents a node of a Resource Dependency Graph.",

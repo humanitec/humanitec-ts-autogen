@@ -1,6 +1,10 @@
 fetch-openapi:
 	curl -fsSL https://api-docs.humanitec.com/openapi.json > ./docs/openapi.json
 
-generate:
-	rm -rf ./src/generated/apis ./src/generated/models
-	npx openapi-generator-cli generate -c /local/generate.config.json -i /local/docs/openapi.json -g typescript-axios -o /local/src/generated --global-property skipFormModel=false
+workaround-issue-18740:
+	# Workaround https://github.com/OpenAPITools/openapi-generator/pull/18740
+	jq 'del(.paths["/orgs/{orgId}/apps/{appId}/deltas"].post.responses["200"].content["application/json"].schema.oneOf.[] | select(.type == "string"))' ./docs/openapi.json > ./docs/openapi.patched.json
+
+generate: workaround-issue-18740
+	rm -rf ./src/generated
+	npx openapi-generator-cli generate --generator-key humanitec
