@@ -3,7 +3,7 @@ fetch-openapi:
 
 workaround-issue-18740:
 	# Workaround https://github.com/OpenAPITools/openapi-generator/pull/18740
-	jq 'del(.paths["/orgs/{orgId}/apps/{appId}/deltas"].post.responses["200"].content["application/json"].schema.oneOf.[] | select(.type == "string"))' ./docs/openapi.json > ./docs/openapi.patched.json
+	yq 'del(.paths["/orgs/{orgId}/apps/{appId}/deltas"].post.responses["200"].content["application/json"].schema.oneOf.[] | select(.type == "string"))' ./docs/openapi.json > ./docs/openapi.patched.json
 
 generate: workaround-issue-18740
 	rm -rf ./src/generated
