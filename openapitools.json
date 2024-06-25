@@ -2,7 +2,26 @@
   "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "6.4.0",
-    "useDocker": true
+    "version": "7.4.0",
+    "useDocker": true,
+    "generators": {
+      "humanitec": {
+        "inputSpec": "docs/openapi.patched.json",
+        "output": "src/generated",
+        "generatorName": "typescript-fetch",
+        "openapiNormalizer": {
+          "SET_TAGS_FOR_ALL_OPERATIONS": "public"
+        },
+        "additionalProperties": {
+          "disallowAdditionalPropertiesIfNotPresent": false,
+          "enumPropertyNaming": "original",
+          "enumUnknownDefaultCase": true,
+          "importFileExtension": ".js",
+          "modelPropertyNaming": "original",
+          "paramNaming": "original",
+          "stringEnums": true
+        }
+      }
+    }
   }
 }
