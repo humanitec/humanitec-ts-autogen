@@ -1,3 +1,4 @@
-/dist
+/cjs
+/esm
 /node_modules
 /docs/openapi.patched.json

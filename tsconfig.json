@@ -4,6 +4,7 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
+    "moduleResolution": null,
     "outDir": "dist",
     "lib": [
       "dom"

@@ -16,6 +16,6 @@ export default tseslint.config(
   },
   eslintPluginPrettierRecommended,
   {
-    ignores: ["dist/", "node_modules/", "src/generated/"],
+    ignores: ["cjs/", "esm/", "node_modules/", "src/generated/"],
   },
 );
