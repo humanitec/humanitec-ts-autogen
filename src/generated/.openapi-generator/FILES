@@ -29,6 +29,9 @@ models/Batch.ts
 models/BatchItem.ts
 models/ClusterSecretRequest.ts
 models/ClusterSecretResponse.ts
+models/ConflictingResourcesErrorResponse.ts
+models/ConflictingResourcesErrorResponseDetails.ts
+models/ConflictingResourcesErrorResponseDetailsResources.ts
 models/ContainerArtefactVersion.ts
 models/ControllerResponse.ts
 models/CreateArtefactVersion.ts

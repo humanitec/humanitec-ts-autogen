@@ -13,93 +13,69 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { ModuleDeltasResponse } from './ModuleDeltasResponse.js';
+import type { ActiveResourceResponse } from './ActiveResourceResponse.js';
 import {
-    ModuleDeltasResponseFromJSON,
-    ModuleDeltasResponseFromJSONTyped,
-    ModuleDeltasResponseToJSON,
-} from './ModuleDeltasResponse.js';
-import type { UpdateActionResponse } from './UpdateActionResponse.js';
+    ActiveResourceResponseFromJSON,
+    ActiveResourceResponseFromJSONTyped,
+    ActiveResourceResponseToJSON,
+} from './ActiveResourceResponse.js';
+import type { ResourceDefinitionResponse } from './ResourceDefinitionResponse.js';
 import {
-    UpdateActionResponseFromJSON,
-    UpdateActionResponseFromJSONTyped,
-    UpdateActionResponseToJSON,
-} from './UpdateActionResponse.js';
+    ResourceDefinitionResponseFromJSON,
+    ResourceDefinitionResponseFromJSONTyped,
+    ResourceDefinitionResponseToJSON,
+} from './ResourceDefinitionResponse.js';
 
 /**
- * Similar to the delta response, except the id and metadata properties.
  * 
- * **Basic Structure**
- * 
- * ```
- *  {
- *    "modules" : {
- *      "add" : {
- *        <ID of Module to add to the Deployment Set> : {
- *          <An entire Modules object>
- *        }
- *      },
- *      "remove": [
- *        <An array of Module IDs that should be removed from the Deployment Set>
- *      ],
- *     "update": {
- *        <ID of Module already in the Set to be updated> : [
- *          <An array of JSON Patch (Search Results (RFC 6902) objects scoped to the module>
- *        ]
- *      }
- *    }
- *  }
- * ```
  * @export
- * @interface PlainDeltaResponse
+ * @interface ConflictingResourcesErrorResponseDetailsResources
  */
-export interface PlainDeltaResponse {
+export interface ConflictingResourcesErrorResponseDetailsResources {
     /**
-     * 
-     * @type {ModuleDeltasResponse}
-     * @memberof PlainDeltaResponse
+     * List of non-deleted Resource Definitions referencing the specified Resource Account.
+     * @type {Array<ResourceDefinitionResponse>}
+     * @memberof ConflictingResourcesErrorResponseDetailsResources
      */
-    modules: ModuleDeltasResponse;
+    resource_definitions?: Array<ResourceDefinitionResponse>;
     /**
-     * 
-     * @type {Array<UpdateActionResponse>}
-     * @memberof PlainDeltaResponse
+     * List of Active Resources referencing the specified Resource Account.
+     * @type {Array<ActiveResourceResponse>}
+     * @memberof ConflictingResourcesErrorResponseDetailsResources
      */
-    shared: Array<UpdateActionResponse>;
+    active_resources?: Array<ActiveResourceResponse>;
 }
 
 /**
- * Check if a given object implements the PlainDeltaResponse interface.
+ * Check if a given object implements the ConflictingResourcesErrorResponseDetailsResources interface.
  */
-export function instanceOfPlainDeltaResponse(value: object): boolean {
-    if (!('modules' in value)) return false;
-    if (!('shared' in value)) return false;
+export function instanceOfConflictingResourcesErrorResponseDetailsResources(value: object): boolean {
     return true;
 }
 
-export function PlainDeltaResponseFromJSON(json: any): PlainDeltaResponse {
-    return PlainDeltaResponseFromJSONTyped(json, false);
+export function ConflictingResourcesErrorResponseDetailsResourcesFromJSON(json: any): ConflictingResourcesErrorResponseDetailsResources {
+    return ConflictingResourcesErrorResponseDetailsResourcesFromJSONTyped(json, false);
 }
 
-export function PlainDeltaResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PlainDeltaResponse {
+export function ConflictingResourcesErrorResponseDetailsResourcesFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConflictingResourcesErrorResponseDetailsResources {
     if (json == null) {
         return json;
     }
     return {
         
-        'modules': ModuleDeltasResponseFromJSON(json['modules']),
-        'shared': ((json['shared'] as Array<any>).map(UpdateActionResponseFromJSON)),
+        'resource_definitions': json['resource_definitions'] == null ? undefined : ((json['resource_definitions'] as Array<any>).map(ResourceDefinitionResponseFromJSON)),
+        'active_resources': json['active_resources'] == null ? undefined : ((json['active_resources'] as Array<any>).map(ActiveResourceResponseFromJSON)),
     };
 }
 
-export function PlainDeltaResponseToJSON(value?: PlainDeltaResponse | null): any {
+export function ConflictingResourcesErrorResponseDetailsResourcesToJSON(value?: ConflictingResourcesErrorResponseDetailsResources | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'modules': ModuleDeltasResponseToJSON(value['modules']),
-        'shared': ((value['shared'] as Array<any>).map(UpdateActionResponseToJSON)),
+        'resource_definitions': value['resource_definitions'] == null ? undefined : ((value['resource_definitions'] as Array<any>).map(ResourceDefinitionResponseToJSON)),
+        'active_resources': value['active_resources'] == null ? undefined : ((value['active_resources'] as Array<any>).map(ActiveResourceResponseToJSON)),
     };
 }
 

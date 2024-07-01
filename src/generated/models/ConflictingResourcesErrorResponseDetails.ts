@@ -13,66 +13,56 @@
  */
 
 import { mapValues } from '../runtime.js';
+import type { ConflictingResourcesErrorResponseDetailsResources } from './ConflictingResourcesErrorResponseDetailsResources.js';
+import {
+    ConflictingResourcesErrorResponseDetailsResourcesFromJSON,
+    ConflictingResourcesErrorResponseDetailsResourcesFromJSONTyped,
+    ConflictingResourcesErrorResponseDetailsResourcesToJSON,
+} from './ConflictingResourcesErrorResponseDetailsResources.js';
+
 /**
- * An object containing data needed to register an Agent.
+ * Object composed by the list of resources which prevent the deletion of the specified entity. The resources are indexed by their kind.
  * @export
- * @interface AgentCreateBody
+ * @interface ConflictingResourcesErrorResponseDetails
  */
-export interface AgentCreateBody {
+export interface ConflictingResourcesErrorResponseDetails {
     /**
-     * The Agent id. It can't be empty and should contain only url safe characters.
-     * @type {string}
-     * @memberof AgentCreateBody
+     * 
+     * @type {ConflictingResourcesErrorResponseDetailsResources}
+     * @memberof ConflictingResourcesErrorResponseDetails
      */
-    id: string;
-    /**
-     * A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-     * @type {string}
-     * @memberof AgentCreateBody
-     */
-    public_key: string;
-    /**
-     * An optional description to show future users.
-     * @type {string}
-     * @memberof AgentCreateBody
-     */
-    description?: string;
+    referencing_resources: ConflictingResourcesErrorResponseDetailsResources;
 }
 
 /**
- * Check if a given object implements the AgentCreateBody interface.
+ * Check if a given object implements the ConflictingResourcesErrorResponseDetails interface.
  */
-export function instanceOfAgentCreateBody(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('public_key' in value)) return false;
+export function instanceOfConflictingResourcesErrorResponseDetails(value: object): boolean {
+    if (!('referencing_resources' in value)) return false;
     return true;
 }
 
-export function AgentCreateBodyFromJSON(json: any): AgentCreateBody {
-    return AgentCreateBodyFromJSONTyped(json, false);
+export function ConflictingResourcesErrorResponseDetailsFromJSON(json: any): ConflictingResourcesErrorResponseDetails {
+    return ConflictingResourcesErrorResponseDetailsFromJSONTyped(json, false);
 }
 
-export function AgentCreateBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): AgentCreateBody {
+export function ConflictingResourcesErrorResponseDetailsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConflictingResourcesErrorResponseDetails {
     if (json == null) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'public_key': json['public_key'],
-        'description': json['description'] == null ? undefined : json['description'],
+        'referencing_resources': ConflictingResourcesErrorResponseDetailsResourcesFromJSON(json['referencing_resources']),
     };
 }
 
-export function AgentCreateBodyToJSON(value?: AgentCreateBody | null): any {
+export function ConflictingResourcesErrorResponseDetailsToJSON(value?: ConflictingResourcesErrorResponseDetails | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'id': value['id'],
-        'public_key': value['public_key'],
-        'description': value['description'],
+        'referencing_resources': ConflictingResourcesErrorResponseDetailsResourcesToJSON(value['referencing_resources']),
     };
 }
 
