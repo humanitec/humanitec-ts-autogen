@@ -13,66 +13,75 @@
  */
 
 import { mapValues } from '../runtime.js';
+import type { ConflictingResourcesErrorResponseDetails } from './ConflictingResourcesErrorResponseDetails.js';
+import {
+    ConflictingResourcesErrorResponseDetailsFromJSON,
+    ConflictingResourcesErrorResponseDetailsFromJSONTyped,
+    ConflictingResourcesErrorResponseDetailsToJSON,
+} from './ConflictingResourcesErrorResponseDetails.js';
+
 /**
- * An object containing data needed to register an Agent.
+ * Represents a standard Humanitec Error with additional details which describe why an action on a specific resource cannot be performed due to some other entities linked to it.
+ * 
  * @export
- * @interface AgentCreateBody
+ * @interface ConflictingResourcesErrorResponse
  */
-export interface AgentCreateBody {
+export interface ConflictingResourcesErrorResponse {
     /**
-     * The Agent id. It can't be empty and should contain only url safe characters.
-     * @type {string}
-     * @memberof AgentCreateBody
+     * 
+     * @type {ConflictingResourcesErrorResponseDetails}
+     * @memberof ConflictingResourcesErrorResponse
      */
-    id: string;
+    details: ConflictingResourcesErrorResponseDetails;
     /**
-     * A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
+     * 
      * @type {string}
-     * @memberof AgentCreateBody
+     * @memberof ConflictingResourcesErrorResponse
      */
-    public_key: string;
+    error: string;
     /**
-     * An optional description to show future users.
+     * 
      * @type {string}
-     * @memberof AgentCreateBody
+     * @memberof ConflictingResourcesErrorResponse
      */
-    description?: string;
+    message: string;
 }
 
 /**
- * Check if a given object implements the AgentCreateBody interface.
+ * Check if a given object implements the ConflictingResourcesErrorResponse interface.
  */
-export function instanceOfAgentCreateBody(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('public_key' in value)) return false;
+export function instanceOfConflictingResourcesErrorResponse(value: object): boolean {
+    if (!('details' in value)) return false;
+    if (!('error' in value)) return false;
+    if (!('message' in value)) return false;
     return true;
 }
 
-export function AgentCreateBodyFromJSON(json: any): AgentCreateBody {
-    return AgentCreateBodyFromJSONTyped(json, false);
+export function ConflictingResourcesErrorResponseFromJSON(json: any): ConflictingResourcesErrorResponse {
+    return ConflictingResourcesErrorResponseFromJSONTyped(json, false);
 }
 
-export function AgentCreateBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): AgentCreateBody {
+export function ConflictingResourcesErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ConflictingResourcesErrorResponse {
     if (json == null) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'public_key': json['public_key'],
-        'description': json['description'] == null ? undefined : json['description'],
+        'details': ConflictingResourcesErrorResponseDetailsFromJSON(json['details']),
+        'error': json['error'],
+        'message': json['message'],
     };
 }
 
-export function AgentCreateBodyToJSON(value?: AgentCreateBody | null): any {
+export function ConflictingResourcesErrorResponseToJSON(value?: ConflictingResourcesErrorResponse | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'id': value['id'],
-        'public_key': value['public_key'],
-        'description': value['description'],
+        'details': ConflictingResourcesErrorResponseDetailsToJSON(value['details']),
+        'error': value['error'],
+        'message': value['message'],
     };
 }
 
