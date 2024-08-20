@@ -27,10 +27,16 @@ models/AzureKVRequest.ts
 models/AzureKVResponse.ts
 models/Batch.ts
 models/BatchItem.ts
+models/CheckResourceAccountData.ts
+models/CheckResourceAccountField.ts
 models/ClusterSecretRequest.ts
 models/ClusterSecretResponse.ts
+models/ConflictingResourcesErrorResponse.ts
+models/ConflictingResourcesErrorResponseDetails.ts
+models/ConflictingResourcesErrorResponseDetailsResources.ts
 models/ContainerArtefactVersion.ts
 models/ControllerResponse.ts
+models/ConvertScoreToSetBody.ts
 models/CreateArtefactVersion.ts
 models/CreateArtefactVersionBase.ts
 models/CreateContainerArtefactVersion.ts
@@ -39,8 +45,6 @@ models/CreateResourceAccountRequestRequest.ts
 models/CreateResourceDefinitionRequestRequest.ts
 models/CreateSecretStorePayloadRequest.ts
 models/CreateWorkloadArtefactVersion.ts
-models/CreateWorkloadArtefactVersionExtensions.ts
-models/CreateWorkloadArtefactVersionExtensionsDeploy.ts
 models/DeltaMetadataRequest.ts
 models/DeltaMetadataResponse.ts
 models/DeltaRequest.ts
@@ -143,6 +147,8 @@ models/RuntimeInfoResponseV1.ts
 models/RuntimeInfoResponseV2.ts
 models/RuntimeInfoStatus.ts
 models/RuntimeInfoStatusClass.ts
+models/ScoreHumanitecExtensions.ts
+models/ScoreHumanitecExtensionsDeploy.ts
 models/SecretReference.ts
 models/SecretStoreRequest.ts
 models/SecretStoreResponse.ts
