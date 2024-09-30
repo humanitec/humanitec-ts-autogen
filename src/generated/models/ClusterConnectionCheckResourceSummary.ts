@@ -14,55 +14,111 @@
 
 import { mapValues } from '../runtime.js';
 /**
- * AWS Secret Manager specification.
+ * 
  * @export
- * @interface AWSSMResponse
+ * @interface ClusterConnectionCheckResourceSummary
  */
-export interface AWSSMResponse {
+export interface ClusterConnectionCheckResourceSummary {
     /**
-     * 
+     * The resource type that was provisioned
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckResourceSummary
      */
-    endpoint?: string;
+    type: string;
     /**
-     * 
+     * The resource class that was provisioned
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckResourceSummary
      */
-    region?: string;
+    _class: string;
+    /**
+     * The resource id that was provisioned
+     * @type {string}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    res_id: string;
+    /**
+     * The globally unique resource identifier for the resource
+     * @type {string}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    gu_res_id: string;
+    /**
+     * The list of globally unique resource identifiers that must be provisioned before this resource
+     * @type {Array<string>}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    depends_on: Array<string>;
+    /**
+     * The resource definition that was used to provision the resource
+     * @type {string}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    def_id: string;
+    /**
+     * The resource definition version that was used to provision the resource
+     * @type {string}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    def_version_id: string;
+    /**
+     * The driver type used by the resource definition, some driver types cannot be checked.
+     * @type {string}
+     * @memberof ClusterConnectionCheckResourceSummary
+     */
+    driver_type: string;
 }
 
 /**
- * Check if a given object implements the AWSSMResponse interface.
+ * Check if a given object implements the ClusterConnectionCheckResourceSummary interface.
  */
-export function instanceOfAWSSMResponse(value: object): boolean {
+export function instanceOfClusterConnectionCheckResourceSummary(value: object): boolean {
+    if (!('type' in value)) return false;
+    if (!('_class' in value)) return false;
+    if (!('res_id' in value)) return false;
+    if (!('gu_res_id' in value)) return false;
+    if (!('depends_on' in value)) return false;
+    if (!('def_id' in value)) return false;
+    if (!('def_version_id' in value)) return false;
+    if (!('driver_type' in value)) return false;
     return true;
 }
 
-export function AWSSMResponseFromJSON(json: any): AWSSMResponse {
-    return AWSSMResponseFromJSONTyped(json, false);
+export function ClusterConnectionCheckResourceSummaryFromJSON(json: any): ClusterConnectionCheckResourceSummary {
+    return ClusterConnectionCheckResourceSummaryFromJSONTyped(json, false);
 }
 
-export function AWSSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AWSSMResponse {
+export function ClusterConnectionCheckResourceSummaryFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClusterConnectionCheckResourceSummary {
     if (json == null) {
         return json;
     }
     return {
         
-        'endpoint': json['endpoint'] == null ? undefined : json['endpoint'],
-        'region': json['region'] == null ? undefined : json['region'],
+        'type': json['type'],
+        '_class': json['class'],
+        'res_id': json['res_id'],
+        'gu_res_id': json['gu_res_id'],
+        'depends_on': json['depends_on'],
+        'def_id': json['def_id'],
+        'def_version_id': json['def_version_id'],
+        'driver_type': json['driver_type'],
     };
 }
 
-export function AWSSMResponseToJSON(value?: AWSSMResponse | null): any {
+export function ClusterConnectionCheckResourceSummaryToJSON(value?: ClusterConnectionCheckResourceSummary | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'endpoint': value['endpoint'],
-        'region': value['region'],
+        'type': value['type'],
+        'class': value['_class'],
+        'res_id': value['res_id'],
+        'gu_res_id': value['gu_res_id'],
+        'depends_on': value['depends_on'],
+        'def_id': value['def_id'],
+        'def_version_id': value['def_version_id'],
+        'driver_type': value['driver_type'],
     };
 }
 

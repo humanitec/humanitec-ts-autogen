@@ -14,55 +14,66 @@
 
 import { mapValues } from '../runtime.js';
 /**
- * AWS Secret Manager specification.
+ * Detailed needed to test a Kubernetes cluster connection
  * @export
- * @interface AWSSMResponse
+ * @interface ClusterConnectionCheckRequest
  */
-export interface AWSSMResponse {
+export interface ClusterConnectionCheckRequest {
     /**
-     * 
+     * The application Id to test
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckRequest
      */
-    endpoint?: string;
+    app_id: string;
     /**
-     * 
+     * The environment Id to test
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckRequest
      */
-    region?: string;
+    env_id: string;
+    /**
+     * The environment type to test
+     * @type {string}
+     * @memberof ClusterConnectionCheckRequest
+     */
+    env_type: string;
 }
 
 /**
- * Check if a given object implements the AWSSMResponse interface.
+ * Check if a given object implements the ClusterConnectionCheckRequest interface.
  */
-export function instanceOfAWSSMResponse(value: object): boolean {
+export function instanceOfClusterConnectionCheckRequest(value: object): boolean {
+    if (!('app_id' in value)) return false;
+    if (!('env_id' in value)) return false;
+    if (!('env_type' in value)) return false;
     return true;
 }
 
-export function AWSSMResponseFromJSON(json: any): AWSSMResponse {
-    return AWSSMResponseFromJSONTyped(json, false);
+export function ClusterConnectionCheckRequestFromJSON(json: any): ClusterConnectionCheckRequest {
+    return ClusterConnectionCheckRequestFromJSONTyped(json, false);
 }
 
-export function AWSSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AWSSMResponse {
+export function ClusterConnectionCheckRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClusterConnectionCheckRequest {
     if (json == null) {
         return json;
     }
     return {
         
-        'endpoint': json['endpoint'] == null ? undefined : json['endpoint'],
-        'region': json['region'] == null ? undefined : json['region'],
+        'app_id': json['app_id'],
+        'env_id': json['env_id'],
+        'env_type': json['env_type'],
     };
 }
 
-export function AWSSMResponseToJSON(value?: AWSSMResponse | null): any {
+export function ClusterConnectionCheckRequestToJSON(value?: ClusterConnectionCheckRequest | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'endpoint': value['endpoint'],
-        'region': value['region'],
+        'app_id': value['app_id'],
+        'env_id': value['env_id'],
+        'env_type': value['env_type'],
     };
 }
 

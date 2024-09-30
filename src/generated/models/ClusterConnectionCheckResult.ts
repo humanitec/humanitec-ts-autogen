@@ -13,56 +13,80 @@
  */
 
 import { mapValues } from '../runtime.js';
+import type { ClusterConnectionCheckResourceSummary } from './ClusterConnectionCheckResourceSummary.js';
+import {
+    ClusterConnectionCheckResourceSummaryFromJSON,
+    ClusterConnectionCheckResourceSummaryFromJSONTyped,
+    ClusterConnectionCheckResourceSummaryToJSON,
+} from './ClusterConnectionCheckResourceSummary.js';
+import type { ClusterConnectionCheckResultCondition } from './ClusterConnectionCheckResultCondition.js';
+import {
+    ClusterConnectionCheckResultConditionFromJSON,
+    ClusterConnectionCheckResultConditionFromJSONTyped,
+    ClusterConnectionCheckResultConditionToJSON,
+} from './ClusterConnectionCheckResultCondition.js';
+
 /**
- * AWS Secret Manager specification.
+ * The result of testing the Kubernetes cluster connection
  * @export
- * @interface AWSSMResponse
+ * @interface ClusterConnectionCheckResult
  */
-export interface AWSSMResponse {
+export interface ClusterConnectionCheckResult {
     /**
-     * 
-     * @type {string}
-     * @memberof AWSSMResponse
+     * Whether the test completed successfully
+     * @type {boolean}
+     * @memberof ClusterConnectionCheckResult
      */
-    endpoint?: string;
+    success: boolean;
     /**
-     * 
-     * @type {string}
-     * @memberof AWSSMResponse
+     * A list of resources provisioned for the test
+     * @type {Array<ClusterConnectionCheckResourceSummary>}
+     * @memberof ClusterConnectionCheckResult
      */
-    region?: string;
+    resource_summaries: Array<ClusterConnectionCheckResourceSummary>;
+    /**
+     * A list of success or failure conditions contributing to the result
+     * @type {Array<ClusterConnectionCheckResultCondition>}
+     * @memberof ClusterConnectionCheckResult
+     */
+    conditions: Array<ClusterConnectionCheckResultCondition>;
 }
 
 /**
- * Check if a given object implements the AWSSMResponse interface.
+ * Check if a given object implements the ClusterConnectionCheckResult interface.
  */
-export function instanceOfAWSSMResponse(value: object): boolean {
+export function instanceOfClusterConnectionCheckResult(value: object): boolean {
+    if (!('success' in value)) return false;
+    if (!('resource_summaries' in value)) return false;
+    if (!('conditions' in value)) return false;
     return true;
 }
 
-export function AWSSMResponseFromJSON(json: any): AWSSMResponse {
-    return AWSSMResponseFromJSONTyped(json, false);
+export function ClusterConnectionCheckResultFromJSON(json: any): ClusterConnectionCheckResult {
+    return ClusterConnectionCheckResultFromJSONTyped(json, false);
 }
 
-export function AWSSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AWSSMResponse {
+export function ClusterConnectionCheckResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClusterConnectionCheckResult {
     if (json == null) {
         return json;
     }
     return {
         
-        'endpoint': json['endpoint'] == null ? undefined : json['endpoint'],
-        'region': json['region'] == null ? undefined : json['region'],
+        'success': json['success'],
+        'resource_summaries': ((json['resource_summaries'] as Array<any>).map(ClusterConnectionCheckResourceSummaryFromJSON)),
+        'conditions': ((json['conditions'] as Array<any>).map(ClusterConnectionCheckResultConditionFromJSON)),
     };
 }
 
-export function AWSSMResponseToJSON(value?: AWSSMResponse | null): any {
+export function ClusterConnectionCheckResultToJSON(value?: ClusterConnectionCheckResult | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'endpoint': value['endpoint'],
-        'region': value['region'],
+        'success': value['success'],
+        'resource_summaries': ((value['resource_summaries'] as Array<any>).map(ClusterConnectionCheckResourceSummaryToJSON)),
+        'conditions': ((value['conditions'] as Array<any>).map(ClusterConnectionCheckResultConditionToJSON)),
     };
 }
 

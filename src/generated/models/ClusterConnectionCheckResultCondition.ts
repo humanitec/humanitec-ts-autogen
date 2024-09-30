@@ -14,55 +14,78 @@
 
 import { mapValues } from '../runtime.js';
 /**
- * AWS Secret Manager specification.
+ * A condition associated with a test result. The condition
  * @export
- * @interface AWSSMResponse
+ * @interface ClusterConnectionCheckResultCondition
  */
-export interface AWSSMResponse {
+export interface ClusterConnectionCheckResultCondition {
     /**
-     * 
+     * The enum-name for the condition.
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckResultCondition
      */
-    endpoint?: string;
+    type: string;
     /**
-     * 
+     * The status of the condition. True is the nominal value, False contributes to a failed result, Unknown is  rare but indicates that a retry may be necessary or the condition could not be checked.
      * @type {string}
-     * @memberof AWSSMResponse
+     * @memberof ClusterConnectionCheckResultCondition
      */
-    region?: string;
+    status: ClusterConnectionCheckResultConditionStatusEnum;
+    /**
+     * A message explaining the cause of this condition.
+     * @type {string}
+     * @memberof ClusterConnectionCheckResultCondition
+     */
+    message: string;
 }
 
 /**
- * Check if a given object implements the AWSSMResponse interface.
+* @export
+* @enum {string}
+*/
+export enum ClusterConnectionCheckResultConditionStatusEnum {
+    True = 'True',
+    False = 'False',
+    Unknown = 'Unknown',
+    unknown_default_open_api = '11184809'
+}
+
+
+/**
+ * Check if a given object implements the ClusterConnectionCheckResultCondition interface.
  */
-export function instanceOfAWSSMResponse(value: object): boolean {
+export function instanceOfClusterConnectionCheckResultCondition(value: object): boolean {
+    if (!('type' in value)) return false;
+    if (!('status' in value)) return false;
+    if (!('message' in value)) return false;
     return true;
 }
 
-export function AWSSMResponseFromJSON(json: any): AWSSMResponse {
-    return AWSSMResponseFromJSONTyped(json, false);
+export function ClusterConnectionCheckResultConditionFromJSON(json: any): ClusterConnectionCheckResultCondition {
+    return ClusterConnectionCheckResultConditionFromJSONTyped(json, false);
 }
 
-export function AWSSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): AWSSMResponse {
+export function ClusterConnectionCheckResultConditionFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClusterConnectionCheckResultCondition {
     if (json == null) {
         return json;
     }
     return {
         
-        'endpoint': json['endpoint'] == null ? undefined : json['endpoint'],
-        'region': json['region'] == null ? undefined : json['region'],
+        'type': json['type'],
+        'status': json['status'],
+        'message': json['message'],
     };
 }
 
-export function AWSSMResponseToJSON(value?: AWSSMResponse | null): any {
+export function ClusterConnectionCheckResultConditionToJSON(value?: ClusterConnectionCheckResultCondition | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'endpoint': value['endpoint'],
-        'region': value['region'],
+        'type': value['type'],
+        'status': value['status'],
+        'message': value['message'],
     };
 }
 
