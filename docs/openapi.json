@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.26.14",
+    "version": "0.26.18",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -8942,6 +8942,44 @@
         }
       }
     },
+    "/orgs/{orgId}/runtime/actions/check-connectivity": {
+      "post": {
+        "tags": [
+          "public",
+          "RuntimeInfo"
+        ],
+        "operationId": "checkClusterConnectivity",
+        "summary": "Provision and check the cluster connectivity in an environment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "Parameters required to start a cluster provisioning and connection check.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClusterConnectionCheckRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The cluster connectivity test returned a result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClusterConnectionCheckResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/secretstores": {
       "get": {
         "tags": [
@@ -10416,7 +10454,7 @@
           "public",
           "ValueSetVersion"
         ],
-        "summary": "Get a single Value Set Version in an Environment of an App",
+        "summary": "Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.",
         "parameters": [
           {
             "name": "orgId",
@@ -13004,6 +13042,7 @@
           "id": {
             "description": "The ID which refers to a specific application.",
             "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "maxLength": 50,
             "type": "string"
           },
           "name": {
@@ -13363,6 +13402,7 @@
           "id": {
             "description": "The ID the Environment is referenced as.",
             "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "maxLength": 50,
             "type": "string"
           },
           "name": {
@@ -13422,6 +13462,7 @@
           "id": {
             "description": "The ID the Environment is referenced as.",
             "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "maxLength": 50,
             "type": "string"
           },
           "name": {
@@ -17445,6 +17486,10 @@
             },
             "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.",
             "type": "object"
+          },
+          "proposed": {
+            "description": "(Optional) If true, the new definition version should be created as \"proposed\" version (not active).",
+            "type": "boolean"
           }
         },
         "type": "object"
@@ -17735,7 +17780,10 @@
           },
           "created_at": "2020-05-23T12:32:16Z",
           "created_by": "a.user@example.com",
-          "action": "created"
+          "action": "created",
+          "archived": false,
+          "active": true,
+          "proposed": false
         },
         "properties": {
           "id": {
@@ -17781,6 +17829,18 @@
             "type": "string",
             "description": "The action that generated the Resource Definition Version. Might be one of `created`, `updated` or `deleted`."
           },
+          "archived": {
+            "type": "boolean",
+            "description": "Specifies if the version is archived (i.e. can't be used for a new resource)."
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Specifies if the version is active (i.e. is being used if target version is not specified for a resource or a context)."
+          },
+          "proposed": {
+            "type": "boolean",
+            "description": "Specifies if the version is proposed (i.e. is newer than the active version)."
+          },
           "created_at": {
             "description": "The timestamp of when this record has been created.",
             "example": "2020-06-22T09:37:23.523Z",
@@ -17804,6 +17864,9 @@
           "driver_inputs",
           "provision",
           "action",
+          "archived",
+          "active",
+          "proposed",
           "created_at",
           "created_by"
         ],
@@ -18244,6 +18307,10 @@
             },
             "description": "(Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.",
             "type": "object"
+          },
+          "proposed": {
+            "description": "(Optional) If true, the new definition version should be created as \"proposed\" version (not active).",
+            "type": "boolean"
           }
         },
         "required": [
@@ -18753,6 +18820,154 @@
           "container_id": {
             "description": "Container's ID in the format '<type>://<container_id>'.",
             "type": "string"
+          }
+        }
+      },
+      "ClusterConnectionCheckRequest": {
+        "description": "Detailed needed to test a Kubernetes cluster connection",
+        "type": "object",
+        "required": [
+          "app_id",
+          "env_id",
+          "env_type"
+        ],
+        "properties": {
+          "app_id": {
+            "description": "The application Id to test",
+            "type": "string",
+            "example": "sample-app"
+          },
+          "env_id": {
+            "description": "The environment Id to test",
+            "type": "string",
+            "example": "sample-env"
+          },
+          "env_type": {
+            "description": "The environment type to test",
+            "type": "string",
+            "example": "development"
+          }
+        }
+      },
+      "ClusterConnectionCheckResult": {
+        "description": "The result of testing the Kubernetes cluster connection",
+        "type": "object",
+        "required": [
+          "success",
+          "conditions",
+          "resource_summaries"
+        ],
+        "properties": {
+          "success": {
+            "description": "Whether the test completed successfully",
+            "type": "boolean",
+            "example": true
+          },
+          "resource_summaries": {
+            "description": "A list of resources provisioned for the test",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClusterConnectionCheckResourceSummary"
+            }
+          },
+          "conditions": {
+            "description": "A list of success or failure conditions contributing to the result",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClusterConnectionCheckResultCondition"
+            }
+          }
+        }
+      },
+      "ClusterConnectionCheckResourceSummary": {
+        "type": "object",
+        "required": [
+          "type",
+          "class",
+          "res_id",
+          "gu_res_id",
+          "def_id",
+          "def_version_id",
+          "driver_type",
+          "depends_on"
+        ],
+        "properties": {
+          "type": {
+            "description": "The resource type that was provisioned",
+            "type": "string",
+            "example": "k8s-cluster"
+          },
+          "class": {
+            "description": "The resource class that was provisioned",
+            "type": "string",
+            "example": "default"
+          },
+          "res_id": {
+            "description": "The resource id that was provisioned",
+            "type": "string",
+            "example": "k8s-cluster"
+          },
+          "gu_res_id": {
+            "description": "The globally unique resource identifier for the resource",
+            "type": "string",
+            "example": "0123456789abcdef0123456789abcdef"
+          },
+          "depends_on": {
+            "description": "The list of globally unique resource identifiers that must be provisioned before this resource",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "0123456789abcdef0123456789abcdee",
+              "0123456789abcdef0123456789abcded"
+            ]
+          },
+          "def_id": {
+            "description": "The resource definition that was used to provision the resource",
+            "type": "string",
+            "example": "sample-definition"
+          },
+          "def_version_id": {
+            "description": "The resource definition version that was used to provision the resource",
+            "type": "string",
+            "example": "01234567-89ab-cdef-0123-456789abcdef"
+          },
+          "driver_type": {
+            "description": "The driver type used by the resource definition, some driver types cannot be checked.",
+            "type": "string",
+            "example": "humanitec/echo"
+          }
+        }
+      },
+      "ClusterConnectionCheckResultCondition": {
+        "description": "A condition associated with a test result. The condition",
+        "type": "object",
+        "required": [
+          "type",
+          "status",
+          "message"
+        ],
+        "properties": {
+          "type": {
+            "description": "The enum-name for the condition.",
+            "type": "string",
+            "example": "GraphCanProvision"
+          },
+          "status": {
+            "description": "The status of the condition. True is the nominal value, False contributes to a failed result, Unknown is  rare but indicates that a retry may be necessary or the condition could not be checked.",
+            "type": "string",
+            "enum": [
+              "True",
+              "False",
+              "Unknown"
+            ],
+            "example": "True"
+          },
+          "message": {
+            "description": "A message explaining the cause of this condition.",
+            "type": "string",
+            "example": "A sample message."
           }
         }
       },

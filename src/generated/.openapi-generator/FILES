@@ -29,6 +29,10 @@ models/Batch.ts
 models/BatchItem.ts
 models/CheckResourceAccountData.ts
 models/CheckResourceAccountField.ts
+models/ClusterConnectionCheckRequest.ts
+models/ClusterConnectionCheckResourceSummary.ts
+models/ClusterConnectionCheckResult.ts
+models/ClusterConnectionCheckResultCondition.ts
 models/ClusterSecretRequest.ts
 models/ClusterSecretResponse.ts
 models/ConflictingResourcesErrorResponse.ts
