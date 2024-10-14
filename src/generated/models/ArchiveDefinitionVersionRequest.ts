@@ -16,64 +16,45 @@ import { mapValues } from '../runtime.js';
 /**
  * 
  * @export
- * @interface EnvironmentBaseRequest
+ * @interface ArchiveDefinitionVersionRequest
  */
-export interface EnvironmentBaseRequest {
+export interface ArchiveDefinitionVersionRequest {
     /**
-     * The ID the Environment is referenced as.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
+     * Indicates whether to set this version archived or non-archived. Optional, true if not specified.
+     * @type {boolean}
+     * @memberof ArchiveDefinitionVersionRequest
      */
-    id: string;
-    /**
-     * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
-     */
-    name: string;
-    /**
-     * The Environment Type. This is used for organizing and managing Environments.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
-     */
-    type: string;
+    archived?: boolean;
 }
 
 /**
- * Check if a given object implements the EnvironmentBaseRequest interface.
+ * Check if a given object implements the ArchiveDefinitionVersionRequest interface.
  */
-export function instanceOfEnvironmentBaseRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfArchiveDefinitionVersionRequest(value: object): boolean {
     return true;
 }
 
-export function EnvironmentBaseRequestFromJSON(json: any): EnvironmentBaseRequest {
-    return EnvironmentBaseRequestFromJSONTyped(json, false);
+export function ArchiveDefinitionVersionRequestFromJSON(json: any): ArchiveDefinitionVersionRequest {
+    return ArchiveDefinitionVersionRequestFromJSONTyped(json, false);
 }
 
-export function EnvironmentBaseRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnvironmentBaseRequest {
+export function ArchiveDefinitionVersionRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArchiveDefinitionVersionRequest {
     if (json == null) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'name': json['name'],
-        'type': json['type'],
+        'archived': json['archived'] == null ? undefined : json['archived'],
     };
 }
 
-export function EnvironmentBaseRequestToJSON(value?: EnvironmentBaseRequest | null): any {
+export function ArchiveDefinitionVersionRequestToJSON(value?: ArchiveDefinitionVersionRequest | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'id': value['id'],
-        'name': value['name'],
-        'type': value['type'],
+        'archived': value['archived'],
     };
 }
 
