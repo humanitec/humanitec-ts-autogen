@@ -8,14 +8,15 @@ models/AWSSMResponse.ts
 models/AccountCredsRequest.ts
 models/AccountTypeRequest.ts
 models/AccountTypeResponse.ts
-models/ActiveResourceRequest.ts
 models/ActiveResourceResponse.ts
+models/ActiveResourceTargetDefinitionRequest.ts
 models/Agent.ts
 models/AgentCreateBody.ts
 models/AgentPatchBody.ts
 models/ApplicationCreationRequest.ts
 models/ApplicationRequest.ts
 models/ApplicationResponse.ts
+models/ArchiveDefinitionVersionRequest.ts
 models/ArtefactResponse.ts
 models/ArtefactVersion.ts
 models/ArtefactVersionBase.ts

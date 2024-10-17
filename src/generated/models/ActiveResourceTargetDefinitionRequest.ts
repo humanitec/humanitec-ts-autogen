@@ -14,66 +14,48 @@
 
 import { mapValues } from '../runtime.js';
 /**
- * 
+ * An active resource can be pinned to a certain version of the resource definition, then the resource is provisioned with this version.
  * @export
- * @interface EnvironmentBaseRequest
+ * @interface ActiveResourceTargetDefinitionRequest
  */
-export interface EnvironmentBaseRequest {
+export interface ActiveResourceTargetDefinitionRequest {
     /**
-     * The ID the Environment is referenced as.
+     * The Resource Definition Version pinned to this resource to be provisioned from.
      * @type {string}
-     * @memberof EnvironmentBaseRequest
+     * @memberof ActiveResourceTargetDefinitionRequest
      */
-    id: string;
-    /**
-     * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
-     */
-    name: string;
-    /**
-     * The Environment Type. This is used for organizing and managing Environments.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
-     */
-    type: string;
+    target_def_version_id: string | null;
 }
 
 /**
- * Check if a given object implements the EnvironmentBaseRequest interface.
+ * Check if a given object implements the ActiveResourceTargetDefinitionRequest interface.
  */
-export function instanceOfEnvironmentBaseRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfActiveResourceTargetDefinitionRequest(value: object): boolean {
+    if (!('target_def_version_id' in value)) return false;
     return true;
 }
 
-export function EnvironmentBaseRequestFromJSON(json: any): EnvironmentBaseRequest {
-    return EnvironmentBaseRequestFromJSONTyped(json, false);
+export function ActiveResourceTargetDefinitionRequestFromJSON(json: any): ActiveResourceTargetDefinitionRequest {
+    return ActiveResourceTargetDefinitionRequestFromJSONTyped(json, false);
 }
 
-export function EnvironmentBaseRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnvironmentBaseRequest {
+export function ActiveResourceTargetDefinitionRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ActiveResourceTargetDefinitionRequest {
     if (json == null) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'name': json['name'],
-        'type': json['type'],
+        'target_def_version_id': json['target_def_version_id'],
     };
 }
 
-export function EnvironmentBaseRequestToJSON(value?: EnvironmentBaseRequest | null): any {
+export function ActiveResourceTargetDefinitionRequestToJSON(value?: ActiveResourceTargetDefinitionRequest | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'id': value['id'],
-        'name': value['name'],
-        'type': value['type'],
+        'target_def_version_id': value['target_def_version_id'],
     };
 }
 
