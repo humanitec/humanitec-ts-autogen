@@ -18,129 +18,123 @@ import { mapValues } from '../runtime.js';
  * 
  * Active Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.
  * @export
- * @interface ActiveResourceResponse
+ * @interface ActiveResourceRequest
  */
-export interface ActiveResourceResponse {
+export interface ActiveResourceRequest {
     /**
      * The ID of the App the resource is associated with.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     app_id: string;
     /**
      * The Resource Class of the resource
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     _class: string;
     /**
      * The Matching Criteria ID.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     criteria_id?: string;
     /**
      * The Resource Definition that this resource was provisioned from.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     def_id: string;
     /**
      * The Resource Definition Version that this resource was provisioned from.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     def_version_id: string;
     /**
-     * The Resource Definition Version pinned to this resource to be provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceResponse
-     */
-    target_def_version_id?: string;
-    /**
      * The deployment that the resource was last provisioned in.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     deploy_id: string;
     /**
      * (Optional) Security account required by the driver.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     driver_account?: string;
     /**
      * The driver to be used to create the resource.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     driver_type: string;
     /**
      * The ID of the Environment the resource is associated with.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     env_id: string;
     /**
      * The Environment Type of the Environment specified by env_id.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     env_type: string;
     /**
      * Globally unique resource id
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     gu_res_id: string;
     /**
      * the ID of the Organization the Active Resource is associated with.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     org_id: string;
     /**
      * The ID of the resource
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     res_id: string;
     /**
      * The resource provisioning outputs ('values' only).
      * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     resource: { [key: string]: any; };
     /**
      * Secret references from the resource provisioning output.
      * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
-    secret_refs: { [key: string]: any; };
+    secret_refs?: { [key: string]: any; };
     /**
      * Current resource status: 'pending', 'active', or 'deleting'.
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     status: string;
     /**
      * The Resource Type of the resource
      * @type {string}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     type: string;
     /**
      * The time the resource was last provisioned as part of a deployment.
      * @type {Date}
-     * @memberof ActiveResourceResponse
+     * @memberof ActiveResourceRequest
      */
     updated_at: Date;
 }
 
 /**
- * Check if a given object implements the ActiveResourceResponse interface.
+ * Check if a given object implements the ActiveResourceRequest interface.
  */
-export function instanceOfActiveResourceResponse(value: object): boolean {
+export function instanceOfActiveResourceRequest(value: object): boolean {
     if (!('app_id' in value)) return false;
     if (!('_class' in value)) return false;
     if (!('def_id' in value)) return false;
@@ -153,18 +147,17 @@ export function instanceOfActiveResourceResponse(value: object): boolean {
     if (!('org_id' in value)) return false;
     if (!('res_id' in value)) return false;
     if (!('resource' in value)) return false;
-    if (!('secret_refs' in value)) return false;
     if (!('status' in value)) return false;
     if (!('type' in value)) return false;
     if (!('updated_at' in value)) return false;
     return true;
 }
 
-export function ActiveResourceResponseFromJSON(json: any): ActiveResourceResponse {
-    return ActiveResourceResponseFromJSONTyped(json, false);
+export function ActiveResourceRequestFromJSON(json: any): ActiveResourceRequest {
+    return ActiveResourceRequestFromJSONTyped(json, false);
 }
 
-export function ActiveResourceResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ActiveResourceResponse {
+export function ActiveResourceRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ActiveResourceRequest {
     if (json == null) {
         return json;
     }
@@ -175,7 +168,6 @@ export function ActiveResourceResponseFromJSONTyped(json: any, ignoreDiscriminat
         'criteria_id': json['criteria_id'] == null ? undefined : json['criteria_id'],
         'def_id': json['def_id'],
         'def_version_id': json['def_version_id'],
-        'target_def_version_id': json['target_def_version_id'] == null ? undefined : json['target_def_version_id'],
         'deploy_id': json['deploy_id'],
         'driver_account': json['driver_account'] == null ? undefined : json['driver_account'],
         'driver_type': json['driver_type'],
@@ -185,14 +177,14 @@ export function ActiveResourceResponseFromJSONTyped(json: any, ignoreDiscriminat
         'org_id': json['org_id'],
         'res_id': json['res_id'],
         'resource': json['resource'],
-        'secret_refs': json['secret_refs'],
+        'secret_refs': json['secret_refs'] == null ? undefined : json['secret_refs'],
         'status': json['status'],
         'type': json['type'],
         'updated_at': (new Date(json['updated_at'])),
     };
 }
 
-export function ActiveResourceResponseToJSON(value?: ActiveResourceResponse | null): any {
+export function ActiveResourceRequestToJSON(value?: ActiveResourceRequest | null): any {
     if (value == null) {
         return value;
     }
@@ -203,7 +195,6 @@ export function ActiveResourceResponseToJSON(value?: ActiveResourceResponse | nu
         'criteria_id': value['criteria_id'],
         'def_id': value['def_id'],
         'def_version_id': value['def_version_id'],
-        'target_def_version_id': value['target_def_version_id'],
         'deploy_id': value['deploy_id'],
         'driver_account': value['driver_account'],
         'driver_type': value['driver_type'],
