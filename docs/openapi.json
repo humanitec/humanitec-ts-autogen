@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.26.20",
+    "version": "0.26.25",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -8917,6 +8917,7 @@
         ],
         "operationId": "getRuntime",
         "summary": "Get Runtime information about the environment.",
+        "description": "Runtime info are fetched from the cluster provisioned by the Orchestrator with Resource Id `k8s-cluster-runtime`. If no cluster with that id is found, the system fetches information from a cluster provisioned with the default Resource Id  `k8s-cluster`.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -13182,6 +13183,11 @@
             "example": "2022-06-22T09:37:23.523Z",
             "format": "date-time",
             "description": "Time when the Key should be replaced (2 years after its creation)."
+          },
+          "is_authorized": {
+            "type": "boolean",
+            "description": "If this key has been authorized to be used to validate requests coming from an Agent.",
+            "example": true
           }
         },
         "required": [
@@ -13189,7 +13195,8 @@
           "public_key",
           "created_at",
           "created_by",
-          "expired_at"
+          "expired_at",
+          "is_authorized"
         ]
       },
       "KeyCreateBody": {
@@ -16862,6 +16869,127 @@
           "name"
         ],
         "type": "object"
+      },
+      "ActiveResourceRequest": {
+        "description": "Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.\n\nActive Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.",
+        "example": {
+          "app_id": "test-app",
+          "class": "default",
+          "def_id": "gcp-dev-postgres",
+          "def_version_id": "01234567-89ab-cdef-0123-4567890abcdef",
+          "deploy_id": "172a1013b",
+          "env_id": "gcp-dev",
+          "env_type": "development",
+          "gu_res_id": "7bd3966c9ff8eaa66c5cce855c03d715857c3440",
+          "org_id": "test-org",
+          "res_id": "modules.my-module.externals.my-db",
+          "resource": {
+            "host": "127.0.0.1",
+            "name": "db_33c7ef9b_8d90-4c62_a1cf_0cdd30fd29a9",
+            "port": 5432
+          },
+          "secret_refs": {
+            "credentials": "orgs/test-org/resources/7bd3966c9ff8eaa66c5cce855c03d715857c3440/secrets/.credentials"
+          },
+          "type": "postgres",
+          "updated_at": "2020-06-23T16:53:12Z"
+        },
+        "properties": {
+          "app_id": {
+            "description": "The ID of the App the resource is associated with.",
+            "type": "string"
+          },
+          "class": {
+            "description": "The Resource Class of the resource",
+            "type": "string"
+          },
+          "criteria_id": {
+            "description": "The Matching Criteria ID.",
+            "type": "string"
+          },
+          "def_id": {
+            "description": "The Resource Definition that this resource was provisioned from.",
+            "type": "string"
+          },
+          "def_version_id": {
+            "description": "The Resource Definition Version that this resource was provisioned from.",
+            "type": "string"
+          },
+          "deploy_id": {
+            "description": "The deployment that the resource was last provisioned in.",
+            "type": "string"
+          },
+          "driver_account": {
+            "description": "(Optional) Security account required by the driver.",
+            "type": "string"
+          },
+          "driver_type": {
+            "description": "The driver to be used to create the resource.",
+            "type": "string"
+          },
+          "env_id": {
+            "description": "The ID of the Environment the resource is associated with.",
+            "type": "string"
+          },
+          "env_type": {
+            "description": "The Environment Type of the Environment specified by env_id.",
+            "type": "string"
+          },
+          "gu_res_id": {
+            "description": "Globally unique resource id",
+            "type": "string"
+          },
+          "org_id": {
+            "description": "the ID of the Organization the Active Resource is associated with.",
+            "type": "string"
+          },
+          "res_id": {
+            "description": "The ID of the resource",
+            "type": "string"
+          },
+          "resource": {
+            "additionalProperties": true,
+            "description": "The resource provisioning outputs ('values' only).",
+            "type": "object"
+          },
+          "secret_refs": {
+            "additionalProperties": true,
+            "description": "Secret references from the resource provisioning output.",
+            "type": "object"
+          },
+          "status": {
+            "description": "Current resource status: 'pending', 'active', or 'deleting'.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The Resource Type of the resource",
+            "type": "string"
+          },
+          "updated_at": {
+            "description": "The time the resource was last provisioned as part of a deployment.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "org_id",
+          "app_id",
+          "env_id",
+          "env_type",
+          "res_id",
+          "def_id",
+          "type",
+          "driver_type",
+          "class",
+          "status",
+          "resource",
+          "updated_at",
+          "deploy_id",
+          "gu_res_id",
+          "def_version_id"
+        ]
       },
       "ActiveResourceResponse": {
         "description": "Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.\n\nActive Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.",
@@ -20607,7 +20735,7 @@
     {
       "name": "ActiveResource",
       "x-displayName": "Active Resources",
-      "description": "An active resource can be pinned to a certain version of the resource definition, then the resource is provisioned with this version.\n<SchemaDefinition schemaRef=\"#/components/schemas/ActiveResourceTargetDefinitionRequest\" />\n"
+      "description": "Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.\n\nActive Resources are provisioned based on a Resource Definition. The Resource Definition describes how to provision a concrete resource based on a Resource Type and metadata about the Environment (for example the Environment Type or the Application ID). The criteria for how to choose a Resource Definition is known as a Matching Criteria. If the Matching Criteria changes or the Resource Definition is deleted, the concrete resource represented by an Active Resource might be deleted and reprovisioned when a deployment occurs in the Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/ActiveResourceRequest\" />\n"
     },
     {
       "name": "Agents",
