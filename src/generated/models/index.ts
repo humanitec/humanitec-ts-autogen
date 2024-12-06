@@ -6,6 +6,7 @@ export * from './AWSSMResponse.js';
 export * from './AccountCredsRequest.js';
 export * from './AccountTypeRequest.js';
 export * from './AccountTypeResponse.js';
+export * from './ActiveResourceRequest.js';
 export * from './ActiveResourceResponse.js';
 export * from './ActiveResourceTargetDefinitionRequest.js';
 export * from './Agent.js';
