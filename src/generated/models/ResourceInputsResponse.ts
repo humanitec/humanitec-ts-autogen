@@ -13,74 +13,74 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { ClusterSecretResponse } from './ClusterSecretResponse.js';
-import {
-    ClusterSecretResponseFromJSON,
-    ClusterSecretResponseFromJSONTyped,
-    ClusterSecretResponseToJSON,
-} from './ClusterSecretResponse.js';
-
 /**
- * ImagesRegistryCreds stores registry credentials details alongside with associated images.
+ * A payload needed to generate a resource graph.
  * @export
- * @interface ImagesRegistryCredsResponse
+ * @interface ResourceInputsResponse
  */
-export interface ImagesRegistryCredsResponse {
+export interface ResourceInputsResponse {
     /**
-     * List of images associated with the registry.
-     * @type {Array<string>}
-     * @memberof ImagesRegistryCredsResponse
-     */
-    images: Array<string>;
-    /**
-     * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
+     * The Resource ID in the Deployment Set.
      * @type {string}
-     * @memberof ImagesRegistryCredsResponse
+     * @memberof ResourceInputsResponse
      */
-    registry: string;
+    id: string;
     /**
-     * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretResponse; }}
-     * @memberof ImagesRegistryCredsResponse
+     * The Resource type.
+     * @type {string}
+     * @memberof ResourceInputsResponse
      */
-    secrets: { [key: string]: ClusterSecretResponse; };
+    type: string;
+    /**
+     * The Resource class.
+     * @type {string}
+     * @memberof ResourceInputsResponse
+     */
+    _class?: string;
+    /**
+     * The Resource input parameters specified in the deployment set.
+     * @type {{ [key: string]: any; }}
+     * @memberof ResourceInputsResponse
+     */
+    resource?: { [key: string]: any; };
 }
 
 /**
- * Check if a given object implements the ImagesRegistryCredsResponse interface.
+ * Check if a given object implements the ResourceInputsResponse interface.
  */
-export function instanceOfImagesRegistryCredsResponse(value: object): boolean {
-    if (!('images' in value)) return false;
-    if (!('registry' in value)) return false;
-    if (!('secrets' in value)) return false;
+export function instanceOfResourceInputsResponse(value: object): boolean {
+    if (!('id' in value)) return false;
+    if (!('type' in value)) return false;
     return true;
 }
 
-export function ImagesRegistryCredsResponseFromJSON(json: any): ImagesRegistryCredsResponse {
-    return ImagesRegistryCredsResponseFromJSONTyped(json, false);
+export function ResourceInputsResponseFromJSON(json: any): ResourceInputsResponse {
+    return ResourceInputsResponseFromJSONTyped(json, false);
 }
 
-export function ImagesRegistryCredsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ImagesRegistryCredsResponse {
+export function ResourceInputsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResourceInputsResponse {
     if (json == null) {
         return json;
     }
     return {
         
-        'images': json['images'],
-        'registry': json['registry'],
-        'secrets': (mapValues(json['secrets'], ClusterSecretResponseFromJSON)),
+        'id': json['id'],
+        'type': json['type'],
+        '_class': json['class'] == null ? undefined : json['class'],
+        'resource': json['resource'] == null ? undefined : json['resource'],
     };
 }
 
-export function ImagesRegistryCredsResponseToJSON(value?: ImagesRegistryCredsResponse | null): any {
+export function ResourceInputsResponseToJSON(value?: ResourceInputsResponse | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'images': value['images'],
-        'registry': value['registry'],
-        'secrets': (mapValues(value['secrets'], ClusterSecretResponseToJSON)),
+        'id': value['id'],
+        'type': value['type'],
+        'class': value['_class'],
+        'resource': value['resource'],
     };
 }
 

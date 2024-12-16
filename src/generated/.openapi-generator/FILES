@@ -137,6 +137,7 @@ models/ResourceClassResponse.ts
 models/ResourceDefinitionChangeResponse.ts
 models/ResourceDefinitionResponse.ts
 models/ResourceDefinitionVersion.ts
+models/ResourceInputsResponse.ts
 models/ResourceProvisionRequestRequest.ts
 models/ResourceTypeRequest.ts
 models/ResourceTypeResponse.ts
