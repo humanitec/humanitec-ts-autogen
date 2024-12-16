@@ -135,6 +135,7 @@ export * from './ResourceClassResponse.js';
 export * from './ResourceDefinitionChangeResponse.js';
 export * from './ResourceDefinitionResponse.js';
 export * from './ResourceDefinitionVersion.js';
+export * from './ResourceInputsResponse.js';
 export * from './ResourceProvisionRequestRequest.js';
 export * from './ResourceTypeRequest.js';
 export * from './ResourceTypeResponse.js';
