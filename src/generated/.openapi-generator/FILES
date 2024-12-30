@@ -46,6 +46,7 @@ models/ConvertScoreToSetBody.ts
 models/CreateArtefactVersion.ts
 models/CreateArtefactVersionBase.ts
 models/CreateContainerArtefactVersion.ts
+models/CreateDelta200Response.ts
 models/CreateDriverRequestRequest.ts
 models/CreateResourceAccountRequestRequest.ts
 models/CreateResourceDefinitionRequestRequest.ts
@@ -81,6 +82,7 @@ models/EventResponse.ts
 models/GCPAuthRequest.ts
 models/GCPSMRequest.ts
 models/GCPSMResponse.ts
+models/GetSet200Response.ts
 models/HumanitecErrorResponse.ts
 models/HumanitecPublicKey.ts
 models/ImageBuildRequest.ts
@@ -105,8 +107,6 @@ models/ModuleResponse.ts
 models/NewServiceUserRequest.ts
 models/NodeBodyResponse.ts
 models/OrganizationResponse.ts
-models/OrgsOrgIdAppsAppIdDeltasPost200Response.ts
-models/OrgsOrgIdAppsAppIdSetsSetIdGet200Response.ts
 models/PatchResourceDefinitionRequestRequest.ts
 models/Pipeline.ts
 models/PipelineApprovalRequest.ts
@@ -137,6 +137,7 @@ models/ResourceClassResponse.ts
 models/ResourceDefinitionChangeResponse.ts
 models/ResourceDefinitionResponse.ts
 models/ResourceDefinitionVersion.ts
+models/ResourceInputsResponse.ts
 models/ResourceProvisionRequestRequest.ts
 models/ResourceTypeRequest.ts
 models/ResourceTypeResponse.ts
