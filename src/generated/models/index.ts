@@ -105,6 +105,7 @@ export * from './ModuleResponse.js';
 export * from './NewServiceUserRequest.js';
 export * from './NodeBodyResponse.js';
 export * from './OrganizationResponse.js';
+export * from './OutputEntryResponse.js';
 export * from './PatchResourceDefinitionRequestRequest.js';
 export * from './Pipeline.js';
 export * from './PipelineApprovalRequest.js';
