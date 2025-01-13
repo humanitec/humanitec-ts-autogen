@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.26.25",
+    "version": "0.26.27",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -2898,6 +2898,7 @@
           "Delta"
         ],
         "summary": "List Deltas in an Application",
+        "operationId": "listDeltas",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -2945,6 +2946,7 @@
           "Delta"
         ],
         "summary": "Create a new Delta",
+        "operationId": "createDelta",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3066,6 +3068,7 @@
           "Delta"
         ],
         "summary": "Update an existing Delta",
+        "operationId": "patchDelta",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3214,6 +3217,7 @@
           "Delta"
         ],
         "summary": "Mark a Delta as \"archived\"",
+        "operationId": "archiveDelta",
         "description": "Archived Deltas are still accessible but can no longer be updated.",
         "parameters": [
           {
@@ -3278,6 +3282,7 @@
           "Delta"
         ],
         "summary": "Change the Environment of a Delta",
+        "operationId": "changeEnvOfDelta",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3341,6 +3346,7 @@
           "Delta"
         ],
         "summary": "Change the name of a Delta",
+        "operationId": "changeNameOfDelta",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3403,7 +3409,7 @@
           "public",
           "Set"
         ],
-        "operationId": "getSets",
+        "operationId": "listSets",
         "summary": "Get all Deployment Sets",
         "parameters": [
           {
@@ -3447,6 +3453,7 @@
           "Set"
         ],
         "summary": "Get a Deployment Set",
+        "operationId": "getSet",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3508,6 +3515,7 @@
           "Set"
         ],
         "summary": "Apply a Deployment Delta to a Deployment Set",
+        "operationId": "updateSet",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -3577,6 +3585,68 @@
         }
       }
     },
+    "/orgs/{orgId}/apps/{appId}/sets/{setId}/resources": {
+      "get": {
+        "tags": [
+          "public",
+          "Set"
+        ],
+        "summary": "Get Resource Inputs for the given Deployment Set",
+        "operationId": "getSetResourceInputs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "name": "setId",
+            "in": "path",
+            "description": "ID of the Deployment Set.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource Inputs of the requested Deployment Set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ResourceInputsResponse"
+                  },
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Deployment Set with ID `setId` found in Application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid resources in the Deployment Set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps/{appId}/sets/{setId}/diff/{sourceSetId}": {
       "get": {
         "tags": [
@@ -3584,6 +3654,7 @@
           "Set"
         ],
         "summary": "Get the difference between 2 Deployment Sets",
+        "operationId": "getDiff",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -15299,6 +15370,43 @@
           "path"
         ],
         "type": "object"
+      },
+      "ResourceInputsResponse": {
+        "description": "A payload needed to generate a resource graph.",
+        "example": {
+          "class": "cloudsql",
+          "id": "shared.postgres",
+          "resource": {
+            "host": "127.0.0.1",
+            "name": "my-database"
+          },
+          "type": "postgres"
+        },
+        "properties": {
+          "id": {
+            "description": "The Resource ID in the Deployment Set.",
+            "type": "string"
+          },
+          "type": {
+            "description": "The Resource type.",
+            "type": "string"
+          },
+          "class": {
+            "description": "The Resource class.",
+            "type": "string"
+          },
+          "resource": {
+            "description": "The Resource input parameters specified in the deployment set.",
+            "additionalProperties": true,
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "type": "object",
+        "additionalProperties": false
       },
       "EventBaseRequest": {
         "description": "Properties which identify an event .",

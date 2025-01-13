@@ -12,58 +12,75 @@
  * Do not edit the class manually.
  */
 
-import type { CreateContainerArtefactVersion } from './CreateContainerArtefactVersion.js';
-import {
-    instanceOfCreateContainerArtefactVersion,
-    CreateContainerArtefactVersionFromJSON,
-    CreateContainerArtefactVersionFromJSONTyped,
-    CreateContainerArtefactVersionToJSON,
-} from './CreateContainerArtefactVersion.js';
-import type { CreateWorkloadArtefactVersion } from './CreateWorkloadArtefactVersion.js';
-import {
-    instanceOfCreateWorkloadArtefactVersion,
-    CreateWorkloadArtefactVersionFromJSON,
-    CreateWorkloadArtefactVersionFromJSONTyped,
-    CreateWorkloadArtefactVersionToJSON,
-} from './CreateWorkloadArtefactVersion.js';
-
+import { mapValues } from '../runtime.js';
 /**
- * @type CreateArtefactVersion
- * The details of a new Artefact Version to register. The type field is required and dictates the type of Artefact to register.
+ * A payload needed to generate a resource graph.
  * @export
+ * @interface ResourceInputsResponse
  */
-export type CreateArtefactVersion = { type: 'container' } & CreateContainerArtefactVersion | { type: 'workload' } & CreateWorkloadArtefactVersion;
-
-export function CreateArtefactVersionFromJSON(json: any): CreateArtefactVersion {
-    return CreateArtefactVersionFromJSONTyped(json, false);
+export interface ResourceInputsResponse {
+    /**
+     * The Resource ID in the Deployment Set.
+     * @type {string}
+     * @memberof ResourceInputsResponse
+     */
+    id: string;
+    /**
+     * The Resource type.
+     * @type {string}
+     * @memberof ResourceInputsResponse
+     */
+    type: string;
+    /**
+     * The Resource class.
+     * @type {string}
+     * @memberof ResourceInputsResponse
+     */
+    _class?: string;
+    /**
+     * The Resource input parameters specified in the deployment set.
+     * @type {{ [key: string]: any; }}
+     * @memberof ResourceInputsResponse
+     */
+    resource?: { [key: string]: any; };
 }
 
-export function CreateArtefactVersionFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateArtefactVersion {
+/**
+ * Check if a given object implements the ResourceInputsResponse interface.
+ */
+export function instanceOfResourceInputsResponse(value: object): boolean {
+    if (!('id' in value)) return false;
+    if (!('type' in value)) return false;
+    return true;
+}
+
+export function ResourceInputsResponseFromJSON(json: any): ResourceInputsResponse {
+    return ResourceInputsResponseFromJSONTyped(json, false);
+}
+
+export function ResourceInputsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResourceInputsResponse {
     if (json == null) {
         return json;
     }
-    switch (json['type']) {
-        case 'container':
-            return {...CreateContainerArtefactVersionFromJSONTyped(json, true), type: 'container'};
-        case 'workload':
-            return {...CreateWorkloadArtefactVersionFromJSONTyped(json, true), type: 'workload'};
-        default:
-            throw new Error(`No variant of CreateArtefactVersion exists with 'type=${json['type']}'`);
-    }
+    return {
+        
+        'id': json['id'],
+        'type': json['type'],
+        '_class': json['class'] == null ? undefined : json['class'],
+        'resource': json['resource'] == null ? undefined : json['resource'],
+    };
 }
 
-export function CreateArtefactVersionToJSON(value?: CreateArtefactVersion | null): any {
+export function ResourceInputsResponseToJSON(value?: ResourceInputsResponse | null): any {
     if (value == null) {
         return value;
     }
-    switch (value['type']) {
-        case 'container':
-            return CreateContainerArtefactVersionToJSON(value);
-        case 'workload':
-            return CreateWorkloadArtefactVersionToJSON(value);
-        default:
-            throw new Error(`No variant of CreateArtefactVersion exists with 'type=${value['type']}'`);
-    }
-
+    return {
+        
+        'id': value['id'],
+        'type': value['type'],
+        'class': value['_class'],
+        'resource': value['resource'],
+    };
 }
 
