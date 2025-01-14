@@ -107,6 +107,7 @@ models/ModuleResponse.ts
 models/NewServiceUserRequest.ts
 models/NodeBodyResponse.ts
 models/OrganizationResponse.ts
+models/OutputEntryResponse.ts
 models/PatchResourceDefinitionRequestRequest.ts
 models/Pipeline.ts
 models/PipelineApprovalRequest.ts

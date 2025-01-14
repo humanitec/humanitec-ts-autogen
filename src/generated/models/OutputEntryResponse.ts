@@ -13,63 +13,85 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { GCPAuthRequest } from './GCPAuthRequest.js';
-import {
-    GCPAuthRequestFromJSON,
-    GCPAuthRequestFromJSONTyped,
-    GCPAuthRequestToJSON,
-} from './GCPAuthRequest.js';
-
 /**
- * GCP Secret Manager specification.
+ * A container log entry.
  * @export
- * @interface GCPSMRequest
+ * @interface OutputEntryResponse
  */
-export interface GCPSMRequest {
-    /**
-     * 
-     * @type {GCPAuthRequest}
-     * @memberof GCPSMRequest
-     */
-    auth?: GCPAuthRequest;
+export interface OutputEntryResponse {
     /**
      * 
      * @type {string}
-     * @memberof GCPSMRequest
+     * @memberof OutputEntryResponse
      */
-    project_id?: string;
+    container_id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OutputEntryResponse
+     */
+    level: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OutputEntryResponse
+     */
+    payload: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OutputEntryResponse
+     */
+    timestamp: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OutputEntryResponse
+     */
+    workload_id: string;
 }
 
 /**
- * Check if a given object implements the GCPSMRequest interface.
+ * Check if a given object implements the OutputEntryResponse interface.
  */
-export function instanceOfGCPSMRequest(value: object): boolean {
+export function instanceOfOutputEntryResponse(value: object): boolean {
+    if (!('container_id' in value)) return false;
+    if (!('level' in value)) return false;
+    if (!('payload' in value)) return false;
+    if (!('timestamp' in value)) return false;
+    if (!('workload_id' in value)) return false;
     return true;
 }
 
-export function GCPSMRequestFromJSON(json: any): GCPSMRequest {
-    return GCPSMRequestFromJSONTyped(json, false);
+export function OutputEntryResponseFromJSON(json: any): OutputEntryResponse {
+    return OutputEntryResponseFromJSONTyped(json, false);
 }
 
-export function GCPSMRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): GCPSMRequest {
+export function OutputEntryResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): OutputEntryResponse {
     if (json == null) {
         return json;
     }
     return {
         
-        'auth': json['auth'] == null ? undefined : GCPAuthRequestFromJSON(json['auth']),
-        'project_id': json['project_id'] == null ? undefined : json['project_id'],
+        'container_id': json['container_id'],
+        'level': json['level'],
+        'payload': json['payload'],
+        'timestamp': json['timestamp'],
+        'workload_id': json['workload_id'],
     };
 }
 
-export function GCPSMRequestToJSON(value?: GCPSMRequest | null): any {
+export function OutputEntryResponseToJSON(value?: OutputEntryResponse | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'auth': GCPAuthRequestToJSON(value['auth']),
-        'project_id': value['project_id'],
+        'container_id': value['container_id'],
+        'level': value['level'],
+        'payload': value['payload'],
+        'timestamp': value['timestamp'],
+        'workload_id': value['workload_id'],
     };
 }
 
