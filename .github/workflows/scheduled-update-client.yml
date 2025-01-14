@@ -18,9 +18,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-            token: ${{ secrets.PAT }}
-            commit-message: Update dependencies
-            title: Update client
-            body: |
-              Re-generated the client based on the api schema.
-            branch: update-client
+          token: ${{ secrets.PAT }}
+          commit-message: "chore: update client"
+          title: Update client
+          author: 'HumanitecBot <engine@humanitec.com>'
+          body: |
+            Re-generated the api-client based on the latest api schema.
+          branch: update-client
