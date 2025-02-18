@@ -162,6 +162,7 @@ models/SecretStoreRequest.ts
 models/SecretStoreResponse.ts
 models/SetRequest.ts
 models/SetResponse.ts
+models/SubjectType.ts
 models/TokenDefinitionRequest.ts
 models/TokenInfoResponse.ts
 models/TokenResponse.ts
