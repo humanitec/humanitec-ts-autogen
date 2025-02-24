@@ -12,50 +12,27 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
 /**
- * 
+ * Subjects that can assume roles on objects.
  * @export
- * @interface KeyCreateBody
+ * @enum {string}
  */
-export interface KeyCreateBody {
-    /**
-     * A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-     * @type {string}
-     * @memberof KeyCreateBody
-     */
-    public_key: string;
+export enum SubjectType {
+    user = 'user',
+    group = 'group',
+    unknown_default_open_api = '11184809'
 }
 
-/**
- * Check if a given object implements the KeyCreateBody interface.
- */
-export function instanceOfKeyCreateBody(value: object): boolean {
-    if (!('public_key' in value)) return false;
-    return true;
+
+export function SubjectTypeFromJSON(json: any): SubjectType {
+    return SubjectTypeFromJSONTyped(json, false);
 }
 
-export function KeyCreateBodyFromJSON(json: any): KeyCreateBody {
-    return KeyCreateBodyFromJSONTyped(json, false);
+export function SubjectTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): SubjectType {
+    return json as SubjectType;
 }
 
-export function KeyCreateBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): KeyCreateBody {
-    if (json == null) {
-        return json;
-    }
-    return {
-        
-        'public_key': json['public_key'],
-    };
-}
-
-export function KeyCreateBodyToJSON(value?: KeyCreateBody | null): any {
-    if (value == null) {
-        return value;
-    }
-    return {
-        
-        'public_key': value['public_key'],
-    };
+export function SubjectTypeToJSON(value?: SubjectType | null): any {
+    return value as any;
 }
 
