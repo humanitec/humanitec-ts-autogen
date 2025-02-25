@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/node18/tsconfig.json",
+  "extends": "@tsconfig/node20/tsconfig.json",
   "include": ["src/index.ts"],
   "compilerOptions": {
     "declaration": true,
@@ -7,6 +7,7 @@
     "moduleResolution": null,
     "outDir": "dist",
     "lib": [
+      "es2023",
       "dom"
     ]
   }
