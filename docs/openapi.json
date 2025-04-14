@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.27.4",
+    "version": "0.28.4",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -467,6 +467,67 @@
           }
         }
       },
+      "patch": {
+        "tags": [
+          "public",
+          "Application"
+        ],
+        "summary": "Update metadata of an existing Application",
+        "operationId": "patchApplication",
+        "description": "Update metadata of an existing Application in the specified Organization.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/appIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "The Application patch request. Only the field `name` can be updated.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationPatchPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Application updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                },
+                "example": {
+                  "created_at": "2020-06-15T09:32:03Z",
+                  "created_by": "a-user@example.com",
+                  "envs": {
+                    "id": "development",
+                    "name": "Development",
+                    "type": "development"
+                  },
+                  "id": "my-app",
+                  "name": "My Awesome App"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No Application with ID `appId` in Organization.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete": {
         "tags": [
           "public",
@@ -498,6 +559,9 @@
         "responses": {
           "204": {
             "description": "Application Successfully deleted.\n\n"
+          },
+          "202": {
+            "description": "Application deletion is in progress.\n\n"
           },
           "401": {
             "description": "The Authorization header was not present or invalid.\n\n",
@@ -833,6 +897,9 @@
         "responses": {
           "204": {
             "description": "Environment successfully deleted.\n\n"
+          },
+          "202": {
+            "description": "Environment deletion is in progress.\n\n"
           },
           "400": {
             "description": "Attempt to delete the last Environment in an Application.\n\n",
@@ -3608,14 +3675,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "legacy",
-            "in": "query",
-            "description": "If true, return resource inputs in legacy mode",
-            "schema": {
-              "type": "boolean"
-            }
           }
         ],
         "responses": {
@@ -5210,7 +5269,7 @@
           "PipelineRuns"
         ],
         "operationId": "listPipelineRunsByOrg",
-        "summary": "List all pipeline runs within the Org. This can be filtered by app, pipeline, and status.",
+        "summary": "List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -5353,7 +5412,7 @@
           "PipelineRuns"
         ],
         "operationId": "listPipelineRuns",
-        "summary": "List runs within a pipeline.",
+        "summary": "List runs within a pipeline ordered newest to oldest.",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
@@ -9708,31 +9767,130 @@
         }
       }
     },
+    "/orgs/{orgId}/groups": {
+      "post": {
+        "tags": [
+          "public",
+          "Group"
+        ],
+        "operationId": "createGroup",
+        "summary": "Create a group in an organization",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          }
+        ],
+        "requestBody": {
+          "description": "The group metadata and the role.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Group created with the specified Organization Role.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupWithRole"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Request unauthorized",
+            "$ref": "#/components/responses/403Forbidden"
+          },
+          "409": {
+            "description": "A group with the same name exists under the provided idp.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/groups/{groupId}/users": {
+      "get": {
+        "tags": [
+          "public",
+          "Group"
+        ],
+        "operationId": "listGroupUsers",
+        "summary": "List users in a group.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/groupIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The users that are members of the group.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserProfileResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "404": {
+            "description": "A group with the same name exists under the provided idp.",
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
     "/orgs/{orgId}/apps/{appId}/users": {
       "get": {
         "tags": [
           "public",
           "UserRole"
         ],
-        "summary": "List Users with roles in an App",
+        "summary": "List Users or Groups with roles in an App",
         "operationId": "listUserRolesInApp",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/subjectTypeQueryParam"
           }
         ],
         "responses": {
           "200": {
-            "description": "A list of Users and the roles they hold.\n\n",
+            "description": "A list of Users or Groups and the roles they hold.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -9744,8 +9902,11 @@
               }
             }
           },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -9754,20 +9915,14 @@
           "public",
           "UserRole"
         ],
-        "summary": "Adds a User to an Application with a Role",
+        "summary": "Adds a User or a Group to an Application with a Role",
         "operationId": "createUserRoleInApp",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           }
         ],
         "requestBody": {
@@ -9797,17 +9952,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "The specified Application was not found.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -9818,29 +9969,17 @@
           "public",
           "UserRole"
         ],
-        "summary": "Get the role of a User on an Application",
+        "summary": "Get the role of a User or a Group on an Application",
         "operationId": "getUserRoleInApp",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -9855,17 +9994,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -9874,29 +10009,17 @@
           "public",
           "UserRole"
         ],
-        "summary": "Remove the role of a User on an Application",
+        "summary": "Remove the role of a User or a Group on an Application",
         "operationId": "deleteUserRoleInApp",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -9904,17 +10027,13 @@
             "description": "Role of the user successfully deleted.\n\n"
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -9923,29 +10042,17 @@
           "public",
           "UserRole"
         ],
-        "summary": "Update the role of a User on an Application",
+        "summary": "Update the role of a User or a Group on an Application",
         "operationId": "updateUserRoleInApp",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "appId",
-            "in": "path",
-            "description": "The Application ID.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/appIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "requestBody": {
@@ -9971,17 +10078,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -9999,13 +10102,10 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "envType",
-            "in": "path",
-            "description": "The Environment Type.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envTypePathParam"
+          },
+          {
+            "$ref": "#/components/parameters/subjectTypeQueryParam"
           }
         ],
         "responses": {
@@ -10022,8 +10122,11 @@
               }
             }
           },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10039,13 +10142,7 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "envType",
-            "in": "path",
-            "description": "The Environment Type.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envTypePathParam"
           }
         ],
         "requestBody": {
@@ -10075,17 +10172,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "The specified Application was not found.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -10096,29 +10189,17 @@
           "public",
           "UserRole"
         ],
-        "summary": "Get the role of a User on an Environment Type",
+        "summary": "Get the role of a User or a Group on an Environment Type",
         "operationId": "getUserRoleInEnvType",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "envType",
-            "in": "path",
-            "description": "The Environment Type.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envTypePathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -10133,17 +10214,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10159,22 +10236,10 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "envType",
-            "in": "path",
-            "description": "The Environment Type.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envTypePathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -10182,17 +10247,13 @@
             "description": "Role of the user successfully deleted.\n\n"
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10201,29 +10262,17 @@
           "public",
           "UserRole"
         ],
-        "summary": "Update the role of a User on an Environment Type",
+        "summary": "Update the role of a User or a Group on an Environment Type",
         "operationId": "updateUserRoleInEnvType",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "envType",
-            "in": "path",
-            "description": "The Environment Type.\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/envTypePathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "requestBody": {
@@ -10249,17 +10298,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -10356,11 +10401,14 @@
           "public",
           "UserRole"
         ],
-        "summary": "List Users with roles in an Organization",
+        "summary": "List Users and Groups with roles in an Organization",
         "operationId": "listUserRolesInOrg",
         "parameters": [
           {
             "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/subjectTypeQueryParam"
           }
         ],
         "responses": {
@@ -10377,8 +10425,11 @@
               }
             }
           },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10448,13 +10499,7 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -10469,17 +10514,13 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10495,13 +10536,7 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "responses": {
@@ -10509,17 +10544,13 @@
             "description": "Role of the user successfully deleted.\n\n"
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
           },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       },
@@ -10535,13 +10566,7 @@
             "$ref": "#/components/parameters/orgIdPathParam"
           },
           {
-            "name": "userId",
-            "in": "path",
-            "description": "The User ID\n\n",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/userIdPathParam"
           }
         ],
         "requestBody": {
@@ -10567,17 +10592,55 @@
             }
           },
           "400": {
-            "description": "The request was invalid or the payload malformed.\n\n",
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          }
+        }
+      }
+    },
+    "/orgs/{orgId}/users/{userId}/groups": {
+      "get": {
+        "tags": [
+          "public",
+          "Group"
+        ],
+        "summary": "Get the groups in an organization a user belongs to.",
+        "operationId": "listUserGroupsInOrg",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/orgIdPathParam"
+          },
+          {
+            "$ref": "#/components/parameters/userIdPathParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of groups in the organization a user belongs to.\n\n",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                  "items": {
+                    "$ref": "#/components/schemas/Group"
+                  },
+                  "type": "array"
                 }
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/403Forbidden"
+          },
           "404": {
-            "description": "Object does not exist.\n\n"
+            "$ref": "#/components/responses/404NotFound"
           }
         }
       }
@@ -11224,6 +11287,16 @@
                     "$ref": "#/components/schemas/ValueResponse"
                   },
                   "type": "array"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Input not valid.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
                 }
               }
             }
@@ -12808,6 +12881,18 @@
           "type": "string"
         }
       },
+      "appIdPathParam": {
+        "name": "appId",
+        "in": "path",
+        "description": "The Application ID",
+        "required": true,
+        "example": "sample-app",
+        "schema": {
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+          "type": "string",
+          "maxLength": 50
+        }
+      },
       "perPageQueryParam": {
         "name": "per_page",
         "in": "query",
@@ -12831,10 +12916,48 @@
           "type": "string"
         }
       },
+      "DelegatedRoles": {
+        "name": "X-Service-Authorization",
+        "in": "header",
+        "description": "The delegated permissions.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "SubjectType": {
+        "name": "type",
+        "in": "query",
+        "description": "Type of Subject. Either User or Group",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/SubjectTypeEnum"
+        }
+      },
       "OrgId": {
         "name": "orgId",
         "in": "path",
         "description": "The Organization ID.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "AppId": {
+        "name": "appId",
+        "in": "path",
+        "description": "The Application ID.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "EnvType": {
+        "name": "envType",
+        "in": "path",
+        "description": "The Environment Type.",
         "required": true,
         "schema": {
           "type": "string",
@@ -12854,17 +12977,6 @@
         "name": "userId",
         "in": "path",
         "description": "The ID of the User.",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
-        }
-      },
-      "appIdPathParam": {
-        "name": "appId",
-        "in": "path",
-        "description": "The Application ID",
-        "example": "sample-app",
         "required": true,
         "schema": {
           "type": "string",
@@ -13187,6 +13299,47 @@
         "description": "The ID of the deployment that this provision is happening in. (Used to avoid re-provisioning resources.)",
         "schema": {
           "type": "string"
+        }
+      },
+      "userIdPathParam": {
+        "name": "userId",
+        "in": "path",
+        "description": "The User or Group Id.",
+        "required": true,
+        "example": "61048226-642c-438e-974f-ce5c013d94f8",
+        "schema": {
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+          "type": "string"
+        }
+      },
+      "groupIdPathParam": {
+        "name": "groupId",
+        "in": "path",
+        "description": "The Group Id.",
+        "required": true,
+        "example": "g-61048226-642c-438e-974f-ce5c013d94f8",
+        "schema": {
+          "pattern": "^g-[a-z0-9](?:-?[a-z0-9]+)+$",
+          "type": "string"
+        }
+      },
+      "envTypePathParam": {
+        "name": "envType",
+        "in": "path",
+        "description": "The Environment Type.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+        }
+      },
+      "subjectTypeQueryParam": {
+        "name": "type",
+        "in": "query",
+        "description": "Type of Subject. Either User or Group",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/SubjectTypeEnum"
         }
       },
       "profileQidPathParam": {
@@ -13516,6 +13669,8 @@
         "example": {
           "created_at": "2020-05-22T14:53:27Z",
           "created_by": "a.user@example.com",
+          "status": "active",
+          "status_changed_at": "2020-05-22T14:53:27Z",
           "envs": [
             {
               "id": "my-env",
@@ -13556,6 +13711,26 @@
           "org_id": {
             "description": "The Organization id of this Application",
             "type": "string"
+          },
+          "status": {
+            "description": "The status of the application",
+            "type": "string",
+            "enum": [
+              "active",
+              "deleting"
+            ]
+          },
+          "status_changed_at": {
+            "description": "The timestamp in UTC of when the Environment status was last changed.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status_message": {
+            "description": "The message associated with the status of the environment",
+            "type": "string"
           }
         },
         "required": [
@@ -13564,7 +13739,9 @@
           "org_id",
           "created_at",
           "created_by",
-          "envs"
+          "envs",
+          "status",
+          "status_changed_at"
         ],
         "type": "object"
       },
@@ -13769,6 +13946,10 @@
             "type": "string",
             "description": "The ID of the Dependency Graph which holds the sorted list of the resources provisioned with this deployment.\nThe referenced Graph does not include resources of type k8s-cluster and k8s-namespace (and logging in case of deployments executed in Operator mode)."
           },
+          "legacy_mode": {
+            "type": "boolean",
+            "description": "Defines if it's a Legacy Mode deployment, nil means either the mode is unknown or the deployment not yet finished."
+          },
           "export_status": {
             "type": "string"
           },
@@ -13909,6 +14090,8 @@
         "example": {
           "created_at": "2020-05-22T14:58:07Z",
           "created_by": "a.user@example.com",
+          "status": "active",
+          "status_changed_at": "2020-05-22T14:59:01Z",
           "from_deploy": {
             "comment": "Updated version of module-one to v0.3.1",
             "created_at": "2020-05-22T14:58:07Z",
@@ -13968,6 +14151,26 @@
           "type": {
             "description": "The Environment Type. This is used for organizing and managing Environments.",
             "type": "string"
+          },
+          "status": {
+            "description": "The status of the environment",
+            "type": "string",
+            "enum": [
+              "active",
+              "deleting"
+            ]
+          },
+          "status_changed_at": {
+            "description": "The timestamp in UTC of when the Environment status was last changed.",
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "format": "date-time",
+            "type": "string"
+          },
+          "status_message": {
+            "description": "The message associated with the status of the environment",
+            "type": "string"
           }
         },
         "required": [
@@ -13975,7 +14178,9 @@
           "name",
           "type",
           "created_at",
-          "created_by"
+          "created_by",
+          "status",
+          "status_changed_at"
         ],
         "type": "object"
       },
@@ -14064,6 +14269,25 @@
             "type": "string"
           }
         },
+        "type": "object"
+      },
+      "ApplicationPatchPayload": {
+        "description": "Patch request body to update Application metadata.",
+        "example": {
+          "description": "Example Environment Type description"
+        },
+        "properties": {
+          "name": {
+            "description": "The Human-friendly name for the Application.",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$",
+            "type": "string",
+            "maxLength": 50
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
         "type": "object"
       },
       "CreateArtefactVersionBase": {
@@ -14709,130 +14933,49 @@
           }
         }
       },
-      "UserRoleRequest": {
-        "description": "UserRole holds the mapping of role to user for a particular object.",
-        "example": {
-          "role": "manager",
-          "user": "61048226-642c-438e-974f-ce5c013d94f8",
-          "created_at": "2020-12-19T09:32:46Z",
-          "email": "jo.trigg@awesomecorp.com",
-          "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
-          "invite": "accepted",
-          "name": "Jo Trigg",
-          "type": "user"
-        },
-        "properties": {
-          "role": {
-            "description": "The role that this user holds",
-            "type": "string"
-          },
-          "user": {
-            "description": "The User ID that hold the Role on the Object",
-            "type": "string",
-            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
-          },
-          "type": {
-            "description": "The type of the account. Could be user, service or system",
-            "$ref": "#/components/schemas/SubjectType",
-            "type": "string"
-          },
-          "created_at": {
-            "description": "The time the user was first registered with Humanitec",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "email": {
-            "description": "The email address of the user from the profile",
-            "type": "string"
-          },
-          "id": {
-            "description": "The User ID for this user",
-            "type": "string"
-          },
-          "invite": {
-            "description": "The status of an invitation (If applicable)",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name the user goes by",
-            "type": "string"
-          }
-        },
-        "type": "object",
-        "required": [
-          "role",
-          "user"
-        ]
-      },
-      "UserRoleResponse": {
-        "description": "UserRole holds the mapping of role to user for a particular object.",
-        "example": {
-          "role": "manager",
-          "user": "61048226-642c-438e-974f-ce5c013d94f8",
-          "created_at": "2020-12-19T09:32:46Z",
-          "email": "jo.trigg@awesomecorp.com",
-          "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
-          "invite": "accepted",
-          "name": "Jo Trigg",
-          "type": "user"
-        },
-        "properties": {
-          "role": {
-            "description": "The role that this user holds",
-            "type": "string"
-          },
-          "user": {
-            "description": "The user ID that hold the role",
-            "type": "string",
-            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
-          },
-          "type": {
-            "description": "The type of the account. Could be user, service or system",
-            "$ref": "#/components/schemas/SubjectType",
-            "type": "string"
-          },
-          "created_at": {
-            "description": "The time the user was first registered with Humanitec",
-            "example": "2020-06-22T09:37:23.523Z",
-            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
-            "title": "Simplified extended ISO format date/time string.",
-            "type": "string"
-          },
-          "email": {
-            "description": "The email address of the user from the profile",
-            "type": "string"
-          },
-          "id": {
-            "description": "The User ID for this user",
-            "type": "string"
-          },
-          "invite": {
-            "description": "The status of an invitation (If applicable)",
-            "type": "string"
-          },
-          "name": {
-            "description": "The name the user goes by",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "created_at",
-          "type",
-          "role"
-        ],
-        "type": "object"
-      },
-      "SubjectType": {
+      "SubjectTypeEnum": {
         "description": "Subjects that can assume roles on objects.",
         "type": "string",
-        "nullable": true,
         "enum": [
           "user",
           "group"
+        ]
+      },
+      "Group": {
+        "description": "Group holds the metadata of a new group.",
+        "example": {
+          "id": "g-d510224a-4641-48fd-8054-68efd3537ee2",
+          "group_id": "my-idp-group",
+          "idp_id": "my-idp"
+        },
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The id used in Humanitec to identify the group.",
+            "type": "string"
+          },
+          "group_id": {
+            "description": "The name of the group in the IdP",
+            "type": "string"
+          },
+          "idp_id": {
+            "description": "The IdP id.",
+            "type": "string",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+          },
+          "created_at": {
+            "description": "The time the user was first registered with Humanitec",
+            "example": "2020-06-22T09:37:23.523Z",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "group_id",
+          "idp_id"
         ]
       },
       "AutomationRuleRequest": {
@@ -17302,6 +17445,10 @@
             "example": "2020-06-22T09:37:23.523Z",
             "type": "string",
             "format": "date-time"
+          },
+          "provisioned_internally": {
+            "description": "Indicates if a resource was provisioned internally (default to false)",
+            "type": "boolean"
           }
         },
         "type": "object",
@@ -19390,8 +19537,33 @@
             "description": "The environment type to test",
             "type": "string",
             "example": "development"
+          },
+          "expected_definitions": {
+            "description": "List of the definitions with their type that should be used by the resource graph nodes generated based on the context.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResourceDefinitions"
+            }
           }
         }
+      },
+      "ResourceDefinitions": {
+        "description": "Object that contains definition id and resource type",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the resource provisioned by the definition"
+          },
+          "id": {
+            "type": "string",
+            "description": "The definition id"
+          }
+        },
+        "required": [
+          "type",
+          "id"
+        ]
       },
       "ClusterConnectionCheckResult": {
         "description": "The result of testing the Kubernetes cluster connection",
@@ -19895,6 +20067,9 @@
             "type": "string"
           }
         },
+        "required": [
+          "role"
+        ],
         "type": "object"
       },
       "TokenDefinitionRequest": {
@@ -20211,6 +20386,181 @@
           "type"
         ],
         "type": "object"
+      },
+      "GroupRequest": {
+        "description": "GroupRequest holds the definition of a new group.",
+        "example": {
+          "group_id": "my-idp-group",
+          "idp_id": "my-idp",
+          "role": "manager"
+        },
+        "additionalProperties": false,
+        "properties": {
+          "group_id": {
+            "description": "The name of the group in the IdP.",
+            "type": "string"
+          },
+          "idp_id": {
+            "description": "The IdP id.",
+            "type": "string",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+          },
+          "role": {
+            "description": "The organization role to be assigned to the group.",
+            "$ref": "#/components/schemas/OrganizationRole"
+          }
+        },
+        "required": [
+          "group_id",
+          "idp_id",
+          "role"
+        ],
+        "type": "object"
+      },
+      "GroupWithRole": {
+        "description": "GroupWithRole holds the metadata of a new group with its role in the organization.",
+        "example": {
+          "id": "g-d510224a-4641-48fd-8054-68efd3537ee2",
+          "group_id": "my-idp-group",
+          "idp_id": "my-idp",
+          "role": "manager"
+        },
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "The id used in Humanitec to identify the group.",
+            "type": "string"
+          },
+          "group_id": {
+            "description": "The name of the group in the IdP",
+            "type": "string"
+          },
+          "idp_id": {
+            "description": "The IdP id.",
+            "type": "string",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+          },
+          "role": {
+            "description": "The organization role to be assigned to the group.",
+            "$ref": "#/components/schemas/OrganizationRole"
+          },
+          "created_at": {
+            "description": "The time the user was first registered with Humanitec",
+            "example": "2020-06-22T09:37:23.523Z",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "group_id",
+          "idp_id",
+          "role"
+        ],
+        "type": "object"
+      },
+      "UserRoleRequest": {
+        "description": "Holds the mapping of role for a subject on a particular object.",
+        "example": {
+          "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
+          "role": "manager"
+        },
+        "properties": {
+          "id": {
+            "description": "The User ID for this user",
+            "type": "string",
+            "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
+          },
+          "role": {
+            "description": "The role that this user holds",
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "role"
+        ]
+      },
+      "UserRoleResponse": {
+        "description": "UserRole holds the mapping of role to user or group for a particular object.",
+        "example": {
+          "created_at": "2020-12-19T09:32:46Z",
+          "email": "jo.trigg@awesomecorp.com",
+          "id": "730c1f96-8ee5-4bff-8c22-898e0530b924",
+          "invite": "accepted",
+          "name": "Jo Trigg",
+          "role": "manager",
+          "type": "user"
+        },
+        "properties": {
+          "created_at": {
+            "description": "The time the user or the group was first registered with Humanitec",
+            "example": "2020-06-22T09:37:23.523Z",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+            "title": "Simplified extended ISO format date/time string.",
+            "type": "string"
+          },
+          "email": {
+            "description": "The email address of the user from the profile",
+            "type": "string"
+          },
+          "id": {
+            "description": "The User ID for this user or group",
+            "type": "string"
+          },
+          "invite": {
+            "description": "The status of an invitation (If applicable)",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name the user goes by",
+            "type": "string"
+          },
+          "role": {
+            "description": "The role that this user holds",
+            "type": "string"
+          },
+          "type": {
+            "description": "The type of the account. Could be user, service, group or system",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "created_at",
+          "type",
+          "role"
+        ],
+        "type": "object"
+      },
+      "OrganizationRole": {
+        "description": "Roles that can be assumed by an entity on an organization.",
+        "type": "string",
+        "enum": [
+          "administrator",
+          "manager",
+          "member",
+          "artefactContributor",
+          "orgViewer"
+        ]
+      },
+      "Permissions": {
+        "description": "List of permissions.",
+        "properties": {
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "permissions"
+        ]
       },
       "JSONPatchRequest": {
         "properties": {
@@ -21000,11 +21350,17 @@
       "tags": [
         "UserProfile",
         "UserRole",
+        "Group",
         "TokenInfo"
       ]
     }
   ],
   "tags": [
+    {
+      "name": "Group",
+      "x-displayName": "User Groups",
+      "description": "GroupRequest holds the definition of a new group.\n<SchemaDefinition schemaRef=\"#/components/schemas/GroupRequest\" />\n"
+    },
     {
       "name": "MatchingCriteria",
       "x-displayName": "MatchingCriteria",
@@ -21058,7 +21414,7 @@
     {
       "name": "UserRole",
       "x-displayName": "User Roles",
-      "description": "UserRole holds the mapping of role to user for a particular object.\n<SchemaDefinition schemaRef=\"#/components/schemas/UserRoleRequest\" />\n"
+      "description": "Holds the mapping of role for a subject on a particular object.\n<SchemaDefinition schemaRef=\"#/components/schemas/UserRoleRequest\" />\n"
     },
     {
       "name": "WorkloadProfile",

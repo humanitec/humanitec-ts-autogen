@@ -15,6 +15,7 @@ models/Agent.ts
 models/AgentCreateBody.ts
 models/AgentPatchBody.ts
 models/ApplicationCreationRequest.ts
+models/ApplicationPatchPayload.ts
 models/ApplicationRequest.ts
 models/ApplicationResponse.ts
 models/ArchiveDefinitionVersionRequest.ts
@@ -83,6 +84,9 @@ models/GCPAuthRequest.ts
 models/GCPSMRequest.ts
 models/GCPSMResponse.ts
 models/GetSet200Response.ts
+models/Group.ts
+models/GroupRequest.ts
+models/GroupWithRole.ts
 models/HumanitecErrorResponse.ts
 models/HumanitecPublicKey.ts
 models/ImageBuildRequest.ts
@@ -107,8 +111,10 @@ models/ModuleResponse.ts
 models/NewServiceUserRequest.ts
 models/NodeBodyResponse.ts
 models/OrganizationResponse.ts
+models/OrganizationRole.ts
 models/OutputEntryResponse.ts
 models/PatchResourceDefinitionRequestRequest.ts
+models/Permissions.ts
 models/Pipeline.ts
 models/PipelineApprovalRequest.ts
 models/PipelineCriteria.ts
@@ -138,6 +144,7 @@ models/ResourceClassResponse.ts
 models/ResourceDefinitionChangeResponse.ts
 models/ResourceDefinitionResponse.ts
 models/ResourceDefinitionVersion.ts
+models/ResourceDefinitions.ts
 models/ResourceInputsResponse.ts
 models/ResourceProvisionRequestRequest.ts
 models/ResourceTypeRequest.ts
@@ -162,7 +169,7 @@ models/SecretStoreRequest.ts
 models/SecretStoreResponse.ts
 models/SetRequest.ts
 models/SetResponse.ts
-models/SubjectType.ts
+models/SubjectTypeEnum.ts
 models/TokenDefinitionRequest.ts
 models/TokenInfoResponse.ts
 models/TokenResponse.ts
