@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.28.5",
+    "version": "0.28.8",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -9926,7 +9926,7 @@
           }
         ],
         "requestBody": {
-          "description": "The user ID and the role\n\n",
+          "description": "The User or Group ID and the role\n\n",
           "required": true,
           "content": {
             "application/json": {
@@ -9942,7 +9942,7 @@
         },
         "responses": {
           "200": {
-            "description": "The user ID and associated role.\n\n",
+            "description": "The User or Group ID and the associated role.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -9984,7 +9984,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10024,7 +10024,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Role of the user successfully deleted.\n\n"
+            "description": "Role of the User or the Group successfully deleted.\n\n"
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -10056,7 +10056,7 @@
           }
         ],
         "requestBody": {
-          "description": "The new user role\n\n",
+          "description": "The new User or Group role\n\n",
           "required": true,
           "content": {
             "application/json": {
@@ -10068,7 +10068,7 @@
         },
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10095,7 +10095,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "List Users with roles in an Environment Type",
+        "summary": "List Users and Groups with roles in an Environment Type",
         "operationId": "listUserRolesInEnvType",
         "parameters": [
           {
@@ -10110,7 +10110,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of Users and the roles they hold.\n\n",
+            "description": "A list of Users or Groups and the roles they hold.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10135,7 +10135,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "Adds a User to an Environment Type with a Role",
+        "summary": "Adds a User or a Group to an Environment Type with a Role",
         "operationId": "createUserRoleInEnvType",
         "parameters": [
           {
@@ -10146,7 +10146,7 @@
           }
         ],
         "requestBody": {
-          "description": "The user ID and the role\n\n",
+          "description": "The User or Group ID and the role\n\n",
           "required": true,
           "content": {
             "application/json": {
@@ -10162,7 +10162,7 @@
         },
         "responses": {
           "200": {
-            "description": "The user ID and associated role.\n\n",
+            "description": "The User or Group ID and the associated role.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10204,7 +10204,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10229,7 +10229,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "Remove the role of a User on an Environment Type",
+        "summary": "Remove the role of a User or a Group on an Environment Type",
         "operationId": "deleteUserRoleInEnvType",
         "parameters": [
           {
@@ -10244,7 +10244,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Role of the user successfully deleted.\n\n"
+            "description": "Role of the User or Group successfully deleted.\n\n"
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -10276,7 +10276,7 @@
           }
         ],
         "requestBody": {
-          "description": "The new user role\n\n",
+          "description": "The new User or Group role\n\n",
           "required": true,
           "content": {
             "application/json": {
@@ -10288,7 +10288,7 @@
         },
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10413,7 +10413,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of Users and the roles they hold.\n\n",
+            "description": "A list of Users and Groups and the roles they hold.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10492,7 +10492,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "Get the role of a User on an Organization",
+        "summary": "Get the role of a User or a Group on an Organization",
         "operationId": "getUserRoleInOrg",
         "parameters": [
           {
@@ -10504,7 +10504,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -10529,7 +10529,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "Remove the role of a User on an Organization",
+        "summary": "Remove the role of a User or a Group on an Organization",
         "operationId": "deleteUserRoleInOrg",
         "parameters": [
           {
@@ -10541,7 +10541,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Role of the user successfully deleted.\n\n"
+            "description": "Role of the user or group successfully deleted.\n\n"
           },
           "400": {
             "$ref": "#/components/responses/400BadRequest"
@@ -10559,7 +10559,7 @@
           "public",
           "UserRole"
         ],
-        "summary": "Update the role of a User on an Organization",
+        "summary": "Update the role of a User or a Group on an Organization",
         "operationId": "updateUserRoleInOrg",
         "parameters": [
           {
@@ -10570,7 +10570,7 @@
           }
         ],
         "requestBody": {
-          "description": "The new user the role\n\n",
+          "description": "The new User or Group role\n\n",
           "required": true,
           "content": {
             "application/json": {
@@ -10582,7 +10582,7 @@
         },
         "responses": {
           "200": {
-            "description": "The information on the user.\n\n",
+            "description": "The information about the User or the Group.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -14385,6 +14385,16 @@
                   "containers.my-container.variables.DEBUG": null
                 }
               },
+              "resource_type_aliases": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "An optional set of resource types overrides that will be applied in the deployment set.",
+                "example": {
+                  "s3": "my-org/s3"
+                }
+              },
               "extensions": {
                 "$ref": "#/components/schemas/ScoreHumanitecExtensions"
               }
@@ -14881,6 +14891,16 @@
             "example": {
               "containers.my-container.image": "busybox:latest",
               "containers.my-container.variables.DEBUG": null
+            }
+          },
+          "resource_type_aliases": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "An optional set of resource types overrides that will be applied in the deployment set.",
+            "example": {
+              "s3": "my-org/s3"
             }
           },
           "extensions": {
@@ -20466,12 +20486,12 @@
         },
         "properties": {
           "id": {
-            "description": "The User ID for this user",
+            "description": "The User or Group Id",
             "type": "string",
             "pattern": "^[a-z0-9](?:-?[a-z0-9]+)+$"
           },
           "role": {
-            "description": "The role that this user holds",
+            "description": "The role that this User or Group holds",
             "type": "string"
           }
         },
@@ -20505,7 +20525,7 @@
             "type": "string"
           },
           "id": {
-            "description": "The User ID for this user or group",
+            "description": "The User or Group Id",
             "type": "string"
           },
           "invite": {
@@ -20513,15 +20533,19 @@
             "type": "string"
           },
           "name": {
-            "description": "The name the user goes by",
+            "description": "The name the User or Group goes by",
             "type": "string"
           },
           "role": {
-            "description": "The role that this user holds",
+            "description": "The role that this User or Group holds",
             "type": "string"
           },
           "type": {
             "description": "The type of the account. Could be user, service, group or system",
+            "type": "string"
+          },
+          "idp_id": {
+            "description": "The IdP id the group is registered for. Empty if user is not a group.",
             "type": "string"
           }
         },
