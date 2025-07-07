@@ -167,6 +167,7 @@ export * from './SecretStoreRequest.js';
 export * from './SecretStoreResponse.js';
 export * from './SetRequest.js';
 export * from './SetResponse.js';
+export * from './SubjectPermissions.js';
 export * from './SubjectTypeEnum.js';
 export * from './TokenDefinitionRequest.js';
 export * from './TokenInfoResponse.js';
