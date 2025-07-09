@@ -169,6 +169,7 @@ models/SecretStoreRequest.ts
 models/SecretStoreResponse.ts
 models/SetRequest.ts
 models/SetResponse.ts
+models/SubjectPermissions.ts
 models/SubjectTypeEnum.ts
 models/TokenDefinitionRequest.ts
 models/TokenInfoResponse.ts

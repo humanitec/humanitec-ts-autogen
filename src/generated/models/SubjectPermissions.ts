@@ -13,74 +13,56 @@
  */
 
 import { mapValues } from '../runtime.js';
+import type { Permissions } from './Permissions.js';
+import {
+    PermissionsFromJSON,
+    PermissionsFromJSONTyped,
+    PermissionsToJSON,
+} from './Permissions.js';
+
 /**
- * ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.
+ * Maps of objects and permissions the subject holds on them.
  * @export
- * @interface ResourceProvisionRequestRequest
+ * @interface SubjectPermissions
  */
-export interface ResourceProvisionRequestRequest {
-    /**
-     * (Optional) A resource class
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
-     */
-    _class?: string;
+export interface SubjectPermissions {
     /**
      * 
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
+     * @type {{ [key: string]: Permissions; }}
+     * @memberof SubjectPermissions
      */
-    id: string;
-    /**
-     * (Optional) The input parameters for the resource passed from the deployment set.
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceProvisionRequestRequest
-     */
-    resource?: { [key: string]: any; };
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
-     */
-    type: string;
+    objects: { [key: string]: Permissions; };
 }
 
 /**
- * Check if a given object implements the ResourceProvisionRequestRequest interface.
+ * Check if a given object implements the SubjectPermissions interface.
  */
-export function instanceOfResourceProvisionRequestRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfSubjectPermissions(value: object): boolean {
+    if (!('objects' in value)) return false;
     return true;
 }
 
-export function ResourceProvisionRequestRequestFromJSON(json: any): ResourceProvisionRequestRequest {
-    return ResourceProvisionRequestRequestFromJSONTyped(json, false);
+export function SubjectPermissionsFromJSON(json: any): SubjectPermissions {
+    return SubjectPermissionsFromJSONTyped(json, false);
 }
 
-export function ResourceProvisionRequestRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResourceProvisionRequestRequest {
+export function SubjectPermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): SubjectPermissions {
     if (json == null) {
         return json;
     }
     return {
         
-        '_class': json['class'] == null ? undefined : json['class'],
-        'id': json['id'],
-        'resource': json['resource'] == null ? undefined : json['resource'],
-        'type': json['type'],
+        'objects': (mapValues(json['objects'], PermissionsFromJSON)),
     };
 }
 
-export function ResourceProvisionRequestRequestToJSON(value?: ResourceProvisionRequestRequest | null): any {
+export function SubjectPermissionsToJSON(value?: SubjectPermissions | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'class': value['_class'],
-        'id': value['id'],
-        'resource': value['resource'],
-        'type': value['type'],
+        'objects': (mapValues(value['objects'], PermissionsToJSON)),
     };
 }
 
