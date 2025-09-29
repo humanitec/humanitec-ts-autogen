@@ -13,79 +13,80 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { DeployConditionRequest } from './DeployConditionRequest.js';
-import {
-    DeployConditionRequestFromJSON,
-    DeployConditionRequestFromJSONTyped,
-    DeployConditionRequestToJSON,
-} from './DeployConditionRequest.js';
-
 /**
- * Module single workload data
+ * 
  * @export
- * @interface ModuleRequest
+ * @interface PatchResourceTypeRequestRequest
  */
-export interface ModuleRequest {
+export interface PatchResourceTypeRequestRequest {
     /**
-     * 
-     * @type {DeployConditionRequest}
-     * @memberof ModuleRequest
-     */
-    deploy?: DeployConditionRequest;
-    /**
-     * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ModuleRequest
-     */
-    externals?: { [key: string]: any; };
-    /**
-     * 
+     * (Optional) Category name (used to group similar resources on the UI).
      * @type {string}
-     * @memberof ModuleRequest
+     * @memberof PatchResourceTypeRequestRequest
      */
-    profile?: string;
+    category?: string;
     /**
-     * 
+     * (Optional) A JSON Schema specifying the type-specific parameters for the driver (input).
      * @type {{ [key: string]: any; }}
-     * @memberof ModuleRequest
+     * @memberof PatchResourceTypeRequestRequest
      */
-    spec?: { [key: string]: any; };
+    inputs_schema?: { [key: string]: any; };
+    /**
+     * (Optional) Resource display name.
+     * @type {string}
+     * @memberof PatchResourceTypeRequestRequest
+     */
+    name?: string;
+    /**
+     * (Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).
+     * @type {{ [key: string]: any; }}
+     * @memberof PatchResourceTypeRequestRequest
+     */
+    outputs_schema?: { [key: string]: any; };
+    /**
+     * (Optional) Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.
+     * @type {string}
+     * @memberof PatchResourceTypeRequestRequest
+     */
+    use?: string;
 }
 
 /**
- * Check if a given object implements the ModuleRequest interface.
+ * Check if a given object implements the PatchResourceTypeRequestRequest interface.
  */
-export function instanceOfModuleRequest(value: object): boolean {
+export function instanceOfPatchResourceTypeRequestRequest(value: object): boolean {
     return true;
 }
 
-export function ModuleRequestFromJSON(json: any): ModuleRequest {
-    return ModuleRequestFromJSONTyped(json, false);
+export function PatchResourceTypeRequestRequestFromJSON(json: any): PatchResourceTypeRequestRequest {
+    return PatchResourceTypeRequestRequestFromJSONTyped(json, false);
 }
 
-export function ModuleRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModuleRequest {
+export function PatchResourceTypeRequestRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchResourceTypeRequestRequest {
     if (json == null) {
         return json;
     }
     return {
         
-        'deploy': json['deploy'] == null ? undefined : DeployConditionRequestFromJSON(json['deploy']),
-        'externals': json['externals'] == null ? undefined : json['externals'],
-        'profile': json['profile'] == null ? undefined : json['profile'],
-        'spec': json['spec'] == null ? undefined : json['spec'],
+        'category': json['category'] == null ? undefined : json['category'],
+        'inputs_schema': json['inputs_schema'] == null ? undefined : json['inputs_schema'],
+        'name': json['name'] == null ? undefined : json['name'],
+        'outputs_schema': json['outputs_schema'] == null ? undefined : json['outputs_schema'],
+        'use': json['use'] == null ? undefined : json['use'],
     };
 }
 
-export function ModuleRequestToJSON(value?: ModuleRequest | null): any {
+export function PatchResourceTypeRequestRequestToJSON(value?: PatchResourceTypeRequestRequest | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'deploy': DeployConditionRequestToJSON(value['deploy']),
-        'externals': value['externals'],
-        'profile': value['profile'],
-        'spec': value['spec'],
+        'category': value['category'],
+        'inputs_schema': value['inputs_schema'],
+        'name': value['name'],
+        'outputs_schema': value['outputs_schema'],
+        'use': value['use'],
     };
 }
 
