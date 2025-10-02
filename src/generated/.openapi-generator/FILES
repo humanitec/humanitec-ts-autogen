@@ -114,6 +114,7 @@ models/OrganizationResponse.ts
 models/OrganizationRole.ts
 models/OutputEntryResponse.ts
 models/PatchResourceDefinitionRequestRequest.ts
+models/PatchResourceTypeRequestRequest.ts
 models/Permissions.ts
 models/Pipeline.ts
 models/PipelineApprovalRequest.ts
@@ -182,6 +183,7 @@ models/UpdateEnvironmentTypePayloadRequest.ts
 models/UpdateResourceAccountRequestRequest.ts
 models/UpdateResourceClassRequest.ts
 models/UpdateResourceDefinitionRequestRequest.ts
+models/UpdateResourceTypeRequestRequest.ts
 models/UpdateSecretStorePayloadRequest.ts
 models/UserInviteRequestRequest.ts
 models/UserInviteResponse.ts
