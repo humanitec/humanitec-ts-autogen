@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.28.34",
+    "version": "0.28.36",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -18191,6 +18191,10 @@
             "pattern": "^[a-z0-9][a-z0-9-]+[a-z0-9]$",
             "type": "string"
           },
+          "in_place_driver_change": {
+            "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
+            "type": "boolean"
+          },
           "name": {
             "description": "The display name.",
             "type": "string"
@@ -18511,6 +18515,9 @@
           "id": {
             "type": "string"
           },
+          "in_place_driver_change": {
+            "type": "boolean"
+          },
           "resource": {
             "additionalProperties": true,
             "type": "object"
@@ -18538,7 +18545,8 @@
           "driver_type",
           "resource_schema",
           "depends_on",
-          "def_version_id"
+          "def_version_id",
+          "in_place_driver_change"
         ],
         "type": "object"
       },
@@ -18579,6 +18587,10 @@
           "driver_inputs": {
             "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
+          },
+          "in_place_driver_change": {
+            "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only. Omit to leave the current value unchanged.",
+            "type": "boolean"
           },
           "name": {
             "description": "(Optional) Resource display name",
@@ -18816,6 +18828,10 @@
             "description": "The active Resource Definition Version ID.",
             "type": "string"
           },
+          "in_place_driver_change": {
+            "description": "If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
+            "type": "boolean"
+          },
           "is_default": {
             "description": "Indicates this definition is a built-in one (provided by Humanitec).",
             "type": "boolean"
@@ -18854,7 +18870,8 @@
           "is_default",
           "is_deleted",
           "driver_type",
-          "active_version_id"
+          "active_version_id",
+          "in_place_driver_change"
         ],
         "type": "object"
       },
@@ -18932,6 +18949,10 @@
             "$ref": "#/components/schemas/ValuesSecretsRefsResponse",
             "description": "(Optional) Additional input data to be passed to the driver."
           },
+          "in_place_driver_change": {
+            "type": "boolean",
+            "description": "If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only."
+          },
           "provision": {
             "additionalProperties": {
               "$ref": "#/components/schemas/ProvisionDependenciesResponse"
@@ -18976,6 +18997,7 @@
           "driver_type",
           "driver_account",
           "driver_inputs",
+          "in_place_driver_change",
           "provision",
           "action",
           "archived",
@@ -19422,6 +19444,10 @@
           "driver_inputs": {
             "$ref": "#/components/schemas/ValuesSecretsRefsRequest",
             "description": "(Optional) Additional input data to be passed to the driver."
+          },
+          "in_place_driver_change": {
+            "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
+            "type": "boolean"
           },
           "name": {
             "description": "The display name.",
@@ -21869,6 +21895,71 @@
   ],
   "tags": [
     {
+      "name": "Group",
+      "x-displayName": "User Groups",
+      "description": "GroupRequest holds the definition of a new group.\n<SchemaDefinition schemaRef=\"#/components/schemas/GroupRequest\" />\n"
+    },
+    {
+      "name": "MatchingCriteria",
+      "x-displayName": "MatchingCriteria",
+      "description": "Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.\n\nMatching criteria are made up in order of specificity with least specific first:\n\n- Environment Type (`env_type`)\n\n- Application (`app_id`)\n\n- Environment (`env_id`)\n\n- Resource (`res_id`)\n\nWhen selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.\n\n**NOTE:**\n\nHumanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.\n<SchemaDefinition schemaRef=\"#/components/schemas/MatchingCriteriaResponse\" />\n"
+    },
+    {
+      "name": "Organization",
+      "x-displayName": "Organization",
+      "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.\n<SchemaDefinition schemaRef=\"#/components/schemas/OrganizationResponse\" />\n"
+    },
+    {
+      "name": "PipelineApprovals",
+      "x-displayName": "Pipeline Approvals",
+      "description": "An approval object\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineApprovalRequest\" />\n"
+    },
+    {
+      "name": "PipelineRuns",
+      "x-displayName": "Pipeline Runs",
+      "description": "Details of a Run within the Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineRun\" />\n"
+    },
+    {
+      "name": "Pipelines",
+      "x-displayName": "Pipelines",
+      "description": "An object containing the details of a Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/Pipeline\" />\n"
+    },
+    {
+      "name": "ResourceDefinition",
+      "x-displayName": "Definitions",
+      "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionResponse\" />\n"
+    },
+    {
+      "name": "ResourceDefinitionVersion",
+      "x-displayName": "Definition Versions",
+      "description": "A Resource Definition Version represents a version of a Resource Definition.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionVersion\" />\n"
+    },
+    {
+      "name": "ResourceProvision",
+      "x-displayName": "Resources Dependency",
+      "description": "ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceProvisionRequestRequest\" />\n"
+    },
+    {
+      "name": "TokenInfo",
+      "x-displayName": "Token Info",
+      "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.\n<SchemaDefinition schemaRef=\"#/components/schemas/TokenInfoResponse\" />\n"
+    },
+    {
+      "name": "UserProfile",
+      "x-displayName": "User Profiles",
+      "description": "UserProfile holds the profile information of a user\n<SchemaDefinition schemaRef=\"#/components/schemas/UserProfileResponse\" />\n"
+    },
+    {
+      "name": "UserRole",
+      "x-displayName": "User Roles",
+      "description": "Holds the mapping of role for a subject on a particular object.\n<SchemaDefinition schemaRef=\"#/components/schemas/UserRoleRequest\" />\n"
+    },
+    {
+      "name": "WorkloadProfile",
+      "x-displayName": "Workload Profiles",
+      "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.\n<SchemaDefinition schemaRef=\"#/components/schemas/WorkloadProfileRequest\" />\n"
+    },
+    {
       "name": "AccountType",
       "x-displayName": "Resource Account Types",
       "description": "Resource Account Types define cloud providers or protocols to which a resource account can belong.\n<SchemaDefinition schemaRef=\"#/components/schemas/AccountTypeRequest\" />\n"
@@ -21934,11 +22025,6 @@
       "description": "Environment Types are a way of grouping and managing Environments. Every Environment has exactly 1 Environment Type.\n\nEnvironment Types can be used with External Resources to manage where resources such as databases are provisioned or even which cluster to deploy to.\n<SchemaDefinition schemaRef=\"#/components/schemas/EnvironmentTypeRequest\" />\n"
     },
     {
-      "name": "Group",
-      "x-displayName": "User Groups",
-      "description": "GroupRequest holds the definition of a new group.\n<SchemaDefinition schemaRef=\"#/components/schemas/GroupRequest\" />\n"
-    },
-    {
       "name": "Image",
       "x-displayName": "Image",
       "description": "DEPRECATED: This type exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.\n\nContainer Images (known simply as Images) can be registered with Humanitec. Continuous Integration (CI) pipelines can then notify Humanitec when a new build of a Container Image becomes available. Humanitec tracks the Image along with metadata about how it was built.\n<SchemaDefinition schemaRef=\"#/components/schemas/ImageRequest\" />\n"
@@ -21954,31 +22040,6 @@
       "description": "A container log entry.\n<SchemaDefinition schemaRef=\"#/components/schemas/OutputEntryResponse\" />\n"
     },
     {
-      "name": "MatchingCriteria",
-      "x-displayName": "MatchingCriteria",
-      "description": "Matching Criteria are a set of rules used to choose which Resource Definition to use to provision a particular Resource Type.\n\nMatching criteria are made up in order of specificity with least specific first:\n\n- Environment Type (`env_type`)\n\n- Application (`app_id`)\n\n- Environment (`env_id`)\n\n- Resource (`res_id`)\n\nWhen selecting matching criteria, the most specific one is selected. In general, this means of all the Matching Criteria fully matching the context, the Matching Criteria Rule with the most specific element filled is chosen. If there is a tie, the next most specific elements are compared and so on until one is chosen.\n\n**NOTE:**\n\nHumanitec will reject the registration of matching criteria rules that duplicate rules already present for a Resource Type.\n<SchemaDefinition schemaRef=\"#/components/schemas/MatchingCriteriaResponse\" />\n"
-    },
-    {
-      "name": "Organization",
-      "x-displayName": "Organization",
-      "description": "An Organization is the top level object in Humanitec. All other objects belong to an Organization.\n<SchemaDefinition schemaRef=\"#/components/schemas/OrganizationResponse\" />\n"
-    },
-    {
-      "name": "PipelineApprovals",
-      "x-displayName": "Pipeline Approvals",
-      "description": "An approval object\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineApprovalRequest\" />\n"
-    },
-    {
-      "name": "PipelineRuns",
-      "x-displayName": "Pipeline Runs",
-      "description": "Details of a Run within the Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/PipelineRun\" />\n"
-    },
-    {
-      "name": "Pipelines",
-      "x-displayName": "Pipelines",
-      "description": "An object containing the details of a Pipeline.\n<SchemaDefinition schemaRef=\"#/components/schemas/Pipeline\" />\n"
-    },
-    {
       "name": "Registry",
       "x-displayName": "Registry",
       "description": "Humanitec can be used to manage registry credentials. The Registry object represents how to match credentials to a particular registry.\n\nHumanitec supports all Docker compatible registries as well as the custom authentication formats used by AWS Elastic Container Registry and Google Container Registry. It also supports the injection of a specific secret to be copied from an existing namespace in the cluster.\n<SchemaDefinition schemaRef=\"#/components/schemas/RegistryRequest\" />\n"
@@ -21992,21 +22053,6 @@
       "name": "ResourceAccount",
       "x-displayName": "Resource Accounts",
       "description": "ResourceAccount represents the account being used to access a resource.\n\nResource Accounts hold credentials that are required to provision and manage resources.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceAccountResponse\" />\n"
-    },
-    {
-      "name": "ResourceDefinition",
-      "x-displayName": "Definitions",
-      "description": "A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.\n\nThe schema for the `driver_inputs` is defined by the `input_schema` property on the DriverDefinition identified by the `driver_type` property.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionResponse\" />\n"
-    },
-    {
-      "name": "ResourceDefinitionVersion",
-      "x-displayName": "Definition Versions",
-      "description": "A Resource Definition Version represents a version of a Resource Definition.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceDefinitionVersion\" />\n"
-    },
-    {
-      "name": "ResourceProvision",
-      "x-displayName": "Resources Dependency",
-      "description": "ResourceProvisionRequest is the payload passed to the resource provisioner, specifying the resources to be provisioned.\n<SchemaDefinition schemaRef=\"#/components/schemas/ResourceProvisionRequestRequest\" />\n"
     },
     {
       "name": "ResourceType",
@@ -22029,21 +22075,6 @@
       "description": "A Deployment Set (or just \"Set\") defines all of the non-Environment specific configuration for Modules and External Resources. Each of these Modules or External Resources has a unique name.\n\nDeployment Sets are immutable and their ID is a cryptographic hash of their content. This means that a Deployment Set can be globally identified based on its ID. It also means that referencing a Deployment Set by ID will always return the same Deployment Set.\n\nDeployment Sets cannot be created directly, instead they are created by applying a Deployment Delta to an existing Deployment Set.\n\n**Basic Structure**\n\n```\n {\n   \"id\": <ID of the Deployment Set>,\n   \"modules\" : {\n     <ID of Module> : {\n       \"profile\": <Defines how the optional \"spec\" property is interpreted>\n       \"spec\": {\n         <Properties that depend on the \"profile\" property.>\n       }\n       \"externals\": {\n         <External Resource Name> : {\n           \"type\": <Resource Type>,\n           \"params\": {\n             <Properties which parametrize the resource depending on the Resource Type.>\n           }\n         }\n       }\n     }\n   }\n }\n```\n\nFor details about how the Humanitec provided profiles work, see (Deployment Set Profiles)[].\n<SchemaDefinition schemaRef=\"#/components/schemas/SetRequest\" />\n"
     },
     {
-      "name": "TokenInfo",
-      "x-displayName": "Token Info",
-      "description": "Holds metadata about a token. `expires_at` is excluded if token does not expire.\n<SchemaDefinition schemaRef=\"#/components/schemas/TokenInfoResponse\" />\n"
-    },
-    {
-      "name": "UserProfile",
-      "x-displayName": "User Profiles",
-      "description": "UserProfile holds the profile information of a user\n<SchemaDefinition schemaRef=\"#/components/schemas/UserProfileResponse\" />\n"
-    },
-    {
-      "name": "UserRole",
-      "x-displayName": "User Roles",
-      "description": "Holds the mapping of role for a subject on a particular object.\n<SchemaDefinition schemaRef=\"#/components/schemas/UserRoleRequest\" />\n"
-    },
-    {
       "name": "Value",
       "x-displayName": "Shared Values",
       "description": "Shared Values can be used to manage variables and configuration that might vary between environments. They are also the way that secrets can be stored securely.\n\nShared Values are by default shared across all environments in an application. However, they can be overridden on an Environment by Environment basis.\n\nFor example: There might be 2 API keys that are used in an application. One development key used in the development and staging environments and another used for production. The development API key would be set at the Application level. The value would then be overridden at the Environment level for the production Environment.\n<SchemaDefinition schemaRef=\"#/components/schemas/ValueRequest\" />\n"
@@ -22057,11 +22088,6 @@
       "name": "Event",
       "x-displayName": "Webhooks",
       "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.\n<SchemaDefinition schemaRef=\"#/components/schemas/WebhookRequest\" />\n"
-    },
-    {
-      "name": "WorkloadProfile",
-      "x-displayName": "Workload Profiles",
-      "description": "Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.\n\nWorkloads in Humanitec are implemented as Helm Charts which must implement a specific schema.\n<SchemaDefinition schemaRef=\"#/components/schemas/WorkloadProfileRequest\" />\n"
     }
   ]
 }
