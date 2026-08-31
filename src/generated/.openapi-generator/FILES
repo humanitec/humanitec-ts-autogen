@@ -80,6 +80,7 @@ models/ErrorResponse.ts
 models/EventBaseRequest.ts
 models/EventBaseResponse.ts
 models/EventResponse.ts
+models/Extensions.ts
 models/GCPAuthRequest.ts
 models/GCPSMRequest.ts
 models/GCPSMResponse.ts
@@ -206,11 +207,14 @@ models/ValuesSecretsRefsResponse.ts
 models/VaultAuthRequest.ts
 models/VaultRequest.ts
 models/VaultResponse.ts
+models/WebhookCreateRequest.ts
 models/WebhookRequest.ts
 models/WebhookResponse.ts
-models/WebhookUpdateResponse.ts
+models/WebhookUpdateRequest.ts
 models/WorkloadArtefactVersion.ts
 models/WorkloadArtefactVersionDeploymentSet.ts
+models/WorkloadDeltasRequest.ts
+models/WorkloadDeltasResponse.ts
 models/WorkloadProfileChartReference.ts
 models/WorkloadProfileChartVersionResponse.ts
 models/WorkloadProfileFeatureResponse.ts
@@ -224,5 +228,7 @@ models/WorkloadProfileSpecDefinitionRuntimeProperty.ts
 models/WorkloadProfileSpecDefinitionRuntimePropertyType.ts
 models/WorkloadProfileUpdateRequest.ts
 models/WorkloadProfileVersionResponse.ts
+models/WorkloadRequest.ts
+models/WorkloadResponse.ts
 models/index.ts
 runtime.ts

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.28.36",
+    "version": "0.28.40",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -3880,7 +3880,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WebhookRequest"
+                "$ref": "#/components/schemas/WebhookCreateRequest"
               }
             }
           }
@@ -4069,7 +4069,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WebhookRequest"
+                "$ref": "#/components/schemas/WebhookUpdateRequest"
               }
             }
           }
@@ -4080,7 +4080,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WebhookUpdateResponse"
+                  "$ref": "#/components/schemas/WebhookResponse"
                 }
               }
             }
@@ -6919,6 +6919,26 @@
           },
           "400": {
             "description": "The driver associated to the request resource could not be found.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication token is missing or invalid.\n\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HumanitecErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The user is not allowed to deploy to the Environment Type of the resource.\n\n",
             "content": {
               "application/json": {
                 "schema": {
@@ -15701,6 +15721,10 @@
             },
             "type": "array",
             "nullable": true
+          },
+          "workloads": {
+            "$ref": "#/components/schemas/WorkloadDeltasRequest",
+            "description": "A dictionary of the Workloads this Delta has operations for."
           }
         },
         "type": "object"
@@ -15748,6 +15772,10 @@
               "$ref": "#/components/schemas/UpdateActionResponse"
             },
             "type": "array"
+          },
+          "workloads": {
+            "$ref": "#/components/schemas/WorkloadDeltasResponse",
+            "description": "A dictionary of the Workloads this Delta has operations for. Omitted when the Delta has no Workload operations."
           }
         },
         "required": [
@@ -15791,6 +15819,10 @@
               "$ref": "#/components/schemas/UpdateActionResponse"
             },
             "type": "array"
+          },
+          "workloads": {
+            "$ref": "#/components/schemas/WorkloadDeltasResponse",
+            "description": "A dictionary of the Workloads this Delta has operations for. Omitted when the Delta has no Workload operations."
           }
         },
         "required": [
@@ -16013,6 +16045,13 @@
           "version": {
             "description": "The version of the Deployment Set Schema to use. (Currently, only 0 is supported, and if omitted, version 0 is assumed.)",
             "type": "integer"
+          },
+          "workloads": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkloadRequest"
+            },
+            "description": "The Workloads that make up the Set. A Set holding at least one Workload is deployed in Generic Mode.",
+            "type": "object"
           }
         },
         "type": "object"
@@ -16079,6 +16118,13 @@
           "version": {
             "description": "The version of the Deployment Set Schema to use. (Currently, only 0 is supported, and if omitted, version 0 is assumed.)",
             "type": "integer"
+          },
+          "workloads": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkloadResponse"
+            },
+            "description": "The Workloads that make up the Set. A Set holding at least one Workload is deployed in Generic Mode. Omitted when the Set holds no Workloads.",
+            "type": "object"
           }
         },
         "required": [
@@ -16086,6 +16132,171 @@
           "modules",
           "shared",
           "version"
+        ],
+        "type": "object"
+      },
+      "Extensions": {
+        "description": "A general purpose way of extending the workload described by a Score spec, for the things a Score spec deliberately cannot express because they are compute specific.\n\nIt is keyed by compute type so that a single Workload can carry extensions for more than one target. Only `kubernetes` is defined for now.\n\nNOTE: this schema is shared by requests and responses. Unlike the other schemas here it has no request/response asymmetry - there are no required properties in either direction - so splitting it would only duplicate it.",
+        "properties": {
+          "kubernetes": {
+            "additionalProperties": true,
+            "description": "Compute specific extensions for Kubernetes. The shape of this object is not settled yet, so it is carried as-is and interpreted by the driver that provisions the workload.",
+            "type": "object"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object"
+      },
+      "WorkloadRequest": {
+        "description": "A single workload specification - currently a Score spec - together with any compute specific extensions.\n\nWorkloads are the counterpart of Modules: a Module describes a workload in terms of a Workload Profile which is rendered into Kubernetes manifests at deployment time, whereas a Workload carries the specification verbatim and leaves interpretation to the driver that provisions it.",
+        "example": {
+          "extensions": {
+            "kubernetes": {
+              "pod": {
+                "spec/serviceAccountName": "my-service-account"
+              }
+            }
+          },
+          "spec": {
+            "containers": {
+              "main": {
+                "image": "registry.humanitec.io/my-org/core-service:VERSION_ONE",
+                "variables": {
+                  "REDIS_HOST": "${resources.redis.host}"
+                }
+              }
+            },
+            "resources": {
+              "redis": {
+                "type": "redis"
+              }
+            }
+          }
+        },
+        "properties": {
+          "class": {
+            "description": "The Resource Class with which the `workload` resource is created. \"default\" when empty.",
+            "type": "string"
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/Extensions",
+            "description": "Compute specific extensions to the workload specification, passed through to the driver."
+          },
+          "spec": {
+            "additionalProperties": true,
+            "description": "The workload specification. It is stored as-is - this service neither converts nor validates it.",
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "nullable": true
+      },
+      "WorkloadResponse": {
+        "description": "A single workload specification - currently a Score spec - together with any compute specific extensions.\n\nWorkloads are the counterpart of Modules: a Module describes a workload in terms of a Workload Profile which is rendered into Kubernetes manifests at deployment time, whereas a Workload carries the specification verbatim and leaves interpretation to the driver that provisions it.",
+        "example": {
+          "extensions": {
+            "kubernetes": {
+              "pod": {
+                "spec/serviceAccountName": "my-service-account"
+              }
+            }
+          },
+          "spec": {
+            "containers": {
+              "main": {
+                "image": "registry.humanitec.io/my-org/core-service:VERSION_ONE",
+                "variables": {
+                  "REDIS_HOST": "${resources.redis.host}"
+                }
+              }
+            },
+            "resources": {
+              "redis": {
+                "type": "redis"
+              }
+            }
+          }
+        },
+        "properties": {
+          "class": {
+            "description": "The Resource Class with which the `workload` resource is created. \"default\" when empty.",
+            "type": "string"
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/Extensions",
+            "description": "Compute specific extensions to the workload specification, passed through to the driver."
+          },
+          "spec": {
+            "additionalProperties": true,
+            "description": "The workload specification. It is stored as-is - this service neither converts nor validates it.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "spec"
+        ],
+        "type": "object"
+      },
+      "WorkloadDeltasRequest": {
+        "description": "WorkloadDeltas groups the different operations together.",
+        "properties": {
+          "add": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkloadRequest"
+            },
+            "type": "object",
+            "nullable": true
+          },
+          "remove": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "nullable": true
+          },
+          "update": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/UpdateActionRequest"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "nullable": true
+          }
+        },
+        "type": "object"
+      },
+      "WorkloadDeltasResponse": {
+        "description": "WorkloadDeltas groups the different operations together.",
+        "properties": {
+          "add": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/WorkloadResponse"
+            },
+            "type": "object"
+          },
+          "remove": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "update": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/UpdateActionResponse"
+              },
+              "type": "array"
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "add",
+          "remove",
+          "update"
         ],
         "type": "object"
       },
@@ -16230,6 +16441,61 @@
         "additionalProperties": {},
         "type": "object"
       },
+      "SecretHeadersRequest": {
+        "additionalProperties": {
+          "nullable": true,
+          "type": "string"
+        },
+        "description": "SecretHeaders maps header names to their secret values.",
+        "type": "object"
+      },
+      "SecretHeadersResponse": {
+        "additionalProperties": {
+          "nullable": true,
+          "type": "string"
+        },
+        "description": "SecretHeaders maps header names to their secret values.",
+        "type": "object"
+      },
+      "WebhookCreateRequest": {
+        "description": "WebhookCreate is the request body for creating a webhook.",
+        "properties": {
+          "disabled": {
+            "description": "Defines whether this job is currently disabled.",
+            "nullable": true,
+            "type": "boolean"
+          },
+          "headers": {
+            "$ref": "#/components/schemas/JSONFieldRequest",
+            "description": "The webhook's HTTP headers."
+          },
+          "id": {
+            "description": "Job ID, unique within the Organization",
+            "type": "string"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/JSONFieldRequest",
+            "description": "The webhook's HTTP headers."
+          },
+          "secret_headers": {
+            "$ref": "#/components/schemas/SecretHeadersRequest",
+            "description": "The webhook's secret HTTP headers, as an object of header names to secret values."
+          },
+          "triggers": {
+            "description": "A list of Events by which the Job is triggered",
+            "items": {
+              "$ref": "#/components/schemas/EventBaseRequest"
+            },
+            "type": "array"
+          },
+          "url": {
+            "description": "The webhook's URL (without protocol, only HTTPS is supported).",
+            "nullable": true,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
       "WebhookRequest": {
         "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.",
         "properties": {
@@ -16248,7 +16514,14 @@
           },
           "payload": {
             "$ref": "#/components/schemas/JSONFieldRequest",
-            "description": "The webhook's HTTP headers."
+            "description": "The webhook's payload."
+          },
+          "secret_headers": {
+            "description": "The names of the webhook's secret HTTP headers.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "triggers": {
             "description": "A list of Events by which the Job is triggered",
@@ -16294,7 +16567,14 @@
           },
           "payload": {
             "$ref": "#/components/schemas/JSONFieldResponse",
-            "description": "The webhook's HTTP headers."
+            "description": "The webhook's payload."
+          },
+          "secret_headers": {
+            "description": "The names of the webhook's secret HTTP headers.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
           },
           "triggers": {
             "description": "A list of Events by which the Job is triggered",
@@ -16315,12 +16595,13 @@
           "triggers",
           "url",
           "headers",
+          "secret_headers",
           "payload"
         ],
         "type": "object"
       },
-      "WebhookUpdateResponse": {
-        "description": "Webhook is a special type of a Job. It performs an HTTPS request to a specified URL with specified headers.",
+      "WebhookUpdateRequest": {
+        "description": "WebhookUpdate is the partial update for a webhook.",
         "properties": {
           "disabled": {
             "description": "Defines whether this job is currently disabled.",
@@ -16328,17 +16609,21 @@
             "type": "boolean"
           },
           "headers": {
-            "$ref": "#/components/schemas/JSONFieldResponse",
+            "$ref": "#/components/schemas/JSONFieldRequest",
             "description": "The webhook's HTTP headers."
           },
           "payload": {
-            "$ref": "#/components/schemas/JSONFieldResponse",
+            "$ref": "#/components/schemas/JSONFieldRequest",
             "description": "The webhook's HTTP headers."
+          },
+          "secret_headers": {
+            "$ref": "#/components/schemas/SecretHeadersRequest",
+            "description": "The webhook's secret HTTP headers. Set value to null to leave existing secret headers untouched. Set to a non-null value, to replace. Any previously stored header name not present here is deleted."
           },
           "triggers": {
             "description": "A list of Events by which the Job is triggered",
             "items": {
-              "$ref": "#/components/schemas/EventBaseResponse"
+              "$ref": "#/components/schemas/EventBaseRequest"
             },
             "nullable": true,
             "type": "array"
@@ -16349,13 +16634,6 @@
             "type": "string"
           }
         },
-        "required": [
-          "disabled",
-          "triggers",
-          "url",
-          "headers",
-          "payload"
-        ],
         "type": "object"
       },
       "PublicKey": {
