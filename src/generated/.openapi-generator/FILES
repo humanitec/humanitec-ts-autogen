@@ -47,6 +47,7 @@ models/ConvertScoreToSetBody.ts
 models/CreateArtefactVersion.ts
 models/CreateArtefactVersionBase.ts
 models/CreateContainerArtefactVersion.ts
+models/CreateDelta200Response.ts
 models/CreateDriverRequestRequest.ts
 models/CreateResourceAccountRequestRequest.ts
 models/CreateResourceDefinitionRequestRequest.ts

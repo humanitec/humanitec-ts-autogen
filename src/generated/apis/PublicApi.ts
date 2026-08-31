@@ -124,6 +124,11 @@ import {
     CreateArtefactVersionToJSON,
 } from '../models/CreateArtefactVersion.js';
 import {
+    type CreateDelta200Response,
+    CreateDelta200ResponseFromJSON,
+    CreateDelta200ResponseToJSON,
+} from '../models/CreateDelta200Response.js';
+import {
     type CreateDriverRequestRequest,
     CreateDriverRequestRequestFromJSON,
     CreateDriverRequestRequestToJSON,
@@ -5638,17 +5643,17 @@ export class PublicApi extends runtime.BaseAPI {
     /**
      * Create a new Delta
      */
-    async createDeltaRaw(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeltaResponse>> {
+    async createDeltaRaw(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateDelta200Response>> {
         const requestOptions = await this.createDeltaRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeltaResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => CreateDelta200ResponseFromJSON(jsonValue));
     }
 
     /**
      * Create a new Delta
      */
-    async createDelta(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeltaResponse> {
+    async createDelta(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CreateDelta200Response> {
         const response = await this.createDeltaRaw(requestParameters, initOverrides);
         return await response.value();
     }

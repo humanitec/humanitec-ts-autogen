@@ -6,7 +6,7 @@
     "useDocker": true,
     "generators": {
       "humanitec": {
-        "inputSpec": "docs/openapi.patched.json",
+        "inputSpec": "docs/openapi.json",
         "output": "src/generated",
         "generatorName": "typescript-fetch",
         "openapiNormalizer": {

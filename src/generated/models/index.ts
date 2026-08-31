@@ -45,6 +45,7 @@ export * from './ConvertScoreToSetBody.js';
 export * from './CreateArtefactVersion.js';
 export * from './CreateArtefactVersionBase.js';
 export * from './CreateContainerArtefactVersion.js';
+export * from './CreateDelta200Response.js';
 export * from './CreateDriverRequestRequest.js';
 export * from './CreateResourceAccountRequestRequest.js';
 export * from './CreateResourceDefinitionRequestRequest.js';
