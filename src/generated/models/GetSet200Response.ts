@@ -42,7 +42,10 @@ export function GetSet200ResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     if (json == null) {
         return json;
     }
-    return { ...PlainDeltaResponseFromJSONTyped(json, true), ...SetResponseFromJSONTyped(json, true) };
+    if (instanceOfSetResponse(json)) {
+        return SetResponseFromJSONTyped(json, true);
+    }
+    return PlainDeltaResponseFromJSONTyped(json, true);
 }
 
 export function GetSet200ResponseToJSON(value?: GetSet200Response | null): any {

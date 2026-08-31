@@ -14,6 +14,15 @@ export default tseslint.config(
     rules: {},
     files: ["src/**/*.ts"],
   },
+  {
+    name: "scripts",
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      globals: { console: "readonly", process: "readonly" },
+    },
+    files: ["scripts/**/*.mjs"],
+  },
   eslintPluginPrettierRecommended,
   {
     ignores: ["cjs/", "esm/", "node_modules/", "src/generated/"],
