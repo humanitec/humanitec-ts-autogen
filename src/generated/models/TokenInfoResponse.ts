@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface TokenInfoResponse {
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     created_at: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     created_by: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     description: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     expires_at?: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenInfoResponse
      */
     type: string;
 }
@@ -60,12 +48,12 @@ export interface TokenInfoResponse {
 /**
  * Check if a given object implements the TokenInfoResponse interface.
  */
-export function instanceOfTokenInfoResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('description' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfTokenInfoResponse(value: object): value is TokenInfoResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -88,10 +76,15 @@ export function TokenInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function TokenInfoResponseToJSON(value?: TokenInfoResponse | null): any {
+export function TokenInfoResponseToJSON(json: any): TokenInfoResponse {
+    return TokenInfoResponseToJSONTyped(json, false);
+}
+
+export function TokenInfoResponseToJSONTyped(value?: TokenInfoResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

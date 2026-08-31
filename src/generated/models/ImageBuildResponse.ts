@@ -23,32 +23,22 @@ import { mapValues } from '../runtime.js';
 export interface ImageBuildResponse {
     /**
      * The time when the build was added to Humanitec.
-     * @type {string}
-     * @memberof ImageBuildResponse
      */
     added_at?: string;
     /**
      * The branch name of the branch the build was built on
-     * @type {string}
-     * @memberof ImageBuildResponse
      */
     branch: string;
     /**
      * The commit ID that this build was built from.
-     * @type {string}
-     * @memberof ImageBuildResponse
      */
     commit: string;
     /**
      * The fully qualified Image URL including registry, repository and tag.
-     * @type {string}
-     * @memberof ImageBuildResponse
      */
     image: string;
     /**
      * The tag that the build was built from.
-     * @type {Array<string>}
-     * @memberof ImageBuildResponse
      */
     tags: Array<string>;
 }
@@ -56,11 +46,11 @@ export interface ImageBuildResponse {
 /**
  * Check if a given object implements the ImageBuildResponse interface.
  */
-export function instanceOfImageBuildResponse(value: object): boolean {
-    if (!('branch' in value)) return false;
-    if (!('commit' in value)) return false;
-    if (!('image' in value)) return false;
-    if (!('tags' in value)) return false;
+export function instanceOfImageBuildResponse(value: object): value is ImageBuildResponse {
+    if (!('branch' in value) || value['branch'] === undefined) return false;
+    if (!('commit' in value) || value['commit'] === undefined) return false;
+    if (!('image' in value) || value['image'] === undefined) return false;
+    if (!('tags' in value) || value['tags'] === undefined) return false;
     return true;
 }
 
@@ -82,10 +72,15 @@ export function ImageBuildResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ImageBuildResponseToJSON(value?: ImageBuildResponse | null): any {
+export function ImageBuildResponseToJSON(json: any): ImageBuildResponse {
+    return ImageBuildResponseToJSONTyped(json, false);
+}
+
+export function ImageBuildResponseToJSONTyped(value?: ImageBuildResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'added_at': value['added_at'],

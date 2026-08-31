@@ -18,6 +18,7 @@ import {
     ScoreHumanitecExtensionsDeployFromJSON,
     ScoreHumanitecExtensionsDeployFromJSONTyped,
     ScoreHumanitecExtensionsDeployToJSON,
+    ScoreHumanitecExtensionsDeployToJSONTyped,
 } from './ScoreHumanitecExtensionsDeploy.js';
 
 /**
@@ -28,26 +29,18 @@ import {
 export interface ScoreHumanitecExtensions {
     /**
      * The api version describing the format of the extensions.
-     * @type {string}
-     * @memberof ScoreHumanitecExtensions
      */
     apiVersion: string;
     /**
      * An optional override for the workload profile
-     * @type {string}
-     * @memberof ScoreHumanitecExtensions
      */
     profile?: string;
     /**
      * A map of additional workload spec fields that will be merged.
-     * @type {{ [key: string]: any; }}
-     * @memberof ScoreHumanitecExtensions
      */
     spec?: { [key: string]: any; };
     /**
      * 
-     * @type {ScoreHumanitecExtensionsDeploy}
-     * @memberof ScoreHumanitecExtensions
      */
     deploy?: ScoreHumanitecExtensionsDeploy;
 }
@@ -55,8 +48,8 @@ export interface ScoreHumanitecExtensions {
 /**
  * Check if a given object implements the ScoreHumanitecExtensions interface.
  */
-export function instanceOfScoreHumanitecExtensions(value: object): boolean {
-    if (!('apiVersion' in value)) return false;
+export function instanceOfScoreHumanitecExtensions(value: object): value is ScoreHumanitecExtensions {
+    if (!('apiVersion' in value) || value['apiVersion'] === undefined) return false;
     return true;
 }
 
@@ -77,10 +70,15 @@ export function ScoreHumanitecExtensionsFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function ScoreHumanitecExtensionsToJSON(value?: ScoreHumanitecExtensions | null): any {
+export function ScoreHumanitecExtensionsToJSON(json: any): ScoreHumanitecExtensions {
+    return ScoreHumanitecExtensionsToJSONTyped(json, false);
+}
+
+export function ScoreHumanitecExtensionsToJSONTyped(value?: ScoreHumanitecExtensions | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'apiVersion': value['apiVersion'],

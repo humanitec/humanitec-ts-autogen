@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { WorkloadProfileSpecDefinitionPropertyUIHints } from './WorkloadProfileSpecDefinitionPropertyUIHints.js';
-import {
-    WorkloadProfileSpecDefinitionPropertyUIHintsFromJSON,
-    WorkloadProfileSpecDefinitionPropertyUIHintsFromJSONTyped,
-    WorkloadProfileSpecDefinitionPropertyUIHintsToJSON,
-} from './WorkloadProfileSpecDefinitionPropertyUIHints.js';
 import type { WorkloadProfileSpecDefinitionRuntimePropertyType } from './WorkloadProfileSpecDefinitionRuntimePropertyType.js';
 import {
     WorkloadProfileSpecDefinitionRuntimePropertyTypeFromJSON,
     WorkloadProfileSpecDefinitionRuntimePropertyTypeFromJSONTyped,
     WorkloadProfileSpecDefinitionRuntimePropertyTypeToJSON,
+    WorkloadProfileSpecDefinitionRuntimePropertyTypeToJSONTyped,
 } from './WorkloadProfileSpecDefinitionRuntimePropertyType.js';
+import type { WorkloadProfileSpecDefinitionPropertyUIHints } from './WorkloadProfileSpecDefinitionPropertyUIHints.js';
+import {
+    WorkloadProfileSpecDefinitionPropertyUIHintsFromJSON,
+    WorkloadProfileSpecDefinitionPropertyUIHintsFromJSONTyped,
+    WorkloadProfileSpecDefinitionPropertyUIHintsToJSON,
+    WorkloadProfileSpecDefinitionPropertyUIHintsToJSONTyped,
+} from './WorkloadProfileSpecDefinitionPropertyUIHints.js';
 
 /**
  * 
@@ -34,41 +36,33 @@ import {
 export interface WorkloadProfileSpecDefinitionRuntimeProperty {
     /**
      * 
-     * @type {WorkloadProfileSpecDefinitionRuntimePropertyType}
-     * @memberof WorkloadProfileSpecDefinitionRuntimeProperty
      */
     type: WorkloadProfileSpecDefinitionRuntimePropertyType;
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileSpecDefinitionRuntimeProperty
      */
     feature_name?: string;
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileSpecDefinitionRuntimeProperty
      */
     title?: string;
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileSpecDefinitionRuntimeProperty
      */
     version?: string;
     /**
      * 
-     * @type {WorkloadProfileSpecDefinitionPropertyUIHints}
-     * @memberof WorkloadProfileSpecDefinitionRuntimeProperty
      */
     ui_hints?: WorkloadProfileSpecDefinitionPropertyUIHints;
 }
 
+
+
 /**
  * Check if a given object implements the WorkloadProfileSpecDefinitionRuntimeProperty interface.
  */
-export function instanceOfWorkloadProfileSpecDefinitionRuntimeProperty(value: object): boolean {
-    if (!('type' in value)) return false;
+export function instanceOfWorkloadProfileSpecDefinitionRuntimeProperty(value: object): value is WorkloadProfileSpecDefinitionRuntimeProperty {
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -90,10 +84,15 @@ export function WorkloadProfileSpecDefinitionRuntimePropertyFromJSONTyped(json: 
     };
 }
 
-export function WorkloadProfileSpecDefinitionRuntimePropertyToJSON(value?: WorkloadProfileSpecDefinitionRuntimeProperty | null): any {
+export function WorkloadProfileSpecDefinitionRuntimePropertyToJSON(json: any): WorkloadProfileSpecDefinitionRuntimeProperty {
+    return WorkloadProfileSpecDefinitionRuntimePropertyToJSONTyped(json, false);
+}
+
+export function WorkloadProfileSpecDefinitionRuntimePropertyToJSONTyped(value?: WorkloadProfileSpecDefinitionRuntimeProperty | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': WorkloadProfileSpecDefinitionRuntimePropertyTypeToJSON(value['type']),

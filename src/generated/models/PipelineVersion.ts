@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An object containing the details of a Pipeline.
  * @export
@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface PipelineVersion {
     /**
      * The unique id of the current Pipeline Version.
-     * @type {string}
-     * @memberof PipelineVersion
      */
     id: string;
     /**
      * The id of the Organization containing this Run.
-     * @type {string}
-     * @memberof PipelineVersion
      */
     org_id: string;
     /**
      * The id of the Application containing this Run.
-     * @type {string}
-     * @memberof PipelineVersion
      */
     app_id: string;
     /**
      * The id of the Pipeline associated with the Run.
-     * @type {string}
-     * @memberof PipelineVersion
      */
     pipeline_id: string;
     /**
      * User id of the pipeline version.
-     * @type {string}
-     * @memberof PipelineVersion
      */
     created_by: string;
     /**
      * The date and time when the specific pipeline version was created.
-     * @type {Date}
-     * @memberof PipelineVersion
      */
     created_at: Date;
 }
@@ -60,13 +48,13 @@ export interface PipelineVersion {
 /**
  * Check if a given object implements the PipelineVersion interface.
  */
-export function instanceOfPipelineVersion(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('app_id' in value)) return false;
-    if (!('pipeline_id' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('created_at' in value)) return false;
+export function instanceOfPipelineVersion(value: object): value is PipelineVersion {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if (!('pipeline_id' in value) || value['pipeline_id'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
     return true;
 }
 
@@ -85,14 +73,19 @@ export function PipelineVersionFromJSONTyped(json: any, ignoreDiscriminator: boo
         'app_id': json['app_id'],
         'pipeline_id': json['pipeline_id'],
         'created_by': json['created_by'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
     };
 }
 
-export function PipelineVersionToJSON(value?: PipelineVersion | null): any {
+export function PipelineVersionToJSON(json: any): PipelineVersion {
+    return PipelineVersionToJSONTyped(json, false);
+}
+
+export function PipelineVersionToJSONTyped(value?: PipelineVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
@@ -100,7 +93,7 @@ export function PipelineVersionToJSON(value?: PipelineVersion | null): any {
         'app_id': value['app_id'],
         'pipeline_id': value['pipeline_id'],
         'created_by': value['created_by'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
     };
 }
 

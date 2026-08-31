@@ -18,12 +18,14 @@ import {
     ProvisionDependenciesRequestFromJSON,
     ProvisionDependenciesRequestFromJSONTyped,
     ProvisionDependenciesRequestToJSON,
+    ProvisionDependenciesRequestToJSONTyped,
 } from './ProvisionDependenciesRequest.js';
 import type { ValuesSecretsRefsRequest } from './ValuesSecretsRefsRequest.js';
 import {
     ValuesSecretsRefsRequestFromJSON,
     ValuesSecretsRefsRequestFromJSONTyped,
     ValuesSecretsRefsRequestToJSON,
+    ValuesSecretsRefsRequestToJSONTyped,
 } from './ValuesSecretsRefsRequest.js';
 
 /**
@@ -34,44 +36,30 @@ import {
 export interface UpdateResourceDefinitionRequestRequest {
     /**
      * (Optional) The driver to be used to create the resource.
-     * @type {string}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     driver_type?: string;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     driver_account?: string;
     /**
      * 
-     * @type {ValuesSecretsRefsRequest}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     driver_inputs?: ValuesSecretsRefsRequest;
     /**
      * (Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.
-     * @type {boolean}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     in_place_driver_change?: boolean;
     /**
      * The display name.
-     * @type {string}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     name: string;
     /**
      * (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.
-     * @type {{ [key: string]: ProvisionDependenciesRequest; }}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     provision?: { [key: string]: ProvisionDependenciesRequest; };
     /**
      * (Optional) If true, the new definition version should be created as "proposed" version (not active).
-     * @type {boolean}
-     * @memberof UpdateResourceDefinitionRequestRequest
      */
     proposed?: boolean;
 }
@@ -79,8 +67,8 @@ export interface UpdateResourceDefinitionRequestRequest {
 /**
  * Check if a given object implements the UpdateResourceDefinitionRequestRequest interface.
  */
-export function instanceOfUpdateResourceDefinitionRequestRequest(value: object): boolean {
-    if (!('name' in value)) return false;
+export function instanceOfUpdateResourceDefinitionRequestRequest(value: object): value is UpdateResourceDefinitionRequestRequest {
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -104,10 +92,15 @@ export function UpdateResourceDefinitionRequestRequestFromJSONTyped(json: any, i
     };
 }
 
-export function UpdateResourceDefinitionRequestRequestToJSON(value?: UpdateResourceDefinitionRequestRequest | null): any {
+export function UpdateResourceDefinitionRequestRequestToJSON(json: any): UpdateResourceDefinitionRequestRequest {
+    return UpdateResourceDefinitionRequestRequestToJSONTyped(json, false);
+}
+
+export function UpdateResourceDefinitionRequestRequestToJSONTyped(value?: UpdateResourceDefinitionRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'driver_type': value['driver_type'],

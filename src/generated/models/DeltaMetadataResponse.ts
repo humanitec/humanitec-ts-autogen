@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * 
  * @export
@@ -21,50 +21,34 @@ import { mapValues } from '../runtime.js';
 export interface DeltaMetadataResponse {
     /**
      * 
-     * @type {boolean}
-     * @memberof DeltaMetadataResponse
      */
     archived: boolean;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof DeltaMetadataResponse
      */
     contributers?: Array<string>;
     /**
      * 
-     * @type {Date}
-     * @memberof DeltaMetadataResponse
      */
     created_at: Date;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataResponse
      */
     created_by: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataResponse
      */
     env_id?: string;
     /**
      * 
-     * @type {Date}
-     * @memberof DeltaMetadataResponse
      */
     last_modified_at: Date;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataResponse
      */
     name?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof DeltaMetadataResponse
      */
     shared?: boolean;
 }
@@ -72,11 +56,11 @@ export interface DeltaMetadataResponse {
 /**
  * Check if a given object implements the DeltaMetadataResponse interface.
  */
-export function instanceOfDeltaMetadataResponse(value: object): boolean {
-    if (!('archived' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('last_modified_at' in value)) return false;
+export function instanceOfDeltaMetadataResponse(value: object): value is DeltaMetadataResponse {
+    if (!('archived' in value) || value['archived'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('last_modified_at' in value) || value['last_modified_at'] === undefined) return false;
     return true;
 }
 
@@ -92,27 +76,32 @@ export function DeltaMetadataResponseFromJSONTyped(json: any, ignoreDiscriminato
         
         'archived': json['archived'],
         'contributers': json['contributers'] == null ? undefined : json['contributers'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'env_id': json['env_id'] == null ? undefined : json['env_id'],
-        'last_modified_at': (new Date(json['last_modified_at'])),
+        'last_modified_at': (json['last_modified_at'] == null ? json['last_modified_at'] : parseDateTime(json['last_modified_at'])),
         'name': json['name'] == null ? undefined : json['name'],
         'shared': json['shared'] == null ? undefined : json['shared'],
     };
 }
 
-export function DeltaMetadataResponseToJSON(value?: DeltaMetadataResponse | null): any {
+export function DeltaMetadataResponseToJSON(json: any): DeltaMetadataResponse {
+    return DeltaMetadataResponseToJSONTyped(json, false);
+}
+
+export function DeltaMetadataResponseToJSONTyped(value?: DeltaMetadataResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],
         'contributers': value['contributers'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'env_id': value['env_id'],
-        'last_modified_at': ((value['last_modified_at']).toISOString()),
+        'last_modified_at': value['last_modified_at'] == null ? value['last_modified_at'] : serializeDateTime(value['last_modified_at']),
         'name': value['name'],
         'shared': value['shared'],
     };

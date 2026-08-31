@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface BatchItem {
     /**
      * The type of item in the batch
-     * @type {string}
-     * @memberof BatchItem
      */
     type: string;
     /**
      * The reference id of the item
-     * @type {string}
-     * @memberof BatchItem
      */
     ref: string;
 }
@@ -36,9 +32,9 @@ export interface BatchItem {
 /**
  * Check if a given object implements the BatchItem interface.
  */
-export function instanceOfBatchItem(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('ref' in value)) return false;
+export function instanceOfBatchItem(value: object): value is BatchItem {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('ref' in value) || value['ref'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function BatchItemFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function BatchItemToJSON(value?: BatchItem | null): any {
+export function BatchItemToJSON(json: any): BatchItem {
+    return BatchItemToJSONTyped(json, false);
+}
+
+export function BatchItemToJSONTyped(value?: BatchItem | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

@@ -22,29 +22,21 @@ export interface PipelineDeploymentRequestCriteriaCreateBody {
     /**
      * The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteriaCreateBody
      */
     env_type?: string;
     /**
      * The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteriaCreateBody
      */
     app_id?: string;
     /**
      * The exact id of the Environment which this criteria will match.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteriaCreateBody
      */
     env_id?: string;
     /**
      * The type of deployment that this criteria will match. Valid values are "deploy" and "redeploy". "redeploy"  applies only to deployment request to redeploy a previous deployment id while "deploy" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteriaCreateBody
      */
     deployment_type?: string;
 }
@@ -52,7 +44,7 @@ export interface PipelineDeploymentRequestCriteriaCreateBody {
 /**
  * Check if a given object implements the PipelineDeploymentRequestCriteriaCreateBody interface.
  */
-export function instanceOfPipelineDeploymentRequestCriteriaCreateBody(value: object): boolean {
+export function instanceOfPipelineDeploymentRequestCriteriaCreateBody(value: object): value is PipelineDeploymentRequestCriteriaCreateBody {
     return true;
 }
 
@@ -73,10 +65,15 @@ export function PipelineDeploymentRequestCriteriaCreateBodyFromJSONTyped(json: a
     };
 }
 
-export function PipelineDeploymentRequestCriteriaCreateBodyToJSON(value?: PipelineDeploymentRequestCriteriaCreateBody | null): any {
+export function PipelineDeploymentRequestCriteriaCreateBodyToJSON(json: any): PipelineDeploymentRequestCriteriaCreateBody {
+    return PipelineDeploymentRequestCriteriaCreateBodyToJSONTyped(json, false);
+}
+
+export function PipelineDeploymentRequestCriteriaCreateBodyToJSONTyped(value?: PipelineDeploymentRequestCriteriaCreateBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'env_type': value['env_type'],

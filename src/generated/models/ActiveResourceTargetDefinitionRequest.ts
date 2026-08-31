@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface ActiveResourceTargetDefinitionRequest {
     /**
      * The Resource Definition Version pinned to this resource to be provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceTargetDefinitionRequest
      */
     target_def_version_id: string | null;
 }
@@ -30,8 +28,8 @@ export interface ActiveResourceTargetDefinitionRequest {
 /**
  * Check if a given object implements the ActiveResourceTargetDefinitionRequest interface.
  */
-export function instanceOfActiveResourceTargetDefinitionRequest(value: object): boolean {
-    if (!('target_def_version_id' in value)) return false;
+export function instanceOfActiveResourceTargetDefinitionRequest(value: object): value is ActiveResourceTargetDefinitionRequest {
+    if (!('target_def_version_id' in value) || value['target_def_version_id'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function ActiveResourceTargetDefinitionRequestFromJSONTyped(json: any, ig
     };
 }
 
-export function ActiveResourceTargetDefinitionRequestToJSON(value?: ActiveResourceTargetDefinitionRequest | null): any {
+export function ActiveResourceTargetDefinitionRequestToJSON(json: any): ActiveResourceTargetDefinitionRequest {
+    return ActiveResourceTargetDefinitionRequestToJSONTyped(json, false);
+}
+
+export function ActiveResourceTargetDefinitionRequestToJSONTyped(value?: ActiveResourceTargetDefinitionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'target_def_version_id': value['target_def_version_id'],

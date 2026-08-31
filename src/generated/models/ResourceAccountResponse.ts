@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * ResourceAccount represents the account being used to access a resource.
  * 
@@ -23,38 +23,26 @@ import { mapValues } from '../runtime.js';
 export interface ResourceAccountResponse {
     /**
      * The timestamp of when the account was created.
-     * @type {Date}
-     * @memberof ResourceAccountResponse
      */
     created_at: Date;
     /**
      * The ID of the user who created the account.
-     * @type {string}
-     * @memberof ResourceAccountResponse
      */
     created_by: string;
     /**
      * Unique identifier for the account (in scope of the organization it belongs to).
-     * @type {string}
-     * @memberof ResourceAccountResponse
      */
     id: string;
     /**
      * Indicates if this account is being used (referenced) by any resource definition or active resource.
-     * @type {boolean}
-     * @memberof ResourceAccountResponse
      */
     is_used: boolean;
     /**
      * Display name.
-     * @type {string}
-     * @memberof ResourceAccountResponse
      */
     name: string;
     /**
      * The type of the account
-     * @type {string}
-     * @memberof ResourceAccountResponse
      */
     type: string;
 }
@@ -62,13 +50,13 @@ export interface ResourceAccountResponse {
 /**
  * Check if a given object implements the ResourceAccountResponse interface.
  */
-export function instanceOfResourceAccountResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('is_used' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfResourceAccountResponse(value: object): value is ResourceAccountResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('is_used' in value) || value['is_used'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -82,7 +70,7 @@ export function ResourceAccountResponseFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'id': json['id'],
         'is_used': json['is_used'],
@@ -91,13 +79,18 @@ export function ResourceAccountResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function ResourceAccountResponseToJSON(value?: ResourceAccountResponse | null): any {
+export function ResourceAccountResponseToJSON(json: any): ResourceAccountResponse {
+    return ResourceAccountResponseToJSONTyped(json, false);
+}
+
+export function ResourceAccountResponseToJSONTyped(value?: ResourceAccountResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'id': value['id'],
         'is_used': value['is_used'],

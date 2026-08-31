@@ -18,6 +18,7 @@ import {
     ClusterSecretResponseFromJSON,
     ClusterSecretResponseFromJSONTyped,
     ClusterSecretResponseToJSON,
+    ClusterSecretResponseToJSONTyped,
 } from './ClusterSecretResponse.js';
 
 /**
@@ -28,20 +29,14 @@ import {
 export interface ImagesRegistryCredsResponse {
     /**
      * List of images associated with the registry.
-     * @type {Array<string>}
-     * @memberof ImagesRegistryCredsResponse
      */
     images: Array<string>;
     /**
      * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
-     * @type {string}
-     * @memberof ImagesRegistryCredsResponse
      */
     registry: string;
     /**
      * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretResponse; }}
-     * @memberof ImagesRegistryCredsResponse
      */
     secrets: { [key: string]: ClusterSecretResponse; };
 }
@@ -49,10 +44,10 @@ export interface ImagesRegistryCredsResponse {
 /**
  * Check if a given object implements the ImagesRegistryCredsResponse interface.
  */
-export function instanceOfImagesRegistryCredsResponse(value: object): boolean {
-    if (!('images' in value)) return false;
-    if (!('registry' in value)) return false;
-    if (!('secrets' in value)) return false;
+export function instanceOfImagesRegistryCredsResponse(value: object): value is ImagesRegistryCredsResponse {
+    if (!('images' in value) || value['images'] === undefined) return false;
+    if (!('registry' in value) || value['registry'] === undefined) return false;
+    if (!('secrets' in value) || value['secrets'] === undefined) return false;
     return true;
 }
 
@@ -72,10 +67,15 @@ export function ImagesRegistryCredsResponseFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function ImagesRegistryCredsResponseToJSON(value?: ImagesRegistryCredsResponse | null): any {
+export function ImagesRegistryCredsResponseToJSON(json: any): ImagesRegistryCredsResponse {
+    return ImagesRegistryCredsResponseToJSONTyped(json, false);
+}
+
+export function ImagesRegistryCredsResponseToJSONTyped(value?: ImagesRegistryCredsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'images': value['images'],

@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface SecretReference {
     /**
      * Secret Store id. This can't be `humanitec` (our internal Secret Store). It's mandatory if `ref` is defined and can't be used if `value` is defined.
-     * @type {string}
-     * @memberof SecretReference
      */
     store?: string;
     /**
      * Secret reference in the format of the target store. It can't be defined if `value` is defined.
-     * @type {string}
-     * @memberof SecretReference
      */
     ref?: string;
     /**
      * Optional, only valid if `ref` is defined. It's the version of the secret as defined in the target store.
-     * @type {string}
-     * @memberof SecretReference
      */
     version?: string;
     /**
      * Value to store in the secret store. It can't be defined if `ref` is defined.
-     * @type {string}
-     * @memberof SecretReference
      */
     value?: string;
 }
@@ -48,7 +40,7 @@ export interface SecretReference {
 /**
  * Check if a given object implements the SecretReference interface.
  */
-export function instanceOfSecretReference(value: object): boolean {
+export function instanceOfSecretReference(value: object): value is SecretReference {
     return true;
 }
 
@@ -69,10 +61,15 @@ export function SecretReferenceFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function SecretReferenceToJSON(value?: SecretReference | null): any {
+export function SecretReferenceToJSON(json: any): SecretReference {
+    return SecretReferenceToJSONTyped(json, false);
+}
+
+export function SecretReferenceToJSONTyped(value?: SecretReference | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'store': value['store'],

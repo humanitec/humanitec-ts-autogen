@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
-import {
-    WorkloadProfileChartReferenceFromJSON,
-    WorkloadProfileChartReferenceFromJSONTyped,
-    WorkloadProfileChartReferenceToJSON,
-} from './WorkloadProfileChartReference.js';
 import type { WorkloadProfileSpecDefinition } from './WorkloadProfileSpecDefinition.js';
 import {
     WorkloadProfileSpecDefinitionFromJSON,
     WorkloadProfileSpecDefinitionFromJSONTyped,
     WorkloadProfileSpecDefinitionToJSON,
+    WorkloadProfileSpecDefinitionToJSONTyped,
 } from './WorkloadProfileSpecDefinition.js';
+import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
+import {
+    WorkloadProfileChartReferenceFromJSON,
+    WorkloadProfileChartReferenceFromJSONTyped,
+    WorkloadProfileChartReferenceToJSON,
+    WorkloadProfileChartReferenceToJSONTyped,
+} from './WorkloadProfileChartReference.js';
 
 /**
  * Workload Profiles provide the baseline configuration for Workloads in Applications in Humanitec. Developers can configure various features of a workload profile to suit their needs. Examples of features might be `schedules` used in Kubernetes CronJobs or `ingress` which might be used to expose Pods controlled by a Kubernetes Deployment.
@@ -36,40 +38,28 @@ import {
 export interface WorkloadProfileRequest {
     /**
      * Workload Profile ID
-     * @type {string}
-     * @memberof WorkloadProfileRequest
      */
     id: string;
     /**
      * Describes the workload profile
-     * @type {string}
-     * @memberof WorkloadProfileRequest
      */
     description?: string;
     /**
      * A not-empty string indicates that the workload profile is deprecated.
-     * @type {string}
-     * @memberof WorkloadProfileRequest
      */
     deprecation_message?: string;
     /**
      * 
-     * @type {WorkloadProfileSpecDefinition}
-     * @memberof WorkloadProfileRequest
      */
     spec_definition: WorkloadProfileSpecDefinition;
     /**
      * Version identifier. The version must be unique, but the API doesn't not enforce any ordering. Currently workloads will always use the latest update.
      * 
      * If no identifier is provided, the each update will generate a random version identifier.
-     * @type {string}
-     * @memberof WorkloadProfileRequest
      */
     version?: string;
     /**
      * 
-     * @type {WorkloadProfileChartReference}
-     * @memberof WorkloadProfileRequest
      */
     workload_profile_chart: WorkloadProfileChartReference;
 }
@@ -77,10 +67,10 @@ export interface WorkloadProfileRequest {
 /**
  * Check if a given object implements the WorkloadProfileRequest interface.
  */
-export function instanceOfWorkloadProfileRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('spec_definition' in value)) return false;
-    if (!('workload_profile_chart' in value)) return false;
+export function instanceOfWorkloadProfileRequest(value: object): value is WorkloadProfileRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('spec_definition' in value) || value['spec_definition'] === undefined) return false;
+    if (!('workload_profile_chart' in value) || value['workload_profile_chart'] === undefined) return false;
     return true;
 }
 
@@ -103,10 +93,15 @@ export function WorkloadProfileRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function WorkloadProfileRequestToJSON(value?: WorkloadProfileRequest | null): any {
+export function WorkloadProfileRequestToJSON(json: any): WorkloadProfileRequest {
+    return WorkloadProfileRequestToJSONTyped(json, false);
+}
+
+export function WorkloadProfileRequestToJSONTyped(value?: WorkloadProfileRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

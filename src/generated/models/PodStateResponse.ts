@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface PodStateResponse {
     /**
      * 
-     * @type {Array<{ [key: string]: any; }>}
-     * @memberof PodStateResponse
      */
     containerStatuses: Array<{ [key: string]: any; }>;
     /**
      * 
-     * @type {string}
-     * @memberof PodStateResponse
      */
     phase: string;
     /**
      * 
-     * @type {string}
-     * @memberof PodStateResponse
      */
     podName: string;
     /**
      * 
-     * @type {number}
-     * @memberof PodStateResponse
      */
     revision: number;
     /**
      * 
-     * @type {string}
-     * @memberof PodStateResponse
      */
     status: string;
 }
@@ -54,12 +44,12 @@ export interface PodStateResponse {
 /**
  * Check if a given object implements the PodStateResponse interface.
  */
-export function instanceOfPodStateResponse(value: object): boolean {
-    if (!('containerStatuses' in value)) return false;
-    if (!('phase' in value)) return false;
-    if (!('podName' in value)) return false;
-    if (!('revision' in value)) return false;
-    if (!('status' in value)) return false;
+export function instanceOfPodStateResponse(value: object): value is PodStateResponse {
+    if (!('containerStatuses' in value) || value['containerStatuses'] === undefined) return false;
+    if (!('phase' in value) || value['phase'] === undefined) return false;
+    if (!('podName' in value) || value['podName'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -81,10 +71,15 @@ export function PodStateResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function PodStateResponseToJSON(value?: PodStateResponse | null): any {
+export function PodStateResponseToJSON(json: any): PodStateResponse {
+    return PodStateResponseToJSONTyped(json, false);
+}
+
+export function PodStateResponseToJSONTyped(value?: PodStateResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'containerStatuses': value['containerStatuses'],

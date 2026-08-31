@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface ApplicationPatchPayload {
     /**
      * The Human-friendly name for the Application.
-     * @type {string}
-     * @memberof ApplicationPatchPayload
      */
     name: string;
 }
@@ -30,8 +28,8 @@ export interface ApplicationPatchPayload {
 /**
  * Check if a given object implements the ApplicationPatchPayload interface.
  */
-export function instanceOfApplicationPatchPayload(value: object): boolean {
-    if (!('name' in value)) return false;
+export function instanceOfApplicationPatchPayload(value: object): value is ApplicationPatchPayload {
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function ApplicationPatchPayloadFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function ApplicationPatchPayloadToJSON(value?: ApplicationPatchPayload | null): any {
+export function ApplicationPatchPayloadToJSON(json: any): ApplicationPatchPayload {
+    return ApplicationPatchPayloadToJSONTyped(json, false);
+}
+
+export function ApplicationPatchPayloadToJSONTyped(value?: ApplicationPatchPayload | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

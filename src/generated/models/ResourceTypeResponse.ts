@@ -23,38 +23,26 @@ import { mapValues } from '../runtime.js';
 export interface ResourceTypeResponse {
     /**
      * Category name (used to group similar resources on the UI).
-     * @type {string}
-     * @memberof ResourceTypeResponse
      */
     category: string;
     /**
      * A JSON Schema specifying the type-specific parameters for the driver (input).
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceTypeResponse
      */
     inputs_schema: { [key: string]: any; };
     /**
      * Display name.
-     * @type {string}
-     * @memberof ResourceTypeResponse
      */
     name: string;
     /**
      * A JSON Schema specifying the type-specific data passed to the deployment (output).
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceTypeResponse
      */
     outputs_schema: { [key: string]: any; };
     /**
      * Unique resource type identifier (system-wide, across all organizations).
-     * @type {string}
-     * @memberof ResourceTypeResponse
      */
     type: string;
     /**
      * Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.
-     * @type {string}
-     * @memberof ResourceTypeResponse
      */
     use: string;
 }
@@ -62,13 +50,13 @@ export interface ResourceTypeResponse {
 /**
  * Check if a given object implements the ResourceTypeResponse interface.
  */
-export function instanceOfResourceTypeResponse(value: object): boolean {
-    if (!('category' in value)) return false;
-    if (!('inputs_schema' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('outputs_schema' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('use' in value)) return false;
+export function instanceOfResourceTypeResponse(value: object): value is ResourceTypeResponse {
+    if (!('category' in value) || value['category'] === undefined) return false;
+    if (!('inputs_schema' in value) || value['inputs_schema'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('outputs_schema' in value) || value['outputs_schema'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('use' in value) || value['use'] === undefined) return false;
     return true;
 }
 
@@ -91,10 +79,15 @@ export function ResourceTypeResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function ResourceTypeResponseToJSON(value?: ResourceTypeResponse | null): any {
+export function ResourceTypeResponseToJSON(json: any): ResourceTypeResponse {
+    return ResourceTypeResponseToJSONTyped(json, false);
+}
+
+export function ResourceTypeResponseToJSONTyped(value?: ResourceTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'category': value['category'],

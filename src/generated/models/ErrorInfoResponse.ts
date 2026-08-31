@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface ErrorInfoResponse {
     /**
      * An error details
-     * @type {string}
-     * @memberof ErrorInfoResponse
      */
     error: string;
 }
@@ -30,8 +28,8 @@ export interface ErrorInfoResponse {
 /**
  * Check if a given object implements the ErrorInfoResponse interface.
  */
-export function instanceOfErrorInfoResponse(value: object): boolean {
-    if (!('error' in value)) return false;
+export function instanceOfErrorInfoResponse(value: object): value is ErrorInfoResponse {
+    if (!('error' in value) || value['error'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function ErrorInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ErrorInfoResponseToJSON(value?: ErrorInfoResponse | null): any {
+export function ErrorInfoResponseToJSON(json: any): ErrorInfoResponse {
+    return ErrorInfoResponseToJSONTyped(json, false);
+}
+
+export function ErrorInfoResponseToJSONTyped(value?: ErrorInfoResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'error': value['error'],

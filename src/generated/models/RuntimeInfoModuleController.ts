@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { RuntimeInfoPod } from './RuntimeInfoPod.js';
-import {
-    RuntimeInfoPodFromJSON,
-    RuntimeInfoPodFromJSONTyped,
-    RuntimeInfoPodToJSON,
-} from './RuntimeInfoPod.js';
 import type { RuntimeInfoStatus } from './RuntimeInfoStatus.js';
 import {
     RuntimeInfoStatusFromJSON,
     RuntimeInfoStatusFromJSONTyped,
     RuntimeInfoStatusToJSON,
+    RuntimeInfoStatusToJSONTyped,
 } from './RuntimeInfoStatus.js';
+import type { RuntimeInfoPod } from './RuntimeInfoPod.js';
+import {
+    RuntimeInfoPodFromJSON,
+    RuntimeInfoPodFromJSONTyped,
+    RuntimeInfoPodToJSON,
+    RuntimeInfoPodToJSONTyped,
+} from './RuntimeInfoPod.js';
 
 /**
  * K8s controller.
@@ -34,48 +36,38 @@ import {
 export interface RuntimeInfoModuleController {
     /**
      * Controller kind.
-     * @type {string}
-     * @memberof RuntimeInfoModuleController
      */
     kind: string;
     /**
      * The most recently observed number of replicas.
-     * @type {number}
-     * @memberof RuntimeInfoModuleController
      */
     replicas?: number;
     /**
      * 
-     * @type {RuntimeInfoStatus}
-     * @memberof RuntimeInfoModuleController
      */
     status: RuntimeInfoStatus;
     /**
      * If a controller is not in a successful status, the reason from its condition.
-     * @type {string}
-     * @memberof RuntimeInfoModuleController
      */
     message?: string;
     /**
      * List of pods which belong to the controller.
-     * @type {Array<RuntimeInfoPod>}
-     * @memberof RuntimeInfoModuleController
      */
     pods?: Array<RuntimeInfoPod>;
     /**
      * Revision of the controller.
-     * @type {number}
-     * @memberof RuntimeInfoModuleController
      */
     revision?: number;
 }
 
+
+
 /**
  * Check if a given object implements the RuntimeInfoModuleController interface.
  */
-export function instanceOfRuntimeInfoModuleController(value: object): boolean {
-    if (!('kind' in value)) return false;
-    if (!('status' in value)) return false;
+export function instanceOfRuntimeInfoModuleController(value: object): value is RuntimeInfoModuleController {
+    if (!('kind' in value) || value['kind'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -98,10 +90,15 @@ export function RuntimeInfoModuleControllerFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function RuntimeInfoModuleControllerToJSON(value?: RuntimeInfoModuleController | null): any {
+export function RuntimeInfoModuleControllerToJSON(json: any): RuntimeInfoModuleController {
+    return RuntimeInfoModuleControllerToJSONTyped(json, false);
+}
+
+export function RuntimeInfoModuleControllerToJSONTyped(value?: RuntimeInfoModuleController | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'kind': value['kind'],

@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface EventBaseRequest {
     /**
      * Event scope
-     * @type {string}
-     * @memberof EventBaseRequest
      */
     scope?: string;
     /**
      * Event type
-     * @type {string}
-     * @memberof EventBaseRequest
      */
     type?: string;
 }
@@ -36,7 +32,7 @@ export interface EventBaseRequest {
 /**
  * Check if a given object implements the EventBaseRequest interface.
  */
-export function instanceOfEventBaseRequest(value: object): boolean {
+export function instanceOfEventBaseRequest(value: object): value is EventBaseRequest {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function EventBaseRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function EventBaseRequestToJSON(value?: EventBaseRequest | null): any {
+export function EventBaseRequestToJSON(json: any): EventBaseRequest {
+    return EventBaseRequestToJSONTyped(json, false);
+}
+
+export function EventBaseRequestToJSONTyped(value?: EventBaseRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'scope': value['scope'],

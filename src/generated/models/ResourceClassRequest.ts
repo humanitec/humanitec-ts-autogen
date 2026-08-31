@@ -23,14 +23,10 @@ import { mapValues } from '../runtime.js';
 export interface ResourceClassRequest {
     /**
      * ID of the resource class.
-     * @type {string}
-     * @memberof ResourceClassRequest
      */
     id: string;
     /**
      * A human readable description when this class should be used.
-     * @type {string}
-     * @memberof ResourceClassRequest
      */
     description: string;
 }
@@ -38,9 +34,9 @@ export interface ResourceClassRequest {
 /**
  * Check if a given object implements the ResourceClassRequest interface.
  */
-export function instanceOfResourceClassRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('description' in value)) return false;
+export function instanceOfResourceClassRequest(value: object): value is ResourceClassRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
     return true;
 }
 
@@ -59,10 +55,15 @@ export function ResourceClassRequestFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function ResourceClassRequestToJSON(value?: ResourceClassRequest | null): any {
+export function ResourceClassRequestToJSON(json: any): ResourceClassRequest {
+    return ResourceClassRequestToJSONTyped(json, false);
+}
+
+export function ResourceClassRequestToJSONTyped(value?: ResourceClassRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

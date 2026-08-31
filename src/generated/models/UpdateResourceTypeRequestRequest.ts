@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface UpdateResourceTypeRequestRequest {
     /**
      * Category name (used to group similar resources on the UI).
-     * @type {string}
-     * @memberof UpdateResourceTypeRequestRequest
      */
     category?: string;
     /**
      * (Optional) A JSON Schema specifying the type-specific parameters for the driver (input).
-     * @type {{ [key: string]: any; }}
-     * @memberof UpdateResourceTypeRequestRequest
      */
     inputs_schema?: { [key: string]: any; };
     /**
      * (Optional) Resource display name.
-     * @type {string}
-     * @memberof UpdateResourceTypeRequestRequest
      */
     name?: string;
     /**
      * (Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).
-     * @type {{ [key: string]: any; }}
-     * @memberof UpdateResourceTypeRequestRequest
      */
     outputs_schema?: { [key: string]: any; };
     /**
      * Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.
-     * @type {string}
-     * @memberof UpdateResourceTypeRequestRequest
      */
     use: string;
 }
@@ -54,8 +44,8 @@ export interface UpdateResourceTypeRequestRequest {
 /**
  * Check if a given object implements the UpdateResourceTypeRequestRequest interface.
  */
-export function instanceOfUpdateResourceTypeRequestRequest(value: object): boolean {
-    if (!('use' in value)) return false;
+export function instanceOfUpdateResourceTypeRequestRequest(value: object): value is UpdateResourceTypeRequestRequest {
+    if (!('use' in value) || value['use'] === undefined) return false;
     return true;
 }
 
@@ -77,10 +67,15 @@ export function UpdateResourceTypeRequestRequestFromJSONTyped(json: any, ignoreD
     };
 }
 
-export function UpdateResourceTypeRequestRequestToJSON(value?: UpdateResourceTypeRequestRequest | null): any {
+export function UpdateResourceTypeRequestRequestToJSON(json: any): UpdateResourceTypeRequestRequest {
+    return UpdateResourceTypeRequestRequestToJSONTyped(json, false);
+}
+
+export function UpdateResourceTypeRequestRequestToJSONTyped(value?: UpdateResourceTypeRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'category': value['category'],

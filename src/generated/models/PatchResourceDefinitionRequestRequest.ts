@@ -18,12 +18,14 @@ import {
     ProvisionDependenciesRequestFromJSON,
     ProvisionDependenciesRequestFromJSONTyped,
     ProvisionDependenciesRequestToJSON,
+    ProvisionDependenciesRequestToJSONTyped,
 } from './ProvisionDependenciesRequest.js';
 import type { ValuesSecretsRefsRequest } from './ValuesSecretsRefsRequest.js';
 import {
     ValuesSecretsRefsRequestFromJSON,
     ValuesSecretsRefsRequestFromJSONTyped,
     ValuesSecretsRefsRequestToJSON,
+    ValuesSecretsRefsRequestToJSONTyped,
 } from './ValuesSecretsRefsRequest.js';
 
 /**
@@ -34,38 +36,26 @@ import {
 export interface PatchResourceDefinitionRequestRequest {
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     driver_account?: string;
     /**
      * 
-     * @type {ValuesSecretsRefsRequest}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     driver_inputs?: ValuesSecretsRefsRequest;
     /**
      * (Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only. Omit to leave the current value unchanged.
-     * @type {boolean}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     in_place_driver_change?: boolean;
     /**
      * (Optional) Resource display name
-     * @type {string}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     name?: string;
     /**
      * (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource or if they have the same dependent resources.
-     * @type {{ [key: string]: ProvisionDependenciesRequest; }}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     provision?: { [key: string]: ProvisionDependenciesRequest; };
     /**
      * (Optional) If true, the new definition version should be created as "proposed" version (not active).
-     * @type {boolean}
-     * @memberof PatchResourceDefinitionRequestRequest
      */
     proposed?: boolean;
 }
@@ -73,7 +63,7 @@ export interface PatchResourceDefinitionRequestRequest {
 /**
  * Check if a given object implements the PatchResourceDefinitionRequestRequest interface.
  */
-export function instanceOfPatchResourceDefinitionRequestRequest(value: object): boolean {
+export function instanceOfPatchResourceDefinitionRequestRequest(value: object): value is PatchResourceDefinitionRequestRequest {
     return true;
 }
 
@@ -96,10 +86,15 @@ export function PatchResourceDefinitionRequestRequestFromJSONTyped(json: any, ig
     };
 }
 
-export function PatchResourceDefinitionRequestRequestToJSON(value?: PatchResourceDefinitionRequestRequest | null): any {
+export function PatchResourceDefinitionRequestRequestToJSON(json: any): PatchResourceDefinitionRequestRequest {
+    return PatchResourceDefinitionRequestRequestToJSONTyped(json, false);
+}
+
+export function PatchResourceDefinitionRequestRequestToJSONTyped(value?: PatchResourceDefinitionRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'driver_account': value['driver_account'],

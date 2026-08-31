@@ -13,23 +13,26 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { RuntimeInfoModuleController } from './RuntimeInfoModuleController.js';
-import {
-    RuntimeInfoModuleControllerFromJSON,
-    RuntimeInfoModuleControllerFromJSONTyped,
-    RuntimeInfoModuleControllerToJSON,
-} from './RuntimeInfoModuleController.js';
 import type { RuntimeInfoStatus } from './RuntimeInfoStatus.js';
 import {
     RuntimeInfoStatusFromJSON,
     RuntimeInfoStatusFromJSONTyped,
     RuntimeInfoStatusToJSON,
+    RuntimeInfoStatusToJSONTyped,
 } from './RuntimeInfoStatus.js';
+import type { RuntimeInfoModuleController } from './RuntimeInfoModuleController.js';
+import {
+    RuntimeInfoModuleControllerFromJSON,
+    RuntimeInfoModuleControllerFromJSONTyped,
+    RuntimeInfoModuleControllerToJSON,
+    RuntimeInfoModuleControllerToJSONTyped,
+} from './RuntimeInfoModuleController.js';
 import type { RuntimeInfoStatusClass } from './RuntimeInfoStatusClass.js';
 import {
     RuntimeInfoStatusClassFromJSON,
     RuntimeInfoStatusClassFromJSONTyped,
     RuntimeInfoStatusClassToJSON,
+    RuntimeInfoStatusClassToJSONTyped,
 } from './RuntimeInfoStatusClass.js';
 
 /**
@@ -40,31 +43,27 @@ import {
 export interface RuntimeInfoModule {
     /**
      * 
-     * @type {RuntimeInfoStatus}
-     * @memberof RuntimeInfoModule
      */
     status: RuntimeInfoStatus;
     /**
      * 
-     * @type {RuntimeInfoStatusClass}
-     * @memberof RuntimeInfoModule
      */
     status_class: RuntimeInfoStatusClass;
     /**
      * A collection of workload controllers.
-     * @type {{ [key: string]: RuntimeInfoModuleController; }}
-     * @memberof RuntimeInfoModule
      */
     controllers: { [key: string]: RuntimeInfoModuleController; };
 }
 
+
+
 /**
  * Check if a given object implements the RuntimeInfoModule interface.
  */
-export function instanceOfRuntimeInfoModule(value: object): boolean {
-    if (!('status' in value)) return false;
-    if (!('status_class' in value)) return false;
-    if (!('controllers' in value)) return false;
+export function instanceOfRuntimeInfoModule(value: object): value is RuntimeInfoModule {
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_class' in value) || value['status_class'] === undefined) return false;
+    if (!('controllers' in value) || value['controllers'] === undefined) return false;
     return true;
 }
 
@@ -84,10 +83,15 @@ export function RuntimeInfoModuleFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function RuntimeInfoModuleToJSON(value?: RuntimeInfoModule | null): any {
+export function RuntimeInfoModuleToJSON(json: any): RuntimeInfoModule {
+    return RuntimeInfoModuleToJSONTyped(json, false);
+}
+
+export function RuntimeInfoModuleToJSONTyped(value?: RuntimeInfoModule | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'status': RuntimeInfoStatusToJSON(value['status']),

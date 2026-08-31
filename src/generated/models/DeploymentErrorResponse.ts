@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface DeploymentErrorResponse {
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     code: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     error_type: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     message: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     object_id: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     scope: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorResponse
      */
     summary: string;
 }
@@ -60,13 +48,13 @@ export interface DeploymentErrorResponse {
 /**
  * Check if a given object implements the DeploymentErrorResponse interface.
  */
-export function instanceOfDeploymentErrorResponse(value: object): boolean {
-    if (!('code' in value)) return false;
-    if (!('error_type' in value)) return false;
-    if (!('message' in value)) return false;
-    if (!('object_id' in value)) return false;
-    if (!('scope' in value)) return false;
-    if (!('summary' in value)) return false;
+export function instanceOfDeploymentErrorResponse(value: object): value is DeploymentErrorResponse {
+    if (!('code' in value) || value['code'] === undefined) return false;
+    if (!('error_type' in value) || value['error_type'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
+    if (!('object_id' in value) || value['object_id'] === undefined) return false;
+    if (!('scope' in value) || value['scope'] === undefined) return false;
+    if (!('summary' in value) || value['summary'] === undefined) return false;
     return true;
 }
 
@@ -89,10 +77,15 @@ export function DeploymentErrorResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function DeploymentErrorResponseToJSON(value?: DeploymentErrorResponse | null): any {
+export function DeploymentErrorResponseToJSON(json: any): DeploymentErrorResponse {
+    return DeploymentErrorResponseToJSONTyped(json, false);
+}
+
+export function DeploymentErrorResponseToJSONTyped(value?: DeploymentErrorResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

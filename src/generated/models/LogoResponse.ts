@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface LogoResponse {
     /**
      * 
-     * @type {string}
-     * @memberof LogoResponse
      */
     dark_url?: string;
     /**
      * 
-     * @type {string}
-     * @memberof LogoResponse
      */
     light_url?: string;
 }
@@ -36,7 +32,7 @@ export interface LogoResponse {
 /**
  * Check if a given object implements the LogoResponse interface.
  */
-export function instanceOfLogoResponse(value: object): boolean {
+export function instanceOfLogoResponse(value: object): value is LogoResponse {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function LogoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function LogoResponseToJSON(value?: LogoResponse | null): any {
+export function LogoResponseToJSON(json: any): LogoResponse {
+    return LogoResponseToJSONTyped(json, false);
+}
+
+export function LogoResponseToJSONTyped(value?: LogoResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'dark_url': value['dark_url'],

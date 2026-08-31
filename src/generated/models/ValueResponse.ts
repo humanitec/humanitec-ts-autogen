@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { ValueSource } from './ValueSource.js';
 import {
     ValueSourceFromJSON,
     ValueSourceFromJSONTyped,
     ValueSourceToJSON,
+    ValueSourceToJSONTyped,
 } from './ValueSource.js';
 
 /**
@@ -32,80 +33,62 @@ import {
 export interface ValueResponse {
     /**
      * 
-     * @type {Date}
-     * @memberof ValueResponse
      */
     created_at: Date;
     /**
      * A Human friendly description of what the Shared Value is.
-     * @type {string}
-     * @memberof ValueResponse
      */
     description: string;
     /**
      * Specified that the Shared Value contains a secret.
-     * @type {boolean}
-     * @memberof ValueResponse
      */
     is_secret: boolean;
     /**
      * The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.
-     * @type {string}
-     * @memberof ValueResponse
      */
     key: string;
     /**
      * Location of the secret value in the secret store.
-     * @type {string}
-     * @memberof ValueResponse
      */
     secret_key: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ValueResponse
      */
     secret_store_id: string | null;
     /**
      * Version of the current secret value as returned by the secret store.
-     * @type {string}
-     * @memberof ValueResponse
      */
     secret_version: string | null;
     /**
      * 
-     * @type {ValueSource}
-     * @memberof ValueResponse
      */
     source: ValueSource;
     /**
      * 
-     * @type {Date}
-     * @memberof ValueResponse
      */
     updated_at: Date;
     /**
      * The value that will be stored. (Will be always empty for secrets.)
-     * @type {string}
-     * @memberof ValueResponse
      */
     value: string;
 }
 
+
+
 /**
  * Check if a given object implements the ValueResponse interface.
  */
-export function instanceOfValueResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('description' in value)) return false;
-    if (!('is_secret' in value)) return false;
-    if (!('key' in value)) return false;
-    if (!('secret_key' in value)) return false;
-    if (!('secret_store_id' in value)) return false;
-    if (!('secret_version' in value)) return false;
-    if (!('source' in value)) return false;
-    if (!('updated_at' in value)) return false;
-    if (!('value' in value)) return false;
+export function instanceOfValueResponse(value: object): value is ValueResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('is_secret' in value) || value['is_secret'] === undefined) return false;
+    if (!('key' in value) || value['key'] === undefined) return false;
+    if (!('secret_key' in value) || value['secret_key'] === undefined) return false;
+    if (!('secret_store_id' in value) || value['secret_store_id'] === undefined) return false;
+    if (!('secret_version' in value) || value['secret_version'] === undefined) return false;
+    if (!('source' in value) || value['source'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 
@@ -119,7 +102,7 @@ export function ValueResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'description': json['description'],
         'is_secret': json['is_secret'],
         'key': json['key'],
@@ -127,18 +110,23 @@ export function ValueResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
         'secret_store_id': json['secret_store_id'],
         'secret_version': json['secret_version'],
         'source': ValueSourceFromJSON(json['source']),
-        'updated_at': (new Date(json['updated_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
         'value': json['value'],
     };
 }
 
-export function ValueResponseToJSON(value?: ValueResponse | null): any {
+export function ValueResponseToJSON(json: any): ValueResponse {
+    return ValueResponseToJSONTyped(json, false);
+}
+
+export function ValueResponseToJSONTyped(value?: ValueResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'description': value['description'],
         'is_secret': value['is_secret'],
         'key': value['key'],
@@ -146,7 +134,7 @@ export function ValueResponseToJSON(value?: ValueResponse | null): any {
         'secret_store_id': value['secret_store_id'],
         'secret_version': value['secret_version'],
         'source': ValueSourceToJSON(value['source']),
-        'updated_at': ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
         'value': value['value'],
     };
 }

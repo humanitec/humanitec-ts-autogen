@@ -18,6 +18,7 @@ import {
     ModuleResponseFromJSON,
     ModuleResponseFromJSONTyped,
     ModuleResponseToJSON,
+    ModuleResponseToJSONTyped,
 } from './ModuleResponse.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface RuntimeInfoResponseV1 {
     /**
      * 
-     * @type {{ [key: string]: ModuleResponse; }}
-     * @memberof RuntimeInfoResponseV1
      */
     modules: { [key: string]: ModuleResponse; };
     /**
      * 
-     * @type {string}
-     * @memberof RuntimeInfoResponseV1
      */
     namespace: string;
 }
@@ -43,9 +40,9 @@ export interface RuntimeInfoResponseV1 {
 /**
  * Check if a given object implements the RuntimeInfoResponseV1 interface.
  */
-export function instanceOfRuntimeInfoResponseV1(value: object): boolean {
-    if (!('modules' in value)) return false;
-    if (!('namespace' in value)) return false;
+export function instanceOfRuntimeInfoResponseV1(value: object): value is RuntimeInfoResponseV1 {
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('namespace' in value) || value['namespace'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +61,15 @@ export function RuntimeInfoResponseV1FromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function RuntimeInfoResponseV1ToJSON(value?: RuntimeInfoResponseV1 | null): any {
+export function RuntimeInfoResponseV1ToJSON(json: any): RuntimeInfoResponseV1 {
+    return RuntimeInfoResponseV1ToJSONTyped(json, false);
+}
+
+export function RuntimeInfoResponseV1ToJSONTyped(value?: RuntimeInfoResponseV1 | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'modules': (mapValues(value['modules'], ModuleResponseToJSON)),

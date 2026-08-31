@@ -18,6 +18,7 @@ import {
     SecretReferenceFromJSON,
     SecretReferenceFromJSONTyped,
     SecretReferenceToJSON,
+    SecretReferenceToJSONTyped,
 } from './SecretReference.js';
 
 /**
@@ -28,28 +29,22 @@ import {
 export interface ValuePatchPayloadRequest {
     /**
      * 
-     * @type {string}
-     * @memberof ValuePatchPayloadRequest
      */
-    description?: string;
+    description?: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ValuePatchPayloadRequest
      */
-    value?: string;
+    value?: string | null;
     /**
      * 
-     * @type {SecretReference}
-     * @memberof ValuePatchPayloadRequest
      */
-    secret_ref?: SecretReference;
+    secret_ref?: SecretReference | null;
 }
 
 /**
  * Check if a given object implements the ValuePatchPayloadRequest interface.
  */
-export function instanceOfValuePatchPayloadRequest(value: object): boolean {
+export function instanceOfValuePatchPayloadRequest(value: object): value is ValuePatchPayloadRequest {
     return true;
 }
 
@@ -63,16 +58,21 @@ export function ValuePatchPayloadRequestFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
-        'value': json['value'] == null ? undefined : json['value'],
-        'secret_ref': json['secret_ref'] == null ? undefined : SecretReferenceFromJSON(json['secret_ref']),
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
+        'secret_ref': json['secret_ref'] === undefined ? undefined : json['secret_ref'] === null ? null : SecretReferenceFromJSON(json['secret_ref']),
     };
 }
 
-export function ValuePatchPayloadRequestToJSON(value?: ValuePatchPayloadRequest | null): any {
+export function ValuePatchPayloadRequestToJSON(json: any): ValuePatchPayloadRequest {
+    return ValuePatchPayloadRequestToJSONTyped(json, false);
+}
+
+export function ValuePatchPayloadRequestToJSONTyped(value?: ValuePatchPayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

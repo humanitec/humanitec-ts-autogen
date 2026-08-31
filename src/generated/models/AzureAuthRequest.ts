@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface AzureAuthRequest {
     /**
      * 
-     * @type {string}
-     * @memberof AzureAuthRequest
      */
     client_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AzureAuthRequest
      */
     client_secret?: string;
 }
@@ -36,7 +32,7 @@ export interface AzureAuthRequest {
 /**
  * Check if a given object implements the AzureAuthRequest interface.
  */
-export function instanceOfAzureAuthRequest(value: object): boolean {
+export function instanceOfAzureAuthRequest(value: object): value is AzureAuthRequest {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function AzureAuthRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function AzureAuthRequestToJSON(value?: AzureAuthRequest | null): any {
+export function AzureAuthRequestToJSON(json: any): AzureAuthRequest {
+    return AzureAuthRequestToJSONTyped(json, false);
+}
+
+export function AzureAuthRequestToJSONTyped(value?: AzureAuthRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'client_id': value['client_id'],

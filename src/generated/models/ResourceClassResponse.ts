@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Resource Classes provide a way of specializing Resource Types.
  * Developers can set the class of a Resource alongside the type in their Score File.
@@ -23,32 +23,22 @@ import { mapValues } from '../runtime.js';
 export interface ResourceClassResponse {
     /**
      * ID of the resource class.
-     * @type {string}
-     * @memberof ResourceClassResponse
      */
     id: string;
     /**
      * Defines the resource type this class is applicable for.
-     * @type {string}
-     * @memberof ResourceClassResponse
      */
     resource_type: string;
     /**
      * A human readable description when this class should be used.
-     * @type {string}
-     * @memberof ResourceClassResponse
      */
     description: string;
     /**
      * usedID of the user who created the resource class
-     * @type {string}
-     * @memberof ResourceClassResponse
      */
     created_by: string;
     /**
      * UTC timestamp at which the resource class was created
-     * @type {Date}
-     * @memberof ResourceClassResponse
      */
     created_at: Date;
 }
@@ -56,12 +46,12 @@ export interface ResourceClassResponse {
 /**
  * Check if a given object implements the ResourceClassResponse interface.
  */
-export function instanceOfResourceClassResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('resource_type' in value)) return false;
-    if (!('description' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('created_at' in value)) return false;
+export function instanceOfResourceClassResponse(value: object): value is ResourceClassResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('resource_type' in value) || value['resource_type'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
     return true;
 }
 
@@ -79,21 +69,26 @@ export function ResourceClassResponseFromJSONTyped(json: any, ignoreDiscriminato
         'resource_type': json['resource_type'],
         'description': json['description'],
         'created_by': json['created_by'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
     };
 }
 
-export function ResourceClassResponseToJSON(value?: ResourceClassResponse | null): any {
+export function ResourceClassResponseToJSON(json: any): ResourceClassResponse {
+    return ResourceClassResponseToJSONTyped(json, false);
+}
+
+export function ResourceClassResponseToJSONTyped(value?: ResourceClassResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'resource_type': value['resource_type'],
         'description': value['description'],
         'created_by': value['created_by'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
     };
 }
 

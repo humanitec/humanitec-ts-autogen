@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface AgentPatchBody {
     /**
      * A description to show future users. It can be empty.
-     * @type {string}
-     * @memberof AgentPatchBody
      */
     description: string;
 }
@@ -30,8 +28,8 @@ export interface AgentPatchBody {
 /**
  * Check if a given object implements the AgentPatchBody interface.
  */
-export function instanceOfAgentPatchBody(value: object): boolean {
-    if (!('description' in value)) return false;
+export function instanceOfAgentPatchBody(value: object): value is AgentPatchBody {
+    if (!('description' in value) || value['description'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function AgentPatchBodyFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function AgentPatchBodyToJSON(value?: AgentPatchBody | null): any {
+export function AgentPatchBodyToJSON(json: any): AgentPatchBody {
+    return AgentPatchBodyToJSONTyped(json, false);
+}
+
+export function AgentPatchBodyToJSONTyped(value?: AgentPatchBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

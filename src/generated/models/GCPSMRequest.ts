@@ -18,6 +18,7 @@ import {
     GCPAuthRequestFromJSON,
     GCPAuthRequestFromJSONTyped,
     GCPAuthRequestToJSON,
+    GCPAuthRequestToJSONTyped,
 } from './GCPAuthRequest.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface GCPSMRequest {
     /**
      * 
-     * @type {GCPAuthRequest}
-     * @memberof GCPSMRequest
      */
     auth?: GCPAuthRequest;
     /**
      * 
-     * @type {string}
-     * @memberof GCPSMRequest
      */
     project_id?: string;
 }
@@ -43,7 +40,7 @@ export interface GCPSMRequest {
 /**
  * Check if a given object implements the GCPSMRequest interface.
  */
-export function instanceOfGCPSMRequest(value: object): boolean {
+export function instanceOfGCPSMRequest(value: object): value is GCPSMRequest {
     return true;
 }
 
@@ -62,10 +59,15 @@ export function GCPSMRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function GCPSMRequestToJSON(value?: GCPSMRequest | null): any {
+export function GCPSMRequestToJSON(json: any): GCPSMRequest {
+    return GCPSMRequestToJSONTyped(json, false);
+}
+
+export function GCPSMRequestToJSONTyped(value?: GCPSMRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'auth': GCPAuthRequestToJSON(value['auth']),

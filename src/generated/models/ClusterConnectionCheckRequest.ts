@@ -18,6 +18,7 @@ import {
     ResourceDefinitionsFromJSON,
     ResourceDefinitionsFromJSONTyped,
     ResourceDefinitionsToJSON,
+    ResourceDefinitionsToJSONTyped,
 } from './ResourceDefinitions.js';
 
 /**
@@ -28,26 +29,18 @@ import {
 export interface ClusterConnectionCheckRequest {
     /**
      * The application Id to test
-     * @type {string}
-     * @memberof ClusterConnectionCheckRequest
      */
     app_id: string;
     /**
      * The environment Id to test
-     * @type {string}
-     * @memberof ClusterConnectionCheckRequest
      */
     env_id: string;
     /**
      * The environment type to test
-     * @type {string}
-     * @memberof ClusterConnectionCheckRequest
      */
     env_type: string;
     /**
      * List of the definitions with their type that should be used by the resource graph nodes generated based on the context.
-     * @type {Array<ResourceDefinitions>}
-     * @memberof ClusterConnectionCheckRequest
      */
     expected_definitions?: Array<ResourceDefinitions>;
 }
@@ -55,10 +48,10 @@ export interface ClusterConnectionCheckRequest {
 /**
  * Check if a given object implements the ClusterConnectionCheckRequest interface.
  */
-export function instanceOfClusterConnectionCheckRequest(value: object): boolean {
-    if (!('app_id' in value)) return false;
-    if (!('env_id' in value)) return false;
-    if (!('env_type' in value)) return false;
+export function instanceOfClusterConnectionCheckRequest(value: object): value is ClusterConnectionCheckRequest {
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if (!('env_id' in value) || value['env_id'] === undefined) return false;
+    if (!('env_type' in value) || value['env_type'] === undefined) return false;
     return true;
 }
 
@@ -79,10 +72,15 @@ export function ClusterConnectionCheckRequestFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function ClusterConnectionCheckRequestToJSON(value?: ClusterConnectionCheckRequest | null): any {
+export function ClusterConnectionCheckRequestToJSON(json: any): ClusterConnectionCheckRequest {
+    return ClusterConnectionCheckRequestToJSONTyped(json, false);
+}
+
+export function ClusterConnectionCheckRequestToJSONTyped(value?: ClusterConnectionCheckRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],

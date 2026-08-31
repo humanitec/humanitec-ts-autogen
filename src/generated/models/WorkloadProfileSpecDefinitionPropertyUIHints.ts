@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface WorkloadProfileSpecDefinitionPropertyUIHints {
     /**
      * 
-     * @type {number}
-     * @memberof WorkloadProfileSpecDefinitionPropertyUIHints
      */
     order?: number;
     /**
      * 
-     * @type {boolean}
-     * @memberof WorkloadProfileSpecDefinitionPropertyUIHints
      */
     hidden?: boolean;
 }
@@ -36,7 +32,7 @@ export interface WorkloadProfileSpecDefinitionPropertyUIHints {
 /**
  * Check if a given object implements the WorkloadProfileSpecDefinitionPropertyUIHints interface.
  */
-export function instanceOfWorkloadProfileSpecDefinitionPropertyUIHints(value: object): boolean {
+export function instanceOfWorkloadProfileSpecDefinitionPropertyUIHints(value: object): value is WorkloadProfileSpecDefinitionPropertyUIHints {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function WorkloadProfileSpecDefinitionPropertyUIHintsFromJSONTyped(json: 
     };
 }
 
-export function WorkloadProfileSpecDefinitionPropertyUIHintsToJSON(value?: WorkloadProfileSpecDefinitionPropertyUIHints | null): any {
+export function WorkloadProfileSpecDefinitionPropertyUIHintsToJSON(json: any): WorkloadProfileSpecDefinitionPropertyUIHints {
+    return WorkloadProfileSpecDefinitionPropertyUIHintsToJSONTyped(json, false);
+}
+
+export function WorkloadProfileSpecDefinitionPropertyUIHintsToJSONTyped(value?: WorkloadProfileSpecDefinitionPropertyUIHints | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'order': value['order'],

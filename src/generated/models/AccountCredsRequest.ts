@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface AccountCredsRequest {
     /**
      * Account credentials expiration timestamp.
-     * @type {string}
-     * @memberof AccountCredsRequest
      */
-    expires?: string;
+    expires?: string | null;
     /**
      * Account password or token secret.
-     * @type {string}
-     * @memberof AccountCredsRequest
      */
     password: string;
     /**
      * Security account login or token.
-     * @type {string}
-     * @memberof AccountCredsRequest
      */
     username: string;
 }
@@ -42,9 +36,9 @@ export interface AccountCredsRequest {
 /**
  * Check if a given object implements the AccountCredsRequest interface.
  */
-export function instanceOfAccountCredsRequest(value: object): boolean {
-    if (!('password' in value)) return false;
-    if (!('username' in value)) return false;
+export function instanceOfAccountCredsRequest(value: object): value is AccountCredsRequest {
+    if (!('password' in value) || value['password'] === undefined) return false;
+    if (!('username' in value) || value['username'] === undefined) return false;
     return true;
 }
 
@@ -58,16 +52,21 @@ export function AccountCredsRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'expires': json['expires'] == null ? undefined : json['expires'],
+        'expires': json['expires'] === undefined ? undefined : json['expires'] === null ? null : json['expires'],
         'password': json['password'],
         'username': json['username'],
     };
 }
 
-export function AccountCredsRequestToJSON(value?: AccountCredsRequest | null): any {
+export function AccountCredsRequestToJSON(json: any): AccountCredsRequest {
+    return AccountCredsRequestToJSONTyped(json, false);
+}
+
+export function AccountCredsRequestToJSONTyped(value?: AccountCredsRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'expires': value['expires'],

@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface CreateContainerArtefactVersion {
     /**
      * The Artefact Version type.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     type: string;
     /**
      * The Artefact name.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     name: string;
     /**
      * (Optional) The Artefact Version.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     version?: string;
     /**
      * (Optional) The ref the Artefact Version was built from.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     ref?: string;
     /**
      * (Optional) The commit ID the Artefact Version was built on.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     commit?: string;
     /**
      * (Optional) The Artefact Version digest.
-     * @type {string}
-     * @memberof CreateContainerArtefactVersion
      */
     digest?: string;
 }
@@ -60,9 +48,9 @@ export interface CreateContainerArtefactVersion {
 /**
  * Check if a given object implements the CreateContainerArtefactVersion interface.
  */
-export function instanceOfCreateContainerArtefactVersion(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfCreateContainerArtefactVersion(value: object): value is CreateContainerArtefactVersion {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -85,10 +73,15 @@ export function CreateContainerArtefactVersionFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function CreateContainerArtefactVersionToJSON(value?: CreateContainerArtefactVersion | null): any {
+export function CreateContainerArtefactVersionToJSON(json: any): CreateContainerArtefactVersion {
+    return CreateContainerArtefactVersionToJSONTyped(json, false);
+}
+
+export function CreateContainerArtefactVersionToJSONTyped(value?: CreateContainerArtefactVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

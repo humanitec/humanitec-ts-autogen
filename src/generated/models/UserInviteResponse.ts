@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface UserInviteResponse {
     /**
      * The timestamp this invitation was created.
-     * @type {string}
-     * @memberof UserInviteResponse
      */
     created_at: string;
     /**
      * The ID of the user who created this invitation.
-     * @type {string}
-     * @memberof UserInviteResponse
      */
     created_by: string;
     /**
      * The email address of the user from the profile.
-     * @type {string}
-     * @memberof UserInviteResponse
      */
     email?: string;
     /**
      * The timestamp this invitation would expire.
-     * @type {string}
-     * @memberof UserInviteResponse
      */
     expires_at: string;
     /**
      * The User ID for this user.
-     * @type {string}
-     * @memberof UserInviteResponse
      */
     user_id: string;
 }
@@ -54,11 +44,11 @@ export interface UserInviteResponse {
 /**
  * Check if a given object implements the UserInviteResponse interface.
  */
-export function instanceOfUserInviteResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('expires_at' in value)) return false;
-    if (!('user_id' in value)) return false;
+export function instanceOfUserInviteResponse(value: object): value is UserInviteResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('expires_at' in value) || value['expires_at'] === undefined) return false;
+    if (!('user_id' in value) || value['user_id'] === undefined) return false;
     return true;
 }
 
@@ -80,10 +70,15 @@ export function UserInviteResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function UserInviteResponseToJSON(value?: UserInviteResponse | null): any {
+export function UserInviteResponseToJSON(json: any): UserInviteResponse {
+    return UserInviteResponseToJSONTyped(json, false);
+}
+
+export function UserInviteResponseToJSONTyped(value?: UserInviteResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface KeyCreateBody {
     /**
      * A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-     * @type {string}
-     * @memberof KeyCreateBody
      */
     public_key: string;
 }
@@ -30,8 +28,8 @@ export interface KeyCreateBody {
 /**
  * Check if a given object implements the KeyCreateBody interface.
  */
-export function instanceOfKeyCreateBody(value: object): boolean {
-    if (!('public_key' in value)) return false;
+export function instanceOfKeyCreateBody(value: object): value is KeyCreateBody {
+    if (!('public_key' in value) || value['public_key'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function KeyCreateBodyFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function KeyCreateBodyToJSON(value?: KeyCreateBody | null): any {
+export function KeyCreateBodyToJSON(json: any): KeyCreateBody {
+    return KeyCreateBodyToJSONTyped(json, false);
+}
+
+export function KeyCreateBodyToJSONTyped(value?: KeyCreateBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'public_key': value['public_key'],

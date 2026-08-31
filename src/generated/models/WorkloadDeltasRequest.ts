@@ -18,6 +18,7 @@ import {
     WorkloadRequestFromJSON,
     WorkloadRequestFromJSONTyped,
     WorkloadRequestToJSON,
+    WorkloadRequestToJSONTyped,
 } from './WorkloadRequest.js';
 
 /**
@@ -28,22 +29,18 @@ import {
 export interface WorkloadDeltasRequest {
     /**
      * 
-     * @type {{ [key: string]: WorkloadRequest; }}
-     * @memberof WorkloadDeltasRequest
      */
-    add?: { [key: string]: WorkloadRequest; };
+    add?: { [key: string]: WorkloadRequest; } | null;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof WorkloadDeltasRequest
      */
-    remove?: Array<string>;
+    remove?: Array<string> | null;
 }
 
 /**
  * Check if a given object implements the WorkloadDeltasRequest interface.
  */
-export function instanceOfWorkloadDeltasRequest(value: object): boolean {
+export function instanceOfWorkloadDeltasRequest(value: object): value is WorkloadDeltasRequest {
     return true;
 }
 
@@ -57,15 +54,20 @@ export function WorkloadDeltasRequestFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'add': json['add'] == null ? undefined : (mapValues(json['add'], WorkloadRequestFromJSON)),
-        'remove': json['remove'] == null ? undefined : json['remove'],
+        'add': json['add'] === undefined ? undefined : json['add'] === null ? null : (mapValues(json['add'], WorkloadRequestFromJSON)),
+        'remove': json['remove'] === undefined ? undefined : json['remove'] === null ? null : json['remove'],
     };
 }
 
-export function WorkloadDeltasRequestToJSON(value?: WorkloadDeltasRequest | null): any {
+export function WorkloadDeltasRequestToJSON(json: any): WorkloadDeltasRequest {
+    return WorkloadDeltasRequestToJSONTyped(json, false);
+}
+
+export function WorkloadDeltasRequestToJSONTyped(value?: WorkloadDeltasRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'add': value['add'] == null ? undefined : (mapValues(value['add'], WorkloadRequestToJSON)),

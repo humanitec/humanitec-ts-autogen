@@ -12,6 +12,10 @@
         "openapiNormalizer": {
           "SET_TAGS_FOR_ALL_OPERATIONS": "public"
         },
+        "globalProperty": {
+          "apiDocs": false,
+          "modelDocs": false
+        },
         "additionalProperties": {
           "disallowAdditionalPropertiesIfNotPresent": false,
           "enumPropertyNaming": "original",

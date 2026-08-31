@@ -18,6 +18,7 @@ import {
     OrganizationRoleFromJSON,
     OrganizationRoleFromJSONTyped,
     OrganizationRoleToJSON,
+    OrganizationRoleToJSONTyped,
 } from './OrganizationRole.js';
 
 /**
@@ -28,31 +29,27 @@ import {
 export interface GroupRequest {
     /**
      * The name of the group in the IdP.
-     * @type {string}
-     * @memberof GroupRequest
      */
     group_id: string;
     /**
      * The IdP id.
-     * @type {string}
-     * @memberof GroupRequest
      */
     idp_id: string;
     /**
      * 
-     * @type {OrganizationRole}
-     * @memberof GroupRequest
      */
     role: OrganizationRole;
 }
 
+
+
 /**
  * Check if a given object implements the GroupRequest interface.
  */
-export function instanceOfGroupRequest(value: object): boolean {
-    if (!('group_id' in value)) return false;
-    if (!('idp_id' in value)) return false;
-    if (!('role' in value)) return false;
+export function instanceOfGroupRequest(value: object): value is GroupRequest {
+    if (!('group_id' in value) || value['group_id'] === undefined) return false;
+    if (!('idp_id' in value) || value['idp_id'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
 
@@ -72,10 +69,15 @@ export function GroupRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function GroupRequestToJSON(value?: GroupRequest | null): any {
+export function GroupRequestToJSON(json: any): GroupRequest {
+    return GroupRequestToJSONTyped(json, false);
+}
+
+export function GroupRequestToJSONTyped(value?: GroupRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'group_id': value['group_id'],

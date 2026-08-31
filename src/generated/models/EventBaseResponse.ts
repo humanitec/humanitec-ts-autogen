@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface EventBaseResponse {
     /**
      * Event scope
-     * @type {string}
-     * @memberof EventBaseResponse
      */
     scope: string;
     /**
      * Event type
-     * @type {string}
-     * @memberof EventBaseResponse
      */
     type: string;
 }
@@ -36,9 +32,9 @@ export interface EventBaseResponse {
 /**
  * Check if a given object implements the EventBaseResponse interface.
  */
-export function instanceOfEventBaseResponse(value: object): boolean {
-    if (!('scope' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfEventBaseResponse(value: object): value is EventBaseResponse {
+    if (!('scope' in value) || value['scope'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function EventBaseResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function EventBaseResponseToJSON(value?: EventBaseResponse | null): any {
+export function EventBaseResponseToJSON(json: any): EventBaseResponse {
+    return EventBaseResponseToJSONTyped(json, false);
+}
+
+export function EventBaseResponseToJSONTyped(value?: EventBaseResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'scope': value['scope'],

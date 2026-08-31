@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { ModuleResponse } from './ModuleResponse.js';
-import {
-    ModuleResponseFromJSON,
-    ModuleResponseFromJSONTyped,
-    ModuleResponseToJSON,
-} from './ModuleResponse.js';
 import type { WorkloadResponse } from './WorkloadResponse.js';
 import {
     WorkloadResponseFromJSON,
     WorkloadResponseFromJSONTyped,
     WorkloadResponseToJSON,
+    WorkloadResponseToJSONTyped,
 } from './WorkloadResponse.js';
+import type { ModuleResponse } from './ModuleResponse.js';
+import {
+    ModuleResponseFromJSON,
+    ModuleResponseFromJSONTyped,
+    ModuleResponseToJSON,
+    ModuleResponseToJSONTyped,
+} from './ModuleResponse.js';
 
 /**
  * A Deployment Set (or just "Set") defines all of the non-Environment specific configuration for Modules and External Resources. Each of these Modules or External Resources has a unique name.
@@ -64,32 +66,22 @@ import {
 export interface SetResponse {
     /**
      * The ID which is a hash of the content of the Deployment Set.
-     * @type {string}
-     * @memberof SetResponse
      */
     id: string;
     /**
      * The Modules that make up the Set
-     * @type {{ [key: string]: ModuleResponse; }}
-     * @memberof SetResponse
      */
     modules: { [key: string]: ModuleResponse; };
     /**
      * Resources that are shared across the set
-     * @type {{ [key: string]: any; }}
-     * @memberof SetResponse
      */
     shared: { [key: string]: any; };
     /**
      * The version of the Deployment Set Schema to use. (Currently, only 0 is supported, and if omitted, version 0 is assumed.)
-     * @type {number}
-     * @memberof SetResponse
      */
     version: number;
     /**
      * The Workloads that make up the Set. A Set holding at least one Workload is deployed in Generic Mode. Omitted when the Set holds no Workloads.
-     * @type {{ [key: string]: WorkloadResponse; }}
-     * @memberof SetResponse
      */
     workloads?: { [key: string]: WorkloadResponse; };
 }
@@ -97,11 +89,11 @@ export interface SetResponse {
 /**
  * Check if a given object implements the SetResponse interface.
  */
-export function instanceOfSetResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('modules' in value)) return false;
-    if (!('shared' in value)) return false;
-    if (!('version' in value)) return false;
+export function instanceOfSetResponse(value: object): value is SetResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('shared' in value) || value['shared'] === undefined) return false;
+    if (!('version' in value) || value['version'] === undefined) return false;
     return true;
 }
 
@@ -123,10 +115,15 @@ export function SetResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function SetResponseToJSON(value?: SetResponse | null): any {
+export function SetResponseToJSON(json: any): SetResponse {
+    return SetResponseToJSONTyped(json, false);
+}
+
+export function SetResponseToJSONTyped(value?: SetResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

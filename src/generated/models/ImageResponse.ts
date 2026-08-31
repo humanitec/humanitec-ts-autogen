@@ -18,6 +18,7 @@ import {
     ImageBuildResponseFromJSON,
     ImageBuildResponseFromJSONTyped,
     ImageBuildResponseToJSON,
+    ImageBuildResponseToJSONTyped,
 } from './ImageBuildResponse.js';
 
 /**
@@ -30,26 +31,18 @@ import {
 export interface ImageResponse {
     /**
      * The time the first build of this Image was added to the organization
-     * @type {string}
-     * @memberof ImageResponse
      */
     added_at: string;
     /**
      * A list of Image Builds ordered by addition date.
-     * @type {Array<ImageBuildResponse>}
-     * @memberof ImageResponse
      */
     builds: Array<ImageBuildResponse>;
     /**
      * The ID used to group different builds of the same Image together.
-     * @type {string}
-     * @memberof ImageResponse
      */
     id: string;
     /**
      * The Image Source that this Image is added via
-     * @type {string}
-     * @memberof ImageResponse
      */
     source: string;
 }
@@ -57,11 +50,11 @@ export interface ImageResponse {
 /**
  * Check if a given object implements the ImageResponse interface.
  */
-export function instanceOfImageResponse(value: object): boolean {
-    if (!('added_at' in value)) return false;
-    if (!('builds' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('source' in value)) return false;
+export function instanceOfImageResponse(value: object): value is ImageResponse {
+    if (!('added_at' in value) || value['added_at'] === undefined) return false;
+    if (!('builds' in value) || value['builds'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('source' in value) || value['source'] === undefined) return false;
     return true;
 }
 
@@ -82,10 +75,15 @@ export function ImageResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ImageResponseToJSON(value?: ImageResponse | null): any {
+export function ImageResponseToJSON(json: any): ImageResponse {
+    return ImageResponseToJSONTyped(json, false);
+}
+
+export function ImageResponseToJSONTyped(value?: ImageResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'added_at': value['added_at'],

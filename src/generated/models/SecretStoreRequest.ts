@@ -13,30 +13,34 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { AWSSMRequest } from './AWSSMRequest.js';
-import {
-    AWSSMRequestFromJSON,
-    AWSSMRequestFromJSONTyped,
-    AWSSMRequestToJSON,
-} from './AWSSMRequest.js';
-import type { AzureKVRequest } from './AzureKVRequest.js';
-import {
-    AzureKVRequestFromJSON,
-    AzureKVRequestFromJSONTyped,
-    AzureKVRequestToJSON,
-} from './AzureKVRequest.js';
 import type { GCPSMRequest } from './GCPSMRequest.js';
 import {
     GCPSMRequestFromJSON,
     GCPSMRequestFromJSONTyped,
     GCPSMRequestToJSON,
+    GCPSMRequestToJSONTyped,
 } from './GCPSMRequest.js';
+import type { AzureKVRequest } from './AzureKVRequest.js';
+import {
+    AzureKVRequestFromJSON,
+    AzureKVRequestFromJSONTyped,
+    AzureKVRequestToJSON,
+    AzureKVRequestToJSONTyped,
+} from './AzureKVRequest.js';
 import type { VaultRequest } from './VaultRequest.js';
 import {
     VaultRequestFromJSON,
     VaultRequestFromJSONTyped,
     VaultRequestToJSON,
+    VaultRequestToJSONTyped,
 } from './VaultRequest.js';
+import type { AWSSMRequest } from './AWSSMRequest.js';
+import {
+    AWSSMRequestFromJSON,
+    AWSSMRequestFromJSONTyped,
+    AWSSMRequestToJSON,
+    AWSSMRequestToJSONTyped,
+} from './AWSSMRequest.js';
 
 /**
  * Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.
@@ -46,68 +50,46 @@ import {
 export interface SecretStoreRequest {
     /**
      * 
-     * @type {AWSSMRequest}
-     * @memberof SecretStoreRequest
      */
     awssm?: AWSSMRequest;
     /**
      * 
-     * @type {AzureKVRequest}
-     * @memberof SecretStoreRequest
      */
     azurekv?: AzureKVRequest;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreRequest
      */
     created_at?: string;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreRequest
      */
     created_by?: string;
     /**
      * 
-     * @type {GCPSMRequest}
-     * @memberof SecretStoreRequest
      */
     gcpsm?: GCPSMRequest;
     /**
      * Humanitec built-in Secret Store specification.
-     * @type {object}
-     * @memberof SecretStoreRequest
      */
     humanitec?: object;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreRequest
      */
     id?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof SecretStoreRequest
      */
     primary?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreRequest
      */
     updated_at?: string;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreRequest
      */
     updated_by?: string;
     /**
      * 
-     * @type {VaultRequest}
-     * @memberof SecretStoreRequest
      */
     vault?: VaultRequest;
 }
@@ -115,7 +97,7 @@ export interface SecretStoreRequest {
 /**
  * Check if a given object implements the SecretStoreRequest interface.
  */
-export function instanceOfSecretStoreRequest(value: object): boolean {
+export function instanceOfSecretStoreRequest(value: object): value is SecretStoreRequest {
     return true;
 }
 
@@ -143,10 +125,15 @@ export function SecretStoreRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function SecretStoreRequestToJSON(value?: SecretStoreRequest | null): any {
+export function SecretStoreRequestToJSON(json: any): SecretStoreRequest {
+    return SecretStoreRequestToJSONTyped(json, false);
+}
+
+export function SecretStoreRequestToJSONTyped(value?: SecretStoreRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'awssm': AWSSMRequestToJSON(value['awssm']),

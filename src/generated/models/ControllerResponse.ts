@@ -18,6 +18,7 @@ import {
     PodStateResponseFromJSON,
     PodStateResponseFromJSONTyped,
     PodStateResponseToJSON,
+    PodStateResponseToJSONTyped,
 } from './PodStateResponse.js';
 
 /**
@@ -28,38 +29,26 @@ import {
 export interface ControllerResponse {
     /**
      * 
-     * @type {string}
-     * @memberof ControllerResponse
      */
     kind: string;
     /**
      * 
-     * @type {string}
-     * @memberof ControllerResponse
      */
     message: string;
     /**
      * 
-     * @type {Array<PodStateResponse>}
-     * @memberof ControllerResponse
      */
     pods: Array<PodStateResponse>;
     /**
      * 
-     * @type {number}
-     * @memberof ControllerResponse
      */
     replicas: number;
     /**
      * 
-     * @type {number}
-     * @memberof ControllerResponse
      */
     revision: number;
     /**
      * 
-     * @type {string}
-     * @memberof ControllerResponse
      */
     status: string;
 }
@@ -67,13 +56,13 @@ export interface ControllerResponse {
 /**
  * Check if a given object implements the ControllerResponse interface.
  */
-export function instanceOfControllerResponse(value: object): boolean {
-    if (!('kind' in value)) return false;
-    if (!('message' in value)) return false;
-    if (!('pods' in value)) return false;
-    if (!('replicas' in value)) return false;
-    if (!('revision' in value)) return false;
-    if (!('status' in value)) return false;
+export function instanceOfControllerResponse(value: object): value is ControllerResponse {
+    if (!('kind' in value) || value['kind'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
+    if (!('pods' in value) || value['pods'] === undefined) return false;
+    if (!('replicas' in value) || value['replicas'] === undefined) return false;
+    if (!('revision' in value) || value['revision'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
     return true;
 }
 
@@ -96,10 +85,15 @@ export function ControllerResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ControllerResponseToJSON(value?: ControllerResponse | null): any {
+export function ControllerResponseToJSON(json: any): ControllerResponse {
+    return ControllerResponseToJSONTyped(json, false);
+}
+
+export function ControllerResponseToJSONTyped(value?: ControllerResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'kind': value['kind'],

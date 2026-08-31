@@ -23,14 +23,10 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentTypeRequest {
     /**
      * A Human-readable description of the Environment Type
-     * @type {string}
-     * @memberof EnvironmentTypeRequest
      */
     description?: string;
     /**
      * The ID of the Environment Type. (Must be unique within an Organization.)
-     * @type {string}
-     * @memberof EnvironmentTypeRequest
      */
     id: string;
 }
@@ -38,8 +34,8 @@ export interface EnvironmentTypeRequest {
 /**
  * Check if a given object implements the EnvironmentTypeRequest interface.
  */
-export function instanceOfEnvironmentTypeRequest(value: object): boolean {
-    if (!('id' in value)) return false;
+export function instanceOfEnvironmentTypeRequest(value: object): value is EnvironmentTypeRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
     return true;
 }
 
@@ -58,10 +54,15 @@ export function EnvironmentTypeRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function EnvironmentTypeRequestToJSON(value?: EnvironmentTypeRequest | null): any {
+export function EnvironmentTypeRequestToJSON(json: any): EnvironmentTypeRequest {
+    return EnvironmentTypeRequestToJSONTyped(json, false);
+}
+
+export function EnvironmentTypeRequestToJSONTyped(value?: EnvironmentTypeRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

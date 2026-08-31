@@ -13,30 +13,34 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { AWSSMRequest } from './AWSSMRequest.js';
-import {
-    AWSSMRequestFromJSON,
-    AWSSMRequestFromJSONTyped,
-    AWSSMRequestToJSON,
-} from './AWSSMRequest.js';
-import type { AzureKVRequest } from './AzureKVRequest.js';
-import {
-    AzureKVRequestFromJSON,
-    AzureKVRequestFromJSONTyped,
-    AzureKVRequestToJSON,
-} from './AzureKVRequest.js';
 import type { GCPSMRequest } from './GCPSMRequest.js';
 import {
     GCPSMRequestFromJSON,
     GCPSMRequestFromJSONTyped,
     GCPSMRequestToJSON,
+    GCPSMRequestToJSONTyped,
 } from './GCPSMRequest.js';
+import type { AzureKVRequest } from './AzureKVRequest.js';
+import {
+    AzureKVRequestFromJSON,
+    AzureKVRequestFromJSONTyped,
+    AzureKVRequestToJSON,
+    AzureKVRequestToJSONTyped,
+} from './AzureKVRequest.js';
 import type { VaultRequest } from './VaultRequest.js';
 import {
     VaultRequestFromJSON,
     VaultRequestFromJSONTyped,
     VaultRequestToJSON,
+    VaultRequestToJSONTyped,
 } from './VaultRequest.js';
+import type { AWSSMRequest } from './AWSSMRequest.js';
+import {
+    AWSSMRequestFromJSON,
+    AWSSMRequestFromJSONTyped,
+    AWSSMRequestToJSON,
+    AWSSMRequestToJSONTyped,
+} from './AWSSMRequest.js';
 
 /**
  * Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.
@@ -46,32 +50,22 @@ import {
 export interface UpdateSecretStorePayloadRequest {
     /**
      * 
-     * @type {AWSSMRequest}
-     * @memberof UpdateSecretStorePayloadRequest
      */
     awssm?: AWSSMRequest;
     /**
      * 
-     * @type {AzureKVRequest}
-     * @memberof UpdateSecretStorePayloadRequest
      */
     azurekv?: AzureKVRequest;
     /**
      * 
-     * @type {GCPSMRequest}
-     * @memberof UpdateSecretStorePayloadRequest
      */
     gcpsm?: GCPSMRequest;
     /**
      * Defines whether the Secret Store is the primary secret management system for the organization.
-     * @type {boolean}
-     * @memberof UpdateSecretStorePayloadRequest
      */
-    primary?: boolean;
+    primary?: boolean | null;
     /**
      * 
-     * @type {VaultRequest}
-     * @memberof UpdateSecretStorePayloadRequest
      */
     vault?: VaultRequest;
 }
@@ -79,7 +73,7 @@ export interface UpdateSecretStorePayloadRequest {
 /**
  * Check if a given object implements the UpdateSecretStorePayloadRequest interface.
  */
-export function instanceOfUpdateSecretStorePayloadRequest(value: object): boolean {
+export function instanceOfUpdateSecretStorePayloadRequest(value: object): value is UpdateSecretStorePayloadRequest {
     return true;
 }
 
@@ -96,15 +90,20 @@ export function UpdateSecretStorePayloadRequestFromJSONTyped(json: any, ignoreDi
         'awssm': json['awssm'] == null ? undefined : AWSSMRequestFromJSON(json['awssm']),
         'azurekv': json['azurekv'] == null ? undefined : AzureKVRequestFromJSON(json['azurekv']),
         'gcpsm': json['gcpsm'] == null ? undefined : GCPSMRequestFromJSON(json['gcpsm']),
-        'primary': json['primary'] == null ? undefined : json['primary'],
+        'primary': json['primary'] === undefined ? undefined : json['primary'] === null ? null : json['primary'],
         'vault': json['vault'] == null ? undefined : VaultRequestFromJSON(json['vault']),
     };
 }
 
-export function UpdateSecretStorePayloadRequestToJSON(value?: UpdateSecretStorePayloadRequest | null): any {
+export function UpdateSecretStorePayloadRequestToJSON(json: any): UpdateSecretStorePayloadRequest {
+    return UpdateSecretStorePayloadRequestToJSONTyped(json, false);
+}
+
+export function UpdateSecretStorePayloadRequestToJSONTyped(value?: UpdateSecretStorePayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'awssm': AWSSMRequestToJSON(value['awssm']),

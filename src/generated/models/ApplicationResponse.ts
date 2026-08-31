@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { EnvironmentBaseResponse } from './EnvironmentBaseResponse.js';
 import {
     EnvironmentBaseResponseFromJSON,
     EnvironmentBaseResponseFromJSONTyped,
     EnvironmentBaseResponseToJSON,
+    EnvironmentBaseResponseToJSONTyped,
 } from './EnvironmentBaseResponse.js';
 
 /**
@@ -30,56 +31,38 @@ import {
 export interface ApplicationResponse {
     /**
      * The timestamp in UTC indicates when the Application was created.
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     created_at: string;
     /**
      * The user who created the Application.
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     created_by: string;
     /**
      * The Environments associated with the Application.
-     * @type {Array<EnvironmentBaseResponse>}
-     * @memberof ApplicationResponse
      */
     envs: Array<EnvironmentBaseResponse>;
     /**
      * The ID which refers to a specific application.
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     id: string;
     /**
      * The Human-friendly name for the Application.
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     name: string;
     /**
      * The Organization id of this Application
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     org_id: string;
     /**
      * The status of the application
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     status: ApplicationResponseStatusEnum;
     /**
      * The timestamp in UTC of when the Environment status was last changed.
-     * @type {Date}
-     * @memberof ApplicationResponse
      */
     status_changed_at: Date;
     /**
      * The message associated with the status of the environment
-     * @type {string}
-     * @memberof ApplicationResponse
      */
     status_message?: string;
 }
@@ -98,15 +81,15 @@ export enum ApplicationResponseStatusEnum {
 /**
  * Check if a given object implements the ApplicationResponse interface.
  */
-export function instanceOfApplicationResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('envs' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('status_changed_at' in value)) return false;
+export function instanceOfApplicationResponse(value: object): value is ApplicationResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('envs' in value) || value['envs'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_changed_at' in value) || value['status_changed_at'] === undefined) return false;
     return true;
 }
 
@@ -127,15 +110,20 @@ export function ApplicationResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'name': json['name'],
         'org_id': json['org_id'],
         'status': json['status'],
-        'status_changed_at': (new Date(json['status_changed_at'])),
+        'status_changed_at': (json['status_changed_at'] == null ? json['status_changed_at'] : parseDateTime(json['status_changed_at'])),
         'status_message': json['status_message'] == null ? undefined : json['status_message'],
     };
 }
 
-export function ApplicationResponseToJSON(value?: ApplicationResponse | null): any {
+export function ApplicationResponseToJSON(json: any): ApplicationResponse {
+    return ApplicationResponseToJSONTyped(json, false);
+}
+
+export function ApplicationResponseToJSONTyped(value?: ApplicationResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],
@@ -145,7 +133,7 @@ export function ApplicationResponseToJSON(value?: ApplicationResponse | null): a
         'name': value['name'],
         'org_id': value['org_id'],
         'status': value['status'],
-        'status_changed_at': ((value['status_changed_at']).toISOString()),
+        'status_changed_at': value['status_changed_at'] == null ? value['status_changed_at'] : serializeDateTime(value['status_changed_at']),
         'status_message': value['status_message'],
     };
 }

@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface AgentCreateBody {
     /**
      * The Agent id. It can't be empty and should contain only url safe characters.
-     * @type {string}
-     * @memberof AgentCreateBody
      */
     id: string;
     /**
      * A pcks8 RSA public key PEM encoded (as the ones produced by openssl), whose module length is greater or equal than 4096 bits.
-     * @type {string}
-     * @memberof AgentCreateBody
      */
     public_key: string;
     /**
      * An optional description to show future users.
-     * @type {string}
-     * @memberof AgentCreateBody
      */
     description?: string;
 }
@@ -42,9 +36,9 @@ export interface AgentCreateBody {
 /**
  * Check if a given object implements the AgentCreateBody interface.
  */
-export function instanceOfAgentCreateBody(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('public_key' in value)) return false;
+export function instanceOfAgentCreateBody(value: object): value is AgentCreateBody {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('public_key' in value) || value['public_key'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +58,15 @@ export function AgentCreateBodyFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AgentCreateBodyToJSON(value?: AgentCreateBody | null): any {
+export function AgentCreateBodyToJSON(json: any): AgentCreateBody {
+    return AgentCreateBodyToJSONTyped(json, false);
+}
+
+export function AgentCreateBodyToJSONTyped(value?: AgentCreateBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentBaseUpdateRequest {
     /**
      * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentBaseUpdateRequest
      */
     name?: string;
 }
@@ -30,7 +28,7 @@ export interface EnvironmentBaseUpdateRequest {
 /**
  * Check if a given object implements the EnvironmentBaseUpdateRequest interface.
  */
-export function instanceOfEnvironmentBaseUpdateRequest(value: object): boolean {
+export function instanceOfEnvironmentBaseUpdateRequest(value: object): value is EnvironmentBaseUpdateRequest {
     return true;
 }
 
@@ -48,10 +46,15 @@ export function EnvironmentBaseUpdateRequestFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function EnvironmentBaseUpdateRequestToJSON(value?: EnvironmentBaseUpdateRequest | null): any {
+export function EnvironmentBaseUpdateRequestToJSON(json: any): EnvironmentBaseUpdateRequest {
+    return EnvironmentBaseUpdateRequestToJSONTyped(json, false);
+}
+
+export function EnvironmentBaseUpdateRequestToJSONTyped(value?: EnvironmentBaseUpdateRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

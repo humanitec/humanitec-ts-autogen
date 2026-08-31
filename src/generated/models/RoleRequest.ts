@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface RoleRequest {
     /**
      * 
-     * @type {string}
-     * @memberof RoleRequest
      */
     role: string;
 }
@@ -30,8 +28,8 @@ export interface RoleRequest {
 /**
  * Check if a given object implements the RoleRequest interface.
  */
-export function instanceOfRoleRequest(value: object): boolean {
-    if (!('role' in value)) return false;
+export function instanceOfRoleRequest(value: object): value is RoleRequest {
+    if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function RoleRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function RoleRequestToJSON(value?: RoleRequest | null): any {
+export function RoleRequestToJSON(json: any): RoleRequest {
+    return RoleRequestToJSONTyped(json, false);
+}
+
+export function RoleRequestToJSONTyped(value?: RoleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'role': value['role'],

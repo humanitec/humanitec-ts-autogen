@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Each Workload Profile Chart has one or more Versions associated with it.
  * @export
@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface WorkloadProfileChartVersionResponse {
     /**
      * Creation date
-     * @type {Date}
-     * @memberof WorkloadProfileChartVersionResponse
      */
     created_at: Date;
     /**
      * User created the profile
-     * @type {string}
-     * @memberof WorkloadProfileChartVersionResponse
      */
     created_by: string;
     /**
      * Organization ID
-     * @type {string}
-     * @memberof WorkloadProfileChartVersionResponse
      */
     org_id: string;
     /**
      * Workload Profile Chart Version ID
-     * @type {string}
-     * @memberof WorkloadProfileChartVersionResponse
      */
     id: string;
     /**
      * Version
-     * @type {string}
-     * @memberof WorkloadProfileChartVersionResponse
      */
     version: string;
 }
@@ -54,12 +44,12 @@ export interface WorkloadProfileChartVersionResponse {
 /**
  * Check if a given object implements the WorkloadProfileChartVersionResponse interface.
  */
-export function instanceOfWorkloadProfileChartVersionResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('version' in value)) return false;
+export function instanceOfWorkloadProfileChartVersionResponse(value: object): value is WorkloadProfileChartVersionResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('version' in value) || value['version'] === undefined) return false;
     return true;
 }
 
@@ -73,7 +63,7 @@ export function WorkloadProfileChartVersionResponseFromJSONTyped(json: any, igno
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'org_id': json['org_id'],
         'id': json['id'],
@@ -81,13 +71,18 @@ export function WorkloadProfileChartVersionResponseFromJSONTyped(json: any, igno
     };
 }
 
-export function WorkloadProfileChartVersionResponseToJSON(value?: WorkloadProfileChartVersionResponse | null): any {
+export function WorkloadProfileChartVersionResponseToJSON(json: any): WorkloadProfileChartVersionResponse {
+    return WorkloadProfileChartVersionResponseToJSONTyped(json, false);
+}
+
+export function WorkloadProfileChartVersionResponseToJSONTyped(value?: WorkloadProfileChartVersionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'org_id': value['org_id'],
         'id': value['id'],

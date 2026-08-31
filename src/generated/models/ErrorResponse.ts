@@ -23,20 +23,14 @@ export interface ErrorResponse {
      * A short code representing the class of error. This code can be used for tracking and observability or to
      * find appropriate troubleshooting documentation.
      * 
-     * @type {string}
-     * @memberof ErrorResponse
      */
     error: string;
     /**
      * A human-readable explanation of the error.
-     * @type {string}
-     * @memberof ErrorResponse
      */
     message: string;
     /**
      * An optional payload of metadata associated with the error.
-     * @type {{ [key: string]: any; }}
-     * @memberof ErrorResponse
      */
     details?: { [key: string]: any; };
 }
@@ -44,9 +38,9 @@ export interface ErrorResponse {
 /**
  * Check if a given object implements the ErrorResponse interface.
  */
-export function instanceOfErrorResponse(value: object): boolean {
-    if (!('error' in value)) return false;
-    if (!('message' in value)) return false;
+export function instanceOfErrorResponse(value: object): value is ErrorResponse {
+    if (!('error' in value) || value['error'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -66,10 +60,15 @@ export function ErrorResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ErrorResponseToJSON(value?: ErrorResponse | null): any {
+export function ErrorResponseToJSON(json: any): ErrorResponse {
+    return ErrorResponseToJSONTyped(json, false);
+}
+
+export function ErrorResponseToJSONTyped(value?: ErrorResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'error': value['error'],

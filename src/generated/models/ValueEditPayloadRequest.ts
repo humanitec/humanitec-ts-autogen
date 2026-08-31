@@ -18,6 +18,7 @@ import {
     SecretReferenceFromJSON,
     SecretReferenceFromJSONTyped,
     SecretReferenceToJSON,
+    SecretReferenceToJSONTyped,
 } from './SecretReference.js';
 
 /**
@@ -28,41 +29,31 @@ import {
 export interface ValueEditPayloadRequest {
     /**
      * 
-     * @type {string}
-     * @memberof ValueEditPayloadRequest
      */
     description: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ValueEditPayloadRequest
      */
-    value?: string;
+    value?: string | null;
     /**
      * 
-     * @type {boolean}
-     * @memberof ValueEditPayloadRequest
      */
     is_secret?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof ValueEditPayloadRequest
      */
     key?: string;
     /**
      * 
-     * @type {SecretReference}
-     * @memberof ValueEditPayloadRequest
      */
-    secret_ref?: SecretReference;
+    secret_ref?: SecretReference | null;
 }
 
 /**
  * Check if a given object implements the ValueEditPayloadRequest interface.
  */
-export function instanceOfValueEditPayloadRequest(value: object): boolean {
-    if (!('description' in value)) return false;
+export function instanceOfValueEditPayloadRequest(value: object): value is ValueEditPayloadRequest {
+    if (!('description' in value) || value['description'] === undefined) return false;
     return true;
 }
 
@@ -77,17 +68,22 @@ export function ValueEditPayloadRequestFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'description': json['description'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
         'is_secret': json['is_secret'] == null ? undefined : json['is_secret'],
         'key': json['key'] == null ? undefined : json['key'],
-        'secret_ref': json['secret_ref'] == null ? undefined : SecretReferenceFromJSON(json['secret_ref']),
+        'secret_ref': json['secret_ref'] === undefined ? undefined : json['secret_ref'] === null ? null : SecretReferenceFromJSON(json['secret_ref']),
     };
 }
 
-export function ValueEditPayloadRequestToJSON(value?: ValueEditPayloadRequest | null): any {
+export function ValueEditPayloadRequestToJSON(json: any): ValueEditPayloadRequest {
+    return ValueEditPayloadRequestToJSONTyped(json, false);
+}
+
+export function ValueEditPayloadRequestToJSONTyped(value?: ValueEditPayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An object containing the details of a Key.
  * @export
@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface Key {
     /**
      * The Key fingerprint (sha256 hash of the DER representation of the key).
-     * @type {string}
-     * @memberof Key
      */
     fingerprint: string;
     /**
      * A pcks8 RSA ublic key PEM encoded.
-     * @type {string}
-     * @memberof Key
      */
     public_key: string;
     /**
      * Time of the Key being registered.
-     * @type {Date}
-     * @memberof Key
      */
     created_at: Date;
     /**
      * User ID of user that added the Key.
-     * @type {string}
-     * @memberof Key
      */
     created_by: string;
     /**
      * Time when the Key should be replaced (2 years after its creation).
-     * @type {Date}
-     * @memberof Key
      */
     expired_at: Date;
     /**
      * If this key has been authorized to be used to validate requests coming from an Agent.
-     * @type {boolean}
-     * @memberof Key
      */
     is_authorized: boolean;
 }
@@ -60,13 +48,13 @@ export interface Key {
 /**
  * Check if a given object implements the Key interface.
  */
-export function instanceOfKey(value: object): boolean {
-    if (!('fingerprint' in value)) return false;
-    if (!('public_key' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('expired_at' in value)) return false;
-    if (!('is_authorized' in value)) return false;
+export function instanceOfKey(value: object): value is Key {
+    if (!('fingerprint' in value) || value['fingerprint'] === undefined) return false;
+    if (!('public_key' in value) || value['public_key'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('expired_at' in value) || value['expired_at'] === undefined) return false;
+    if (!('is_authorized' in value) || value['is_authorized'] === undefined) return false;
     return true;
 }
 
@@ -82,24 +70,29 @@ export function KeyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Key {
         
         'fingerprint': json['fingerprint'],
         'public_key': json['public_key'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
-        'expired_at': (new Date(json['expired_at'])),
+        'expired_at': (json['expired_at'] == null ? json['expired_at'] : parseDateTime(json['expired_at'])),
         'is_authorized': json['is_authorized'],
     };
 }
 
-export function KeyToJSON(value?: Key | null): any {
+export function KeyToJSON(json: any): Key {
+    return KeyToJSONTyped(json, false);
+}
+
+export function KeyToJSONTyped(value?: Key | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'fingerprint': value['fingerprint'],
         'public_key': value['public_key'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
-        'expired_at': ((value['expired_at']).toISOString()),
+        'expired_at': value['expired_at'] == null ? value['expired_at'] : serializeDateTime(value['expired_at']),
         'is_authorized': value['is_authorized'],
     };
 }

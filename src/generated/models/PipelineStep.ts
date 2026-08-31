@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * A Step within a Job.
  * @export
@@ -21,56 +21,38 @@ import { mapValues } from '../runtime.js';
 export interface PipelineStep {
     /**
      * The index of the Step within the Pipeline Schema.
-     * @type {number}
-     * @memberof PipelineStep
      */
     index: number;
     /**
      * The name of the step or a generated default.
-     * @type {string}
-     * @memberof PipelineStep
      */
     name: string;
     /**
      * The action used by this step.
-     * @type {string}
-     * @memberof PipelineStep
      */
     uses: string;
     /**
      * The current status of this Step within the Job.
-     * @type {string}
-     * @memberof PipelineStep
      */
     status: string;
     /**
      * A human-readable message indicating the reason for the status.
-     * @type {string}
-     * @memberof PipelineStep
      */
     status_message: string;
     /**
      * The date and time when this Step was first created within the Job.
-     * @type {Date}
-     * @memberof PipelineStep
      */
     created_at: Date;
     /**
      * The date and time when this Step entered a successful, failed, or cancelled status.
-     * @type {Date}
-     * @memberof PipelineStep
      */
     completed_at?: Date;
     /**
      * The timeout for this Step.
-     * @type {number}
-     * @memberof PipelineStep
      */
     timeout_seconds: number;
     /**
      * A map of related object ids that this step created or interacted with.
-     * @type {{ [key: string]: string; }}
-     * @memberof PipelineStep
      */
     related_entities: { [key: string]: string; };
 }
@@ -78,15 +60,15 @@ export interface PipelineStep {
 /**
  * Check if a given object implements the PipelineStep interface.
  */
-export function instanceOfPipelineStep(value: object): boolean {
-    if (!('index' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('uses' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('status_message' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('timeout_seconds' in value)) return false;
-    if (!('related_entities' in value)) return false;
+export function instanceOfPipelineStep(value: object): value is PipelineStep {
+    if (!('index' in value) || value['index'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('uses' in value) || value['uses'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_message' in value) || value['status_message'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('timeout_seconds' in value) || value['timeout_seconds'] === undefined) return false;
+    if (!('related_entities' in value) || value['related_entities'] === undefined) return false;
     return true;
 }
 
@@ -105,17 +87,22 @@ export function PipelineStepFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'uses': json['uses'],
         'status': json['status'],
         'status_message': json['status_message'],
-        'created_at': (new Date(json['created_at'])),
-        'completed_at': json['completed_at'] == null ? undefined : (new Date(json['completed_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
+        'completed_at': json['completed_at'] == null ? undefined : (parseDateTime(json['completed_at'])),
         'timeout_seconds': json['timeout_seconds'],
         'related_entities': json['related_entities'],
     };
 }
 
-export function PipelineStepToJSON(value?: PipelineStep | null): any {
+export function PipelineStepToJSON(json: any): PipelineStep {
+    return PipelineStepToJSONTyped(json, false);
+}
+
+export function PipelineStepToJSONTyped(value?: PipelineStep | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'index': value['index'],
@@ -123,8 +110,8 @@ export function PipelineStepToJSON(value?: PipelineStep | null): any {
         'uses': value['uses'],
         'status': value['status'],
         'status_message': value['status_message'],
-        'created_at': ((value['created_at']).toISOString()),
-        'completed_at': value['completed_at'] == null ? undefined : ((value['completed_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
+        'completed_at': value['completed_at'] == null ? value['completed_at'] : serializeDateTime(value['completed_at']),
         'timeout_seconds': value['timeout_seconds'],
         'related_entities': value['related_entities'],
     };

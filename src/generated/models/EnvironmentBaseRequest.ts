@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentBaseRequest {
     /**
      * The ID the Environment is referenced as.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
      */
     id: string;
     /**
      * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
      */
     name: string;
     /**
      * The Environment Type. This is used for organizing and managing Environments.
-     * @type {string}
-     * @memberof EnvironmentBaseRequest
      */
     type: string;
 }
@@ -42,10 +36,10 @@ export interface EnvironmentBaseRequest {
 /**
  * Check if a given object implements the EnvironmentBaseRequest interface.
  */
-export function instanceOfEnvironmentBaseRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfEnvironmentBaseRequest(value: object): value is EnvironmentBaseRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -65,10 +59,15 @@ export function EnvironmentBaseRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function EnvironmentBaseRequestToJSON(value?: EnvironmentBaseRequest | null): any {
+export function EnvironmentBaseRequestToJSON(json: any): EnvironmentBaseRequest {
+    return EnvironmentBaseRequestToJSONTyped(json, false);
+}
+
+export function EnvironmentBaseRequestToJSONTyped(value?: EnvironmentBaseRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

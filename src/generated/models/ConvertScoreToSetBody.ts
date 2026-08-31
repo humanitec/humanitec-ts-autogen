@@ -18,6 +18,7 @@ import {
     ScoreHumanitecExtensionsFromJSON,
     ScoreHumanitecExtensionsFromJSONTyped,
     ScoreHumanitecExtensionsToJSON,
+    ScoreHumanitecExtensionsToJSONTyped,
 } from './ScoreHumanitecExtensions.js';
 
 /**
@@ -28,38 +29,26 @@ import {
 export interface ConvertScoreToSetBody {
     /**
      * A Json object containing the workload specification. Score v1b1 is expected.
-     * @type {{ [key: string]: any; }}
-     * @memberof ConvertScoreToSetBody
      */
     spec: { [key: string]: any; };
     /**
      * An optional default image to assign to any containers in the workload that do not have an image set or whose image is '.'
-     * @type {string}
-     * @memberof ConvertScoreToSetBody
      */
     image?: string;
     /**
      * An optional Json object containing the workload overrides. Score v1b1 is expected.
-     * @type {{ [key: string]: any; }}
-     * @memberof ConvertScoreToSetBody
      */
     overrides?: { [key: string]: any; };
     /**
      * An optional set of path overrides that will be applied to the workload.
-     * @type {{ [key: string]: any; }}
-     * @memberof ConvertScoreToSetBody
      */
     property_overrides?: { [key: string]: any; };
     /**
      * An optional set of resource types overrides that will be applied in the deployment set.
-     * @type {{ [key: string]: string; }}
-     * @memberof ConvertScoreToSetBody
      */
     resource_type_aliases?: { [key: string]: string; };
     /**
      * 
-     * @type {ScoreHumanitecExtensions}
-     * @memberof ConvertScoreToSetBody
      */
     extensions?: ScoreHumanitecExtensions;
 }
@@ -67,8 +56,8 @@ export interface ConvertScoreToSetBody {
 /**
  * Check if a given object implements the ConvertScoreToSetBody interface.
  */
-export function instanceOfConvertScoreToSetBody(value: object): boolean {
-    if (!('spec' in value)) return false;
+export function instanceOfConvertScoreToSetBody(value: object): value is ConvertScoreToSetBody {
+    if (!('spec' in value) || value['spec'] === undefined) return false;
     return true;
 }
 
@@ -91,10 +80,15 @@ export function ConvertScoreToSetBodyFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function ConvertScoreToSetBodyToJSON(value?: ConvertScoreToSetBody | null): any {
+export function ConvertScoreToSetBodyToJSON(json: any): ConvertScoreToSetBody {
+    return ConvertScoreToSetBodyToJSONTyped(json, false);
+}
+
+export function ConvertScoreToSetBodyToJSONTyped(value?: ConvertScoreToSetBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'spec': value['spec'],

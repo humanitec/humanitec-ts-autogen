@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface ProvisionDependenciesResponse {
     /**
      * If the co-provisioned resource is dependendent on the current one.
-     * @type {boolean}
-     * @memberof ProvisionDependenciesResponse
      */
     is_dependent: boolean;
     /**
      * If the resources dependant on the main resource, are also dependant on the co-provisioned one.
-     * @type {boolean}
-     * @memberof ProvisionDependenciesResponse
      */
     match_dependents?: boolean;
     /**
      * (Optional) Additional parameters to be passed to the driver which will provision the resource.
-     * @type {{ [key: string]: any; }}
-     * @memberof ProvisionDependenciesResponse
      */
     params?: { [key: string]: any; };
 }
@@ -42,8 +36,8 @@ export interface ProvisionDependenciesResponse {
 /**
  * Check if a given object implements the ProvisionDependenciesResponse interface.
  */
-export function instanceOfProvisionDependenciesResponse(value: object): boolean {
-    if (!('is_dependent' in value)) return false;
+export function instanceOfProvisionDependenciesResponse(value: object): value is ProvisionDependenciesResponse {
+    if (!('is_dependent' in value) || value['is_dependent'] === undefined) return false;
     return true;
 }
 
@@ -63,10 +57,15 @@ export function ProvisionDependenciesResponseFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function ProvisionDependenciesResponseToJSON(value?: ProvisionDependenciesResponse | null): any {
+export function ProvisionDependenciesResponseToJSON(json: any): ProvisionDependenciesResponse {
+    return ProvisionDependenciesResponseToJSONTyped(json, false);
+}
+
+export function ProvisionDependenciesResponseToJSONTyped(value?: ProvisionDependenciesResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'is_dependent': value['is_dependent'],

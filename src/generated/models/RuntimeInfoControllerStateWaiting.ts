@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface RuntimeInfoControllerStateWaiting {
     /**
      * Reason the container is not yet running.
-     * @type {string}
-     * @memberof RuntimeInfoControllerStateWaiting
      */
     reason?: string;
     /**
      * Message regarding why the container is not yet running.
-     * @type {string}
-     * @memberof RuntimeInfoControllerStateWaiting
      */
     message?: string;
 }
@@ -36,7 +32,7 @@ export interface RuntimeInfoControllerStateWaiting {
 /**
  * Check if a given object implements the RuntimeInfoControllerStateWaiting interface.
  */
-export function instanceOfRuntimeInfoControllerStateWaiting(value: object): boolean {
+export function instanceOfRuntimeInfoControllerStateWaiting(value: object): value is RuntimeInfoControllerStateWaiting {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function RuntimeInfoControllerStateWaitingFromJSONTyped(json: any, ignore
     };
 }
 
-export function RuntimeInfoControllerStateWaitingToJSON(value?: RuntimeInfoControllerStateWaiting | null): any {
+export function RuntimeInfoControllerStateWaitingToJSON(json: any): RuntimeInfoControllerStateWaiting {
+    return RuntimeInfoControllerStateWaitingToJSONTyped(json, false);
+}
+
+export function RuntimeInfoControllerStateWaitingToJSONTyped(value?: RuntimeInfoControllerStateWaiting | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'reason': value['reason'],

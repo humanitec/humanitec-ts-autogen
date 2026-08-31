@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { ClusterConnectionCheckResourceSummary } from './ClusterConnectionCheckResourceSummary.js';
-import {
-    ClusterConnectionCheckResourceSummaryFromJSON,
-    ClusterConnectionCheckResourceSummaryFromJSONTyped,
-    ClusterConnectionCheckResourceSummaryToJSON,
-} from './ClusterConnectionCheckResourceSummary.js';
 import type { ClusterConnectionCheckResultCondition } from './ClusterConnectionCheckResultCondition.js';
 import {
     ClusterConnectionCheckResultConditionFromJSON,
     ClusterConnectionCheckResultConditionFromJSONTyped,
     ClusterConnectionCheckResultConditionToJSON,
+    ClusterConnectionCheckResultConditionToJSONTyped,
 } from './ClusterConnectionCheckResultCondition.js';
+import type { ClusterConnectionCheckResourceSummary } from './ClusterConnectionCheckResourceSummary.js';
+import {
+    ClusterConnectionCheckResourceSummaryFromJSON,
+    ClusterConnectionCheckResourceSummaryFromJSONTyped,
+    ClusterConnectionCheckResourceSummaryToJSON,
+    ClusterConnectionCheckResourceSummaryToJSONTyped,
+} from './ClusterConnectionCheckResourceSummary.js';
 
 /**
  * The result of testing the Kubernetes cluster connection
@@ -34,20 +36,14 @@ import {
 export interface ClusterConnectionCheckResult {
     /**
      * Whether the test completed successfully
-     * @type {boolean}
-     * @memberof ClusterConnectionCheckResult
      */
     success: boolean;
     /**
      * A list of resources provisioned for the test
-     * @type {Array<ClusterConnectionCheckResourceSummary>}
-     * @memberof ClusterConnectionCheckResult
      */
     resource_summaries: Array<ClusterConnectionCheckResourceSummary>;
     /**
      * A list of success or failure conditions contributing to the result
-     * @type {Array<ClusterConnectionCheckResultCondition>}
-     * @memberof ClusterConnectionCheckResult
      */
     conditions: Array<ClusterConnectionCheckResultCondition>;
 }
@@ -55,10 +51,10 @@ export interface ClusterConnectionCheckResult {
 /**
  * Check if a given object implements the ClusterConnectionCheckResult interface.
  */
-export function instanceOfClusterConnectionCheckResult(value: object): boolean {
-    if (!('success' in value)) return false;
-    if (!('resource_summaries' in value)) return false;
-    if (!('conditions' in value)) return false;
+export function instanceOfClusterConnectionCheckResult(value: object): value is ClusterConnectionCheckResult {
+    if (!('success' in value) || value['success'] === undefined) return false;
+    if (!('resource_summaries' in value) || value['resource_summaries'] === undefined) return false;
+    if (!('conditions' in value) || value['conditions'] === undefined) return false;
     return true;
 }
 
@@ -78,10 +74,15 @@ export function ClusterConnectionCheckResultFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function ClusterConnectionCheckResultToJSON(value?: ClusterConnectionCheckResult | null): any {
+export function ClusterConnectionCheckResultToJSON(json: any): ClusterConnectionCheckResult {
+    return ClusterConnectionCheckResultToJSONTyped(json, false);
+}
+
+export function ClusterConnectionCheckResultToJSONTyped(value?: ClusterConnectionCheckResult | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'success': value['success'],

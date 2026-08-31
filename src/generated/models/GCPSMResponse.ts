@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface GCPSMResponse {
     /**
      * 
-     * @type {string}
-     * @memberof GCPSMResponse
      */
     project_id?: string;
 }
@@ -30,7 +28,7 @@ export interface GCPSMResponse {
 /**
  * Check if a given object implements the GCPSMResponse interface.
  */
-export function instanceOfGCPSMResponse(value: object): boolean {
+export function instanceOfGCPSMResponse(value: object): value is GCPSMResponse {
     return true;
 }
 
@@ -48,10 +46,15 @@ export function GCPSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function GCPSMResponseToJSON(value?: GCPSMResponse | null): any {
+export function GCPSMResponseToJSON(json: any): GCPSMResponse {
+    return GCPSMResponseToJSONTyped(json, false);
+}
+
+export function GCPSMResponseToJSONTyped(value?: GCPSMResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'project_id': value['project_id'],

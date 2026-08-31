@@ -12,24 +12,27 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
-import type { JSONPatchResponse } from './JSONPatchResponse.js';
-import {
-    JSONPatchResponseFromJSON,
-    JSONPatchResponseFromJSONTyped,
-    JSONPatchResponseToJSON,
-} from './JSONPatchResponse.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { ValueResponse } from './ValueResponse.js';
 import {
     ValueResponseFromJSON,
     ValueResponseFromJSONTyped,
     ValueResponseToJSON,
+    ValueResponseToJSONTyped,
 } from './ValueResponse.js';
+import type { JSONPatchResponse } from './JSONPatchResponse.js';
+import {
+    JSONPatchResponseFromJSON,
+    JSONPatchResponseFromJSONTyped,
+    JSONPatchResponseToJSON,
+    JSONPatchResponseToJSONTyped,
+} from './JSONPatchResponse.js';
 import type { ValueSetVersionResultOf } from './ValueSetVersionResultOf.js';
 import {
     ValueSetVersionResultOfFromJSON,
     ValueSetVersionResultOfFromJSONTyped,
     ValueSetVersionResultOfToJSON,
+    ValueSetVersionResultOfToJSONTyped,
 } from './ValueSetVersionResultOf.js';
 
 /**
@@ -40,73 +43,57 @@ import {
 export interface ValueSetVersionResponse {
     /**
      * 
-     * @type {Array<JSONPatchResponse>}
-     * @memberof ValueSetVersionResponse
      */
     change: Array<JSONPatchResponse>;
     /**
      * 
-     * @type {string}
-     * @memberof ValueSetVersionResponse
      */
     comment: string;
     /**
      * 
-     * @type {Date}
-     * @memberof ValueSetVersionResponse
      */
     created_at: Date;
     /**
      * 
-     * @type {string}
-     * @memberof ValueSetVersionResponse
      */
     created_by: string;
     /**
      * 
-     * @type {string}
-     * @memberof ValueSetVersionResponse
      */
     id: string;
     /**
      * 
-     * @type {ValueSetVersionResultOf}
-     * @memberof ValueSetVersionResponse
      */
     result_of: ValueSetVersionResultOf | null;
     /**
      * 
-     * @type {string}
-     * @memberof ValueSetVersionResponse
      */
     source_value_set_version_id: string | null;
     /**
      * 
-     * @type {Date}
-     * @memberof ValueSetVersionResponse
      */
     updated_at: Date;
     /**
      * 
-     * @type {{ [key: string]: ValueResponse; }}
-     * @memberof ValueSetVersionResponse
      */
     values: { [key: string]: ValueResponse; };
 }
 
+
+
 /**
  * Check if a given object implements the ValueSetVersionResponse interface.
  */
-export function instanceOfValueSetVersionResponse(value: object): boolean {
-    if (!('change' in value)) return false;
-    if (!('comment' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('result_of' in value)) return false;
-    if (!('source_value_set_version_id' in value)) return false;
-    if (!('updated_at' in value)) return false;
-    if (!('values' in value)) return false;
+export function instanceOfValueSetVersionResponse(value: object): value is ValueSetVersionResponse {
+    if (!('change' in value) || value['change'] === undefined) return false;
+    if (!('comment' in value) || value['comment'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('result_of' in value) || value['result_of'] === undefined) return false;
+    if (!('source_value_set_version_id' in value) || value['source_value_set_version_id'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
+    if (!('values' in value) || value['values'] === undefined) return false;
     return true;
 }
 
@@ -122,30 +109,35 @@ export function ValueSetVersionResponseFromJSONTyped(json: any, ignoreDiscrimina
         
         'change': ((json['change'] as Array<any>).map(JSONPatchResponseFromJSON)),
         'comment': json['comment'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'id': json['id'],
         'result_of': ValueSetVersionResultOfFromJSON(json['result_of']),
         'source_value_set_version_id': json['source_value_set_version_id'],
-        'updated_at': (new Date(json['updated_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
         'values': (mapValues(json['values'], ValueResponseFromJSON)),
     };
 }
 
-export function ValueSetVersionResponseToJSON(value?: ValueSetVersionResponse | null): any {
+export function ValueSetVersionResponseToJSON(json: any): ValueSetVersionResponse {
+    return ValueSetVersionResponseToJSONTyped(json, false);
+}
+
+export function ValueSetVersionResponseToJSONTyped(value?: ValueSetVersionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'change': ((value['change'] as Array<any>).map(JSONPatchResponseToJSON)),
         'comment': value['comment'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'id': value['id'],
         'result_of': ValueSetVersionResultOfToJSON(value['result_of']),
         'source_value_set_version_id': value['source_value_set_version_id'],
-        'updated_at': ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
         'values': (mapValues(value['values'], ValueResponseToJSON)),
     };
 }

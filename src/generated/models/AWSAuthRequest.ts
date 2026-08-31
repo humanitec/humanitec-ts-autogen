@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface AWSAuthRequest {
     /**
      * 
-     * @type {string}
-     * @memberof AWSAuthRequest
      */
     access_key_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AWSAuthRequest
      */
     secret_access_key?: string;
 }
@@ -36,7 +32,7 @@ export interface AWSAuthRequest {
 /**
  * Check if a given object implements the AWSAuthRequest interface.
  */
-export function instanceOfAWSAuthRequest(value: object): boolean {
+export function instanceOfAWSAuthRequest(value: object): value is AWSAuthRequest {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function AWSAuthRequestFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function AWSAuthRequestToJSON(value?: AWSAuthRequest | null): any {
+export function AWSAuthRequestToJSON(json: any): AWSAuthRequest {
+    return AWSAuthRequestToJSONTyped(json, false);
+}
+
+export function AWSAuthRequestToJSONTyped(value?: AWSAuthRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'access_key_id': value['access_key_id'],

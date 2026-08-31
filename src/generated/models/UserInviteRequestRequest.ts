@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface UserInviteRequestRequest {
     /**
      * The email address of the user from the profile.
-     * @type {string}
-     * @memberof UserInviteRequestRequest
      */
     email: string;
     /**
      * The role that this user would hold.
-     * @type {string}
-     * @memberof UserInviteRequestRequest
      */
     role: string;
 }
@@ -36,9 +32,9 @@ export interface UserInviteRequestRequest {
 /**
  * Check if a given object implements the UserInviteRequestRequest interface.
  */
-export function instanceOfUserInviteRequestRequest(value: object): boolean {
-    if (!('email' in value)) return false;
-    if (!('role' in value)) return false;
+export function instanceOfUserInviteRequestRequest(value: object): value is UserInviteRequestRequest {
+    if (!('email' in value) || value['email'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function UserInviteRequestRequestFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function UserInviteRequestRequestToJSON(value?: UserInviteRequestRequest | null): any {
+export function UserInviteRequestRequestToJSON(json: any): UserInviteRequestRequest {
+    return UserInviteRequestRequestToJSONTyped(json, false);
+}
+
+export function UserInviteRequestRequestToJSONTyped(value?: UserInviteRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'email': value['email'],

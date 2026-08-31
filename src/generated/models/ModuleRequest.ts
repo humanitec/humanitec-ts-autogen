@@ -18,6 +18,7 @@ import {
     DeployConditionRequestFromJSON,
     DeployConditionRequestFromJSONTyped,
     DeployConditionRequestToJSON,
+    DeployConditionRequestToJSONTyped,
 } from './DeployConditionRequest.js';
 
 /**
@@ -28,34 +29,26 @@ import {
 export interface ModuleRequest {
     /**
      * 
-     * @type {DeployConditionRequest}
-     * @memberof ModuleRequest
      */
     deploy?: DeployConditionRequest;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ModuleRequest
      */
-    externals?: { [key: string]: any; };
+    externals?: { [key: string]: any; } | null;
     /**
      * 
-     * @type {string}
-     * @memberof ModuleRequest
      */
     profile?: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ModuleRequest
      */
-    spec?: { [key: string]: any; };
+    spec?: { [key: string]: any; } | null;
 }
 
 /**
  * Check if a given object implements the ModuleRequest interface.
  */
-export function instanceOfModuleRequest(value: object): boolean {
+export function instanceOfModuleRequest(value: object): value is ModuleRequest {
     return true;
 }
 
@@ -70,16 +63,21 @@ export function ModuleRequestFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'deploy': json['deploy'] == null ? undefined : DeployConditionRequestFromJSON(json['deploy']),
-        'externals': json['externals'] == null ? undefined : json['externals'],
+        'externals': json['externals'] === undefined ? undefined : json['externals'] === null ? null : json['externals'],
         'profile': json['profile'] == null ? undefined : json['profile'],
-        'spec': json['spec'] == null ? undefined : json['spec'],
+        'spec': json['spec'] === undefined ? undefined : json['spec'] === null ? null : json['spec'],
     };
 }
 
-export function ModuleRequestToJSON(value?: ModuleRequest | null): any {
+export function ModuleRequestToJSON(json: any): ModuleRequest {
+    return ModuleRequestToJSONTyped(json, false);
+}
+
+export function ModuleRequestToJSONTyped(value?: ModuleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'deploy': DeployConditionRequestToJSON(value['deploy']),

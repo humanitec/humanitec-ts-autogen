@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * HumanitecPublicKey stores a Public Key Humanitec shared with an organization.
  * @export
@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface HumanitecPublicKey {
     /**
      * 
-     * @type {string}
-     * @memberof HumanitecPublicKey
      */
     pub_key: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof HumanitecPublicKey
      */
     active: boolean;
     /**
      * 
-     * @type {Date}
-     * @memberof HumanitecPublicKey
      */
     created_at: Date;
 }
@@ -42,10 +36,10 @@ export interface HumanitecPublicKey {
 /**
  * Check if a given object implements the HumanitecPublicKey interface.
  */
-export function instanceOfHumanitecPublicKey(value: object): boolean {
-    if (!('pub_key' in value)) return false;
-    if (!('active' in value)) return false;
-    if (!('created_at' in value)) return false;
+export function instanceOfHumanitecPublicKey(value: object): value is HumanitecPublicKey {
+    if (!('pub_key' in value) || value['pub_key'] === undefined) return false;
+    if (!('active' in value) || value['active'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
     return true;
 }
 
@@ -61,19 +55,24 @@ export function HumanitecPublicKeyFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'pub_key': json['pub_key'],
         'active': json['active'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
     };
 }
 
-export function HumanitecPublicKeyToJSON(value?: HumanitecPublicKey | null): any {
+export function HumanitecPublicKeyToJSON(json: any): HumanitecPublicKey {
+    return HumanitecPublicKeyToJSONTyped(json, false);
+}
+
+export function HumanitecPublicKeyToJSONTyped(value?: HumanitecPublicKey | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'pub_key': value['pub_key'],
         'active': value['active'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
     };
 }
 

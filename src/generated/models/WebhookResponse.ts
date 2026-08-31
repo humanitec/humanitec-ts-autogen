@@ -18,6 +18,7 @@ import {
     EventBaseResponseFromJSON,
     EventBaseResponseFromJSONTyped,
     EventBaseResponseToJSON,
+    EventBaseResponseToJSONTyped,
 } from './EventBaseResponse.js';
 
 /**
@@ -28,56 +29,38 @@ import {
 export interface WebhookResponse {
     /**
      * The timestamp of when this Job was created.
-     * @type {string}
-     * @memberof WebhookResponse
      */
     created_at?: string;
     /**
      * The user who created this Job
-     * @type {string}
-     * @memberof WebhookResponse
      */
     created_by?: string;
     /**
      * Defines whether this job is currently disabled.
-     * @type {boolean}
-     * @memberof WebhookResponse
      */
     disabled: boolean | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof WebhookResponse
      */
     headers: { [key: string]: any; };
     /**
      * Job ID, unique within the Organization
-     * @type {string}
-     * @memberof WebhookResponse
      */
     id: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof WebhookResponse
      */
     payload: { [key: string]: any; };
     /**
      * The names of the webhook's secret HTTP headers.
-     * @type {Array<string>}
-     * @memberof WebhookResponse
      */
     secret_headers: Array<string>;
     /**
      * A list of Events by which the Job is triggered
-     * @type {Array<EventBaseResponse>}
-     * @memberof WebhookResponse
      */
     triggers: Array<EventBaseResponse>;
     /**
      * The webhook's URL (without protocol, only HTTPS is supported).
-     * @type {string}
-     * @memberof WebhookResponse
      */
     url: string | null;
 }
@@ -85,14 +68,14 @@ export interface WebhookResponse {
 /**
  * Check if a given object implements the WebhookResponse interface.
  */
-export function instanceOfWebhookResponse(value: object): boolean {
-    if (!('disabled' in value)) return false;
-    if (!('headers' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('payload' in value)) return false;
-    if (!('secret_headers' in value)) return false;
-    if (!('triggers' in value)) return false;
-    if (!('url' in value)) return false;
+export function instanceOfWebhookResponse(value: object): value is WebhookResponse {
+    if (!('disabled' in value) || value['disabled'] === undefined) return false;
+    if (!('headers' in value) || value['headers'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('payload' in value) || value['payload'] === undefined) return false;
+    if (!('secret_headers' in value) || value['secret_headers'] === undefined) return false;
+    if (!('triggers' in value) || value['triggers'] === undefined) return false;
+    if (!('url' in value) || value['url'] === undefined) return false;
     return true;
 }
 
@@ -118,10 +101,15 @@ export function WebhookResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function WebhookResponseToJSON(value?: WebhookResponse | null): any {
+export function WebhookResponseToJSON(json: any): WebhookResponse {
+    return WebhookResponseToJSONTyped(json, false);
+}
+
+export function WebhookResponseToJSONTyped(value?: WebhookResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

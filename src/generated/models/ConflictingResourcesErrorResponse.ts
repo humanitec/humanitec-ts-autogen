@@ -18,6 +18,7 @@ import {
     ConflictingResourcesErrorResponseDetailsFromJSON,
     ConflictingResourcesErrorResponseDetailsFromJSONTyped,
     ConflictingResourcesErrorResponseDetailsToJSON,
+    ConflictingResourcesErrorResponseDetailsToJSONTyped,
 } from './ConflictingResourcesErrorResponseDetails.js';
 
 /**
@@ -29,20 +30,14 @@ import {
 export interface ConflictingResourcesErrorResponse {
     /**
      * 
-     * @type {ConflictingResourcesErrorResponseDetails}
-     * @memberof ConflictingResourcesErrorResponse
      */
     details: ConflictingResourcesErrorResponseDetails;
     /**
      * 
-     * @type {string}
-     * @memberof ConflictingResourcesErrorResponse
      */
     error: string;
     /**
      * 
-     * @type {string}
-     * @memberof ConflictingResourcesErrorResponse
      */
     message: string;
 }
@@ -50,10 +45,10 @@ export interface ConflictingResourcesErrorResponse {
 /**
  * Check if a given object implements the ConflictingResourcesErrorResponse interface.
  */
-export function instanceOfConflictingResourcesErrorResponse(value: object): boolean {
-    if (!('details' in value)) return false;
-    if (!('error' in value)) return false;
-    if (!('message' in value)) return false;
+export function instanceOfConflictingResourcesErrorResponse(value: object): value is ConflictingResourcesErrorResponse {
+    if (!('details' in value) || value['details'] === undefined) return false;
+    if (!('error' in value) || value['error'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -73,10 +68,15 @@ export function ConflictingResourcesErrorResponseFromJSONTyped(json: any, ignore
     };
 }
 
-export function ConflictingResourcesErrorResponseToJSON(value?: ConflictingResourcesErrorResponse | null): any {
+export function ConflictingResourcesErrorResponseToJSON(json: any): ConflictingResourcesErrorResponse {
+    return ConflictingResourcesErrorResponseToJSONTyped(json, false);
+}
+
+export function ConflictingResourcesErrorResponseToJSONTyped(value?: ConflictingResourcesErrorResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'details': ConflictingResourcesErrorResponseDetailsToJSON(value['details']),

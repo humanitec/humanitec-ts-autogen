@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface ManifestResponse {
     /**
      * Manifest data to inject.
-     * @type {any}
-     * @memberof ManifestResponse
      */
     data: any | null;
     /**
      * Location to inject the Manifest at.
-     * @type {string}
-     * @memberof ManifestResponse
      */
     location: string;
 }
@@ -36,9 +32,9 @@ export interface ManifestResponse {
 /**
  * Check if a given object implements the ManifestResponse interface.
  */
-export function instanceOfManifestResponse(value: object): boolean {
-    if (!('data' in value)) return false;
-    if (!('location' in value)) return false;
+export function instanceOfManifestResponse(value: object): value is ManifestResponse {
+    if (!('data' in value) || value['data'] === undefined) return false;
+    if (!('location' in value) || value['location'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function ManifestResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function ManifestResponseToJSON(value?: ManifestResponse | null): any {
+export function ManifestResponseToJSON(json: any): ManifestResponse {
+    return ManifestResponseToJSONTyped(json, false);
+}
+
+export function ManifestResponseToJSONTyped(value?: ManifestResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'data': value['data'],

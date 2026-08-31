@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface UserRoleRequest {
     /**
      * The User or Group Id
-     * @type {string}
-     * @memberof UserRoleRequest
      */
     id: string;
     /**
      * The role that this User or Group holds
-     * @type {string}
-     * @memberof UserRoleRequest
      */
     role: string;
 }
@@ -36,9 +32,9 @@ export interface UserRoleRequest {
 /**
  * Check if a given object implements the UserRoleRequest interface.
  */
-export function instanceOfUserRoleRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('role' in value)) return false;
+export function instanceOfUserRoleRequest(value: object): value is UserRoleRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function UserRoleRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function UserRoleRequestToJSON(value?: UserRoleRequest | null): any {
+export function UserRoleRequestToJSON(json: any): UserRoleRequest {
+    return UserRoleRequestToJSONTyped(json, false);
+}
+
+export function UserRoleRequestToJSONTyped(value?: UserRoleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

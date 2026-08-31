@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface HumanitecErrorResponse {
     /**
      * (Optional) Additional information is enclosed here.
-     * @type {{ [key: string]: any; }}
-     * @memberof HumanitecErrorResponse
      */
     details?: { [key: string]: any; };
     /**
      * A short code to help with error identification.
-     * @type {string}
-     * @memberof HumanitecErrorResponse
      */
     error: string;
     /**
      * A Human readable message about the error.
-     * @type {string}
-     * @memberof HumanitecErrorResponse
      */
     message: string;
 }
@@ -42,9 +36,9 @@ export interface HumanitecErrorResponse {
 /**
  * Check if a given object implements the HumanitecErrorResponse interface.
  */
-export function instanceOfHumanitecErrorResponse(value: object): boolean {
-    if (!('error' in value)) return false;
-    if (!('message' in value)) return false;
+export function instanceOfHumanitecErrorResponse(value: object): value is HumanitecErrorResponse {
+    if (!('error' in value) || value['error'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +58,15 @@ export function HumanitecErrorResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function HumanitecErrorResponseToJSON(value?: HumanitecErrorResponse | null): any {
+export function HumanitecErrorResponseToJSON(json: any): HumanitecErrorResponse {
+    return HumanitecErrorResponseToJSONTyped(json, false);
+}
+
+export function HumanitecErrorResponseToJSONTyped(value?: HumanitecErrorResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'details': value['details'],

@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface ResourceProvisionRequestRequest {
     /**
      * (Optional) A resource class
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
      */
     _class?: string;
     /**
      * 
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
      */
     id: string;
     /**
      * (Optional) The input parameters for the resource passed from the deployment set.
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceProvisionRequestRequest
      */
     resource?: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof ResourceProvisionRequestRequest
      */
     type: string;
 }
@@ -48,9 +40,9 @@ export interface ResourceProvisionRequestRequest {
 /**
  * Check if a given object implements the ResourceProvisionRequestRequest interface.
  */
-export function instanceOfResourceProvisionRequestRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfResourceProvisionRequestRequest(value: object): value is ResourceProvisionRequestRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function ResourceProvisionRequestRequestFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function ResourceProvisionRequestRequestToJSON(value?: ResourceProvisionRequestRequest | null): any {
+export function ResourceProvisionRequestRequestToJSON(json: any): ResourceProvisionRequestRequest {
+    return ResourceProvisionRequestRequestToJSONTyped(json, false);
+}
+
+export function ResourceProvisionRequestRequestToJSONTyped(value?: ResourceProvisionRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'class': value['_class'],

@@ -25,6 +25,17 @@ export enum WorkloadProfileSpecDefinitionPropertyType {
 }
 
 
+export function instanceOfWorkloadProfileSpecDefinitionPropertyType(value: any): boolean {
+    for (const key in WorkloadProfileSpecDefinitionPropertyType) {
+        if (Object.prototype.hasOwnProperty.call(WorkloadProfileSpecDefinitionPropertyType, key)) {
+            if (WorkloadProfileSpecDefinitionPropertyType[key as keyof typeof WorkloadProfileSpecDefinitionPropertyType] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function WorkloadProfileSpecDefinitionPropertyTypeFromJSON(json: any): WorkloadProfileSpecDefinitionPropertyType {
     return WorkloadProfileSpecDefinitionPropertyTypeFromJSONTyped(json, false);
 }
@@ -35,5 +46,9 @@ export function WorkloadProfileSpecDefinitionPropertyTypeFromJSONTyped(json: any
 
 export function WorkloadProfileSpecDefinitionPropertyTypeToJSON(value?: WorkloadProfileSpecDefinitionPropertyType | null): any {
     return value as any;
+}
+
+export function WorkloadProfileSpecDefinitionPropertyTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): WorkloadProfileSpecDefinitionPropertyType {
+    return value as WorkloadProfileSpecDefinitionPropertyType;
 }
 

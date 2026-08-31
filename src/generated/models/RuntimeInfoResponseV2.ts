@@ -18,6 +18,7 @@ import {
     RuntimeInfoModuleFromJSON,
     RuntimeInfoModuleFromJSONTyped,
     RuntimeInfoModuleToJSON,
+    RuntimeInfoModuleToJSONTyped,
 } from './RuntimeInfoModule.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface RuntimeInfoResponseV2 {
     /**
      * Modules represent a collection of workloads for the application.
-     * @type {{ [key: string]: RuntimeInfoModule; }}
-     * @memberof RuntimeInfoResponseV2
      */
     modules: { [key: string]: RuntimeInfoModule; };
     /**
      * The namespace where the application runs.
-     * @type {string}
-     * @memberof RuntimeInfoResponseV2
      */
     namespace: string;
 }
@@ -43,9 +40,9 @@ export interface RuntimeInfoResponseV2 {
 /**
  * Check if a given object implements the RuntimeInfoResponseV2 interface.
  */
-export function instanceOfRuntimeInfoResponseV2(value: object): boolean {
-    if (!('modules' in value)) return false;
-    if (!('namespace' in value)) return false;
+export function instanceOfRuntimeInfoResponseV2(value: object): value is RuntimeInfoResponseV2 {
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('namespace' in value) || value['namespace'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +61,15 @@ export function RuntimeInfoResponseV2FromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function RuntimeInfoResponseV2ToJSON(value?: RuntimeInfoResponseV2 | null): any {
+export function RuntimeInfoResponseV2ToJSON(json: any): RuntimeInfoResponseV2 {
+    return RuntimeInfoResponseV2ToJSONTyped(json, false);
+}
+
+export function RuntimeInfoResponseV2ToJSONTyped(value?: RuntimeInfoResponseV2 | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'modules': (mapValues(value['modules'], RuntimeInfoModuleToJSON)),

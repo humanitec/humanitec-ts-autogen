@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.
  * 
@@ -23,122 +23,82 @@ import { mapValues } from '../runtime.js';
 export interface ActiveResourceResponse {
     /**
      * The ID of the App the resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     app_id: string;
     /**
      * The Resource Class of the resource
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     _class: string;
     /**
      * The Matching Criteria ID.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     criteria_id?: string;
     /**
      * The Resource Definition that this resource was provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     def_id: string;
     /**
      * The Resource Definition Version that this resource was provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     def_version_id: string;
     /**
      * The Resource Definition Version pinned to this resource to be provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     target_def_version_id?: string;
     /**
      * The deployment that the resource was last provisioned in.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     deploy_id: string;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     driver_account?: string;
     /**
      * The driver to be used to create the resource.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     driver_type: string;
     /**
      * The ID of the Environment the resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     env_id: string;
     /**
      * The Environment Type of the Environment specified by env_id.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     env_type: string;
     /**
      * Globally unique resource id
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     gu_res_id: string;
     /**
      * the ID of the Organization the Active Resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     org_id: string;
     /**
      * The ID of the resource
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     res_id: string;
     /**
      * The resource provisioning outputs ('values' only).
-     * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceResponse
      */
     resource: { [key: string]: any; };
     /**
      * Deletion is scheduled for this resource.
-     * @type {boolean}
-     * @memberof ActiveResourceResponse
      */
     scheduled_deletion: boolean;
     /**
      * Secret references from the resource provisioning output.
-     * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceResponse
      */
     secret_refs: { [key: string]: any; };
     /**
      * Current resource status: 'pending', 'active', or 'deleting'.
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     status: string;
     /**
      * The Resource Type of the resource
-     * @type {string}
-     * @memberof ActiveResourceResponse
      */
     type: string;
     /**
      * The time the resource was last provisioned as part of a deployment.
-     * @type {Date}
-     * @memberof ActiveResourceResponse
      */
     updated_at: Date;
 }
@@ -146,24 +106,24 @@ export interface ActiveResourceResponse {
 /**
  * Check if a given object implements the ActiveResourceResponse interface.
  */
-export function instanceOfActiveResourceResponse(value: object): boolean {
-    if (!('app_id' in value)) return false;
-    if (!('_class' in value)) return false;
-    if (!('def_id' in value)) return false;
-    if (!('def_version_id' in value)) return false;
-    if (!('deploy_id' in value)) return false;
-    if (!('driver_type' in value)) return false;
-    if (!('env_id' in value)) return false;
-    if (!('env_type' in value)) return false;
-    if (!('gu_res_id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('res_id' in value)) return false;
-    if (!('resource' in value)) return false;
-    if (!('scheduled_deletion' in value)) return false;
-    if (!('secret_refs' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('updated_at' in value)) return false;
+export function instanceOfActiveResourceResponse(value: object): value is ActiveResourceResponse {
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if ((!('_class' in (value as Record<string, any>)) && !('class' in (value as Record<string, any>))) || ((value as Record<string, any>)['_class'] === undefined && (value as Record<string, any>)['class'] === undefined)) return false;
+    if (!('def_id' in value) || value['def_id'] === undefined) return false;
+    if (!('def_version_id' in value) || value['def_version_id'] === undefined) return false;
+    if (!('deploy_id' in value) || value['deploy_id'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('env_id' in value) || value['env_id'] === undefined) return false;
+    if (!('env_type' in value) || value['env_type'] === undefined) return false;
+    if (!('gu_res_id' in value) || value['gu_res_id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('res_id' in value) || value['res_id'] === undefined) return false;
+    if (!('resource' in value) || value['resource'] === undefined) return false;
+    if (!('scheduled_deletion' in value) || value['scheduled_deletion'] === undefined) return false;
+    if (!('secret_refs' in value) || value['secret_refs'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
     return true;
 }
 
@@ -196,14 +156,19 @@ export function ActiveResourceResponseFromJSONTyped(json: any, ignoreDiscriminat
         'secret_refs': json['secret_refs'],
         'status': json['status'],
         'type': json['type'],
-        'updated_at': (new Date(json['updated_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
     };
 }
 
-export function ActiveResourceResponseToJSON(value?: ActiveResourceResponse | null): any {
+export function ActiveResourceResponseToJSON(json: any): ActiveResourceResponse {
+    return ActiveResourceResponseToJSONTyped(json, false);
+}
+
+export function ActiveResourceResponseToJSONTyped(value?: ActiveResourceResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],
@@ -225,7 +190,7 @@ export function ActiveResourceResponseToJSON(value?: ActiveResourceResponse | nu
         'secret_refs': value['secret_refs'],
         'status': value['status'],
         'type': value['type'],
-        'updated_at': ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
     };
 }
 

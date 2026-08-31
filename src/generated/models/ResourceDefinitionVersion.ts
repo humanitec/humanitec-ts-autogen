@@ -12,18 +12,20 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { ProvisionDependenciesResponse } from './ProvisionDependenciesResponse.js';
 import {
     ProvisionDependenciesResponseFromJSON,
     ProvisionDependenciesResponseFromJSONTyped,
     ProvisionDependenciesResponseToJSON,
+    ProvisionDependenciesResponseToJSONTyped,
 } from './ProvisionDependenciesResponse.js';
 import type { ValuesSecretsRefsResponse } from './ValuesSecretsRefsResponse.js';
 import {
     ValuesSecretsRefsResponseFromJSON,
     ValuesSecretsRefsResponseFromJSONTyped,
     ValuesSecretsRefsResponseToJSON,
+    ValuesSecretsRefsResponseToJSONTyped,
 } from './ValuesSecretsRefsResponse.js';
 
 /**
@@ -34,98 +36,66 @@ import {
 export interface ResourceDefinitionVersion {
     /**
      * The Resource Definition Version ID.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     id: string;
     /**
      * The Organization ID.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     org_id: string;
     /**
      * The Resource Definition ID.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     def_id: string;
     /**
      * The display name.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     name: string;
     /**
      * The Resource Type.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     type: string;
     /**
      * The driver to be used to create the resource.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     driver_type: string;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     driver_account: string;
     /**
      * 
-     * @type {ValuesSecretsRefsResponse}
-     * @memberof ResourceDefinitionVersion
      */
     driver_inputs: ValuesSecretsRefsResponse;
     /**
      * If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.
-     * @type {boolean}
-     * @memberof ResourceDefinitionVersion
      */
     in_place_driver_change: boolean;
     /**
      * (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.
-     * @type {{ [key: string]: ProvisionDependenciesResponse; }}
-     * @memberof ResourceDefinitionVersion
      */
     provision: { [key: string]: ProvisionDependenciesResponse; };
     /**
      * The action that generated the Resource Definition Version. Might be one of `created`, `updated` or `deleted`.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     action: string;
     /**
      * Specifies if the version is archived (i.e. can't be used for a new resource).
-     * @type {boolean}
-     * @memberof ResourceDefinitionVersion
      */
     archived: boolean;
     /**
      * Specifies if the version is active (i.e. is being used if target version is not specified for a resource or a context).
-     * @type {boolean}
-     * @memberof ResourceDefinitionVersion
      */
     active: boolean;
     /**
      * Specifies if the version is proposed (i.e. is newer than the active version).
-     * @type {boolean}
-     * @memberof ResourceDefinitionVersion
      */
     proposed: boolean;
     /**
      * The timestamp of when this record has been created.
-     * @type {Date}
-     * @memberof ResourceDefinitionVersion
      */
     created_at: Date;
     /**
      * The user who created this record.
-     * @type {string}
-     * @memberof ResourceDefinitionVersion
      */
     created_by: string;
 }
@@ -133,23 +103,23 @@ export interface ResourceDefinitionVersion {
 /**
  * Check if a given object implements the ResourceDefinitionVersion interface.
  */
-export function instanceOfResourceDefinitionVersion(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('def_id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('driver_type' in value)) return false;
-    if (!('driver_account' in value)) return false;
-    if (!('driver_inputs' in value)) return false;
-    if (!('in_place_driver_change' in value)) return false;
-    if (!('provision' in value)) return false;
-    if (!('action' in value)) return false;
-    if (!('archived' in value)) return false;
-    if (!('active' in value)) return false;
-    if (!('proposed' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
+export function instanceOfResourceDefinitionVersion(value: object): value is ResourceDefinitionVersion {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('def_id' in value) || value['def_id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('driver_account' in value) || value['driver_account'] === undefined) return false;
+    if (!('driver_inputs' in value) || value['driver_inputs'] === undefined) return false;
+    if (!('in_place_driver_change' in value) || value['in_place_driver_change'] === undefined) return false;
+    if (!('provision' in value) || value['provision'] === undefined) return false;
+    if (!('action' in value) || value['action'] === undefined) return false;
+    if (!('archived' in value) || value['archived'] === undefined) return false;
+    if (!('active' in value) || value['active'] === undefined) return false;
+    if (!('proposed' in value) || value['proposed'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
     return true;
 }
 
@@ -177,15 +147,20 @@ export function ResourceDefinitionVersionFromJSONTyped(json: any, ignoreDiscrimi
         'archived': json['archived'],
         'active': json['active'],
         'proposed': json['proposed'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
     };
 }
 
-export function ResourceDefinitionVersionToJSON(value?: ResourceDefinitionVersion | null): any {
+export function ResourceDefinitionVersionToJSON(json: any): ResourceDefinitionVersion {
+    return ResourceDefinitionVersionToJSONTyped(json, false);
+}
+
+export function ResourceDefinitionVersionToJSONTyped(value?: ResourceDefinitionVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
@@ -202,7 +177,7 @@ export function ResourceDefinitionVersionToJSON(value?: ResourceDefinitionVersio
         'archived': value['archived'],
         'active': value['active'],
         'proposed': value['proposed'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
     };
 }

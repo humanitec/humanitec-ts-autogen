@@ -18,6 +18,7 @@ import {
     ClusterSecretRequestFromJSON,
     ClusterSecretRequestFromJSONTyped,
     ClusterSecretRequestToJSON,
+    ClusterSecretRequestToJSONTyped,
 } from './ClusterSecretRequest.js';
 
 /**
@@ -28,20 +29,14 @@ import {
 export interface ImagesRegistryCredsRequest {
     /**
      * List of images associated with the registry.
-     * @type {Array<string>}
-     * @memberof ImagesRegistryCredsRequest
      */
     images: Array<string>;
     /**
      * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
-     * @type {string}
-     * @memberof ImagesRegistryCredsRequest
      */
     registry: string;
     /**
      * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretRequest; }}
-     * @memberof ImagesRegistryCredsRequest
      */
     secrets?: { [key: string]: ClusterSecretRequest; };
 }
@@ -49,9 +44,9 @@ export interface ImagesRegistryCredsRequest {
 /**
  * Check if a given object implements the ImagesRegistryCredsRequest interface.
  */
-export function instanceOfImagesRegistryCredsRequest(value: object): boolean {
-    if (!('images' in value)) return false;
-    if (!('registry' in value)) return false;
+export function instanceOfImagesRegistryCredsRequest(value: object): value is ImagesRegistryCredsRequest {
+    if (!('images' in value) || value['images'] === undefined) return false;
+    if (!('registry' in value) || value['registry'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +66,15 @@ export function ImagesRegistryCredsRequestFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function ImagesRegistryCredsRequestToJSON(value?: ImagesRegistryCredsRequest | null): any {
+export function ImagesRegistryCredsRequestToJSON(json: any): ImagesRegistryCredsRequest {
+    return ImagesRegistryCredsRequestToJSONTyped(json, false);
+}
+
+export function ImagesRegistryCredsRequestToJSONTyped(value?: ImagesRegistryCredsRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'images': value['images'],

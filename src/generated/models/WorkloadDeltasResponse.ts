@@ -18,6 +18,7 @@ import {
     WorkloadResponseFromJSON,
     WorkloadResponseFromJSONTyped,
     WorkloadResponseToJSON,
+    WorkloadResponseToJSONTyped,
 } from './WorkloadResponse.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface WorkloadDeltasResponse {
     /**
      * 
-     * @type {{ [key: string]: WorkloadResponse; }}
-     * @memberof WorkloadDeltasResponse
      */
     add: { [key: string]: WorkloadResponse; };
     /**
      * 
-     * @type {Array<string>}
-     * @memberof WorkloadDeltasResponse
      */
     remove: Array<string>;
 }
@@ -43,9 +40,9 @@ export interface WorkloadDeltasResponse {
 /**
  * Check if a given object implements the WorkloadDeltasResponse interface.
  */
-export function instanceOfWorkloadDeltasResponse(value: object): boolean {
-    if (!('add' in value)) return false;
-    if (!('remove' in value)) return false;
+export function instanceOfWorkloadDeltasResponse(value: object): value is WorkloadDeltasResponse {
+    if (!('add' in value) || value['add'] === undefined) return false;
+    if (!('remove' in value) || value['remove'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +61,15 @@ export function WorkloadDeltasResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function WorkloadDeltasResponseToJSON(value?: WorkloadDeltasResponse | null): any {
+export function WorkloadDeltasResponseToJSON(json: any): WorkloadDeltasResponse {
+    return WorkloadDeltasResponseToJSONTyped(json, false);
+}
+
+export function WorkloadDeltasResponseToJSONTyped(value?: WorkloadDeltasResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'add': (mapValues(value['add'], WorkloadResponseToJSON)),

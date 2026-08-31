@@ -18,6 +18,7 @@ import {
     RuntimeInfoContainerStatusFromJSON,
     RuntimeInfoContainerStatusFromJSONTyped,
     RuntimeInfoContainerStatusToJSON,
+    RuntimeInfoContainerStatusToJSONTyped,
 } from './RuntimeInfoContainerStatus.js';
 
 /**
@@ -28,32 +29,22 @@ import {
 export interface RuntimeInfoPod {
     /**
      * Pod name.
-     * @type {string}
-     * @memberof RuntimeInfoPod
      */
     podName: string;
     /**
      * Revision of the pod.
-     * @type {number}
-     * @memberof RuntimeInfoPod
      */
     revision?: number;
     /**
      * A simple, high-level summary of where the Pod is in its lifecycle.
-     * @type {string}
-     * @memberof RuntimeInfoPod
      */
     phase: RuntimeInfoPodPhaseEnum;
     /**
      * 
-     * @type {string}
-     * @memberof RuntimeInfoPod
      */
     status: RuntimeInfoPodStatusEnum;
     /**
      * The list has one entry per container in the manifest.
-     * @type {Array<RuntimeInfoContainerStatus>}
-     * @memberof RuntimeInfoPod
      */
     containerStatuses: Array<RuntimeInfoContainerStatus>;
 }
@@ -86,11 +77,11 @@ export enum RuntimeInfoPodStatusEnum {
 /**
  * Check if a given object implements the RuntimeInfoPod interface.
  */
-export function instanceOfRuntimeInfoPod(value: object): boolean {
-    if (!('podName' in value)) return false;
-    if (!('phase' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('containerStatuses' in value)) return false;
+export function instanceOfRuntimeInfoPod(value: object): value is RuntimeInfoPod {
+    if (!('podName' in value) || value['podName'] === undefined) return false;
+    if (!('phase' in value) || value['phase'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('containerStatuses' in value) || value['containerStatuses'] === undefined) return false;
     return true;
 }
 
@@ -112,10 +103,15 @@ export function RuntimeInfoPodFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function RuntimeInfoPodToJSON(value?: RuntimeInfoPod | null): any {
+export function RuntimeInfoPodToJSON(json: any): RuntimeInfoPod {
+    return RuntimeInfoPodToJSONTyped(json, false);
+}
+
+export function RuntimeInfoPodToJSONTyped(value?: RuntimeInfoPod | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'podName': value['podName'],

@@ -12,20 +12,54 @@
  * Do not edit the class manually.
  */
 
-import type { PipelineRunCreateByDeploymentRequestCriteriaBody } from './PipelineRunCreateByDeploymentRequestCriteriaBody.js';
-import {
-    instanceOfPipelineRunCreateByDeploymentRequestCriteriaBody,
-    PipelineRunCreateByDeploymentRequestCriteriaBodyFromJSON,
-    PipelineRunCreateByDeploymentRequestCriteriaBodyFromJSONTyped,
-    PipelineRunCreateByDeploymentRequestCriteriaBodyToJSON,
-} from './PipelineRunCreateByDeploymentRequestCriteriaBody.js';
-
+import { mapValues } from '../runtime.js';
 /**
- * @type PipelineRunCreateByTriggerCriteriaBody
  * The parameters for creating a new Run based on trigger and inputs.
  * @export
+ * @interface PipelineRunCreateByTriggerCriteriaBody
  */
-export type PipelineRunCreateByTriggerCriteriaBody = { trigger: 'deployment_request' } & PipelineRunCreateByDeploymentRequestCriteriaBody;
+export interface PipelineRunCreateByTriggerCriteriaBody {
+    /**
+     * The target environment within the Application to deploy to.
+     */
+    env_id?: string;
+    /**
+     * The target environment within the Application to deploy to.
+     * @deprecated
+     */
+    environment?: string;
+    /**
+     * A deployment delta to apply to the target environment. This delta must already exist. This field is mutually exclusive with "deployment_id" and "set_id".
+     */
+    delta_id?: string;
+    /**
+     * An existing deployment to redeploy into the target environment. The deployment set and value set will be copied. This field is mutually exclusive with "delta_id" and "set_id".
+     */
+    deployment_id?: string;
+    /**
+     * A direct deployment set to apply to the target environment. This deployment set must already exist. This field is mutually exclusive with "delta_id" and "set_id".
+     */
+    set_id?: string;
+    /**
+     * The exact value set version to use when deploying to the target environment. This value set version must exist. This field can only be used when "delta_id" or "set_id" is specified.
+     */
+    value_set_version_id?: string;
+    /**
+     * An optional comment to apply to the Deployment.
+     */
+    comment?: string;
+    /**
+     * An optional deployment mode to apply to the Deployment. The set of allowed values is defined and validated by the deployment API.
+     */
+    mode?: string;
+}
+
+/**
+ * Check if a given object implements the PipelineRunCreateByTriggerCriteriaBody interface.
+ */
+export function instanceOfPipelineRunCreateByTriggerCriteriaBody(value: object): value is PipelineRunCreateByTriggerCriteriaBody {
+    return true;
+}
 
 export function PipelineRunCreateByTriggerCriteriaBodyFromJSON(json: any): PipelineRunCreateByTriggerCriteriaBody {
     return PipelineRunCreateByTriggerCriteriaBodyFromJSONTyped(json, false);
@@ -35,24 +69,38 @@ export function PipelineRunCreateByTriggerCriteriaBodyFromJSONTyped(json: any, i
     if (json == null) {
         return json;
     }
-    switch (json['trigger']) {
-        case 'deployment_request':
-            return {...PipelineRunCreateByDeploymentRequestCriteriaBodyFromJSONTyped(json, true), trigger: 'deployment_request'};
-        default:
-            throw new Error(`No variant of PipelineRunCreateByTriggerCriteriaBody exists with 'trigger=${json['trigger']}'`);
-    }
+    return {
+        
+        'env_id': json['env_id'] == null ? undefined : json['env_id'],
+        'environment': json['environment'] == null ? undefined : json['environment'],
+        'delta_id': json['delta_id'] == null ? undefined : json['delta_id'],
+        'deployment_id': json['deployment_id'] == null ? undefined : json['deployment_id'],
+        'set_id': json['set_id'] == null ? undefined : json['set_id'],
+        'value_set_version_id': json['value_set_version_id'] == null ? undefined : json['value_set_version_id'],
+        'comment': json['comment'] == null ? undefined : json['comment'],
+        'mode': json['mode'] == null ? undefined : json['mode'],
+    };
 }
 
-export function PipelineRunCreateByTriggerCriteriaBodyToJSON(value?: PipelineRunCreateByTriggerCriteriaBody | null): any {
+export function PipelineRunCreateByTriggerCriteriaBodyToJSON(json: any): PipelineRunCreateByTriggerCriteriaBody {
+    return PipelineRunCreateByTriggerCriteriaBodyToJSONTyped(json, false);
+}
+
+export function PipelineRunCreateByTriggerCriteriaBodyToJSONTyped(value?: PipelineRunCreateByTriggerCriteriaBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
-    switch (value['trigger']) {
-        case 'deployment_request':
-            return PipelineRunCreateByDeploymentRequestCriteriaBodyToJSON(value);
-        default:
-            throw new Error(`No variant of PipelineRunCreateByTriggerCriteriaBody exists with 'trigger=${value['trigger']}'`);
-    }
 
+    return {
+        
+        'env_id': value['env_id'],
+        'environment': value['environment'],
+        'delta_id': value['delta_id'],
+        'deployment_id': value['deployment_id'],
+        'set_id': value['set_id'],
+        'value_set_version_id': value['value_set_version_id'],
+        'comment': value['comment'],
+        'mode': value['mode'],
+    };
 }
 

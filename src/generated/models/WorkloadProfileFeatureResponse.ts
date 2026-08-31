@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface WorkloadProfileFeatureResponse {
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileFeatureResponse
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileFeatureResponse
      */
     org_id: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof WorkloadProfileFeatureResponse
      */
     schema: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof WorkloadProfileFeatureResponse
      */
     version: string;
 }
@@ -48,11 +40,11 @@ export interface WorkloadProfileFeatureResponse {
 /**
  * Check if a given object implements the WorkloadProfileFeatureResponse interface.
  */
-export function instanceOfWorkloadProfileFeatureResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('schema' in value)) return false;
-    if (!('version' in value)) return false;
+export function instanceOfWorkloadProfileFeatureResponse(value: object): value is WorkloadProfileFeatureResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('schema' in value) || value['schema'] === undefined) return false;
+    if (!('version' in value) || value['version'] === undefined) return false;
     return true;
 }
 
@@ -73,10 +65,15 @@ export function WorkloadProfileFeatureResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function WorkloadProfileFeatureResponseToJSON(value?: WorkloadProfileFeatureResponse | null): any {
+export function WorkloadProfileFeatureResponseToJSON(json: any): WorkloadProfileFeatureResponse {
+    return WorkloadProfileFeatureResponseToJSONTyped(json, false);
+}
+
+export function WorkloadProfileFeatureResponseToJSONTyped(value?: WorkloadProfileFeatureResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

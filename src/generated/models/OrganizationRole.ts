@@ -27,6 +27,17 @@ export enum OrganizationRole {
 }
 
 
+export function instanceOfOrganizationRole(value: any): boolean {
+    for (const key in OrganizationRole) {
+        if (Object.prototype.hasOwnProperty.call(OrganizationRole, key)) {
+            if (OrganizationRole[key as keyof typeof OrganizationRole] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function OrganizationRoleFromJSON(json: any): OrganizationRole {
     return OrganizationRoleFromJSONTyped(json, false);
 }
@@ -37,5 +48,9 @@ export function OrganizationRoleFromJSONTyped(json: any, ignoreDiscriminator: bo
 
 export function OrganizationRoleToJSON(value?: OrganizationRole | null): any {
     return value as any;
+}
+
+export function OrganizationRoleToJSONTyped(value: any, ignoreDiscriminator: boolean): OrganizationRole {
+    return value as OrganizationRole;
 }
 

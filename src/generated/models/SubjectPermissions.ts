@@ -18,6 +18,7 @@ import {
     PermissionsFromJSON,
     PermissionsFromJSONTyped,
     PermissionsToJSON,
+    PermissionsToJSONTyped,
 } from './Permissions.js';
 
 /**
@@ -28,8 +29,6 @@ import {
 export interface SubjectPermissions {
     /**
      * 
-     * @type {{ [key: string]: Permissions; }}
-     * @memberof SubjectPermissions
      */
     objects: { [key: string]: Permissions; };
 }
@@ -37,8 +36,8 @@ export interface SubjectPermissions {
 /**
  * Check if a given object implements the SubjectPermissions interface.
  */
-export function instanceOfSubjectPermissions(value: object): boolean {
-    if (!('objects' in value)) return false;
+export function instanceOfSubjectPermissions(value: object): value is SubjectPermissions {
+    if (!('objects' in value) || value['objects'] === undefined) return false;
     return true;
 }
 
@@ -56,10 +55,15 @@ export function SubjectPermissionsFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function SubjectPermissionsToJSON(value?: SubjectPermissions | null): any {
+export function SubjectPermissionsToJSON(json: any): SubjectPermissions {
+    return SubjectPermissionsToJSONTyped(json, false);
+}
+
+export function SubjectPermissionsToJSONTyped(value?: SubjectPermissions | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'objects': (mapValues(value['objects'], PermissionsToJSON)),

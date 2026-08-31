@@ -18,6 +18,7 @@ import {
     AWSAuthRequestFromJSON,
     AWSAuthRequestFromJSONTyped,
     AWSAuthRequestToJSON,
+    AWSAuthRequestToJSONTyped,
 } from './AWSAuthRequest.js';
 
 /**
@@ -28,20 +29,14 @@ import {
 export interface AWSSMRequest {
     /**
      * 
-     * @type {AWSAuthRequest}
-     * @memberof AWSSMRequest
      */
     auth?: AWSAuthRequest;
     /**
      * 
-     * @type {string}
-     * @memberof AWSSMRequest
      */
     endpoint?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AWSSMRequest
      */
     region?: string;
 }
@@ -49,7 +44,7 @@ export interface AWSSMRequest {
 /**
  * Check if a given object implements the AWSSMRequest interface.
  */
-export function instanceOfAWSSMRequest(value: object): boolean {
+export function instanceOfAWSSMRequest(value: object): value is AWSSMRequest {
     return true;
 }
 
@@ -69,10 +64,15 @@ export function AWSSMRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function AWSSMRequestToJSON(value?: AWSSMRequest | null): any {
+export function AWSSMRequestToJSON(json: any): AWSSMRequest {
+    return AWSSMRequestToJSONTyped(json, false);
+}
+
+export function AWSSMRequestToJSONTyped(value?: AWSSMRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'auth': AWSAuthRequestToJSON(value['auth']),

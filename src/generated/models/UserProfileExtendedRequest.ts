@@ -21,44 +21,30 @@ import { mapValues } from '../runtime.js';
 export interface UserProfileExtendedRequest {
     /**
      * The time the user was first registered with Humanitec
-     * @type {string}
-     * @memberof UserProfileExtendedRequest
      */
     created_at?: string;
     /**
      * The email address of the user from the profile
-     * @type {string}
-     * @memberof UserProfileExtendedRequest
      */
     email?: string;
     /**
      * The User ID for this user
-     * @type {string}
-     * @memberof UserProfileExtendedRequest
      */
     id?: string;
     /**
      * The name the user goes by
-     * @type {string}
-     * @memberof UserProfileExtendedRequest
      */
     name?: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof UserProfileExtendedRequest
      */
     properties?: { [key: string]: any; };
     /**
      * 
-     * @type {{ [key: string]: string; }}
-     * @memberof UserProfileExtendedRequest
      */
     roles?: { [key: string]: string; };
     /**
      * The type of the account. Could be user, service or system
-     * @type {string}
-     * @memberof UserProfileExtendedRequest
      */
     type?: string;
 }
@@ -66,7 +52,7 @@ export interface UserProfileExtendedRequest {
 /**
  * Check if a given object implements the UserProfileExtendedRequest interface.
  */
-export function instanceOfUserProfileExtendedRequest(value: object): boolean {
+export function instanceOfUserProfileExtendedRequest(value: object): value is UserProfileExtendedRequest {
     return true;
 }
 
@@ -90,10 +76,15 @@ export function UserProfileExtendedRequestFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function UserProfileExtendedRequestToJSON(value?: UserProfileExtendedRequest | null): any {
+export function UserProfileExtendedRequestToJSON(json: any): UserProfileExtendedRequest {
+    return UserProfileExtendedRequestToJSONTyped(json, false);
+}
+
+export function UserProfileExtendedRequestToJSONTyped(value?: UserProfileExtendedRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

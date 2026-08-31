@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface UpdateResourceAccountRequestRequest {
     /**
      * Credentials associated with the account.
-     * @type {{ [key: string]: any; }}
-     * @memberof UpdateResourceAccountRequestRequest
      */
     credentials?: { [key: string]: any; };
     /**
      * Display name.
-     * @type {string}
-     * @memberof UpdateResourceAccountRequestRequest
      */
     name?: string;
 }
@@ -36,7 +32,7 @@ export interface UpdateResourceAccountRequestRequest {
 /**
  * Check if a given object implements the UpdateResourceAccountRequestRequest interface.
  */
-export function instanceOfUpdateResourceAccountRequestRequest(value: object): boolean {
+export function instanceOfUpdateResourceAccountRequestRequest(value: object): value is UpdateResourceAccountRequestRequest {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function UpdateResourceAccountRequestRequestFromJSONTyped(json: any, igno
     };
 }
 
-export function UpdateResourceAccountRequestRequestToJSON(value?: UpdateResourceAccountRequestRequest | null): any {
+export function UpdateResourceAccountRequestRequestToJSON(json: any): UpdateResourceAccountRequestRequest {
+    return UpdateResourceAccountRequestRequestToJSONTyped(json, false);
+}
+
+export function UpdateResourceAccountRequestRequestToJSONTyped(value?: UpdateResourceAccountRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'credentials': value['credentials'],

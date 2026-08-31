@@ -21,50 +21,34 @@ import { mapValues } from '../runtime.js';
 export interface UserRoleResponse {
     /**
      * The time the user or the group was first registered with Humanitec
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     created_at: string;
     /**
      * The email address of the user from the profile
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     email?: string;
     /**
      * The User or Group Id
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     id: string;
     /**
      * The status of an invitation (If applicable)
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     invite?: string;
     /**
      * The name the User or Group goes by
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     name: string;
     /**
      * The role that this User or Group holds
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     role: string;
     /**
      * The type of the account. Could be user, service, group or system
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     type: string;
     /**
      * The IdP id the group is registered for. Empty if user is not a group.
-     * @type {string}
-     * @memberof UserRoleResponse
      */
     idp_id?: string;
 }
@@ -72,12 +56,12 @@ export interface UserRoleResponse {
 /**
  * Check if a given object implements the UserRoleResponse interface.
  */
-export function instanceOfUserRoleResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('role' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfUserRoleResponse(value: object): value is UserRoleResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -102,10 +86,15 @@ export function UserRoleResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function UserRoleResponseToJSON(value?: UserRoleResponse | null): any {
+export function UserRoleResponseToJSON(json: any): UserRoleResponse {
+    return UserRoleResponseToJSONTyped(json, false);
+}
+
+export function UserRoleResponseToJSONTyped(value?: UserRoleResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

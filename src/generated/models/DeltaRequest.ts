@@ -13,29 +13,33 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { DeltaMetadataRequest } from './DeltaMetadataRequest.js';
-import {
-    DeltaMetadataRequestFromJSON,
-    DeltaMetadataRequestFromJSONTyped,
-    DeltaMetadataRequestToJSON,
-} from './DeltaMetadataRequest.js';
 import type { ModuleDeltasRequest } from './ModuleDeltasRequest.js';
 import {
     ModuleDeltasRequestFromJSON,
     ModuleDeltasRequestFromJSONTyped,
     ModuleDeltasRequestToJSON,
+    ModuleDeltasRequestToJSONTyped,
 } from './ModuleDeltasRequest.js';
+import type { DeltaMetadataRequest } from './DeltaMetadataRequest.js';
+import {
+    DeltaMetadataRequestFromJSON,
+    DeltaMetadataRequestFromJSONTyped,
+    DeltaMetadataRequestToJSON,
+    DeltaMetadataRequestToJSONTyped,
+} from './DeltaMetadataRequest.js';
 import type { UpdateActionRequest } from './UpdateActionRequest.js';
 import {
     UpdateActionRequestFromJSON,
     UpdateActionRequestFromJSONTyped,
     UpdateActionRequestToJSON,
+    UpdateActionRequestToJSONTyped,
 } from './UpdateActionRequest.js';
 import type { WorkloadDeltasRequest } from './WorkloadDeltasRequest.js';
 import {
     WorkloadDeltasRequestFromJSON,
     WorkloadDeltasRequestFromJSONTyped,
     WorkloadDeltasRequestToJSON,
+    WorkloadDeltasRequestToJSONTyped,
 } from './WorkloadDeltasRequest.js';
 
 /**
@@ -74,32 +78,22 @@ import {
 export interface DeltaRequest {
     /**
      * Ignored, but can be provided.
-     * @type {string}
-     * @memberof DeltaRequest
      */
     id?: string;
     /**
      * 
-     * @type {DeltaMetadataRequest}
-     * @memberof DeltaRequest
      */
     metadata?: DeltaMetadataRequest;
     /**
      * 
-     * @type {ModuleDeltasRequest}
-     * @memberof DeltaRequest
      */
     modules?: ModuleDeltasRequest;
     /**
      * 
-     * @type {Array<UpdateActionRequest>}
-     * @memberof DeltaRequest
      */
-    shared?: Array<UpdateActionRequest>;
+    shared?: Array<UpdateActionRequest> | null;
     /**
      * 
-     * @type {WorkloadDeltasRequest}
-     * @memberof DeltaRequest
      */
     workloads?: WorkloadDeltasRequest;
 }
@@ -107,7 +101,7 @@ export interface DeltaRequest {
 /**
  * Check if a given object implements the DeltaRequest interface.
  */
-export function instanceOfDeltaRequest(value: object): boolean {
+export function instanceOfDeltaRequest(value: object): value is DeltaRequest {
     return true;
 }
 
@@ -124,15 +118,20 @@ export function DeltaRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'id': json['id'] == null ? undefined : json['id'],
         'metadata': json['metadata'] == null ? undefined : DeltaMetadataRequestFromJSON(json['metadata']),
         'modules': json['modules'] == null ? undefined : ModuleDeltasRequestFromJSON(json['modules']),
-        'shared': json['shared'] == null ? undefined : ((json['shared'] as Array<any>).map(UpdateActionRequestFromJSON)),
+        'shared': json['shared'] === undefined ? undefined : json['shared'] === null ? null : ((json['shared'] as Array<any>).map(UpdateActionRequestFromJSON)),
         'workloads': json['workloads'] == null ? undefined : WorkloadDeltasRequestFromJSON(json['workloads']),
     };
 }
 
-export function DeltaRequestToJSON(value?: DeltaRequest | null): any {
+export function DeltaRequestToJSON(json: any): DeltaRequest {
+    return DeltaRequestToJSONTyped(json, false);
+}
+
+export function DeltaRequestToJSONTyped(value?: DeltaRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

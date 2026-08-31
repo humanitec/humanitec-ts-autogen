@@ -34,6 +34,17 @@ export enum ValueSetVersionResultOf {
 }
 
 
+export function instanceOfValueSetVersionResultOf(value: any): boolean {
+    for (const key in ValueSetVersionResultOf) {
+        if (Object.prototype.hasOwnProperty.call(ValueSetVersionResultOf, key)) {
+            if (ValueSetVersionResultOf[key as keyof typeof ValueSetVersionResultOf] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function ValueSetVersionResultOfFromJSON(json: any): ValueSetVersionResultOf {
     return ValueSetVersionResultOfFromJSONTyped(json, false);
 }
@@ -44,5 +55,9 @@ export function ValueSetVersionResultOfFromJSONTyped(json: any, ignoreDiscrimina
 
 export function ValueSetVersionResultOfToJSON(value?: ValueSetVersionResultOf | null): any {
     return value as any;
+}
+
+export function ValueSetVersionResultOfToJSONTyped(value: any, ignoreDiscriminator: boolean): ValueSetVersionResultOf {
+    return value as ValueSetVersionResultOf;
 }
 

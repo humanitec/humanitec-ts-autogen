@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface ClusterConnectionCheckResultCondition {
     /**
      * The enum-name for the condition.
-     * @type {string}
-     * @memberof ClusterConnectionCheckResultCondition
      */
     type: string;
     /**
      * The status of the condition. True is the nominal value, False contributes to a failed result, Unknown is  rare but indicates that a retry may be necessary or the condition could not be checked.
-     * @type {string}
-     * @memberof ClusterConnectionCheckResultCondition
      */
     status: ClusterConnectionCheckResultConditionStatusEnum;
     /**
      * A message explaining the cause of this condition.
-     * @type {string}
-     * @memberof ClusterConnectionCheckResultCondition
      */
     message: string;
 }
@@ -54,10 +48,10 @@ export enum ClusterConnectionCheckResultConditionStatusEnum {
 /**
  * Check if a given object implements the ClusterConnectionCheckResultCondition interface.
  */
-export function instanceOfClusterConnectionCheckResultCondition(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('message' in value)) return false;
+export function instanceOfClusterConnectionCheckResultCondition(value: object): value is ClusterConnectionCheckResultCondition {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -77,10 +71,15 @@ export function ClusterConnectionCheckResultConditionFromJSONTyped(json: any, ig
     };
 }
 
-export function ClusterConnectionCheckResultConditionToJSON(value?: ClusterConnectionCheckResultCondition | null): any {
+export function ClusterConnectionCheckResultConditionToJSON(json: any): ClusterConnectionCheckResultCondition {
+    return ClusterConnectionCheckResultConditionToJSONTyped(json, false);
+}
+
+export function ClusterConnectionCheckResultConditionToJSONTyped(value?: ClusterConnectionCheckResultCondition | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

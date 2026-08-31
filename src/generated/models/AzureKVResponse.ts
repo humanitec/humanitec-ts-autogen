@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface AzureKVResponse {
     /**
      * 
-     * @type {string}
-     * @memberof AzureKVResponse
      */
     tenant_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AzureKVResponse
      */
     url?: string;
 }
@@ -36,7 +32,7 @@ export interface AzureKVResponse {
 /**
  * Check if a given object implements the AzureKVResponse interface.
  */
-export function instanceOfAzureKVResponse(value: object): boolean {
+export function instanceOfAzureKVResponse(value: object): value is AzureKVResponse {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function AzureKVResponseFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function AzureKVResponseToJSON(value?: AzureKVResponse | null): any {
+export function AzureKVResponseToJSON(json: any): AzureKVResponse {
+    return AzureKVResponseToJSONTyped(json, false);
+}
+
+export function AzureKVResponseToJSONTyped(value?: AzureKVResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'tenant_id': value['tenant_id'],

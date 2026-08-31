@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentDefinitionRequest {
     /**
      * Defines the existing Deployment the new Environment will be based on.
-     * @type {string}
-     * @memberof EnvironmentDefinitionRequest
      */
     from_deploy_id?: string;
     /**
      * The ID the Environment is referenced as.
-     * @type {string}
-     * @memberof EnvironmentDefinitionRequest
      */
     id: string;
     /**
      * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentDefinitionRequest
      */
     name: string;
     /**
      * The Environment Type. This is used for organizing and managing Environments.
-     * @type {string}
-     * @memberof EnvironmentDefinitionRequest
      */
     type?: string;
 }
@@ -48,9 +40,9 @@ export interface EnvironmentDefinitionRequest {
 /**
  * Check if a given object implements the EnvironmentDefinitionRequest interface.
  */
-export function instanceOfEnvironmentDefinitionRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfEnvironmentDefinitionRequest(value: object): value is EnvironmentDefinitionRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function EnvironmentDefinitionRequestFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function EnvironmentDefinitionRequestToJSON(value?: EnvironmentDefinitionRequest | null): any {
+export function EnvironmentDefinitionRequestToJSON(json: any): EnvironmentDefinitionRequest {
+    return EnvironmentDefinitionRequestToJSONTyped(json, false);
+}
+
+export function EnvironmentDefinitionRequestToJSONTyped(value?: EnvironmentDefinitionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'from_deploy_id': value['from_deploy_id'],

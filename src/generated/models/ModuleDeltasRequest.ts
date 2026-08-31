@@ -18,12 +18,14 @@ import {
     ModuleRequestFromJSON,
     ModuleRequestFromJSONTyped,
     ModuleRequestToJSON,
+    ModuleRequestToJSONTyped,
 } from './ModuleRequest.js';
 import type { UpdateActionRequest } from './UpdateActionRequest.js';
 import {
     UpdateActionRequestFromJSON,
     UpdateActionRequestFromJSONTyped,
     UpdateActionRequestToJSON,
+    UpdateActionRequestToJSONTyped,
 } from './UpdateActionRequest.js';
 
 /**
@@ -34,28 +36,22 @@ import {
 export interface ModuleDeltasRequest {
     /**
      * 
-     * @type {{ [key: string]: ModuleRequest; }}
-     * @memberof ModuleDeltasRequest
      */
-    add?: { [key: string]: ModuleRequest; };
+    add?: { [key: string]: ModuleRequest; } | null;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ModuleDeltasRequest
      */
-    remove?: Array<string>;
+    remove?: Array<string> | null;
     /**
      * 
-     * @type {{ [key: string]: Array<UpdateActionRequest>; }}
-     * @memberof ModuleDeltasRequest
      */
-    update?: { [key: string]: Array<UpdateActionRequest>; };
+    update?: { [key: string]: Array<UpdateActionRequest>; } | null;
 }
 
 /**
  * Check if a given object implements the ModuleDeltasRequest interface.
  */
-export function instanceOfModuleDeltasRequest(value: object): boolean {
+export function instanceOfModuleDeltasRequest(value: object): value is ModuleDeltasRequest {
     return true;
 }
 
@@ -69,16 +65,21 @@ export function ModuleDeltasRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'add': json['add'] == null ? undefined : (mapValues(json['add'], ModuleRequestFromJSON)),
-        'remove': json['remove'] == null ? undefined : json['remove'],
-        'update': json['update'] == null ? undefined : json['update'],
+        'add': json['add'] === undefined ? undefined : json['add'] === null ? null : (mapValues(json['add'], ModuleRequestFromJSON)),
+        'remove': json['remove'] === undefined ? undefined : json['remove'] === null ? null : json['remove'],
+        'update': json['update'] === undefined ? undefined : json['update'] === null ? null : json['update'],
     };
 }
 
-export function ModuleDeltasRequestToJSON(value?: ModuleDeltasRequest | null): any {
+export function ModuleDeltasRequestToJSON(json: any): ModuleDeltasRequest {
+    return ModuleDeltasRequestToJSONTyped(json, false);
+}
+
+export function ModuleDeltasRequestToJSONTyped(value?: ModuleDeltasRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'add': value['add'] == null ? undefined : (mapValues(value['add'], ModuleRequestToJSON)),

@@ -29,6 +29,17 @@ export enum RuntimeInfoStatus {
 }
 
 
+export function instanceOfRuntimeInfoStatus(value: any): boolean {
+    for (const key in RuntimeInfoStatus) {
+        if (Object.prototype.hasOwnProperty.call(RuntimeInfoStatus, key)) {
+            if (RuntimeInfoStatus[key as keyof typeof RuntimeInfoStatus] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function RuntimeInfoStatusFromJSON(json: any): RuntimeInfoStatus {
     return RuntimeInfoStatusFromJSONTyped(json, false);
 }
@@ -39,5 +50,9 @@ export function RuntimeInfoStatusFromJSONTyped(json: any, ignoreDiscriminator: b
 
 export function RuntimeInfoStatusToJSON(value?: RuntimeInfoStatus | null): any {
     return value as any;
+}
+
+export function RuntimeInfoStatusToJSONTyped(value: any, ignoreDiscriminator: boolean): RuntimeInfoStatus {
+    return value as RuntimeInfoStatus;
 }
 

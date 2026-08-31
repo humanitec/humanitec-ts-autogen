@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { NodeBodyResponse } from './NodeBodyResponse.js';
 import {
     NodeBodyResponseFromJSON,
     NodeBodyResponseFromJSONTyped,
     NodeBodyResponseToJSON,
+    NodeBodyResponseToJSONTyped,
 } from './NodeBodyResponse.js';
 
 /**
@@ -28,32 +29,22 @@ import {
 export interface DependencyGraphResponse {
     /**
      * The ID of the Dependency Graph.
-     * @type {string}
-     * @memberof DependencyGraphResponse
      */
     id: string;
     /**
      * The sha256 hash of the graph list of nodes. Two graphs with same hash cannot exist, unless they are exactly the same graph, so they contain the same sorted list of nodes.
-     * @type {string}
-     * @memberof DependencyGraphResponse
      */
     hash: string;
     /**
      * A list of objects which hold information to provision resources, sorted according to resources provisioning order.
-     * @type {Array<NodeBodyResponse>}
-     * @memberof DependencyGraphResponse
      */
     nodes: Array<NodeBodyResponse>;
     /**
      * The timestamp of when the graph was generated for.
-     * @type {Date}
-     * @memberof DependencyGraphResponse
      */
     created_at: Date;
     /**
      * The timestamp of when the graph was generated for the last time.
-     * @type {Date}
-     * @memberof DependencyGraphResponse
      */
     used_at: Date;
 }
@@ -61,12 +52,12 @@ export interface DependencyGraphResponse {
 /**
  * Check if a given object implements the DependencyGraphResponse interface.
  */
-export function instanceOfDependencyGraphResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('hash' in value)) return false;
-    if (!('nodes' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('used_at' in value)) return false;
+export function instanceOfDependencyGraphResponse(value: object): value is DependencyGraphResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('hash' in value) || value['hash'] === undefined) return false;
+    if (!('nodes' in value) || value['nodes'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('used_at' in value) || value['used_at'] === undefined) return false;
     return true;
 }
 
@@ -83,22 +74,27 @@ export function DependencyGraphResponseFromJSONTyped(json: any, ignoreDiscrimina
         'id': json['id'],
         'hash': json['hash'],
         'nodes': ((json['nodes'] as Array<any>).map(NodeBodyResponseFromJSON)),
-        'created_at': (new Date(json['created_at'])),
-        'used_at': (new Date(json['used_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
+        'used_at': (json['used_at'] == null ? json['used_at'] : parseDateTime(json['used_at'])),
     };
 }
 
-export function DependencyGraphResponseToJSON(value?: DependencyGraphResponse | null): any {
+export function DependencyGraphResponseToJSON(json: any): DependencyGraphResponse {
+    return DependencyGraphResponseToJSONTyped(json, false);
+}
+
+export function DependencyGraphResponseToJSONTyped(value?: DependencyGraphResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'hash': value['hash'],
         'nodes': ((value['nodes'] as Array<any>).map(NodeBodyResponseToJSON)),
-        'created_at': ((value['created_at']).toISOString()),
-        'used_at': ((value['used_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
+        'used_at': value['used_at'] == null ? value['used_at'] : serializeDateTime(value['used_at']),
     };
 }
 

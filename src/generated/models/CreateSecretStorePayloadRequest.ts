@@ -13,30 +13,34 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { AWSSMRequest } from './AWSSMRequest.js';
-import {
-    AWSSMRequestFromJSON,
-    AWSSMRequestFromJSONTyped,
-    AWSSMRequestToJSON,
-} from './AWSSMRequest.js';
-import type { AzureKVRequest } from './AzureKVRequest.js';
-import {
-    AzureKVRequestFromJSON,
-    AzureKVRequestFromJSONTyped,
-    AzureKVRequestToJSON,
-} from './AzureKVRequest.js';
 import type { GCPSMRequest } from './GCPSMRequest.js';
 import {
     GCPSMRequestFromJSON,
     GCPSMRequestFromJSONTyped,
     GCPSMRequestToJSON,
+    GCPSMRequestToJSONTyped,
 } from './GCPSMRequest.js';
+import type { AzureKVRequest } from './AzureKVRequest.js';
+import {
+    AzureKVRequestFromJSON,
+    AzureKVRequestFromJSONTyped,
+    AzureKVRequestToJSON,
+    AzureKVRequestToJSONTyped,
+} from './AzureKVRequest.js';
 import type { VaultRequest } from './VaultRequest.js';
 import {
     VaultRequestFromJSON,
     VaultRequestFromJSONTyped,
     VaultRequestToJSON,
+    VaultRequestToJSONTyped,
 } from './VaultRequest.js';
+import type { AWSSMRequest } from './AWSSMRequest.js';
+import {
+    AWSSMRequestFromJSON,
+    AWSSMRequestFromJSONTyped,
+    AWSSMRequestToJSON,
+    AWSSMRequestToJSONTyped,
+} from './AWSSMRequest.js';
 
 /**
  * Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec. It must contain exactly one of the following elements to define Secret Store specification: `awssm` (AWS Secret Manager), `azurekv` (Azure Key Vault), `gcpsm` (GCP Secret Manager), `vault` (HashiCorp Vault).
@@ -46,38 +50,26 @@ import {
 export interface CreateSecretStorePayloadRequest {
     /**
      * 
-     * @type {AWSSMRequest}
-     * @memberof CreateSecretStorePayloadRequest
      */
     awssm?: AWSSMRequest;
     /**
      * 
-     * @type {AzureKVRequest}
-     * @memberof CreateSecretStorePayloadRequest
      */
     azurekv?: AzureKVRequest;
     /**
      * 
-     * @type {GCPSMRequest}
-     * @memberof CreateSecretStorePayloadRequest
      */
     gcpsm?: GCPSMRequest;
     /**
      * The Secret Store ID.
-     * @type {string}
-     * @memberof CreateSecretStorePayloadRequest
      */
     id: string;
     /**
      * Defines whether the Secret Store is the primary secret management system for the organization.
-     * @type {boolean}
-     * @memberof CreateSecretStorePayloadRequest
      */
     primary: boolean;
     /**
      * 
-     * @type {VaultRequest}
-     * @memberof CreateSecretStorePayloadRequest
      */
     vault?: VaultRequest;
 }
@@ -85,9 +77,9 @@ export interface CreateSecretStorePayloadRequest {
 /**
  * Check if a given object implements the CreateSecretStorePayloadRequest interface.
  */
-export function instanceOfCreateSecretStorePayloadRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('primary' in value)) return false;
+export function instanceOfCreateSecretStorePayloadRequest(value: object): value is CreateSecretStorePayloadRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('primary' in value) || value['primary'] === undefined) return false;
     return true;
 }
 
@@ -110,10 +102,15 @@ export function CreateSecretStorePayloadRequestFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function CreateSecretStorePayloadRequestToJSON(value?: CreateSecretStorePayloadRequest | null): any {
+export function CreateSecretStorePayloadRequestToJSON(json: any): CreateSecretStorePayloadRequest {
+    return CreateSecretStorePayloadRequestToJSONTyped(json, false);
+}
+
+export function CreateSecretStorePayloadRequestToJSONTyped(value?: CreateSecretStorePayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'awssm': AWSSMRequestToJSON(value['awssm']),

@@ -21,44 +21,30 @@ import { mapValues } from '../runtime.js';
 export interface ArtefactResponse {
     /**
      * The time when the Artefact was added to Humanitec.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     created_at?: string;
     /**
      * The user ID of the user who added the Artefact to Humanitec.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     created_by?: string;
     /**
      * The UUID of the Artefact.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     id: string;
     /**
      * The name of the Artefact.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     name: string;
     /**
      * The type of the Artefact.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     type: string;
     /**
      * The time when the Artefact was updated for the last time.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     updated_at?: string;
     /**
      * The user ID of the user who updated the Artefact for the last time.
-     * @type {string}
-     * @memberof ArtefactResponse
      */
     updated_by?: string;
 }
@@ -66,10 +52,10 @@ export interface ArtefactResponse {
 /**
  * Check if a given object implements the ArtefactResponse interface.
  */
-export function instanceOfArtefactResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfArtefactResponse(value: object): value is ArtefactResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -93,10 +79,15 @@ export function ArtefactResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function ArtefactResponseToJSON(value?: ArtefactResponse | null): any {
+export function ArtefactResponseToJSON(json: any): ArtefactResponse {
+    return ArtefactResponseToJSONTyped(json, false);
+}
+
+export function ArtefactResponseToJSONTyped(value?: ArtefactResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

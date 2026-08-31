@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface NewServiceUserRequest {
     /**
      * The email address that should get notifications about this service user. (Optional)
-     * @type {string}
-     * @memberof NewServiceUserRequest
      */
     email?: string;
     /**
      * The name that should be shown for this service user.
-     * @type {string}
-     * @memberof NewServiceUserRequest
      */
     name: string;
     /**
      * The role that the service user should have on the organization it is created in
-     * @type {string}
-     * @memberof NewServiceUserRequest
      */
     role: string;
 }
@@ -42,9 +36,9 @@ export interface NewServiceUserRequest {
 /**
  * Check if a given object implements the NewServiceUserRequest interface.
  */
-export function instanceOfNewServiceUserRequest(value: object): boolean {
-    if (!('name' in value)) return false;
-    if (!('role' in value)) return false;
+export function instanceOfNewServiceUserRequest(value: object): value is NewServiceUserRequest {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('role' in value) || value['role'] === undefined) return false;
     return true;
 }
 
@@ -64,10 +58,15 @@ export function NewServiceUserRequestFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function NewServiceUserRequestToJSON(value?: NewServiceUserRequest | null): any {
+export function NewServiceUserRequestToJSON(json: any): NewServiceUserRequest {
+    return NewServiceUserRequestToJSONTyped(json, false);
+}
+
+export function NewServiceUserRequestToJSONTyped(value?: NewServiceUserRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'email': value['email'],

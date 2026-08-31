@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface ResourceDefinitionChangeResponse {
     /**
      * The ID of the App the resource is associated with.
-     * @type {string}
-     * @memberof ResourceDefinitionChangeResponse
      */
     app_id: string;
     /**
      * The ID of the Environment the resource is associated with.
-     * @type {string}
-     * @memberof ResourceDefinitionChangeResponse
      */
     env_id: string;
     /**
      * The Resource Definition that this resource was provisioned from.
-     * @type {string}
-     * @memberof ResourceDefinitionChangeResponse
      */
     from_def: string;
     /**
      * The ID of the resource
-     * @type {string}
-     * @memberof ResourceDefinitionChangeResponse
      */
     res_id: string;
     /**
      * The Resource Definition that resource *will be* provisioned from if the change is applied.
-     * @type {string}
-     * @memberof ResourceDefinitionChangeResponse
      */
     to_def: string;
 }
@@ -54,12 +44,12 @@ export interface ResourceDefinitionChangeResponse {
 /**
  * Check if a given object implements the ResourceDefinitionChangeResponse interface.
  */
-export function instanceOfResourceDefinitionChangeResponse(value: object): boolean {
-    if (!('app_id' in value)) return false;
-    if (!('env_id' in value)) return false;
-    if (!('from_def' in value)) return false;
-    if (!('res_id' in value)) return false;
-    if (!('to_def' in value)) return false;
+export function instanceOfResourceDefinitionChangeResponse(value: object): value is ResourceDefinitionChangeResponse {
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if (!('env_id' in value) || value['env_id'] === undefined) return false;
+    if (!('from_def' in value) || value['from_def'] === undefined) return false;
+    if (!('res_id' in value) || value['res_id'] === undefined) return false;
+    if (!('to_def' in value) || value['to_def'] === undefined) return false;
     return true;
 }
 
@@ -81,10 +71,15 @@ export function ResourceDefinitionChangeResponseFromJSONTyped(json: any, ignoreD
     };
 }
 
-export function ResourceDefinitionChangeResponseToJSON(value?: ResourceDefinitionChangeResponse | null): any {
+export function ResourceDefinitionChangeResponseToJSON(json: any): ResourceDefinitionChangeResponse {
+    return ResourceDefinitionChangeResponseToJSONTyped(json, false);
+}
+
+export function ResourceDefinitionChangeResponseToJSONTyped(value?: ResourceDefinitionChangeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],

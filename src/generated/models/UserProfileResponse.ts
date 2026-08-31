@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface UserProfileResponse {
     /**
      * The time the user was first registered with Humanitec
-     * @type {string}
-     * @memberof UserProfileResponse
      */
     created_at: string;
     /**
      * The email address of the user from the profile
-     * @type {string}
-     * @memberof UserProfileResponse
      */
     email?: string;
     /**
      * The User ID for this user
-     * @type {string}
-     * @memberof UserProfileResponse
      */
     id: string;
     /**
      * The name the user goes by
-     * @type {string}
-     * @memberof UserProfileResponse
      */
     name: string;
     /**
      * The type of the account. Could be user, service or system
-     * @type {string}
-     * @memberof UserProfileResponse
      */
     type: string;
 }
@@ -54,11 +44,11 @@ export interface UserProfileResponse {
 /**
  * Check if a given object implements the UserProfileResponse interface.
  */
-export function instanceOfUserProfileResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfUserProfileResponse(value: object): value is UserProfileResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -80,10 +70,15 @@ export function UserProfileResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function UserProfileResponseToJSON(value?: UserProfileResponse | null): any {
+export function UserProfileResponseToJSON(json: any): UserProfileResponse {
+    return UserProfileResponseToJSONTyped(json, false);
+}
+
+export function UserProfileResponseToJSONTyped(value?: UserProfileResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

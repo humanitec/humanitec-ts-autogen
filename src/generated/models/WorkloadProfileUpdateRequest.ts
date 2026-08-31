@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
-import {
-    WorkloadProfileChartReferenceFromJSON,
-    WorkloadProfileChartReferenceFromJSONTyped,
-    WorkloadProfileChartReferenceToJSON,
-} from './WorkloadProfileChartReference.js';
 import type { WorkloadProfileSpecDefinition } from './WorkloadProfileSpecDefinition.js';
 import {
     WorkloadProfileSpecDefinitionFromJSON,
     WorkloadProfileSpecDefinitionFromJSONTyped,
     WorkloadProfileSpecDefinitionToJSON,
+    WorkloadProfileSpecDefinitionToJSONTyped,
 } from './WorkloadProfileSpecDefinition.js';
+import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
+import {
+    WorkloadProfileChartReferenceFromJSON,
+    WorkloadProfileChartReferenceFromJSONTyped,
+    WorkloadProfileChartReferenceToJSON,
+    WorkloadProfileChartReferenceToJSONTyped,
+} from './WorkloadProfileChartReference.js';
 
 /**
  * The proposed properties to update a workload profile.
@@ -34,34 +36,24 @@ import {
 export interface WorkloadProfileUpdateRequest {
     /**
      * Describes the workload profile
-     * @type {string}
-     * @memberof WorkloadProfileUpdateRequest
      */
     description?: string;
     /**
      * A not-empty string indicates that the workload profile is deprecated.
-     * @type {string}
-     * @memberof WorkloadProfileUpdateRequest
      */
     deprecation_message?: string;
     /**
      * 
-     * @type {WorkloadProfileSpecDefinition}
-     * @memberof WorkloadProfileUpdateRequest
      */
     spec_definition: WorkloadProfileSpecDefinition;
     /**
      * Version identifier. The version must be unique, but the API doesn't not enforce any ordering. Currently workloads will always use the latest update.
      * 
      * If no identifier is provided, the each update will generate a random version identifier.
-     * @type {string}
-     * @memberof WorkloadProfileUpdateRequest
      */
     version?: string;
     /**
      * 
-     * @type {WorkloadProfileChartReference}
-     * @memberof WorkloadProfileUpdateRequest
      */
     workload_profile_chart: WorkloadProfileChartReference;
 }
@@ -69,9 +61,9 @@ export interface WorkloadProfileUpdateRequest {
 /**
  * Check if a given object implements the WorkloadProfileUpdateRequest interface.
  */
-export function instanceOfWorkloadProfileUpdateRequest(value: object): boolean {
-    if (!('spec_definition' in value)) return false;
-    if (!('workload_profile_chart' in value)) return false;
+export function instanceOfWorkloadProfileUpdateRequest(value: object): value is WorkloadProfileUpdateRequest {
+    if (!('spec_definition' in value) || value['spec_definition'] === undefined) return false;
+    if (!('workload_profile_chart' in value) || value['workload_profile_chart'] === undefined) return false;
     return true;
 }
 
@@ -93,10 +85,15 @@ export function WorkloadProfileUpdateRequestFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function WorkloadProfileUpdateRequestToJSON(value?: WorkloadProfileUpdateRequest | null): any {
+export function WorkloadProfileUpdateRequestToJSON(json: any): WorkloadProfileUpdateRequest {
+    return WorkloadProfileUpdateRequestToJSONTyped(json, false);
+}
+
+export function WorkloadProfileUpdateRequestToJSONTyped(value?: WorkloadProfileUpdateRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

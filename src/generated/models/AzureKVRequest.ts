@@ -18,6 +18,7 @@ import {
     AzureAuthRequestFromJSON,
     AzureAuthRequestFromJSONTyped,
     AzureAuthRequestToJSON,
+    AzureAuthRequestToJSONTyped,
 } from './AzureAuthRequest.js';
 
 /**
@@ -28,20 +29,14 @@ import {
 export interface AzureKVRequest {
     /**
      * 
-     * @type {AzureAuthRequest}
-     * @memberof AzureKVRequest
      */
     auth?: AzureAuthRequest;
     /**
      * 
-     * @type {string}
-     * @memberof AzureKVRequest
      */
     tenant_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AzureKVRequest
      */
     url?: string;
 }
@@ -49,7 +44,7 @@ export interface AzureKVRequest {
 /**
  * Check if a given object implements the AzureKVRequest interface.
  */
-export function instanceOfAzureKVRequest(value: object): boolean {
+export function instanceOfAzureKVRequest(value: object): value is AzureKVRequest {
     return true;
 }
 
@@ -69,10 +64,15 @@ export function AzureKVRequestFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function AzureKVRequestToJSON(value?: AzureKVRequest | null): any {
+export function AzureKVRequestToJSON(json: any): AzureKVRequest {
+    return AzureKVRequestToJSONTyped(json, false);
+}
+
+export function AzureKVRequestToJSONTyped(value?: AzureKVRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'auth': AzureAuthRequestToJSON(value['auth']),

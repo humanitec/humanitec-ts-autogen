@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An Automation Rule defining how and when artefacts in an environment should be updated.
  * @export
@@ -21,78 +21,54 @@ import { mapValues } from '../runtime.js';
 export interface AutomationRuleResponse {
     /**
      * Whether the rule will be processed or not.
-     * @type {boolean}
-     * @memberof AutomationRuleResponse
      */
     active: boolean;
     /**
      * A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.
-     * @type {Array<string>}
-     * @memberof AutomationRuleResponse
      */
     artefacts_filter: Array<string>;
     /**
      * The timestamp in UTC of when the Automation Rule was created.
-     * @type {Date}
-     * @memberof AutomationRuleResponse
      */
     created_at: Date;
     /**
      * Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.
-     * @type {boolean}
-     * @memberof AutomationRuleResponse
      */
     exclude_artefacts_filter: boolean;
     /**
      * DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.
-     * @type {boolean}
-     * @memberof AutomationRuleResponse
      * @deprecated
      */
     exclude_images_filter: boolean;
     /**
      * The unique ID for this rule.
-     * @type {string}
-     * @memberof AutomationRuleResponse
      */
     id: string;
     /**
      * DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.
-     * @type {Array<string>}
-     * @memberof AutomationRuleResponse
      * @deprecated
      */
     images_filter: Array<string>;
     /**
      * DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.
-     * @type {string}
-     * @memberof AutomationRuleResponse
      * @deprecated
      */
     match: string;
     /**
      * A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.
-     * @type {string}
-     * @memberof AutomationRuleResponse
      */
     match_ref: string;
     /**
      * Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `"update"`.
-     * @type {string}
-     * @memberof AutomationRuleResponse
      */
     type: string;
     /**
      * DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `"branch"` or `"tag"`.
-     * @type {string}
-     * @memberof AutomationRuleResponse
      * @deprecated
      */
     update_to: string;
     /**
      * The timestamp in UTC of when the Automation Rule was updated.
-     * @type {Date}
-     * @memberof AutomationRuleResponse
      */
     updated_at: Date;
 }
@@ -100,19 +76,19 @@ export interface AutomationRuleResponse {
 /**
  * Check if a given object implements the AutomationRuleResponse interface.
  */
-export function instanceOfAutomationRuleResponse(value: object): boolean {
-    if (!('active' in value)) return false;
-    if (!('artefacts_filter' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('exclude_artefacts_filter' in value)) return false;
-    if (!('exclude_images_filter' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('images_filter' in value)) return false;
-    if (!('match' in value)) return false;
-    if (!('match_ref' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('update_to' in value)) return false;
-    if (!('updated_at' in value)) return false;
+export function instanceOfAutomationRuleResponse(value: object): value is AutomationRuleResponse {
+    if (!('active' in value) || value['active'] === undefined) return false;
+    if (!('artefacts_filter' in value) || value['artefacts_filter'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('exclude_artefacts_filter' in value) || value['exclude_artefacts_filter'] === undefined) return false;
+    if (!('exclude_images_filter' in value) || value['exclude_images_filter'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('images_filter' in value) || value['images_filter'] === undefined) return false;
+    if (!('match' in value) || value['match'] === undefined) return false;
+    if (!('match_ref' in value) || value['match_ref'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('update_to' in value) || value['update_to'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
     return true;
 }
 
@@ -128,7 +104,7 @@ export function AutomationRuleResponseFromJSONTyped(json: any, ignoreDiscriminat
         
         'active': json['active'],
         'artefacts_filter': json['artefacts_filter'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'exclude_artefacts_filter': json['exclude_artefacts_filter'],
         'exclude_images_filter': json['exclude_images_filter'],
         'id': json['id'],
@@ -137,19 +113,24 @@ export function AutomationRuleResponseFromJSONTyped(json: any, ignoreDiscriminat
         'match_ref': json['match_ref'],
         'type': json['type'],
         'update_to': json['update_to'],
-        'updated_at': (new Date(json['updated_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
     };
 }
 
-export function AutomationRuleResponseToJSON(value?: AutomationRuleResponse | null): any {
+export function AutomationRuleResponseToJSON(json: any): AutomationRuleResponse {
+    return AutomationRuleResponseToJSONTyped(json, false);
+}
+
+export function AutomationRuleResponseToJSONTyped(value?: AutomationRuleResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'active': value['active'],
         'artefacts_filter': value['artefacts_filter'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'exclude_artefacts_filter': value['exclude_artefacts_filter'],
         'exclude_images_filter': value['exclude_images_filter'],
         'id': value['id'],
@@ -158,7 +139,7 @@ export function AutomationRuleResponseToJSON(value?: AutomationRuleResponse | nu
         'match_ref': value['match_ref'],
         'type': value['type'],
         'update_to': value['update_to'],
-        'updated_at': ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
     };
 }
 

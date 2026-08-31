@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface TokenDefinitionRequest {
     /**
      * A description of the token. (Optional)
-     * @type {string}
-     * @memberof TokenDefinitionRequest
      */
     description?: string;
     /**
      * The time the token expires. If not set, the token will not expire. (Optional)
-     * @type {string}
-     * @memberof TokenDefinitionRequest
      */
     expires_at?: string;
     /**
      * Identifier of the token. Must be unique for the user.
-     * @type {string}
-     * @memberof TokenDefinitionRequest
      */
     id: string;
     /**
      * The type of the token. Can only be "static".
-     * @type {string}
-     * @memberof TokenDefinitionRequest
      */
     type: string;
 }
@@ -48,9 +40,9 @@ export interface TokenDefinitionRequest {
 /**
  * Check if a given object implements the TokenDefinitionRequest interface.
  */
-export function instanceOfTokenDefinitionRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfTokenDefinitionRequest(value: object): value is TokenDefinitionRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function TokenDefinitionRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function TokenDefinitionRequestToJSON(value?: TokenDefinitionRequest | null): any {
+export function TokenDefinitionRequestToJSON(json: any): TokenDefinitionRequest {
+    return TokenDefinitionRequestToJSONTyped(json, false);
+}
+
+export function TokenDefinitionRequestToJSONTyped(value?: TokenDefinitionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

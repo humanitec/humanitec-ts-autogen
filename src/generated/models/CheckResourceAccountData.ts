@@ -18,6 +18,7 @@ import {
     CheckResourceAccountFieldFromJSON,
     CheckResourceAccountFieldFromJSONTyped,
     CheckResourceAccountFieldToJSON,
+    CheckResourceAccountFieldToJSONTyped,
 } from './CheckResourceAccountField.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface CheckResourceAccountData {
     /**
      * A set of identity fields and properties resulting from the account check.
-     * @type {Array<CheckResourceAccountField>}
-     * @memberof CheckResourceAccountData
      */
     identity_fields: Array<CheckResourceAccountField>;
     /**
      * A list of warnings related to this account.
-     * @type {Array<string>}
-     * @memberof CheckResourceAccountData
      */
     warnings?: Array<string>;
 }
@@ -43,8 +40,8 @@ export interface CheckResourceAccountData {
 /**
  * Check if a given object implements the CheckResourceAccountData interface.
  */
-export function instanceOfCheckResourceAccountData(value: object): boolean {
-    if (!('identity_fields' in value)) return false;
+export function instanceOfCheckResourceAccountData(value: object): value is CheckResourceAccountData {
+    if (!('identity_fields' in value) || value['identity_fields'] === undefined) return false;
     return true;
 }
 
@@ -63,10 +60,15 @@ export function CheckResourceAccountDataFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function CheckResourceAccountDataToJSON(value?: CheckResourceAccountData | null): any {
+export function CheckResourceAccountDataToJSON(json: any): CheckResourceAccountData {
+    return CheckResourceAccountDataToJSONTyped(json, false);
+}
+
+export function CheckResourceAccountDataToJSONTyped(value?: CheckResourceAccountData | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'identity_fields': ((value['identity_fields'] as Array<any>).map(CheckResourceAccountFieldToJSON)),
