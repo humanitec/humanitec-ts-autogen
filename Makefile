@@ -8,7 +8,6 @@ workaround-issue-18740:
 generate: workaround-issue-18740
 	rm -rf ./src/generated
 	npx openapi-generator-cli generate --generator-key humanitec
-	node ./scripts/patch-generated.mjs
 
 build:
 	# See https://evertpot.com/universal-commonjs-esm-typescript-packages/
