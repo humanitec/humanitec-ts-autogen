@@ -7,6 +7,10 @@ updates:
     commit-message:
       prefix: "build"
       include: "scope"
+    ignore:
+      # typescript-eslint does not support TS 7.0
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
