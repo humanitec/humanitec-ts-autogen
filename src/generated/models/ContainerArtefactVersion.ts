@@ -21,74 +21,50 @@ import { mapValues } from '../runtime.js';
 export interface ContainerArtefactVersion {
     /**
      * If the Artefact Version is archived.
-     * @type {boolean}
-     * @memberof ContainerArtefactVersion
      */
     archived: boolean;
     /**
      * The UUID of the Artefact.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     artefact_id: string;
     /**
      * (Optional) The commit ID the Artefact Version was built on.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     commit: string;
     /**
      * The time when the Artefact Version was added to Humanitec.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     created_at?: string;
     /**
      * The user ID of the user who added the Artefact Version to Humanitec.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     created_by?: string;
     /**
      * The UUID of the Artefact Version.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     id: string;
     /**
      * The name of the Artefact.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     name: string;
     /**
      * (Optional) The ref the Artefact Version was built from.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     ref: string;
     /**
      * The time when the Artefact Version was updated for the last time.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     updated_at?: string;
     /**
      * The user ID of the user who performed the last updated on the Artefact Version.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     updated_by?: string;
     /**
      * (Optional) The version of the Artefact Version.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     version?: string;
     /**
      * (Optional) The Artefact Version digest.
-     * @type {string}
-     * @memberof ContainerArtefactVersion
      */
     digest: string;
 }
@@ -96,14 +72,14 @@ export interface ContainerArtefactVersion {
 /**
  * Check if a given object implements the ContainerArtefactVersion interface.
  */
-export function instanceOfContainerArtefactVersion(value: object): boolean {
-    if (!('archived' in value)) return false;
-    if (!('artefact_id' in value)) return false;
-    if (!('commit' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('ref' in value)) return false;
-    if (!('digest' in value)) return false;
+export function instanceOfContainerArtefactVersion(value: object): value is ContainerArtefactVersion {
+    if (!('archived' in value) || value['archived'] === undefined) return false;
+    if (!('artefact_id' in value) || value['artefact_id'] === undefined) return false;
+    if (!('commit' in value) || value['commit'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('ref' in value) || value['ref'] === undefined) return false;
+    if (!('digest' in value) || value['digest'] === undefined) return false;
     return true;
 }
 
@@ -132,10 +108,15 @@ export function ContainerArtefactVersionFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function ContainerArtefactVersionToJSON(value?: ContainerArtefactVersion | null): any {
+export function ContainerArtefactVersionToJSON(json: any): ContainerArtefactVersion {
+    return ContainerArtefactVersionToJSONTyped(json, false);
+}
+
+export function ContainerArtefactVersionToJSONTyped(value?: ContainerArtefactVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],

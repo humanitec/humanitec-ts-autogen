@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface ResourceInputsResponse {
     /**
      * The Resource ID in the Deployment Set.
-     * @type {string}
-     * @memberof ResourceInputsResponse
      */
     id: string;
     /**
      * The Resource type.
-     * @type {string}
-     * @memberof ResourceInputsResponse
      */
     type: string;
     /**
      * The Resource class.
-     * @type {string}
-     * @memberof ResourceInputsResponse
      */
     _class?: string;
     /**
      * The Resource input parameters specified in the deployment set.
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceInputsResponse
      */
     resource?: { [key: string]: any; };
 }
@@ -48,9 +40,9 @@ export interface ResourceInputsResponse {
 /**
  * Check if a given object implements the ResourceInputsResponse interface.
  */
-export function instanceOfResourceInputsResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfResourceInputsResponse(value: object): value is ResourceInputsResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function ResourceInputsResponseFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function ResourceInputsResponseToJSON(value?: ResourceInputsResponse | null): any {
+export function ResourceInputsResponseToJSON(json: any): ResourceInputsResponse {
+    return ResourceInputsResponseToJSONTyped(json, false);
+}
+
+export function ResourceInputsResponseToJSONTyped(value?: ResourceInputsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

@@ -25,36 +25,28 @@ import { mapValues } from '../runtime.js';
 export interface UpdateActionResponse {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionResponse
      */
     from?: string;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionResponse
      */
     op: string;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionResponse
      */
     path: string;
     /**
      * 
-     * @type {any}
-     * @memberof UpdateActionResponse
      */
-    value?: any;
+    value?: any | null;
 }
 
 /**
  * Check if a given object implements the UpdateActionResponse interface.
  */
-export function instanceOfUpdateActionResponse(value: object): boolean {
-    if (!('op' in value)) return false;
-    if (!('path' in value)) return false;
+export function instanceOfUpdateActionResponse(value: object): value is UpdateActionResponse {
+    if (!('op' in value) || value['op'] === undefined) return false;
+    if (!('path' in value) || value['path'] === undefined) return false;
     return true;
 }
 
@@ -71,14 +63,19 @@ export function UpdateActionResponseFromJSONTyped(json: any, ignoreDiscriminator
         'from': json['from'] == null ? undefined : json['from'],
         'op': json['op'],
         'path': json['path'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
     };
 }
 
-export function UpdateActionResponseToJSON(value?: UpdateActionResponse | null): any {
+export function UpdateActionResponseToJSON(json: any): UpdateActionResponse {
+    return UpdateActionResponseToJSONTyped(json, false);
+}
+
+export function UpdateActionResponseToJSONTyped(value?: UpdateActionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'from': value['from'],

@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface ProvisionDependenciesRequest {
     /**
      * If the co-provisioned resource is dependendent on the current one.
-     * @type {boolean}
-     * @memberof ProvisionDependenciesRequest
      */
     is_dependent?: boolean;
     /**
      * If the resources dependant on the main resource, are also dependant on the co-provisioned one.
-     * @type {boolean}
-     * @memberof ProvisionDependenciesRequest
      */
     match_dependents?: boolean;
     /**
      * (Optional) Additional parameters to be passed to the driver which will provision the resource.
-     * @type {{ [key: string]: any; }}
-     * @memberof ProvisionDependenciesRequest
      */
     params?: { [key: string]: any; };
 }
@@ -42,7 +36,7 @@ export interface ProvisionDependenciesRequest {
 /**
  * Check if a given object implements the ProvisionDependenciesRequest interface.
  */
-export function instanceOfProvisionDependenciesRequest(value: object): boolean {
+export function instanceOfProvisionDependenciesRequest(value: object): value is ProvisionDependenciesRequest {
     return true;
 }
 
@@ -62,10 +56,15 @@ export function ProvisionDependenciesRequestFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function ProvisionDependenciesRequestToJSON(value?: ProvisionDependenciesRequest | null): any {
+export function ProvisionDependenciesRequestToJSON(json: any): ProvisionDependenciesRequest {
+    return ProvisionDependenciesRequestToJSONTyped(json, false);
+}
+
+export function ProvisionDependenciesRequestToJSONTyped(value?: ProvisionDependenciesRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'is_dependent': value['is_dependent'],

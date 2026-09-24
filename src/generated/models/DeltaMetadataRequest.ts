@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * 
  * @export
@@ -21,50 +21,34 @@ import { mapValues } from '../runtime.js';
 export interface DeltaMetadataRequest {
     /**
      * 
-     * @type {boolean}
-     * @memberof DeltaMetadataRequest
      */
     archived?: boolean;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof DeltaMetadataRequest
      */
-    contributers?: Array<string>;
+    contributers?: Array<string> | null;
     /**
      * 
-     * @type {Date}
-     * @memberof DeltaMetadataRequest
      */
     created_at?: Date;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataRequest
      */
     created_by?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataRequest
      */
     env_id?: string;
     /**
      * 
-     * @type {Date}
-     * @memberof DeltaMetadataRequest
      */
     last_modified_at?: Date;
     /**
      * 
-     * @type {string}
-     * @memberof DeltaMetadataRequest
      */
     name?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof DeltaMetadataRequest
      */
     shared?: boolean;
 }
@@ -72,7 +56,7 @@ export interface DeltaMetadataRequest {
 /**
  * Check if a given object implements the DeltaMetadataRequest interface.
  */
-export function instanceOfDeltaMetadataRequest(value: object): boolean {
+export function instanceOfDeltaMetadataRequest(value: object): value is DeltaMetadataRequest {
     return true;
 }
 
@@ -87,28 +71,33 @@ export function DeltaMetadataRequestFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'archived': json['archived'] == null ? undefined : json['archived'],
-        'contributers': json['contributers'] == null ? undefined : json['contributers'],
-        'created_at': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'contributers': json['contributers'] === undefined ? undefined : json['contributers'] === null ? null : json['contributers'],
+        'created_at': json['created_at'] == null ? undefined : (parseDateTime(json['created_at'])),
         'created_by': json['created_by'] == null ? undefined : json['created_by'],
         'env_id': json['env_id'] == null ? undefined : json['env_id'],
-        'last_modified_at': json['last_modified_at'] == null ? undefined : (new Date(json['last_modified_at'])),
+        'last_modified_at': json['last_modified_at'] == null ? undefined : (parseDateTime(json['last_modified_at'])),
         'name': json['name'] == null ? undefined : json['name'],
         'shared': json['shared'] == null ? undefined : json['shared'],
     };
 }
 
-export function DeltaMetadataRequestToJSON(value?: DeltaMetadataRequest | null): any {
+export function DeltaMetadataRequestToJSON(json: any): DeltaMetadataRequest {
+    return DeltaMetadataRequestToJSONTyped(json, false);
+}
+
+export function DeltaMetadataRequestToJSONTyped(value?: DeltaMetadataRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],
         'contributers': value['contributers'],
-        'created_at': value['created_at'] == null ? undefined : ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'env_id': value['env_id'],
-        'last_modified_at': value['last_modified_at'] == null ? undefined : ((value['last_modified_at']).toISOString()),
+        'last_modified_at': value['last_modified_at'] == null ? value['last_modified_at'] : serializeDateTime(value['last_modified_at']),
         'name': value['name'],
         'shared': value['shared'],
     };

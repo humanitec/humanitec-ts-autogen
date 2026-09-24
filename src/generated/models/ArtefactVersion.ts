@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { ContainerArtefactVersion } from './ContainerArtefactVersion.js';
 import {
     instanceOfContainerArtefactVersion,
@@ -44,26 +45,29 @@ export function ArtefactVersionFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     switch (json['type']) {
         case 'container':
-            return {...ContainerArtefactVersionFromJSONTyped(json, true), type: 'container'};
+            return Object.assign({}, ContainerArtefactVersionFromJSONTyped(json, true), { type: 'container' } as const);
         case 'workload':
-            return {...WorkloadArtefactVersionFromJSONTyped(json, true), type: 'workload'};
+            return Object.assign({}, WorkloadArtefactVersionFromJSONTyped(json, true), { type: 'workload' } as const);
         default:
-            throw new Error(`No variant of ArtefactVersion exists with 'type=${json['type']}'`);
+            return json;
     }
 }
 
-export function ArtefactVersionToJSON(value?: ArtefactVersion | null): any {
+export function ArtefactVersionToJSON(json: any): any {
+    return ArtefactVersionToJSONTyped(json, false);
+}
+
+export function ArtefactVersionToJSONTyped(value?: ArtefactVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
     switch (value['type']) {
         case 'container':
-            return ContainerArtefactVersionToJSON(value);
+            return Object.assign({}, ContainerArtefactVersionToJSON(value), { 'type': 'container' } as const);
         case 'workload':
-            return WorkloadArtefactVersionToJSON(value);
+            return Object.assign({}, WorkloadArtefactVersionToJSON(value), { 'type': 'workload' } as const);
         default:
-            throw new Error(`No variant of ArtefactVersion exists with 'type=${value['type']}'`);
+            return value;
     }
-
 }
 

@@ -12,25 +12,28 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
-import type { MatchingCriteriaResponse } from './MatchingCriteriaResponse.js';
-import {
-    MatchingCriteriaResponseFromJSON,
-    MatchingCriteriaResponseFromJSONTyped,
-    MatchingCriteriaResponseToJSON,
-} from './MatchingCriteriaResponse.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { ProvisionDependenciesResponse } from './ProvisionDependenciesResponse.js';
 import {
     ProvisionDependenciesResponseFromJSON,
     ProvisionDependenciesResponseFromJSONTyped,
     ProvisionDependenciesResponseToJSON,
+    ProvisionDependenciesResponseToJSONTyped,
 } from './ProvisionDependenciesResponse.js';
 import type { ValuesSecretsRefsResponse } from './ValuesSecretsRefsResponse.js';
 import {
     ValuesSecretsRefsResponseFromJSON,
     ValuesSecretsRefsResponseFromJSONTyped,
     ValuesSecretsRefsResponseToJSON,
+    ValuesSecretsRefsResponseToJSONTyped,
 } from './ValuesSecretsRefsResponse.js';
+import type { MatchingCriteriaResponse } from './MatchingCriteriaResponse.js';
+import {
+    MatchingCriteriaResponseFromJSON,
+    MatchingCriteriaResponseFromJSONTyped,
+    MatchingCriteriaResponseToJSON,
+    MatchingCriteriaResponseToJSONTyped,
+} from './MatchingCriteriaResponse.js';
 
 /**
  * A Resource Definitions describes how and when a resource should be provisioned. It links a driver (the how) along with a Matching Criteria (the when) to a Resource Type. This allows Humanitec to invoke a particular driver for the required Resource Type in the context of a particular Application and Environment.
@@ -42,104 +45,70 @@ import {
 export interface ResourceDefinitionResponse {
     /**
      * The timestamp of when this record has been created.
-     * @type {Date}
-     * @memberof ResourceDefinitionResponse
      */
     created_at: Date;
     /**
      * The user who created this record.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     created_by: string;
     /**
      * The timestamp of when this record has been updated.
-     * @type {Date}
-     * @memberof ResourceDefinitionResponse
      */
     updated_at?: Date;
     /**
      * The user who updated this record.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     updated_by?: string;
     /**
      * (Optional) The criteria to use when looking for a Resource Definition during the deployment.
-     * @type {Array<MatchingCriteriaResponse>}
-     * @memberof ResourceDefinitionResponse
      */
     criteria?: Array<MatchingCriteriaResponse>;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     driver_account?: string;
     /**
      * 
-     * @type {ValuesSecretsRefsResponse}
-     * @memberof ResourceDefinitionResponse
      */
     driver_inputs?: ValuesSecretsRefsResponse;
     /**
      * The driver to be used to create the resource.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     driver_type: string;
     /**
      * The Resource Definition ID.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     id: string;
     /**
      * The active Resource Definition Version ID.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     active_version_id: string;
     /**
      * If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.
-     * @type {boolean}
-     * @memberof ResourceDefinitionResponse
      */
     in_place_driver_change: boolean;
     /**
      * Indicates this definition is a built-in one (provided by Humanitec).
-     * @type {boolean}
-     * @memberof ResourceDefinitionResponse
      */
     is_default: boolean;
     /**
      * Indicates if this record has been marked for deletion. The Resource Definition that has been marked for deletion cannot be used to provision new resources.
-     * @type {boolean}
-     * @memberof ResourceDefinitionResponse
      */
     is_deleted: boolean;
     /**
      * The display name.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     name: string;
     /**
      * The Organization ID.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     org_id: string;
     /**
      * (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.
-     * @type {{ [key: string]: ProvisionDependenciesResponse; }}
-     * @memberof ResourceDefinitionResponse
      */
     provision?: { [key: string]: ProvisionDependenciesResponse; };
     /**
      * The Resource Type.
-     * @type {string}
-     * @memberof ResourceDefinitionResponse
      */
     type: string;
 }
@@ -147,18 +116,18 @@ export interface ResourceDefinitionResponse {
 /**
  * Check if a given object implements the ResourceDefinitionResponse interface.
  */
-export function instanceOfResourceDefinitionResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('driver_type' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('active_version_id' in value)) return false;
-    if (!('in_place_driver_change' in value)) return false;
-    if (!('is_default' in value)) return false;
-    if (!('is_deleted' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfResourceDefinitionResponse(value: object): value is ResourceDefinitionResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('active_version_id' in value) || value['active_version_id'] === undefined) return false;
+    if (!('in_place_driver_change' in value) || value['in_place_driver_change'] === undefined) return false;
+    if (!('is_default' in value) || value['is_default'] === undefined) return false;
+    if (!('is_deleted' in value) || value['is_deleted'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -172,9 +141,9 @@ export function ResourceDefinitionResponseFromJSONTyped(json: any, ignoreDiscrim
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
-        'updated_at': json['updated_at'] == null ? undefined : (new Date(json['updated_at'])),
+        'updated_at': json['updated_at'] == null ? undefined : (parseDateTime(json['updated_at'])),
         'updated_by': json['updated_by'] == null ? undefined : json['updated_by'],
         'criteria': json['criteria'] == null ? undefined : ((json['criteria'] as Array<any>).map(MatchingCriteriaResponseFromJSON)),
         'driver_account': json['driver_account'] == null ? undefined : json['driver_account'],
@@ -192,15 +161,20 @@ export function ResourceDefinitionResponseFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function ResourceDefinitionResponseToJSON(value?: ResourceDefinitionResponse | null): any {
+export function ResourceDefinitionResponseToJSON(json: any): ResourceDefinitionResponse {
+    return ResourceDefinitionResponseToJSONTyped(json, false);
+}
+
+export function ResourceDefinitionResponseToJSONTyped(value?: ResourceDefinitionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
-        'updated_at': value['updated_at'] == null ? undefined : ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
         'updated_by': value['updated_by'],
         'criteria': value['criteria'] == null ? undefined : ((value['criteria'] as Array<any>).map(MatchingCriteriaResponseToJSON)),
         'driver_account': value['driver_account'],

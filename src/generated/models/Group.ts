@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Group holds the metadata of a new group.
  * @export
@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface Group {
     /**
      * The id used in Humanitec to identify the group.
-     * @type {string}
-     * @memberof Group
      */
     id: string;
     /**
      * The name of the group in the IdP
-     * @type {string}
-     * @memberof Group
      */
     group_id: string;
     /**
      * The IdP id.
-     * @type {string}
-     * @memberof Group
      */
     idp_id: string;
     /**
      * The time the user was first registered with Humanitec
-     * @type {Date}
-     * @memberof Group
      */
     created_at?: Date;
 }
@@ -48,10 +40,10 @@ export interface Group {
 /**
  * Check if a given object implements the Group interface.
  */
-export function instanceOfGroup(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('group_id' in value)) return false;
-    if (!('idp_id' in value)) return false;
+export function instanceOfGroup(value: object): value is Group {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('group_id' in value) || value['group_id'] === undefined) return false;
+    if (!('idp_id' in value) || value['idp_id'] === undefined) return false;
     return true;
 }
 
@@ -68,20 +60,25 @@ export function GroupFromJSONTyped(json: any, ignoreDiscriminator: boolean): Gro
         'id': json['id'],
         'group_id': json['group_id'],
         'idp_id': json['idp_id'],
-        'created_at': json['created_at'] == null ? undefined : (new Date(json['created_at'])),
+        'created_at': json['created_at'] == null ? undefined : (parseDateTime(json['created_at'])),
     };
 }
 
-export function GroupToJSON(value?: Group | null): any {
+export function GroupToJSON(json: any): Group {
+    return GroupToJSONTyped(json, false);
+}
+
+export function GroupToJSONTyped(value?: Group | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'group_id': value['group_id'],
         'idp_id': value['idp_id'],
-        'created_at': value['created_at'] == null ? undefined : ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
     };
 }
 

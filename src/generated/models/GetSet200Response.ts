@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { PlainDeltaResponse } from './PlainDeltaResponse.js';
 import {
     instanceOfPlainDeltaResponse,
@@ -42,24 +43,35 @@ export function GetSet200ResponseFromJSONTyped(json: any, ignoreDiscriminator: b
     if (json == null) {
         return json;
     }
+    if (typeof json !== 'object') {
+        return json;
+    }
+    if (instanceOfPlainDeltaResponse(json)) {
+        return PlainDeltaResponseFromJSONTyped(json, true);
+    }
     if (instanceOfSetResponse(json)) {
         return SetResponseFromJSONTyped(json, true);
     }
-    return PlainDeltaResponseFromJSONTyped(json, true);
+    return {} as any;
 }
 
-export function GetSet200ResponseToJSON(value?: GetSet200Response | null): any {
+export function GetSet200ResponseToJSON(json: any): any {
+    return GetSet200ResponseToJSONTyped(json, false);
+}
+
+export function GetSet200ResponseToJSONTyped(value?: GetSet200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
-
+    if (typeof value !== 'object') {
+        return value;
+    }
     if (instanceOfPlainDeltaResponse(value)) {
         return PlainDeltaResponseToJSON(value as PlainDeltaResponse);
     }
     if (instanceOfSetResponse(value)) {
         return SetResponseToJSON(value as SetResponse);
     }
-
     return {};
 }
 

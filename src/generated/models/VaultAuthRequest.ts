@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface VaultAuthRequest {
     /**
      * 
-     * @type {string}
-     * @memberof VaultAuthRequest
      */
     role?: string;
     /**
      * 
-     * @type {string}
-     * @memberof VaultAuthRequest
      */
     token?: string;
 }
@@ -36,7 +32,7 @@ export interface VaultAuthRequest {
 /**
  * Check if a given object implements the VaultAuthRequest interface.
  */
-export function instanceOfVaultAuthRequest(value: object): boolean {
+export function instanceOfVaultAuthRequest(value: object): value is VaultAuthRequest {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function VaultAuthRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function VaultAuthRequestToJSON(value?: VaultAuthRequest | null): any {
+export function VaultAuthRequestToJSON(json: any): VaultAuthRequest {
+    return VaultAuthRequestToJSONTyped(json, false);
+}
+
+export function VaultAuthRequestToJSONTyped(value?: VaultAuthRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'role': value['role'],

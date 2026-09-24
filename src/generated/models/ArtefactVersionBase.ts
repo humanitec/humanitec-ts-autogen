@@ -21,68 +21,46 @@ import { mapValues } from '../runtime.js';
 export interface ArtefactVersionBase {
     /**
      * If the Artefact Version is archived.
-     * @type {boolean}
-     * @memberof ArtefactVersionBase
      */
     archived: boolean;
     /**
      * The UUID of the Artefact.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     artefact_id: string;
     /**
      * (Optional) The commit ID the Artefact Version was built on.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     commit?: string;
     /**
      * The time when the Artefact Version was added to Humanitec.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     created_at?: string;
     /**
      * The user ID of the user who added the Artefact Version to Humanitec.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     created_by?: string;
     /**
      * The UUID of the Artefact Version.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     id: string;
     /**
      * The name of the Artefact.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     name: string;
     /**
      * (Optional) The ref the Artefact Version was built from.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     ref?: string;
     /**
      * The time when the Artefact Version was updated for the last time.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     updated_at?: string;
     /**
      * The user ID of the user who performed the last updated on the Artefact Version.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     updated_by?: string;
     /**
      * (Optional) The version of the Artefact Version.
-     * @type {string}
-     * @memberof ArtefactVersionBase
      */
     version?: string;
 }
@@ -90,11 +68,11 @@ export interface ArtefactVersionBase {
 /**
  * Check if a given object implements the ArtefactVersionBase interface.
  */
-export function instanceOfArtefactVersionBase(value: object): boolean {
-    if (!('archived' in value)) return false;
-    if (!('artefact_id' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfArtefactVersionBase(value: object): value is ArtefactVersionBase {
+    if (!('archived' in value) || value['archived'] === undefined) return false;
+    if (!('artefact_id' in value) || value['artefact_id'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -122,10 +100,15 @@ export function ArtefactVersionBaseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ArtefactVersionBaseToJSON(value?: ArtefactVersionBase | null): any {
+export function ArtefactVersionBaseToJSON(json: any): ArtefactVersionBase {
+    return ArtefactVersionBaseToJSONTyped(json, false);
+}
+
+export function ArtefactVersionBaseToJSONTyped(value?: ArtefactVersionBase | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],

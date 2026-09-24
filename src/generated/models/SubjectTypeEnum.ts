@@ -24,6 +24,17 @@ export enum SubjectTypeEnum {
 }
 
 
+export function instanceOfSubjectTypeEnum(value: any): boolean {
+    for (const key in SubjectTypeEnum) {
+        if (Object.prototype.hasOwnProperty.call(SubjectTypeEnum, key)) {
+            if (SubjectTypeEnum[key as keyof typeof SubjectTypeEnum] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function SubjectTypeEnumFromJSON(json: any): SubjectTypeEnum {
     return SubjectTypeEnumFromJSONTyped(json, false);
 }
@@ -34,5 +45,9 @@ export function SubjectTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boo
 
 export function SubjectTypeEnumToJSON(value?: SubjectTypeEnum | null): any {
     return value as any;
+}
+
+export function SubjectTypeEnumToJSONTyped(value: any, ignoreDiscriminator: boolean): SubjectTypeEnum {
+    return value as SubjectTypeEnum;
 }
 

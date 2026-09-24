@@ -18,12 +18,14 @@ import {
     ModuleResponseFromJSON,
     ModuleResponseFromJSONTyped,
     ModuleResponseToJSON,
+    ModuleResponseToJSONTyped,
 } from './ModuleResponse.js';
 import type { UpdateActionResponse } from './UpdateActionResponse.js';
 import {
     UpdateActionResponseFromJSON,
     UpdateActionResponseFromJSONTyped,
     UpdateActionResponseToJSON,
+    UpdateActionResponseToJSONTyped,
 } from './UpdateActionResponse.js';
 
 /**
@@ -34,20 +36,14 @@ import {
 export interface ModuleDeltasResponse {
     /**
      * 
-     * @type {{ [key: string]: ModuleResponse; }}
-     * @memberof ModuleDeltasResponse
      */
     add: { [key: string]: ModuleResponse; };
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ModuleDeltasResponse
      */
     remove: Array<string>;
     /**
      * 
-     * @type {{ [key: string]: Array<UpdateActionResponse>; }}
-     * @memberof ModuleDeltasResponse
      */
     update: { [key: string]: Array<UpdateActionResponse>; };
 }
@@ -55,10 +51,10 @@ export interface ModuleDeltasResponse {
 /**
  * Check if a given object implements the ModuleDeltasResponse interface.
  */
-export function instanceOfModuleDeltasResponse(value: object): boolean {
-    if (!('add' in value)) return false;
-    if (!('remove' in value)) return false;
-    if (!('update' in value)) return false;
+export function instanceOfModuleDeltasResponse(value: object): value is ModuleDeltasResponse {
+    if (!('add' in value) || value['add'] === undefined) return false;
+    if (!('remove' in value) || value['remove'] === undefined) return false;
+    if (!('update' in value) || value['update'] === undefined) return false;
     return true;
 }
 
@@ -78,10 +74,15 @@ export function ModuleDeltasResponseFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function ModuleDeltasResponseToJSON(value?: ModuleDeltasResponse | null): any {
+export function ModuleDeltasResponseToJSON(json: any): ModuleDeltasResponse {
+    return ModuleDeltasResponseToJSONTyped(json, false);
+}
+
+export function ModuleDeltasResponseToJSONTyped(value?: ModuleDeltasResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'add': (mapValues(value['add'], ModuleResponseToJSON)),

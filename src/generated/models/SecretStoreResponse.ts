@@ -18,25 +18,29 @@ import {
     AWSSMResponseFromJSON,
     AWSSMResponseFromJSONTyped,
     AWSSMResponseToJSON,
+    AWSSMResponseToJSONTyped,
 } from './AWSSMResponse.js';
 import type { AzureKVResponse } from './AzureKVResponse.js';
 import {
     AzureKVResponseFromJSON,
     AzureKVResponseFromJSONTyped,
     AzureKVResponseToJSON,
+    AzureKVResponseToJSONTyped,
 } from './AzureKVResponse.js';
-import type { GCPSMResponse } from './GCPSMResponse.js';
-import {
-    GCPSMResponseFromJSON,
-    GCPSMResponseFromJSONTyped,
-    GCPSMResponseToJSON,
-} from './GCPSMResponse.js';
 import type { VaultResponse } from './VaultResponse.js';
 import {
     VaultResponseFromJSON,
     VaultResponseFromJSONTyped,
     VaultResponseToJSON,
+    VaultResponseToJSONTyped,
 } from './VaultResponse.js';
+import type { GCPSMResponse } from './GCPSMResponse.js';
+import {
+    GCPSMResponseFromJSON,
+    GCPSMResponseFromJSONTyped,
+    GCPSMResponseToJSON,
+    GCPSMResponseToJSONTyped,
+} from './GCPSMResponse.js';
 
 /**
  * Secret Store represents external secret management system used by an organization to store secrets referenced in Humanitec.
@@ -46,68 +50,46 @@ import {
 export interface SecretStoreResponse {
     /**
      * 
-     * @type {AWSSMResponse}
-     * @memberof SecretStoreResponse
      */
     awssm?: AWSSMResponse;
     /**
      * 
-     * @type {AzureKVResponse}
-     * @memberof SecretStoreResponse
      */
     azurekv?: AzureKVResponse;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreResponse
      */
     created_at: string;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreResponse
      */
     created_by: string;
     /**
      * 
-     * @type {GCPSMResponse}
-     * @memberof SecretStoreResponse
      */
     gcpsm?: GCPSMResponse;
     /**
      * Humanitec built-in Secret Store specification.
-     * @type {object}
-     * @memberof SecretStoreResponse
      */
     humanitec?: object;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreResponse
      */
     id: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof SecretStoreResponse
      */
     primary: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreResponse
      */
     updated_at: string;
     /**
      * 
-     * @type {string}
-     * @memberof SecretStoreResponse
      */
     updated_by: string;
     /**
      * 
-     * @type {VaultResponse}
-     * @memberof SecretStoreResponse
      */
     vault?: VaultResponse;
 }
@@ -115,13 +97,13 @@ export interface SecretStoreResponse {
 /**
  * Check if a given object implements the SecretStoreResponse interface.
  */
-export function instanceOfSecretStoreResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('primary' in value)) return false;
-    if (!('updated_at' in value)) return false;
-    if (!('updated_by' in value)) return false;
+export function instanceOfSecretStoreResponse(value: object): value is SecretStoreResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('primary' in value) || value['primary'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
+    if (!('updated_by' in value) || value['updated_by'] === undefined) return false;
     return true;
 }
 
@@ -149,10 +131,15 @@ export function SecretStoreResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function SecretStoreResponseToJSON(value?: SecretStoreResponse | null): any {
+export function SecretStoreResponseToJSON(json: any): SecretStoreResponse {
+    return SecretStoreResponseToJSONTyped(json, false);
+}
+
+export function SecretStoreResponseToJSONTyped(value?: SecretStoreResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'awssm': AWSSMResponseToJSON(value['awssm']),

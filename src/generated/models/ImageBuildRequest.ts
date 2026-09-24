@@ -23,26 +23,18 @@ import { mapValues } from '../runtime.js';
 export interface ImageBuildRequest {
     /**
      * The branch name of the branch the build was built on
-     * @type {string}
-     * @memberof ImageBuildRequest
      */
     branch?: string;
     /**
      * The commit ID that this build was built from.
-     * @type {string}
-     * @memberof ImageBuildRequest
      */
     commit?: string;
     /**
      * The fully qualified Image URL including registry, repository and tag.
-     * @type {string}
-     * @memberof ImageBuildRequest
      */
     image?: string;
     /**
      * The tag that the build was built from.
-     * @type {Array<string>}
-     * @memberof ImageBuildRequest
      */
     tags?: Array<string>;
 }
@@ -50,7 +42,7 @@ export interface ImageBuildRequest {
 /**
  * Check if a given object implements the ImageBuildRequest interface.
  */
-export function instanceOfImageBuildRequest(value: object): boolean {
+export function instanceOfImageBuildRequest(value: object): value is ImageBuildRequest {
     return true;
 }
 
@@ -71,10 +63,15 @@ export function ImageBuildRequestFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ImageBuildRequestToJSON(value?: ImageBuildRequest | null): any {
+export function ImageBuildRequestToJSON(json: any): ImageBuildRequest {
+    return ImageBuildRequestToJSONTyped(json, false);
+}
+
+export function ImageBuildRequestToJSONTyped(value?: ImageBuildRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'branch': value['branch'],

@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface DeploymentErrorRequest {
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     code?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     error_type?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     message?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     object_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     scope?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentErrorRequest
      */
     summary?: string;
 }
@@ -60,7 +48,7 @@ export interface DeploymentErrorRequest {
 /**
  * Check if a given object implements the DeploymentErrorRequest interface.
  */
-export function instanceOfDeploymentErrorRequest(value: object): boolean {
+export function instanceOfDeploymentErrorRequest(value: object): value is DeploymentErrorRequest {
     return true;
 }
 
@@ -83,10 +71,15 @@ export function DeploymentErrorRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function DeploymentErrorRequestToJSON(value?: DeploymentErrorRequest | null): any {
+export function DeploymentErrorRequestToJSON(json: any): DeploymentErrorRequest {
+    return DeploymentErrorRequestToJSONTyped(json, false);
+}
+
+export function DeploymentErrorRequestToJSONTyped(value?: DeploymentErrorRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'code': value['code'],

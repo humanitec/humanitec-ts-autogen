@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An object containing the details of a Pipeline.
  * @export
@@ -21,62 +21,42 @@ import { mapValues } from '../runtime.js';
 export interface Pipeline {
     /**
      * The id of the Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     id: string;
     /**
      * The current entity tag value for this Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     etag: string;
     /**
      * The id of the Organization containing this Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     org_id: string;
     /**
      * The id of the Application containing this Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     app_id: string;
     /**
      * The name of the Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     name: string;
     /**
      * The current status of the Pipeline.
-     * @type {string}
-     * @memberof Pipeline
      */
     status: string;
     /**
      * The unique id of the current Pipeline Version.
-     * @type {string}
-     * @memberof Pipeline
      */
     version: string;
     /**
      * The date and time when the Pipeline was created.
-     * @type {Date}
-     * @memberof Pipeline
      */
     created_at: Date;
     /**
      * The list of trigger types in the current schema.
-     * @type {Array<string>}
-     * @memberof Pipeline
      */
     trigger_types: Array<string>;
     /**
      * The map of key value pipeline additional information
-     * @type {{ [key: string]: string; }}
-     * @memberof Pipeline
      */
     metadata?: { [key: string]: string; };
 }
@@ -84,16 +64,16 @@ export interface Pipeline {
 /**
  * Check if a given object implements the Pipeline interface.
  */
-export function instanceOfPipeline(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('etag' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('app_id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('version' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('trigger_types' in value)) return false;
+export function instanceOfPipeline(value: object): value is Pipeline {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('etag' in value) || value['etag'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('version' in value) || value['version'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('trigger_types' in value) || value['trigger_types'] === undefined) return false;
     return true;
 }
 
@@ -114,16 +94,21 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': json['name'],
         'status': json['status'],
         'version': json['version'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'trigger_types': json['trigger_types'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
     };
 }
 
-export function PipelineToJSON(value?: Pipeline | null): any {
+export function PipelineToJSON(json: any): Pipeline {
+    return PipelineToJSONTyped(json, false);
+}
+
+export function PipelineToJSONTyped(value?: Pipeline | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
@@ -133,7 +118,7 @@ export function PipelineToJSON(value?: Pipeline | null): any {
         'name': value['name'],
         'status': value['status'],
         'version': value['version'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'trigger_types': value['trigger_types'],
         'metadata': value['metadata'],
     };

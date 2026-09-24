@@ -18,6 +18,7 @@ import {
     SecretReferenceFromJSON,
     SecretReferenceFromJSONTyped,
     SecretReferenceToJSON,
+    SecretReferenceToJSONTyped,
 } from './SecretReference.js';
 
 /**
@@ -32,40 +33,30 @@ import {
 export interface ValueRequest {
     /**
      * A Human friendly description of what the Shared Value is.
-     * @type {string}
-     * @memberof ValueRequest
      */
     description?: string;
     /**
      * Specified that the Shared Value contains a secret.
-     * @type {boolean}
-     * @memberof ValueRequest
      */
     is_secret?: boolean;
     /**
      * The unique key by which the Shared Value can be referenced. pattern: ^[a-zA-Z0-9._-]+$.
-     * @type {string}
-     * @memberof ValueRequest
      */
     key?: string;
     /**
      * The value that will be stored. (Will be always empty for secrets.)
-     * @type {string}
-     * @memberof ValueRequest
      */
     value?: string;
     /**
      * 
-     * @type {SecretReference}
-     * @memberof ValueRequest
      */
-    secret_ref?: SecretReference;
+    secret_ref?: SecretReference | null;
 }
 
 /**
  * Check if a given object implements the ValueRequest interface.
  */
-export function instanceOfValueRequest(value: object): boolean {
+export function instanceOfValueRequest(value: object): value is ValueRequest {
     return true;
 }
 
@@ -83,14 +74,19 @@ export function ValueRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'is_secret': json['is_secret'] == null ? undefined : json['is_secret'],
         'key': json['key'] == null ? undefined : json['key'],
         'value': json['value'] == null ? undefined : json['value'],
-        'secret_ref': json['secret_ref'] == null ? undefined : SecretReferenceFromJSON(json['secret_ref']),
+        'secret_ref': json['secret_ref'] === undefined ? undefined : json['secret_ref'] === null ? null : SecretReferenceFromJSON(json['secret_ref']),
     };
 }
 
-export function ValueRequestToJSON(value?: ValueRequest | null): any {
+export function ValueRequestToJSON(json: any): ValueRequest {
+    return ValueRequestToJSONTyped(json, false);
+}
+
+export function ValueRequestToJSONTyped(value?: ValueRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

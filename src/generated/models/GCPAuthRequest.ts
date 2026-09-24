@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface GCPAuthRequest {
     /**
      * 
-     * @type {string}
-     * @memberof GCPAuthRequest
      */
     secret_access_key?: string;
 }
@@ -30,7 +28,7 @@ export interface GCPAuthRequest {
 /**
  * Check if a given object implements the GCPAuthRequest interface.
  */
-export function instanceOfGCPAuthRequest(value: object): boolean {
+export function instanceOfGCPAuthRequest(value: object): value is GCPAuthRequest {
     return true;
 }
 
@@ -48,10 +46,15 @@ export function GCPAuthRequestFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function GCPAuthRequestToJSON(value?: GCPAuthRequest | null): any {
+export function GCPAuthRequestToJSON(json: any): GCPAuthRequest {
+    return GCPAuthRequestToJSONTyped(json, false);
+}
+
+export function GCPAuthRequestToJSONTyped(value?: GCPAuthRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'secret_access_key': value['secret_access_key'],

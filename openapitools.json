@@ -2,15 +2,19 @@
   "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "7.4.0",
+    "version": "7.25.0",
     "useDocker": true,
     "generators": {
       "humanitec": {
-        "inputSpec": "docs/openapi.patched.json",
+        "inputSpec": "docs/openapi.json",
         "output": "src/generated",
         "generatorName": "typescript-fetch",
         "openapiNormalizer": {
           "SET_TAGS_FOR_ALL_OPERATIONS": "public"
+        },
+        "globalProperty": {
+          "apiDocs": false,
+          "modelDocs": false
         },
         "additionalProperties": {
           "disallowAdditionalPropertiesIfNotPresent": false,

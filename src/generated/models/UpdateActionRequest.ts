@@ -25,34 +25,26 @@ import { mapValues } from '../runtime.js';
 export interface UpdateActionRequest {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionRequest
      */
     from?: string;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionRequest
      */
     op?: string;
     /**
      * 
-     * @type {string}
-     * @memberof UpdateActionRequest
      */
     path?: string;
     /**
      * 
-     * @type {any}
-     * @memberof UpdateActionRequest
      */
-    value?: any;
+    value?: any | null;
 }
 
 /**
  * Check if a given object implements the UpdateActionRequest interface.
  */
-export function instanceOfUpdateActionRequest(value: object): boolean {
+export function instanceOfUpdateActionRequest(value: object): value is UpdateActionRequest {
     return true;
 }
 
@@ -69,14 +61,19 @@ export function UpdateActionRequestFromJSONTyped(json: any, ignoreDiscriminator:
         'from': json['from'] == null ? undefined : json['from'],
         'op': json['op'] == null ? undefined : json['op'],
         'path': json['path'] == null ? undefined : json['path'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
     };
 }
 
-export function UpdateActionRequestToJSON(value?: UpdateActionRequest | null): any {
+export function UpdateActionRequestToJSON(json: any): UpdateActionRequest {
+    return UpdateActionRequestToJSONTyped(json, false);
+}
+
+export function UpdateActionRequestToJSONTyped(value?: UpdateActionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'from': value['from'],

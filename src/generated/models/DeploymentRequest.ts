@@ -18,6 +18,7 @@ import {
     DeploymentPipelineReferenceRequestFromJSON,
     DeploymentPipelineReferenceRequestFromJSONTyped,
     DeploymentPipelineReferenceRequestToJSON,
+    DeploymentPipelineReferenceRequestToJSONTyped,
 } from './DeploymentPipelineReferenceRequest.js';
 
 /**
@@ -30,41 +31,29 @@ import {
 export interface DeploymentRequest {
     /**
      * An optional comment to help communicate the purpose of the Deployment.
-     * @type {string}
-     * @memberof DeploymentRequest
      */
     comment?: string;
     /**
      * ID of the Deployment Delta describing the changes to the current Environment for this Deployment.
-     * @type {string}
-     * @memberof DeploymentRequest
      */
     delta_id?: string;
     /**
      * 
-     * @type {DeploymentPipelineReferenceRequest}
-     * @memberof DeploymentRequest
      */
     pipeline?: DeploymentPipelineReferenceRequest;
     /**
      * The deployment mode. Must be "full" or "incremental". Defaults to "full" when absent.
      * "incremental" is only valid in direct (non-legacy) mode.
-     * @type {string}
-     * @memberof DeploymentRequest
      */
     mode?: DeploymentRequestModeEnum;
     /**
      * ID of the Deployment Set describing the state of the Environment after Deployment.
-     * @type {string}
-     * @memberof DeploymentRequest
      */
     set_id?: string;
     /**
      * ID of the Value Set Version describe the values to be used for this Deployment.
-     * @type {string}
-     * @memberof DeploymentRequest
      */
-    value_set_version_id?: string;
+    value_set_version_id?: string | null;
 }
 
 /**
@@ -81,7 +70,7 @@ export enum DeploymentRequestModeEnum {
 /**
  * Check if a given object implements the DeploymentRequest interface.
  */
-export function instanceOfDeploymentRequest(value: object): boolean {
+export function instanceOfDeploymentRequest(value: object): value is DeploymentRequest {
     return true;
 }
 
@@ -100,14 +89,19 @@ export function DeploymentRequestFromJSONTyped(json: any, ignoreDiscriminator: b
         'pipeline': json['pipeline'] == null ? undefined : DeploymentPipelineReferenceRequestFromJSON(json['pipeline']),
         'mode': json['mode'] == null ? undefined : json['mode'],
         'set_id': json['set_id'] == null ? undefined : json['set_id'],
-        'value_set_version_id': json['value_set_version_id'] == null ? undefined : json['value_set_version_id'],
+        'value_set_version_id': json['value_set_version_id'] === undefined ? undefined : json['value_set_version_id'] === null ? null : json['value_set_version_id'],
     };
 }
 
-export function DeploymentRequestToJSON(value?: DeploymentRequest | null): any {
+export function DeploymentRequestToJSON(json: any): DeploymentRequest {
+    return DeploymentRequestToJSONTyped(json, false);
+}
+
+export function DeploymentRequestToJSONTyped(value?: DeploymentRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'comment': value['comment'],

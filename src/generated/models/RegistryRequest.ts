@@ -18,12 +18,14 @@ import {
     AccountCredsRequestFromJSON,
     AccountCredsRequestFromJSONTyped,
     AccountCredsRequestToJSON,
+    AccountCredsRequestToJSONTyped,
 } from './AccountCredsRequest.js';
 import type { ClusterSecretRequest } from './ClusterSecretRequest.js';
 import {
     ClusterSecretRequestFromJSON,
     ClusterSecretRequestFromJSONTyped,
     ClusterSecretRequestToJSON,
+    ClusterSecretRequestToJSONTyped,
 } from './ClusterSecretRequest.js';
 
 /**
@@ -36,32 +38,22 @@ import {
 export interface RegistryRequest {
     /**
      * 
-     * @type {AccountCredsRequest}
-     * @memberof RegistryRequest
      */
     creds?: AccountCredsRequest;
     /**
      * Indicates if registry secrets and credentials should be exposed to CI agents.
-     * @type {boolean}
-     * @memberof RegistryRequest
      */
     enable_ci?: boolean;
     /**
      * Registry ID, unique within the Organization.
-     * @type {string}
-     * @memberof RegistryRequest
      */
     id: string;
     /**
      * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
-     * @type {string}
-     * @memberof RegistryRequest
      */
     registry: string;
     /**
      * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretRequest; }}
-     * @memberof RegistryRequest
      */
     secrets?: { [key: string]: ClusterSecretRequest; };
     /**
@@ -78,8 +70,6 @@ export interface RegistryRequest {
      * - `amazon_ecr`
      * 
      * - `secret_ref`
-     * @type {string}
-     * @memberof RegistryRequest
      */
     type: string;
 }
@@ -87,10 +77,10 @@ export interface RegistryRequest {
 /**
  * Check if a given object implements the RegistryRequest interface.
  */
-export function instanceOfRegistryRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('registry' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfRegistryRequest(value: object): value is RegistryRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('registry' in value) || value['registry'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -113,10 +103,15 @@ export function RegistryRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RegistryRequestToJSON(value?: RegistryRequest | null): any {
+export function RegistryRequestToJSON(json: any): RegistryRequest {
+    return RegistryRequestToJSONTyped(json, false);
+}
+
+export function RegistryRequestToJSONTyped(value?: RegistryRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'creds': AccountCredsRequestToJSON(value['creds']),

@@ -18,18 +18,21 @@ import {
     MatchingCriteriaRuleRequestFromJSON,
     MatchingCriteriaRuleRequestFromJSONTyped,
     MatchingCriteriaRuleRequestToJSON,
+    MatchingCriteriaRuleRequestToJSONTyped,
 } from './MatchingCriteriaRuleRequest.js';
 import type { ProvisionDependenciesRequest } from './ProvisionDependenciesRequest.js';
 import {
     ProvisionDependenciesRequestFromJSON,
     ProvisionDependenciesRequestFromJSONTyped,
     ProvisionDependenciesRequestToJSON,
+    ProvisionDependenciesRequestToJSONTyped,
 } from './ProvisionDependenciesRequest.js';
 import type { ValuesSecretsRefsRequest } from './ValuesSecretsRefsRequest.js';
 import {
     ValuesSecretsRefsRequestFromJSON,
     ValuesSecretsRefsRequestFromJSONTyped,
     ValuesSecretsRefsRequestToJSON,
+    ValuesSecretsRefsRequestToJSONTyped,
 } from './ValuesSecretsRefsRequest.js';
 
 /**
@@ -40,56 +43,38 @@ import {
 export interface CreateResourceDefinitionRequestRequest {
     /**
      * (Optional) The criteria to use when looking for a Resource Definition during the deployment.
-     * @type {Array<MatchingCriteriaRuleRequest>}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     criteria?: Array<MatchingCriteriaRuleRequest>;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     driver_account?: string;
     /**
      * 
-     * @type {ValuesSecretsRefsRequest}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     driver_inputs?: ValuesSecretsRefsRequest;
     /**
      * The driver to be used to create the resource.
-     * @type {string}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     driver_type: string;
     /**
      * The Resource Definition ID.
-     * @type {string}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     id: string;
     /**
      * (Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.
-     * @type {boolean}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     in_place_driver_change?: boolean;
     /**
      * The display name.
-     * @type {string}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     name: string;
     /**
      * (Optional) A map where the keys are resType#resId (if resId is omitted, the same id of the current resource definition is used) of the resources that should be provisioned when the current resource is provisioned. This also specifies if the resources have a dependency on the current resource.
-     * @type {{ [key: string]: ProvisionDependenciesRequest; }}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     provision?: { [key: string]: ProvisionDependenciesRequest; };
     /**
      * The Resource Type.
-     * @type {string}
-     * @memberof CreateResourceDefinitionRequestRequest
      */
     type: string;
 }
@@ -97,11 +82,11 @@ export interface CreateResourceDefinitionRequestRequest {
 /**
  * Check if a given object implements the CreateResourceDefinitionRequestRequest interface.
  */
-export function instanceOfCreateResourceDefinitionRequestRequest(value: object): boolean {
-    if (!('driver_type' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfCreateResourceDefinitionRequestRequest(value: object): value is CreateResourceDefinitionRequestRequest {
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -127,10 +112,15 @@ export function CreateResourceDefinitionRequestRequestFromJSONTyped(json: any, i
     };
 }
 
-export function CreateResourceDefinitionRequestRequestToJSON(value?: CreateResourceDefinitionRequestRequest | null): any {
+export function CreateResourceDefinitionRequestRequestToJSON(json: any): CreateResourceDefinitionRequestRequest {
+    return CreateResourceDefinitionRequestRequestToJSONTyped(json, false);
+}
+
+export function CreateResourceDefinitionRequestRequestToJSONTyped(value?: CreateResourceDefinitionRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'criteria': value['criteria'] == null ? undefined : ((value['criteria'] as Array<any>).map(MatchingCriteriaRuleRequestToJSON)),

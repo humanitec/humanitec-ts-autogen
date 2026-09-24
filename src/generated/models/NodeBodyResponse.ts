@@ -21,92 +21,62 @@ import { mapValues } from '../runtime.js';
 export interface NodeBodyResponse {
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     _class: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     criteria_id: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     def_id: string;
     /**
      * The Resource Definition Version ID that was used to provision the resource.
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     def_version_id: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof NodeBodyResponse
      */
     depends_on: Array<string>;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof NodeBodyResponse
      */
     driver: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     driver_account?: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     driver_type: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     guresid: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     id: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof NodeBodyResponse
      */
     in_place_driver_change: boolean;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof NodeBodyResponse
      */
     resource: { [key: string]: any; };
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof NodeBodyResponse
      */
     resource_schema: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     target?: string;
     /**
      * 
-     * @type {string}
-     * @memberof NodeBodyResponse
      */
     type: string;
 }
@@ -114,20 +84,20 @@ export interface NodeBodyResponse {
 /**
  * Check if a given object implements the NodeBodyResponse interface.
  */
-export function instanceOfNodeBodyResponse(value: object): boolean {
-    if (!('_class' in value)) return false;
-    if (!('criteria_id' in value)) return false;
-    if (!('def_id' in value)) return false;
-    if (!('def_version_id' in value)) return false;
-    if (!('depends_on' in value)) return false;
-    if (!('driver' in value)) return false;
-    if (!('driver_type' in value)) return false;
-    if (!('guresid' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('in_place_driver_change' in value)) return false;
-    if (!('resource' in value)) return false;
-    if (!('resource_schema' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfNodeBodyResponse(value: object): value is NodeBodyResponse {
+    if ((!('_class' in (value as Record<string, any>)) && !('class' in (value as Record<string, any>))) || ((value as Record<string, any>)['_class'] === undefined && (value as Record<string, any>)['class'] === undefined)) return false;
+    if (!('criteria_id' in value) || value['criteria_id'] === undefined) return false;
+    if (!('def_id' in value) || value['def_id'] === undefined) return false;
+    if (!('def_version_id' in value) || value['def_version_id'] === undefined) return false;
+    if (!('depends_on' in value) || value['depends_on'] === undefined) return false;
+    if (!('driver' in value) || value['driver'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('guresid' in value) || value['guresid'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('in_place_driver_change' in value) || value['in_place_driver_change'] === undefined) return false;
+    if (!('resource' in value) || value['resource'] === undefined) return false;
+    if (!('resource_schema' in value) || value['resource_schema'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -159,10 +129,15 @@ export function NodeBodyResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function NodeBodyResponseToJSON(value?: NodeBodyResponse | null): any {
+export function NodeBodyResponseToJSON(json: any): NodeBodyResponse {
+    return NodeBodyResponseToJSONTyped(json, false);
+}
+
+export function NodeBodyResponseToJSONTyped(value?: NodeBodyResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'class': value['_class'],

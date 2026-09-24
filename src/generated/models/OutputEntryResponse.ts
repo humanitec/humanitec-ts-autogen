@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface OutputEntryResponse {
     /**
      * 
-     * @type {string}
-     * @memberof OutputEntryResponse
      */
     container_id: string;
     /**
      * 
-     * @type {string}
-     * @memberof OutputEntryResponse
      */
     level: string;
     /**
      * 
-     * @type {string}
-     * @memberof OutputEntryResponse
      */
     payload: string;
     /**
      * 
-     * @type {string}
-     * @memberof OutputEntryResponse
      */
     timestamp: string;
     /**
      * 
-     * @type {string}
-     * @memberof OutputEntryResponse
      */
     workload_id: string;
 }
@@ -54,12 +44,12 @@ export interface OutputEntryResponse {
 /**
  * Check if a given object implements the OutputEntryResponse interface.
  */
-export function instanceOfOutputEntryResponse(value: object): boolean {
-    if (!('container_id' in value)) return false;
-    if (!('level' in value)) return false;
-    if (!('payload' in value)) return false;
-    if (!('timestamp' in value)) return false;
-    if (!('workload_id' in value)) return false;
+export function instanceOfOutputEntryResponse(value: object): value is OutputEntryResponse {
+    if (!('container_id' in value) || value['container_id'] === undefined) return false;
+    if (!('level' in value) || value['level'] === undefined) return false;
+    if (!('payload' in value) || value['payload'] === undefined) return false;
+    if (!('timestamp' in value) || value['timestamp'] === undefined) return false;
+    if (!('workload_id' in value) || value['workload_id'] === undefined) return false;
     return true;
 }
 
@@ -81,10 +71,15 @@ export function OutputEntryResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function OutputEntryResponseToJSON(value?: OutputEntryResponse | null): any {
+export function OutputEntryResponseToJSON(json: any): OutputEntryResponse {
+    return OutputEntryResponseToJSONTyped(json, false);
+}
+
+export function OutputEntryResponseToJSONTyped(value?: OutputEntryResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'container_id': value['container_id'],

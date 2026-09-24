@@ -21,28 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface JSONPatchRequest {
     /**
      * 
-     * @type {string}
-     * @memberof JSONPatchRequest
      */
     op?: string;
     /**
      * 
-     * @type {string}
-     * @memberof JSONPatchRequest
      */
     path?: string;
     /**
      * 
-     * @type {any}
-     * @memberof JSONPatchRequest
      */
-    value?: any;
+    value?: any | null;
 }
 
 /**
  * Check if a given object implements the JSONPatchRequest interface.
  */
-export function instanceOfJSONPatchRequest(value: object): boolean {
+export function instanceOfJSONPatchRequest(value: object): value is JSONPatchRequest {
     return true;
 }
 
@@ -58,14 +52,19 @@ export function JSONPatchRequestFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'op': json['op'] == null ? undefined : json['op'],
         'path': json['path'] == null ? undefined : json['path'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
     };
 }
 
-export function JSONPatchRequestToJSON(value?: JSONPatchRequest | null): any {
+export function JSONPatchRequestToJSON(json: any): JSONPatchRequest {
+    return JSONPatchRequestToJSONTyped(json, false);
+}
+
+export function JSONPatchRequestToJSONTyped(value?: JSONPatchRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'op': value['op'],

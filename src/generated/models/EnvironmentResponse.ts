@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { DeploymentResponse } from './DeploymentResponse.js';
 import {
     DeploymentResponseFromJSON,
     DeploymentResponseFromJSONTyped,
     DeploymentResponseToJSON,
+    DeploymentResponseToJSONTyped,
 } from './DeploymentResponse.js';
 
 /**
@@ -28,62 +29,42 @@ import {
 export interface EnvironmentResponse {
     /**
      * The timestamp in UTC of when the Environment was created.
-     * @type {Date}
-     * @memberof EnvironmentResponse
      */
     created_at: Date;
     /**
      * The user who created the Environment
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     created_by: string;
     /**
      * 
-     * @type {DeploymentResponse}
-     * @memberof EnvironmentResponse
      */
     from_deploy?: DeploymentResponse;
     /**
      * The ID the Environment is referenced as.
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     id: string;
     /**
      * 
-     * @type {DeploymentResponse}
-     * @memberof EnvironmentResponse
      */
     last_deploy?: DeploymentResponse;
     /**
      * The Human-friendly name for the Environment.
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     name: string;
     /**
      * The Environment Type. This is used for organizing and managing Environments.
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     type: string;
     /**
      * The status of the environment
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     status: EnvironmentResponseStatusEnum;
     /**
      * The timestamp in UTC of when the Environment status was last changed.
-     * @type {Date}
-     * @memberof EnvironmentResponse
      */
     status_changed_at: Date;
     /**
      * The message associated with the status of the environment
-     * @type {string}
-     * @memberof EnvironmentResponse
      */
     status_message?: string;
 }
@@ -102,14 +83,14 @@ export enum EnvironmentResponseStatusEnum {
 /**
  * Check if a given object implements the EnvironmentResponse interface.
  */
-export function instanceOfEnvironmentResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('status_changed_at' in value)) return false;
+export function instanceOfEnvironmentResponse(value: object): value is EnvironmentResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_changed_at' in value) || value['status_changed_at'] === undefined) return false;
     return true;
 }
 
@@ -123,7 +104,7 @@ export function EnvironmentResponseFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'from_deploy': json['from_deploy'] == null ? undefined : DeploymentResponseFromJSON(json['from_deploy']),
         'id': json['id'],
@@ -131,18 +112,23 @@ export function EnvironmentResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'name': json['name'],
         'type': json['type'],
         'status': json['status'],
-        'status_changed_at': (new Date(json['status_changed_at'])),
+        'status_changed_at': (json['status_changed_at'] == null ? json['status_changed_at'] : parseDateTime(json['status_changed_at'])),
         'status_message': json['status_message'] == null ? undefined : json['status_message'],
     };
 }
 
-export function EnvironmentResponseToJSON(value?: EnvironmentResponse | null): any {
+export function EnvironmentResponseToJSON(json: any): EnvironmentResponse {
+    return EnvironmentResponseToJSONTyped(json, false);
+}
+
+export function EnvironmentResponseToJSONTyped(value?: EnvironmentResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'from_deploy': DeploymentResponseToJSON(value['from_deploy']),
         'id': value['id'],
@@ -150,7 +136,7 @@ export function EnvironmentResponseToJSON(value?: EnvironmentResponse | null): a
         'name': value['name'],
         'type': value['type'],
         'status': value['status'],
-        'status_changed_at': ((value['status_changed_at']).toISOString()),
+        'status_changed_at': value['status_changed_at'] == null ? value['status_changed_at'] : serializeDateTime(value['status_changed_at']),
         'status_message': value['status_message'],
     };
 }

@@ -18,6 +18,7 @@ import {
     ConflictingResourcesErrorResponseDetailsResourcesFromJSON,
     ConflictingResourcesErrorResponseDetailsResourcesFromJSONTyped,
     ConflictingResourcesErrorResponseDetailsResourcesToJSON,
+    ConflictingResourcesErrorResponseDetailsResourcesToJSONTyped,
 } from './ConflictingResourcesErrorResponseDetailsResources.js';
 
 /**
@@ -28,8 +29,6 @@ import {
 export interface ConflictingResourcesErrorResponseDetails {
     /**
      * 
-     * @type {ConflictingResourcesErrorResponseDetailsResources}
-     * @memberof ConflictingResourcesErrorResponseDetails
      */
     referencing_resources: ConflictingResourcesErrorResponseDetailsResources;
 }
@@ -37,8 +36,8 @@ export interface ConflictingResourcesErrorResponseDetails {
 /**
  * Check if a given object implements the ConflictingResourcesErrorResponseDetails interface.
  */
-export function instanceOfConflictingResourcesErrorResponseDetails(value: object): boolean {
-    if (!('referencing_resources' in value)) return false;
+export function instanceOfConflictingResourcesErrorResponseDetails(value: object): value is ConflictingResourcesErrorResponseDetails {
+    if (!('referencing_resources' in value) || value['referencing_resources'] === undefined) return false;
     return true;
 }
 
@@ -56,10 +55,15 @@ export function ConflictingResourcesErrorResponseDetailsFromJSONTyped(json: any,
     };
 }
 
-export function ConflictingResourcesErrorResponseDetailsToJSON(value?: ConflictingResourcesErrorResponseDetails | null): any {
+export function ConflictingResourcesErrorResponseDetailsToJSON(json: any): ConflictingResourcesErrorResponseDetails {
+    return ConflictingResourcesErrorResponseDetailsToJSONTyped(json, false);
+}
+
+export function ConflictingResourcesErrorResponseDetailsToJSONTyped(value?: ConflictingResourcesErrorResponseDetails | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'referencing_resources': ConflictingResourcesErrorResponseDetailsResourcesToJSON(value['referencing_resources']),

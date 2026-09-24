@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface WorkloadProfileChartReference {
     /**
      * Workload Profile Chart ID
-     * @type {string}
-     * @memberof WorkloadProfileChartReference
      */
     id: string;
     /**
      * Version
-     * @type {string}
-     * @memberof WorkloadProfileChartReference
      */
     version: string;
 }
@@ -36,9 +32,9 @@ export interface WorkloadProfileChartReference {
 /**
  * Check if a given object implements the WorkloadProfileChartReference interface.
  */
-export function instanceOfWorkloadProfileChartReference(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('version' in value)) return false;
+export function instanceOfWorkloadProfileChartReference(value: object): value is WorkloadProfileChartReference {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('version' in value) || value['version'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function WorkloadProfileChartReferenceFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function WorkloadProfileChartReferenceToJSON(value?: WorkloadProfileChartReference | null): any {
+export function WorkloadProfileChartReferenceToJSON(json: any): WorkloadProfileChartReference {
+    return WorkloadProfileChartReferenceToJSONTyped(json, false);
+}
+
+export function WorkloadProfileChartReferenceToJSONTyped(value?: WorkloadProfileChartReference | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { DeltaResponse } from './DeltaResponse.js';
 import {
     instanceOfDeltaResponse,
@@ -25,7 +26,7 @@ import {
  * 
  * @export
  */
-export type CreateDelta200Response = DeltaResponse;
+export type CreateDelta200Response = DeltaResponse | string;
 
 export function CreateDelta200ResponseFromJSON(json: any): CreateDelta200Response {
     return CreateDelta200ResponseFromJSONTyped(json, false);
@@ -35,18 +36,35 @@ export function CreateDelta200ResponseFromJSONTyped(json: any, ignoreDiscriminat
     if (json == null) {
         return json;
     }
-    return { ...DeltaResponseFromJSONTyped(json, true) };
+    if (typeof json !== 'object') {
+        return json;
+    }
+    if (instanceOfDeltaResponse(json)) {
+        return DeltaResponseFromJSONTyped(json, true);
+    }
+    if (typeof json === 'string') {
+        return json;
+    }
+    return {} as any;
 }
 
-export function CreateDelta200ResponseToJSON(value?: CreateDelta200Response | null): any {
+export function CreateDelta200ResponseToJSON(json: any): any {
+    return CreateDelta200ResponseToJSONTyped(json, false);
+}
+
+export function CreateDelta200ResponseToJSONTyped(value?: CreateDelta200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
-
+    if (typeof value !== 'object') {
+        return value;
+    }
     if (instanceOfDeltaResponse(value)) {
         return DeltaResponseToJSON(value as DeltaResponse);
     }
-
+    if (typeof value === 'string') {
+        return value;
+    }
     return {};
 }
 

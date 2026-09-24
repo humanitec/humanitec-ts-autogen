@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface ResourceDefinitions {
     /**
      * Type of the resource provisioned by the definition
-     * @type {string}
-     * @memberof ResourceDefinitions
      */
     type: string;
     /**
      * The definition id
-     * @type {string}
-     * @memberof ResourceDefinitions
      */
     id: string;
 }
@@ -36,9 +32,9 @@ export interface ResourceDefinitions {
 /**
  * Check if a given object implements the ResourceDefinitions interface.
  */
-export function instanceOfResourceDefinitions(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('id' in value)) return false;
+export function instanceOfResourceDefinitions(value: object): value is ResourceDefinitions {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function ResourceDefinitionsFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ResourceDefinitionsToJSON(value?: ResourceDefinitions | null): any {
+export function ResourceDefinitionsToJSON(json: any): ResourceDefinitions {
+    return ResourceDefinitionsToJSONTyped(json, false);
+}
+
+export function ResourceDefinitionsToJSONTyped(value?: ResourceDefinitions | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

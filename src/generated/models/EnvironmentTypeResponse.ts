@@ -23,14 +23,10 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentTypeResponse {
     /**
      * A Human-readable description of the Environment Type
-     * @type {string}
-     * @memberof EnvironmentTypeResponse
      */
     description: string;
     /**
      * The ID of the Environment Type. (Must be unique within an Organization.)
-     * @type {string}
-     * @memberof EnvironmentTypeResponse
      */
     id: string;
 }
@@ -38,9 +34,9 @@ export interface EnvironmentTypeResponse {
 /**
  * Check if a given object implements the EnvironmentTypeResponse interface.
  */
-export function instanceOfEnvironmentTypeResponse(value: object): boolean {
-    if (!('description' in value)) return false;
-    if (!('id' in value)) return false;
+export function instanceOfEnvironmentTypeResponse(value: object): value is EnvironmentTypeResponse {
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
     return true;
 }
 
@@ -59,10 +55,15 @@ export function EnvironmentTypeResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function EnvironmentTypeResponseToJSON(value?: EnvironmentTypeResponse | null): any {
+export function EnvironmentTypeResponseToJSON(json: any): EnvironmentTypeResponse {
+    return EnvironmentTypeResponseToJSONTyped(json, false);
+}
+
+export function EnvironmentTypeResponseToJSONTyped(value?: EnvironmentTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

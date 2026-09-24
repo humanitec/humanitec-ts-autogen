@@ -18,6 +18,7 @@ import {
     EnvironmentBaseRequestFromJSON,
     EnvironmentBaseRequestFromJSONTyped,
     EnvironmentBaseRequestToJSON,
+    EnvironmentBaseRequestToJSONTyped,
 } from './EnvironmentBaseRequest.js';
 
 /**
@@ -28,26 +29,18 @@ import {
 export interface ApplicationCreationRequest {
     /**
      * 
-     * @type {EnvironmentBaseRequest}
-     * @memberof ApplicationCreationRequest
      */
     env?: EnvironmentBaseRequest;
     /**
      * The ID which refers to a specific application.
-     * @type {string}
-     * @memberof ApplicationCreationRequest
      */
     id: string;
     /**
      * The Human-friendly name for the Application.
-     * @type {string}
-     * @memberof ApplicationCreationRequest
      */
     name: string;
     /**
      * If true, no environment will be created with the application.
-     * @type {boolean}
-     * @memberof ApplicationCreationRequest
      */
     skip_environment_creation?: boolean;
 }
@@ -55,9 +48,9 @@ export interface ApplicationCreationRequest {
 /**
  * Check if a given object implements the ApplicationCreationRequest interface.
  */
-export function instanceOfApplicationCreationRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfApplicationCreationRequest(value: object): value is ApplicationCreationRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -78,10 +71,15 @@ export function ApplicationCreationRequestFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function ApplicationCreationRequestToJSON(value?: ApplicationCreationRequest | null): any {
+export function ApplicationCreationRequestToJSON(json: any): ApplicationCreationRequest {
+    return ApplicationCreationRequestToJSONTyped(json, false);
+}
+
+export function ApplicationCreationRequestToJSONTyped(value?: ApplicationCreationRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'env': EnvironmentBaseRequestToJSON(value['env']),

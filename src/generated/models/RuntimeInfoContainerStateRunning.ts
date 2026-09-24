@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Details about a running container.
  * @export
@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface RuntimeInfoContainerStateRunning {
     /**
      * Time at which the container was last (re-)started.
-     * @type {Date}
-     * @memberof RuntimeInfoContainerStateRunning
      */
     started_at?: Date;
 }
@@ -30,7 +28,7 @@ export interface RuntimeInfoContainerStateRunning {
 /**
  * Check if a given object implements the RuntimeInfoContainerStateRunning interface.
  */
-export function instanceOfRuntimeInfoContainerStateRunning(value: object): boolean {
+export function instanceOfRuntimeInfoContainerStateRunning(value: object): value is RuntimeInfoContainerStateRunning {
     return true;
 }
 
@@ -44,17 +42,22 @@ export function RuntimeInfoContainerStateRunningFromJSONTyped(json: any, ignoreD
     }
     return {
         
-        'started_at': json['started_at'] == null ? undefined : (new Date(json['started_at'])),
+        'started_at': json['started_at'] == null ? undefined : (parseDateTime(json['started_at'])),
     };
 }
 
-export function RuntimeInfoContainerStateRunningToJSON(value?: RuntimeInfoContainerStateRunning | null): any {
+export function RuntimeInfoContainerStateRunningToJSON(json: any): RuntimeInfoContainerStateRunning {
+    return RuntimeInfoContainerStateRunningToJSONTyped(json, false);
+}
+
+export function RuntimeInfoContainerStateRunningToJSONTyped(value?: RuntimeInfoContainerStateRunning | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'started_at': value['started_at'] == null ? undefined : ((value['started_at']).toISOString()),
+        'started_at': value['started_at'] == null ? value['started_at'] : serializeDateTime(value['started_at']),
     };
 }
 

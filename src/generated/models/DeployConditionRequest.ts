@@ -25,20 +25,14 @@ import { mapValues } from '../runtime.js';
 export interface DeployConditionRequest {
     /**
      * 
-     * @type {string}
-     * @memberof DeployConditionRequest
      */
     success?: string;
     /**
      * 
-     * @type {number}
-     * @memberof DeployConditionRequest
      */
     timeout?: number;
     /**
      * 
-     * @type {string}
-     * @memberof DeployConditionRequest
      */
     when?: string;
 }
@@ -46,7 +40,7 @@ export interface DeployConditionRequest {
 /**
  * Check if a given object implements the DeployConditionRequest interface.
  */
-export function instanceOfDeployConditionRequest(value: object): boolean {
+export function instanceOfDeployConditionRequest(value: object): value is DeployConditionRequest {
     return true;
 }
 
@@ -66,10 +60,15 @@ export function DeployConditionRequestFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function DeployConditionRequestToJSON(value?: DeployConditionRequest | null): any {
+export function DeployConditionRequestToJSON(json: any): DeployConditionRequest {
+    return DeployConditionRequestToJSONTyped(json, false);
+}
+
+export function DeployConditionRequestToJSONTyped(value?: DeployConditionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'success': value['success'],

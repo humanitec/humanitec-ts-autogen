@@ -21,16 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface UpdateEnvironmentTypePayloadRequest {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateEnvironmentTypePayloadRequest
      */
-    description?: string;
+    description?: string | null;
 }
 
 /**
  * Check if a given object implements the UpdateEnvironmentTypePayloadRequest interface.
  */
-export function instanceOfUpdateEnvironmentTypePayloadRequest(value: object): boolean {
+export function instanceOfUpdateEnvironmentTypePayloadRequest(value: object): value is UpdateEnvironmentTypePayloadRequest {
     return true;
 }
 
@@ -44,14 +42,19 @@ export function UpdateEnvironmentTypePayloadRequestFromJSONTyped(json: any, igno
     }
     return {
         
-        'description': json['description'] == null ? undefined : json['description'],
+        'description': json['description'] === undefined ? undefined : json['description'] === null ? null : json['description'],
     };
 }
 
-export function UpdateEnvironmentTypePayloadRequestToJSON(value?: UpdateEnvironmentTypePayloadRequest | null): any {
+export function UpdateEnvironmentTypePayloadRequestToJSON(json: any): UpdateEnvironmentTypePayloadRequest {
+    return UpdateEnvironmentTypePayloadRequestToJSONTyped(json, false);
+}
+
+export function UpdateEnvironmentTypePayloadRequestToJSONTyped(value?: UpdateEnvironmentTypePayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface Permissions {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Permissions
      */
     permissions: Array<string>;
 }
@@ -30,8 +28,8 @@ export interface Permissions {
 /**
  * Check if a given object implements the Permissions interface.
  */
-export function instanceOfPermissions(value: object): boolean {
-    if (!('permissions' in value)) return false;
+export function instanceOfPermissions(value: object): value is Permissions {
+    if (!('permissions' in value) || value['permissions'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function PermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function PermissionsToJSON(value?: Permissions | null): any {
+export function PermissionsToJSON(json: any): Permissions {
+    return PermissionsToJSONTyped(json, false);
+}
+
+export function PermissionsToJSONTyped(value?: Permissions | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'permissions': value['permissions'],

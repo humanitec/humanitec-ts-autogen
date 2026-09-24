@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface DeploymentPipelineReferenceResponse {
     /**
      * The ID of the Pipeline
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceResponse
      */
     id: string;
     /**
      * The ID of the Pipeline Job within the Run.
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceResponse
      */
     job_id: string;
     /**
      * The ID of the Pipeline Run
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceResponse
      */
     run_id: string;
     /**
      * The index of the step with in the Job.
-     * @type {number}
-     * @memberof DeploymentPipelineReferenceResponse
      */
     step_index: number;
 }
@@ -48,11 +40,11 @@ export interface DeploymentPipelineReferenceResponse {
 /**
  * Check if a given object implements the DeploymentPipelineReferenceResponse interface.
  */
-export function instanceOfDeploymentPipelineReferenceResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('job_id' in value)) return false;
-    if (!('run_id' in value)) return false;
-    if (!('step_index' in value)) return false;
+export function instanceOfDeploymentPipelineReferenceResponse(value: object): value is DeploymentPipelineReferenceResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('job_id' in value) || value['job_id'] === undefined) return false;
+    if (!('run_id' in value) || value['run_id'] === undefined) return false;
+    if (!('step_index' in value) || value['step_index'] === undefined) return false;
     return true;
 }
 
@@ -73,10 +65,15 @@ export function DeploymentPipelineReferenceResponseFromJSONTyped(json: any, igno
     };
 }
 
-export function DeploymentPipelineReferenceResponseToJSON(value?: DeploymentPipelineReferenceResponse | null): any {
+export function DeploymentPipelineReferenceResponseToJSON(json: any): DeploymentPipelineReferenceResponse {
+    return DeploymentPipelineReferenceResponseToJSONTyped(json, false);
+}
+
+export function DeploymentPipelineReferenceResponseToJSONTyped(value?: DeploymentPipelineReferenceResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

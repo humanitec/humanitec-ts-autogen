@@ -18,6 +18,7 @@ import {
     RuntimeInfoContainerStateFromJSON,
     RuntimeInfoContainerStateFromJSONTyped,
     RuntimeInfoContainerStateToJSON,
+    RuntimeInfoContainerStateToJSONTyped,
 } from './RuntimeInfoContainerState.js';
 
 /**
@@ -28,32 +29,22 @@ import {
 export interface RuntimeInfoContainerStatus {
     /**
      * Container name.
-     * @type {string}
-     * @memberof RuntimeInfoContainerStatus
      */
     name: string;
     /**
      * If a container is ready to start accept traffic.
-     * @type {boolean}
-     * @memberof RuntimeInfoContainerStatus
      */
     ready: boolean;
     /**
      * The number of times the container has been restarted.
-     * @type {number}
-     * @memberof RuntimeInfoContainerStatus
      */
     restart_count?: number;
     /**
      * Container status derived from its state and readiness.
-     * @type {string}
-     * @memberof RuntimeInfoContainerStatus
      */
     status: RuntimeInfoContainerStatusStatusEnum;
     /**
      * 
-     * @type {RuntimeInfoContainerState}
-     * @memberof RuntimeInfoContainerStatus
      */
     state: RuntimeInfoContainerState;
 }
@@ -74,11 +65,11 @@ export enum RuntimeInfoContainerStatusStatusEnum {
 /**
  * Check if a given object implements the RuntimeInfoContainerStatus interface.
  */
-export function instanceOfRuntimeInfoContainerStatus(value: object): boolean {
-    if (!('name' in value)) return false;
-    if (!('ready' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('state' in value)) return false;
+export function instanceOfRuntimeInfoContainerStatus(value: object): value is RuntimeInfoContainerStatus {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('ready' in value) || value['ready'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('state' in value) || value['state'] === undefined) return false;
     return true;
 }
 
@@ -100,10 +91,15 @@ export function RuntimeInfoContainerStatusFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function RuntimeInfoContainerStatusToJSON(value?: RuntimeInfoContainerStatus | null): any {
+export function RuntimeInfoContainerStatusToJSON(json: any): RuntimeInfoContainerStatus {
+    return RuntimeInfoContainerStatusToJSONTyped(json, false);
+}
+
+export function RuntimeInfoContainerStatusToJSONTyped(value?: RuntimeInfoContainerStatus | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

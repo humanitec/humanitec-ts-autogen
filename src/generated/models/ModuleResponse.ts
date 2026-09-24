@@ -18,12 +18,14 @@ import {
     ControllerResponseFromJSON,
     ControllerResponseFromJSONTyped,
     ControllerResponseToJSON,
+    ControllerResponseToJSONTyped,
 } from './ControllerResponse.js';
 import type { DeployConditionResponse } from './DeployConditionResponse.js';
 import {
     DeployConditionResponseFromJSON,
     DeployConditionResponseFromJSONTyped,
     DeployConditionResponseToJSON,
+    DeployConditionResponseToJSONTyped,
 } from './DeployConditionResponse.js';
 
 /**
@@ -35,26 +37,18 @@ export interface ModuleResponse {
     [key: string]: ControllerResponse | any;
     /**
      * 
-     * @type {DeployConditionResponse}
-     * @memberof ModuleResponse
      */
     deploy?: DeployConditionResponse;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ModuleResponse
      */
     externals: { [key: string]: any; };
     /**
      * 
-     * @type {string}
-     * @memberof ModuleResponse
      */
     profile: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof ModuleResponse
      */
     spec: { [key: string]: any; };
 }
@@ -62,10 +56,10 @@ export interface ModuleResponse {
 /**
  * Check if a given object implements the ModuleResponse interface.
  */
-export function instanceOfModuleResponse(value: object): boolean {
-    if (!('externals' in value)) return false;
-    if (!('profile' in value)) return false;
-    if (!('spec' in value)) return false;
+export function instanceOfModuleResponse(value: object): value is ModuleResponse {
+    if (!('externals' in value) || value['externals'] === undefined) return false;
+    if (!('profile' in value) || value['profile'] === undefined) return false;
+    if (!('spec' in value) || value['spec'] === undefined) return false;
     return true;
 }
 
@@ -87,10 +81,15 @@ export function ModuleResponseFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function ModuleResponseToJSON(value?: ModuleResponse | null): any {
+export function ModuleResponseToJSON(json: any): ModuleResponse {
+    return ModuleResponseToJSONTyped(json, false);
+}
+
+export function ModuleResponseToJSONTyped(value?: ModuleResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
             ...value,

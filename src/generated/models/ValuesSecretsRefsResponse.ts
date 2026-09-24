@@ -31,20 +31,14 @@ export interface ValuesSecretsRefsResponse {
      * - `version` is the version of the secret as defined in the target store. It can be defined only if `ref` is defined.
      * 
      * - `value` is the value to store in the organizations primary secret store. It can't be used in request payloads if `ref` is defined.
-     * @type {{ [key: string]: any; }}
-     * @memberof ValuesSecretsRefsResponse
      */
     secret_refs?: { [key: string]: any; };
     /**
      * Secrets section of the data set. Sensitive information is stored in the primary organization secret store and replaced with the secret store paths when sent outside. Can't be used together with `secret_refs`.
-     * @type {{ [key: string]: any; }}
-     * @memberof ValuesSecretsRefsResponse
      */
     secrets?: { [key: string]: any; };
     /**
      * Values section of the data set. Passed around as-is.
-     * @type {{ [key: string]: any; }}
-     * @memberof ValuesSecretsRefsResponse
      */
     values?: { [key: string]: any; };
 }
@@ -52,7 +46,7 @@ export interface ValuesSecretsRefsResponse {
 /**
  * Check if a given object implements the ValuesSecretsRefsResponse interface.
  */
-export function instanceOfValuesSecretsRefsResponse(value: object): boolean {
+export function instanceOfValuesSecretsRefsResponse(value: object): value is ValuesSecretsRefsResponse {
     return true;
 }
 
@@ -72,10 +66,15 @@ export function ValuesSecretsRefsResponseFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function ValuesSecretsRefsResponseToJSON(value?: ValuesSecretsRefsResponse | null): any {
+export function ValuesSecretsRefsResponseToJSON(json: any): ValuesSecretsRefsResponse {
+    return ValuesSecretsRefsResponseToJSONTyped(json, false);
+}
+
+export function ValuesSecretsRefsResponseToJSONTyped(value?: ValuesSecretsRefsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'secret_refs': value['secret_refs'],

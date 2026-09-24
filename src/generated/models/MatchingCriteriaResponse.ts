@@ -37,38 +37,26 @@ import { mapValues } from '../runtime.js';
 export interface MatchingCriteriaResponse {
     /**
      * (Optional) The ID of the Application that the Resources should belong to.
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     app_id?: string;
     /**
      * (Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     _class: string;
     /**
      * (Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     env_id?: string;
     /**
      * (Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     env_type?: string;
     /**
      * Matching Criteria ID
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     id: string;
     /**
      * (Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.
-     * @type {string}
-     * @memberof MatchingCriteriaResponse
      */
     res_id?: string;
 }
@@ -76,9 +64,9 @@ export interface MatchingCriteriaResponse {
 /**
  * Check if a given object implements the MatchingCriteriaResponse interface.
  */
-export function instanceOfMatchingCriteriaResponse(value: object): boolean {
-    if (!('_class' in value)) return false;
-    if (!('id' in value)) return false;
+export function instanceOfMatchingCriteriaResponse(value: object): value is MatchingCriteriaResponse {
+    if ((!('_class' in (value as Record<string, any>)) && !('class' in (value as Record<string, any>))) || ((value as Record<string, any>)['_class'] === undefined && (value as Record<string, any>)['class'] === undefined)) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
     return true;
 }
 
@@ -101,10 +89,15 @@ export function MatchingCriteriaResponseFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function MatchingCriteriaResponseToJSON(value?: MatchingCriteriaResponse | null): any {
+export function MatchingCriteriaResponseToJSON(json: any): MatchingCriteriaResponse {
+    return MatchingCriteriaResponseToJSONTyped(json, false);
+}
+
+export function MatchingCriteriaResponseToJSONTyped(value?: MatchingCriteriaResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],

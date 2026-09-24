@@ -25,20 +25,14 @@ import { mapValues } from '../runtime.js';
 export interface DeployConditionResponse {
     /**
      * 
-     * @type {string}
-     * @memberof DeployConditionResponse
      */
     success: string;
     /**
      * 
-     * @type {number}
-     * @memberof DeployConditionResponse
      */
     timeout: number;
     /**
      * 
-     * @type {string}
-     * @memberof DeployConditionResponse
      */
     when: string;
 }
@@ -46,10 +40,10 @@ export interface DeployConditionResponse {
 /**
  * Check if a given object implements the DeployConditionResponse interface.
  */
-export function instanceOfDeployConditionResponse(value: object): boolean {
-    if (!('success' in value)) return false;
-    if (!('timeout' in value)) return false;
-    if (!('when' in value)) return false;
+export function instanceOfDeployConditionResponse(value: object): value is DeployConditionResponse {
+    if (!('success' in value) || value['success'] === undefined) return false;
+    if (!('timeout' in value) || value['timeout'] === undefined) return false;
+    if (!('when' in value) || value['when'] === undefined) return false;
     return true;
 }
 
@@ -69,10 +63,15 @@ export function DeployConditionResponseFromJSONTyped(json: any, ignoreDiscrimina
     };
 }
 
-export function DeployConditionResponseToJSON(value?: DeployConditionResponse | null): any {
+export function DeployConditionResponseToJSON(json: any): DeployConditionResponse {
+    return DeployConditionResponseToJSONTyped(json, false);
+}
+
+export function DeployConditionResponseToJSONTyped(value?: DeployConditionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'success': value['success'],

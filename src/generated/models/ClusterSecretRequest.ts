@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface ClusterSecretRequest {
     /**
      * Namespace to look for the Kubernetes secret definition in.
-     * @type {string}
-     * @memberof ClusterSecretRequest
      */
     namespace: string;
     /**
      * Name that identifies the Kubernetes secret.
-     * @type {string}
-     * @memberof ClusterSecretRequest
      */
     secret: string;
 }
@@ -36,9 +32,9 @@ export interface ClusterSecretRequest {
 /**
  * Check if a given object implements the ClusterSecretRequest interface.
  */
-export function instanceOfClusterSecretRequest(value: object): boolean {
-    if (!('namespace' in value)) return false;
-    if (!('secret' in value)) return false;
+export function instanceOfClusterSecretRequest(value: object): value is ClusterSecretRequest {
+    if (!('namespace' in value) || value['namespace'] === undefined) return false;
+    if (!('secret' in value) || value['secret'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function ClusterSecretRequestFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function ClusterSecretRequestToJSON(value?: ClusterSecretRequest | null): any {
+export function ClusterSecretRequestToJSON(json: any): ClusterSecretRequest {
+    return ClusterSecretRequestToJSONTyped(json, false);
+}
+
+export function ClusterSecretRequestToJSONTyped(value?: ClusterSecretRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'namespace': value['namespace'],

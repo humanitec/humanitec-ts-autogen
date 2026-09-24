@@ -21,44 +21,30 @@ import { mapValues } from '../runtime.js';
 export interface UserProfileExtendedResponse {
     /**
      * The time the user was first registered with Humanitec
-     * @type {string}
-     * @memberof UserProfileExtendedResponse
      */
     created_at: string;
     /**
      * The email address of the user from the profile
-     * @type {string}
-     * @memberof UserProfileExtendedResponse
      */
     email?: string;
     /**
      * The User ID for this user
-     * @type {string}
-     * @memberof UserProfileExtendedResponse
      */
     id: string;
     /**
      * The name the user goes by
-     * @type {string}
-     * @memberof UserProfileExtendedResponse
      */
     name: string;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof UserProfileExtendedResponse
      */
     properties: { [key: string]: any; };
     /**
      * 
-     * @type {{ [key: string]: string; }}
-     * @memberof UserProfileExtendedResponse
      */
     roles: { [key: string]: string; };
     /**
      * The type of the account. Could be user, service or system
-     * @type {string}
-     * @memberof UserProfileExtendedResponse
      */
     type: string;
 }
@@ -66,13 +52,13 @@ export interface UserProfileExtendedResponse {
 /**
  * Check if a given object implements the UserProfileExtendedResponse interface.
  */
-export function instanceOfUserProfileExtendedResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('properties' in value)) return false;
-    if (!('roles' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfUserProfileExtendedResponse(value: object): value is UserProfileExtendedResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('properties' in value) || value['properties'] === undefined) return false;
+    if (!('roles' in value) || value['roles'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -96,10 +82,15 @@ export function UserProfileExtendedResponseFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function UserProfileExtendedResponseToJSON(value?: UserProfileExtendedResponse | null): any {
+export function UserProfileExtendedResponseToJSON(json: any): UserProfileExtendedResponse {
+    return UserProfileExtendedResponseToJSONTyped(json, false);
+}
+
+export function UserProfileExtendedResponseToJSONTyped(value?: UserProfileExtendedResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

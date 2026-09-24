@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface AccountTypeResponse {
     /**
      * Display Name.
-     * @type {string}
-     * @memberof AccountTypeResponse
      */
     name: string;
     /**
      * Unique account type identifier (system-wide, across all organizations).
-     * @type {string}
-     * @memberof AccountTypeResponse
      */
     type: string;
     /**
      * A JSON Schema specifying the type-specific parameters for the account credentials (input).
-     * @type {{ [key: string]: any; }}
-     * @memberof AccountTypeResponse
      */
     inputs_schema?: { [key: string]: any; };
     /**
      * A JSON Schema specifying the type-specific data of returned account credentials (output).
-     * @type {{ [key: string]: any; }}
-     * @memberof AccountTypeResponse
      */
     outputs_schema?: { [key: string]: any; };
 }
@@ -48,9 +40,9 @@ export interface AccountTypeResponse {
 /**
  * Check if a given object implements the AccountTypeResponse interface.
  */
-export function instanceOfAccountTypeResponse(value: object): boolean {
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfAccountTypeResponse(value: object): value is AccountTypeResponse {
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function AccountTypeResponseFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function AccountTypeResponseToJSON(value?: AccountTypeResponse | null): any {
+export function AccountTypeResponseToJSON(json: any): AccountTypeResponse {
+    return AccountTypeResponseToJSONTyped(json, false);
+}
+
+export function AccountTypeResponseToJSONTyped(value?: AccountTypeResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'name': value['name'],

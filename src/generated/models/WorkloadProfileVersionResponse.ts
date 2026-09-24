@@ -12,19 +12,21 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
-import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
-import {
-    WorkloadProfileChartReferenceFromJSON,
-    WorkloadProfileChartReferenceFromJSONTyped,
-    WorkloadProfileChartReferenceToJSON,
-} from './WorkloadProfileChartReference.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { WorkloadProfileSpecDefinition } from './WorkloadProfileSpecDefinition.js';
 import {
     WorkloadProfileSpecDefinitionFromJSON,
     WorkloadProfileSpecDefinitionFromJSONTyped,
     WorkloadProfileSpecDefinitionToJSON,
+    WorkloadProfileSpecDefinitionToJSONTyped,
 } from './WorkloadProfileSpecDefinition.js';
+import type { WorkloadProfileChartReference } from './WorkloadProfileChartReference.js';
+import {
+    WorkloadProfileChartReferenceFromJSON,
+    WorkloadProfileChartReferenceFromJSONTyped,
+    WorkloadProfileChartReferenceToJSON,
+    WorkloadProfileChartReferenceToJSONTyped,
+} from './WorkloadProfileChartReference.js';
 
 /**
  * A version of a workload profile.
@@ -34,62 +36,42 @@ import {
 export interface WorkloadProfileVersionResponse {
     /**
      * Creation date
-     * @type {Date}
-     * @memberof WorkloadProfileVersionResponse
      */
     created_at: Date;
     /**
      * User created the profile
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     created_by: string;
     /**
      * Describes the workload profile
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     description: string;
     /**
      * A not-empty string indicates that the workload profile is deprecated.
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     deprecation_message?: string;
     /**
      * ID
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     id: string;
     /**
      * Organization ID
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     org_id: string;
     /**
      * 
-     * @type {WorkloadProfileSpecDefinition}
-     * @memberof WorkloadProfileVersionResponse
      */
     spec_definition: WorkloadProfileSpecDefinition;
     /**
      * OpenAPI schema used to validate the spec.
-     * @type {any}
-     * @memberof WorkloadProfileVersionResponse
      */
     spec_schema: any | null;
     /**
      * 
-     * @type {WorkloadProfileChartReference}
-     * @memberof WorkloadProfileVersionResponse
      */
     workload_profile_chart: WorkloadProfileChartReference;
     /**
      * Workload Profile ID
-     * @type {string}
-     * @memberof WorkloadProfileVersionResponse
      */
     workload_profile_id: string;
 }
@@ -97,16 +79,16 @@ export interface WorkloadProfileVersionResponse {
 /**
  * Check if a given object implements the WorkloadProfileVersionResponse interface.
  */
-export function instanceOfWorkloadProfileVersionResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('description' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('spec_definition' in value)) return false;
-    if (!('spec_schema' in value)) return false;
-    if (!('workload_profile_chart' in value)) return false;
-    if (!('workload_profile_id' in value)) return false;
+export function instanceOfWorkloadProfileVersionResponse(value: object): value is WorkloadProfileVersionResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('spec_definition' in value) || value['spec_definition'] === undefined) return false;
+    if (!('spec_schema' in value) || value['spec_schema'] === undefined) return false;
+    if (!('workload_profile_chart' in value) || value['workload_profile_chart'] === undefined) return false;
+    if (!('workload_profile_id' in value) || value['workload_profile_id'] === undefined) return false;
     return true;
 }
 
@@ -120,7 +102,7 @@ export function WorkloadProfileVersionResponseFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'description': json['description'],
         'deprecation_message': json['deprecation_message'] == null ? undefined : json['deprecation_message'],
@@ -133,13 +115,18 @@ export function WorkloadProfileVersionResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function WorkloadProfileVersionResponseToJSON(value?: WorkloadProfileVersionResponse | null): any {
+export function WorkloadProfileVersionResponseToJSON(json: any): WorkloadProfileVersionResponse {
+    return WorkloadProfileVersionResponseToJSONTyped(json, false);
+}
+
+export function WorkloadProfileVersionResponseToJSONTyped(value?: WorkloadProfileVersionResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'description': value['description'],
         'deprecation_message': value['deprecation_message'],

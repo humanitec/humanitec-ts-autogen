@@ -23,38 +23,26 @@ import { mapValues } from '../runtime.js';
 export interface ResourceTypeRequest {
     /**
      * Category name (used to group similar resources on the UI).
-     * @type {string}
-     * @memberof ResourceTypeRequest
      */
     category?: string;
     /**
      * A JSON Schema specifying the type-specific parameters for the driver (input).
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceTypeRequest
      */
     inputs_schema?: { [key: string]: any; };
     /**
      * Display name.
-     * @type {string}
-     * @memberof ResourceTypeRequest
      */
     name?: string;
     /**
      * A JSON Schema specifying the type-specific data passed to the deployment (output).
-     * @type {{ [key: string]: any; }}
-     * @memberof ResourceTypeRequest
      */
     outputs_schema?: { [key: string]: any; };
     /**
      * Unique resource type identifier (system-wide, across all organizations). It should start with the Humanitec Organization ID followed by "/".
-     * @type {string}
-     * @memberof ResourceTypeRequest
      */
     type: string;
     /**
      * Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.
-     * @type {string}
-     * @memberof ResourceTypeRequest
      */
     use: string;
 }
@@ -62,9 +50,9 @@ export interface ResourceTypeRequest {
 /**
  * Check if a given object implements the ResourceTypeRequest interface.
  */
-export function instanceOfResourceTypeRequest(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('use' in value)) return false;
+export function instanceOfResourceTypeRequest(value: object): value is ResourceTypeRequest {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('use' in value) || value['use'] === undefined) return false;
     return true;
 }
 
@@ -87,10 +75,15 @@ export function ResourceTypeRequestFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ResourceTypeRequestToJSON(value?: ResourceTypeRequest | null): any {
+export function ResourceTypeRequestToJSON(json: any): ResourceTypeRequest {
+    return ResourceTypeRequestToJSONTyped(json, false);
+}
+
+export function ResourceTypeRequestToJSONTyped(value?: ResourceTypeRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'category': value['category'],

@@ -13,23 +13,26 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { RuntimeInfoContainerStateRunning } from './RuntimeInfoContainerStateRunning.js';
-import {
-    RuntimeInfoContainerStateRunningFromJSON,
-    RuntimeInfoContainerStateRunningFromJSONTyped,
-    RuntimeInfoContainerStateRunningToJSON,
-} from './RuntimeInfoContainerStateRunning.js';
 import type { RuntimeInfoContainerStateTerminated } from './RuntimeInfoContainerStateTerminated.js';
 import {
     RuntimeInfoContainerStateTerminatedFromJSON,
     RuntimeInfoContainerStateTerminatedFromJSONTyped,
     RuntimeInfoContainerStateTerminatedToJSON,
+    RuntimeInfoContainerStateTerminatedToJSONTyped,
 } from './RuntimeInfoContainerStateTerminated.js';
+import type { RuntimeInfoContainerStateRunning } from './RuntimeInfoContainerStateRunning.js';
+import {
+    RuntimeInfoContainerStateRunningFromJSON,
+    RuntimeInfoContainerStateRunningFromJSONTyped,
+    RuntimeInfoContainerStateRunningToJSON,
+    RuntimeInfoContainerStateRunningToJSONTyped,
+} from './RuntimeInfoContainerStateRunning.js';
 import type { RuntimeInfoControllerStateWaiting } from './RuntimeInfoControllerStateWaiting.js';
 import {
     RuntimeInfoControllerStateWaitingFromJSON,
     RuntimeInfoControllerStateWaitingFromJSONTyped,
     RuntimeInfoControllerStateWaitingToJSON,
+    RuntimeInfoControllerStateWaitingToJSONTyped,
 } from './RuntimeInfoControllerStateWaiting.js';
 
 /**
@@ -40,20 +43,14 @@ import {
 export interface RuntimeInfoContainerState {
     /**
      * 
-     * @type {RuntimeInfoControllerStateWaiting}
-     * @memberof RuntimeInfoContainerState
      */
     waiting?: RuntimeInfoControllerStateWaiting;
     /**
      * 
-     * @type {RuntimeInfoContainerStateRunning}
-     * @memberof RuntimeInfoContainerState
      */
     running?: RuntimeInfoContainerStateRunning;
     /**
      * 
-     * @type {RuntimeInfoContainerStateTerminated}
-     * @memberof RuntimeInfoContainerState
      */
     terminated?: RuntimeInfoContainerStateTerminated;
 }
@@ -61,7 +58,7 @@ export interface RuntimeInfoContainerState {
 /**
  * Check if a given object implements the RuntimeInfoContainerState interface.
  */
-export function instanceOfRuntimeInfoContainerState(value: object): boolean {
+export function instanceOfRuntimeInfoContainerState(value: object): value is RuntimeInfoContainerState {
     return true;
 }
 
@@ -81,10 +78,15 @@ export function RuntimeInfoContainerStateFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function RuntimeInfoContainerStateToJSON(value?: RuntimeInfoContainerState | null): any {
+export function RuntimeInfoContainerStateToJSON(json: any): RuntimeInfoContainerState {
+    return RuntimeInfoContainerStateToJSONTyped(json, false);
+}
+
+export function RuntimeInfoContainerStateToJSONTyped(value?: RuntimeInfoContainerState | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'waiting': RuntimeInfoControllerStateWaitingToJSON(value['waiting']),

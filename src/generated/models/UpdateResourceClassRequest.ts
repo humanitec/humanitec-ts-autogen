@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface UpdateResourceClassRequest {
     /**
      * New description for the resource class.
-     * @type {string}
-     * @memberof UpdateResourceClassRequest
      */
     description: string;
 }
@@ -30,8 +28,8 @@ export interface UpdateResourceClassRequest {
 /**
  * Check if a given object implements the UpdateResourceClassRequest interface.
  */
-export function instanceOfUpdateResourceClassRequest(value: object): boolean {
-    if (!('description' in value)) return false;
+export function instanceOfUpdateResourceClassRequest(value: object): value is UpdateResourceClassRequest {
+    if (!('description' in value) || value['description'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function UpdateResourceClassRequestFromJSONTyped(json: any, ignoreDiscrim
     };
 }
 
-export function UpdateResourceClassRequestToJSON(value?: UpdateResourceClassRequest | null): any {
+export function UpdateResourceClassRequestToJSON(json: any): UpdateResourceClassRequest {
+    return UpdateResourceClassRequestToJSONTyped(json, false);
+}
+
+export function UpdateResourceClassRequestToJSONTyped(value?: UpdateResourceClassRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'description': value['description'],

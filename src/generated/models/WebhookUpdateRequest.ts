@@ -18,6 +18,7 @@ import {
     EventBaseRequestFromJSON,
     EventBaseRequestFromJSONTyped,
     EventBaseRequestToJSON,
+    EventBaseRequestToJSONTyped,
 } from './EventBaseRequest.js';
 
 /**
@@ -28,46 +29,34 @@ import {
 export interface WebhookUpdateRequest {
     /**
      * Defines whether this job is currently disabled.
-     * @type {boolean}
-     * @memberof WebhookUpdateRequest
      */
-    disabled?: boolean;
+    disabled?: boolean | null;
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof WebhookUpdateRequest
      */
     headers?: { [key: string]: any; };
     /**
      * 
-     * @type {{ [key: string]: any; }}
-     * @memberof WebhookUpdateRequest
      */
     payload?: { [key: string]: any; };
     /**
      * SecretHeaders maps header names to their secret values.
-     * @type {{ [key: string]: string | null; }}
-     * @memberof WebhookUpdateRequest
      */
     secret_headers?: { [key: string]: string | null; };
     /**
      * A list of Events by which the Job is triggered
-     * @type {Array<EventBaseRequest>}
-     * @memberof WebhookUpdateRequest
      */
-    triggers?: Array<EventBaseRequest>;
+    triggers?: Array<EventBaseRequest> | null;
     /**
      * The webhook's URL (without protocol, only HTTPS is supported)
-     * @type {string}
-     * @memberof WebhookUpdateRequest
      */
-    url?: string;
+    url?: string | null;
 }
 
 /**
  * Check if a given object implements the WebhookUpdateRequest interface.
  */
-export function instanceOfWebhookUpdateRequest(value: object): boolean {
+export function instanceOfWebhookUpdateRequest(value: object): value is WebhookUpdateRequest {
     return true;
 }
 
@@ -81,19 +70,24 @@ export function WebhookUpdateRequestFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'disabled': json['disabled'] == null ? undefined : json['disabled'],
+        'disabled': json['disabled'] === undefined ? undefined : json['disabled'] === null ? null : json['disabled'],
         'headers': json['headers'] == null ? undefined : json['headers'],
         'payload': json['payload'] == null ? undefined : json['payload'],
         'secret_headers': json['secret_headers'] == null ? undefined : json['secret_headers'],
-        'triggers': json['triggers'] == null ? undefined : ((json['triggers'] as Array<any>).map(EventBaseRequestFromJSON)),
-        'url': json['url'] == null ? undefined : json['url'],
+        'triggers': json['triggers'] === undefined ? undefined : json['triggers'] === null ? null : ((json['triggers'] as Array<any>).map(EventBaseRequestFromJSON)),
+        'url': json['url'] === undefined ? undefined : json['url'] === null ? null : json['url'],
     };
 }
 
-export function WebhookUpdateRequestToJSON(value?: WebhookUpdateRequest | null): any {
+export function WebhookUpdateRequestToJSON(json: any): WebhookUpdateRequest {
+    return WebhookUpdateRequestToJSONTyped(json, false);
+}
+
+export function WebhookUpdateRequestToJSONTyped(value?: WebhookUpdateRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'disabled': value['disabled'],

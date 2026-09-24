@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An entry in the audit log
  * @export
@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface AuditLogEntry {
     /**
      * The date and time when the event was recorded.
-     * @type {Date}
-     * @memberof AuditLogEntry
      */
     at: Date;
     /**
      * The id of the Organization this event occurred in.
-     * @type {string}
-     * @memberof AuditLogEntry
      */
     org_id?: string;
     /**
      * The id of the User who triggered the event.
-     * @type {string}
-     * @memberof AuditLogEntry
      */
     user_id: string;
     /**
      * The HTTP method that was requested. Only POST, PATCH, PUT, and DELETE are audited.
-     * @type {string}
-     * @memberof AuditLogEntry
      */
     request_method: string;
     /**
      * The URL path that was called.
-     * @type {string}
-     * @memberof AuditLogEntry
      */
     request_path: string;
     /**
      * The status code of the response. Only successful responses are audited.
-     * @type {number}
-     * @memberof AuditLogEntry
      */
     response_status: number;
 }
@@ -60,12 +48,12 @@ export interface AuditLogEntry {
 /**
  * Check if a given object implements the AuditLogEntry interface.
  */
-export function instanceOfAuditLogEntry(value: object): boolean {
-    if (!('at' in value)) return false;
-    if (!('user_id' in value)) return false;
-    if (!('request_method' in value)) return false;
-    if (!('request_path' in value)) return false;
-    if (!('response_status' in value)) return false;
+export function instanceOfAuditLogEntry(value: object): value is AuditLogEntry {
+    if (!('at' in value) || value['at'] === undefined) return false;
+    if (!('user_id' in value) || value['user_id'] === undefined) return false;
+    if (!('request_method' in value) || value['request_method'] === undefined) return false;
+    if (!('request_path' in value) || value['request_path'] === undefined) return false;
+    if (!('response_status' in value) || value['response_status'] === undefined) return false;
     return true;
 }
 
@@ -79,7 +67,7 @@ export function AuditLogEntryFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'at': (new Date(json['at'])),
+        'at': (json['at'] == null ? json['at'] : parseDateTime(json['at'])),
         'org_id': json['org_id'] == null ? undefined : json['org_id'],
         'user_id': json['user_id'],
         'request_method': json['request_method'],
@@ -88,13 +76,18 @@ export function AuditLogEntryFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function AuditLogEntryToJSON(value?: AuditLogEntry | null): any {
+export function AuditLogEntryToJSON(json: any): AuditLogEntry {
+    return AuditLogEntryToJSONTyped(json, false);
+}
+
+export function AuditLogEntryToJSONTyped(value?: AuditLogEntry | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'at': ((value['at']).toISOString()),
+        'at': value['at'] == null ? value['at'] : serializeDateTime(value['at']),
         'org_id': value['org_id'],
         'user_id': value['user_id'],
         'request_method': value['request_method'],

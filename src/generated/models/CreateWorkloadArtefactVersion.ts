@@ -18,6 +18,7 @@ import {
     ScoreHumanitecExtensionsFromJSON,
     ScoreHumanitecExtensionsFromJSONTyped,
     ScoreHumanitecExtensionsToJSON,
+    ScoreHumanitecExtensionsToJSONTyped,
 } from './ScoreHumanitecExtensions.js';
 
 /**
@@ -28,68 +29,46 @@ import {
 export interface CreateWorkloadArtefactVersion {
     /**
      * The Artefact Version type.
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     type: string;
     /**
      * The Artefact name.
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     name: string;
     /**
      * (Optional) The Artefact Version.
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     version?: string;
     /**
      * (Optional) The ref the Artefact Version was built from.
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     ref?: string;
     /**
      * (Optional) The commit ID the Artefact Version was built on.
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     commit?: string;
     /**
      * A Json object containing the workload specification. Score v1b1 is expected.
-     * @type {{ [key: string]: any; }}
-     * @memberof CreateWorkloadArtefactVersion
      */
     spec: { [key: string]: any; };
     /**
      * An optional default image to assign to any containers in the workload that do not have an image set or whose image is '.'
-     * @type {string}
-     * @memberof CreateWorkloadArtefactVersion
      */
     image?: string;
     /**
      * An optional Json object containing the workload overrides. Score v1b1 is expected.
-     * @type {{ [key: string]: any; }}
-     * @memberof CreateWorkloadArtefactVersion
      */
     overrides?: { [key: string]: any; };
     /**
      * An optional set of path overrides that will be applied to the workload.
-     * @type {{ [key: string]: any; }}
-     * @memberof CreateWorkloadArtefactVersion
      */
     property_overrides?: { [key: string]: any; };
     /**
      * An optional set of resource types overrides that will be applied in the deployment set.
-     * @type {{ [key: string]: string; }}
-     * @memberof CreateWorkloadArtefactVersion
      */
     resource_type_aliases?: { [key: string]: string; };
     /**
      * 
-     * @type {ScoreHumanitecExtensions}
-     * @memberof CreateWorkloadArtefactVersion
      */
     extensions?: ScoreHumanitecExtensions;
 }
@@ -97,10 +76,10 @@ export interface CreateWorkloadArtefactVersion {
 /**
  * Check if a given object implements the CreateWorkloadArtefactVersion interface.
  */
-export function instanceOfCreateWorkloadArtefactVersion(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('spec' in value)) return false;
+export function instanceOfCreateWorkloadArtefactVersion(value: object): value is CreateWorkloadArtefactVersion {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('spec' in value) || value['spec'] === undefined) return false;
     return true;
 }
 
@@ -128,10 +107,15 @@ export function CreateWorkloadArtefactVersionFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function CreateWorkloadArtefactVersionToJSON(value?: CreateWorkloadArtefactVersion | null): any {
+export function CreateWorkloadArtefactVersionToJSON(json: any): CreateWorkloadArtefactVersion {
+    return CreateWorkloadArtefactVersionToJSONTyped(json, false);
+}
+
+export function CreateWorkloadArtefactVersionToJSONTyped(value?: CreateWorkloadArtefactVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

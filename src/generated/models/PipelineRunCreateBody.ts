@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface PipelineRunCreateBody {
     /**
      * The inputs provided for this Run.
-     * @type {{ [key: string]: any; }}
-     * @memberof PipelineRunCreateBody
      */
     inputs: { [key: string]: any; };
 }
@@ -30,8 +28,8 @@ export interface PipelineRunCreateBody {
 /**
  * Check if a given object implements the PipelineRunCreateBody interface.
  */
-export function instanceOfPipelineRunCreateBody(value: object): boolean {
-    if (!('inputs' in value)) return false;
+export function instanceOfPipelineRunCreateBody(value: object): value is PipelineRunCreateBody {
+    if (!('inputs' in value) || value['inputs'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function PipelineRunCreateBodyFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function PipelineRunCreateBodyToJSON(value?: PipelineRunCreateBody | null): any {
+export function PipelineRunCreateBodyToJSON(json: any): PipelineRunCreateBody {
+    return PipelineRunCreateBodyToJSONTyped(json, false);
+}
+
+export function PipelineRunCreateBodyToJSONTyped(value?: PipelineRunCreateBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'inputs': value['inputs'],

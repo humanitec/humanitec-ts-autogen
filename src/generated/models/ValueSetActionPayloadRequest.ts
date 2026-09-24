@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface ValueSetActionPayloadRequest {
     /**
      * 
-     * @type {string}
-     * @memberof ValueSetActionPayloadRequest
      */
     comment?: string;
 }
@@ -30,7 +28,7 @@ export interface ValueSetActionPayloadRequest {
 /**
  * Check if a given object implements the ValueSetActionPayloadRequest interface.
  */
-export function instanceOfValueSetActionPayloadRequest(value: object): boolean {
+export function instanceOfValueSetActionPayloadRequest(value: object): value is ValueSetActionPayloadRequest {
     return true;
 }
 
@@ -48,10 +46,15 @@ export function ValueSetActionPayloadRequestFromJSONTyped(json: any, ignoreDiscr
     };
 }
 
-export function ValueSetActionPayloadRequestToJSON(value?: ValueSetActionPayloadRequest | null): any {
+export function ValueSetActionPayloadRequestToJSON(json: any): ValueSetActionPayloadRequest {
+    return ValueSetActionPayloadRequestToJSONTyped(json, false);
+}
+
+export function ValueSetActionPayloadRequestToJSONTyped(value?: ValueSetActionPayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'comment': value['comment'],

@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface CheckResourceAccountField {
     /**
      * 
-     * @type {string}
-     * @memberof CheckResourceAccountField
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof CheckResourceAccountField
      */
     description: string;
     /**
      * 
-     * @type {string}
-     * @memberof CheckResourceAccountField
      */
     value: string;
 }
@@ -42,10 +36,10 @@ export interface CheckResourceAccountField {
 /**
  * Check if a given object implements the CheckResourceAccountField interface.
  */
-export function instanceOfCheckResourceAccountField(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('description' in value)) return false;
-    if (!('value' in value)) return false;
+export function instanceOfCheckResourceAccountField(value: object): value is CheckResourceAccountField {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('description' in value) || value['description'] === undefined) return false;
+    if (!('value' in value) || value['value'] === undefined) return false;
     return true;
 }
 
@@ -65,10 +59,15 @@ export function CheckResourceAccountFieldFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function CheckResourceAccountFieldToJSON(value?: CheckResourceAccountField | null): any {
+export function CheckResourceAccountFieldToJSON(json: any): CheckResourceAccountField {
+    return CheckResourceAccountFieldToJSONTyped(json, false);
+}
+
+export function CheckResourceAccountFieldToJSONTyped(value?: CheckResourceAccountField | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

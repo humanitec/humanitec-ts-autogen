@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface EventResponse {
     /**
      * List of event properties which can be used as variables for this event
-     * @type {Array<string>}
-     * @memberof EventResponse
      */
     properties: Array<string>;
     /**
      * Event scope
-     * @type {string}
-     * @memberof EventResponse
      */
     scope: string;
     /**
      * Event type
-     * @type {string}
-     * @memberof EventResponse
      */
     type: string;
 }
@@ -42,10 +36,10 @@ export interface EventResponse {
 /**
  * Check if a given object implements the EventResponse interface.
  */
-export function instanceOfEventResponse(value: object): boolean {
-    if (!('properties' in value)) return false;
-    if (!('scope' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfEventResponse(value: object): value is EventResponse {
+    if (!('properties' in value) || value['properties'] === undefined) return false;
+    if (!('scope' in value) || value['scope'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -65,10 +59,15 @@ export function EventResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function EventResponseToJSON(value?: EventResponse | null): any {
+export function EventResponseToJSON(json: any): EventResponse {
+    return EventResponseToJSONTyped(json, false);
+}
+
+export function EventResponseToJSONTyped(value?: EventResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'properties': value['properties'],

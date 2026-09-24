@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface DeploymentPipelineReferenceRequest {
     /**
      * The ID of the Pipeline
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceRequest
      */
     id?: string;
     /**
      * The ID of the Pipeline Job within the Run.
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceRequest
      */
     job_id?: string;
     /**
      * The ID of the Pipeline Run
-     * @type {string}
-     * @memberof DeploymentPipelineReferenceRequest
      */
     run_id?: string;
     /**
      * The index of the step with in the Job.
-     * @type {number}
-     * @memberof DeploymentPipelineReferenceRequest
      */
     step_index?: number;
 }
@@ -48,7 +40,7 @@ export interface DeploymentPipelineReferenceRequest {
 /**
  * Check if a given object implements the DeploymentPipelineReferenceRequest interface.
  */
-export function instanceOfDeploymentPipelineReferenceRequest(value: object): boolean {
+export function instanceOfDeploymentPipelineReferenceRequest(value: object): value is DeploymentPipelineReferenceRequest {
     return true;
 }
 
@@ -69,10 +61,15 @@ export function DeploymentPipelineReferenceRequestFromJSONTyped(json: any, ignor
     };
 }
 
-export function DeploymentPipelineReferenceRequestToJSON(value?: DeploymentPipelineReferenceRequest | null): any {
+export function DeploymentPipelineReferenceRequestToJSON(json: any): DeploymentPipelineReferenceRequest {
+    return DeploymentPipelineReferenceRequestToJSONTyped(json, false);
+}
+
+export function DeploymentPipelineReferenceRequestToJSONTyped(value?: DeploymentPipelineReferenceRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

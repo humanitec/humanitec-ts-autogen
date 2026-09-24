@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface VaultResponse {
     /**
      * 
-     * @type {string}
-     * @memberof VaultResponse
      */
     agent_id?: string;
     /**
      * 
-     * @type {string}
-     * @memberof VaultResponse
      */
     path?: string;
     /**
      * 
-     * @type {string}
-     * @memberof VaultResponse
      */
     url?: string;
 }
@@ -42,7 +36,7 @@ export interface VaultResponse {
 /**
  * Check if a given object implements the VaultResponse interface.
  */
-export function instanceOfVaultResponse(value: object): boolean {
+export function instanceOfVaultResponse(value: object): value is VaultResponse {
     return true;
 }
 
@@ -62,10 +56,15 @@ export function VaultResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function VaultResponseToJSON(value?: VaultResponse | null): any {
+export function VaultResponseToJSON(json: any): VaultResponse {
+    return VaultResponseToJSONTyped(json, false);
+}
+
+export function VaultResponseToJSONTyped(value?: VaultResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'agent_id': value['agent_id'],

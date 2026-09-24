@@ -25,8 +25,6 @@ import { mapValues } from '../runtime.js';
 export interface Extensions {
     /**
      * Compute specific extensions for Kubernetes. The shape of this object is not settled yet, so it is carried as-is and interpreted by the driver that provisions the workload.
-     * @type {{ [key: string]: any; }}
-     * @memberof Extensions
      */
     kubernetes?: { [key: string]: any; };
 }
@@ -34,7 +32,7 @@ export interface Extensions {
 /**
  * Check if a given object implements the Extensions interface.
  */
-export function instanceOfExtensions(value: object): boolean {
+export function instanceOfExtensions(value: object): value is Extensions {
     return true;
 }
 
@@ -52,10 +50,15 @@ export function ExtensionsFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function ExtensionsToJSON(value?: Extensions | null): any {
+export function ExtensionsToJSON(json: any): Extensions {
+    return ExtensionsToJSONTyped(json, false);
+}
+
+export function ExtensionsToJSONTyped(value?: Extensions | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'kubernetes': value['kubernetes'],

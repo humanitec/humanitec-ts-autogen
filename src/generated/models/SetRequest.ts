@@ -18,12 +18,14 @@ import {
     ModuleRequestFromJSON,
     ModuleRequestFromJSONTyped,
     ModuleRequestToJSON,
+    ModuleRequestToJSONTyped,
 } from './ModuleRequest.js';
 import type { WorkloadRequest } from './WorkloadRequest.js';
 import {
     WorkloadRequestFromJSON,
     WorkloadRequestFromJSONTyped,
     WorkloadRequestToJSON,
+    WorkloadRequestToJSONTyped,
 } from './WorkloadRequest.js';
 
 /**
@@ -64,26 +66,18 @@ import {
 export interface SetRequest {
     /**
      * The Modules that make up the Set
-     * @type {{ [key: string]: ModuleRequest; }}
-     * @memberof SetRequest
      */
     modules?: { [key: string]: ModuleRequest; };
     /**
      * Resources that are shared across the set
-     * @type {{ [key: string]: any; }}
-     * @memberof SetRequest
      */
     shared?: { [key: string]: any; };
     /**
      * The version of the Deployment Set Schema to use. (Currently, only 0 is supported, and if omitted, version 0 is assumed.)
-     * @type {number}
-     * @memberof SetRequest
      */
     version?: number;
     /**
      * The Workloads that make up the Set. A Set holding at least one Workload is deployed in Generic Mode.
-     * @type {{ [key: string]: WorkloadRequest; }}
-     * @memberof SetRequest
      */
     workloads?: { [key: string]: WorkloadRequest; };
 }
@@ -91,7 +85,7 @@ export interface SetRequest {
 /**
  * Check if a given object implements the SetRequest interface.
  */
-export function instanceOfSetRequest(value: object): boolean {
+export function instanceOfSetRequest(value: object): value is SetRequest {
     return true;
 }
 
@@ -112,10 +106,15 @@ export function SetRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function SetRequestToJSON(value?: SetRequest | null): any {
+export function SetRequestToJSON(json: any): SetRequest {
+    return SetRequestToJSONTyped(json, false);
+}
+
+export function SetRequestToJSONTyped(value?: SetRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'modules': value['modules'] == null ? undefined : (mapValues(value['modules'], ModuleRequestToJSON)),

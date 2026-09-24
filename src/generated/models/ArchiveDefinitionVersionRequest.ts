@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface ArchiveDefinitionVersionRequest {
     /**
      * Indicates whether to set this version archived or non-archived. Optional, true if not specified.
-     * @type {boolean}
-     * @memberof ArchiveDefinitionVersionRequest
      */
     archived?: boolean;
 }
@@ -30,7 +28,7 @@ export interface ArchiveDefinitionVersionRequest {
 /**
  * Check if a given object implements the ArchiveDefinitionVersionRequest interface.
  */
-export function instanceOfArchiveDefinitionVersionRequest(value: object): boolean {
+export function instanceOfArchiveDefinitionVersionRequest(value: object): value is ArchiveDefinitionVersionRequest {
     return true;
 }
 
@@ -48,10 +46,15 @@ export function ArchiveDefinitionVersionRequestFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function ArchiveDefinitionVersionRequestToJSON(value?: ArchiveDefinitionVersionRequest | null): any {
+export function ArchiveDefinitionVersionRequestToJSON(json: any): ArchiveDefinitionVersionRequest {
+    return ArchiveDefinitionVersionRequestToJSONTyped(json, false);
+}
+
+export function ArchiveDefinitionVersionRequestToJSONTyped(value?: ArchiveDefinitionVersionRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],

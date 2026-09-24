@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Active Resources represent the concrete resources provisioned for an Environment. They are provisioned on the first deployment after a dependency on a particular resource type is introduced into an Environment. In general, Active Resources are only deleted when their introductory Environment is deleted.
  * 
@@ -23,122 +23,82 @@ import { mapValues } from '../runtime.js';
 export interface ActiveResourceRequest {
     /**
      * The ID of the App the resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     app_id: string;
     /**
      * The Resource Class of the resource
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     _class: string;
     /**
      * The Matching Criteria ID.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     criteria_id?: string;
     /**
      * The Resource Definition that this resource was provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     def_id: string;
     /**
      * The Resource Definition Version that this resource was provisioned from.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     def_version_id: string;
     /**
      * The deployment that the resource was last provisioned in.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     deploy_id: string;
     /**
      * (Optional) Security account required by the driver.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     driver_account?: string;
     /**
      * The driver to be used to create the resource.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     driver_type: string;
     /**
      * The ID of the Environment the resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     env_id: string;
     /**
      * The Environment Type of the Environment specified by env_id.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     env_type: string;
     /**
      * Globally unique resource id
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     gu_res_id: string;
     /**
      * the ID of the Organization the Active Resource is associated with.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     org_id: string;
     /**
      * The ID of the resource
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     res_id: string;
     /**
      * The resource provisioning outputs ('values' only).
-     * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceRequest
      */
     resource: { [key: string]: any; };
     /**
      * Deletion is scheduled for this resource.
-     * @type {boolean}
-     * @memberof ActiveResourceRequest
      */
     scheduled_deletion?: boolean;
     /**
      * Secret references from the resource provisioning output.
-     * @type {{ [key: string]: any; }}
-     * @memberof ActiveResourceRequest
      */
     secret_refs?: { [key: string]: any; };
     /**
      * Current resource status: 'pending', 'active', or 'deleting'.
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     status: string;
     /**
      * The Resource Type of the resource
-     * @type {string}
-     * @memberof ActiveResourceRequest
      */
     type: string;
     /**
      * The time the resource was last provisioned as part of a deployment.
-     * @type {Date}
-     * @memberof ActiveResourceRequest
      */
     updated_at: Date;
     /**
      * Indicates if a resource was provisioned internally (default to false)
-     * @type {boolean}
-     * @memberof ActiveResourceRequest
      */
     provisioned_internally?: boolean;
 }
@@ -146,22 +106,22 @@ export interface ActiveResourceRequest {
 /**
  * Check if a given object implements the ActiveResourceRequest interface.
  */
-export function instanceOfActiveResourceRequest(value: object): boolean {
-    if (!('app_id' in value)) return false;
-    if (!('_class' in value)) return false;
-    if (!('def_id' in value)) return false;
-    if (!('def_version_id' in value)) return false;
-    if (!('deploy_id' in value)) return false;
-    if (!('driver_type' in value)) return false;
-    if (!('env_id' in value)) return false;
-    if (!('env_type' in value)) return false;
-    if (!('gu_res_id' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('res_id' in value)) return false;
-    if (!('resource' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('type' in value)) return false;
-    if (!('updated_at' in value)) return false;
+export function instanceOfActiveResourceRequest(value: object): value is ActiveResourceRequest {
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if ((!('_class' in (value as Record<string, any>)) && !('class' in (value as Record<string, any>))) || ((value as Record<string, any>)['_class'] === undefined && (value as Record<string, any>)['class'] === undefined)) return false;
+    if (!('def_id' in value) || value['def_id'] === undefined) return false;
+    if (!('def_version_id' in value) || value['def_version_id'] === undefined) return false;
+    if (!('deploy_id' in value) || value['deploy_id'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
+    if (!('env_id' in value) || value['env_id'] === undefined) return false;
+    if (!('env_type' in value) || value['env_type'] === undefined) return false;
+    if (!('gu_res_id' in value) || value['gu_res_id'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('res_id' in value) || value['res_id'] === undefined) return false;
+    if (!('resource' in value) || value['resource'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
     return true;
 }
 
@@ -193,15 +153,20 @@ export function ActiveResourceRequestFromJSONTyped(json: any, ignoreDiscriminato
         'secret_refs': json['secret_refs'] == null ? undefined : json['secret_refs'],
         'status': json['status'],
         'type': json['type'],
-        'updated_at': (new Date(json['updated_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
         'provisioned_internally': json['provisioned_internally'] == null ? undefined : json['provisioned_internally'],
     };
 }
 
-export function ActiveResourceRequestToJSON(value?: ActiveResourceRequest | null): any {
+export function ActiveResourceRequestToJSON(json: any): ActiveResourceRequest {
+    return ActiveResourceRequestToJSONTyped(json, false);
+}
+
+export function ActiveResourceRequestToJSONTyped(value?: ActiveResourceRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],
@@ -222,7 +187,7 @@ export function ActiveResourceRequestToJSON(value?: ActiveResourceRequest | null
         'secret_refs': value['secret_refs'],
         'status': value['status'],
         'type': value['type'],
-        'updated_at': ((value['updated_at']).toISOString()),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
         'provisioned_internally': value['provisioned_internally'],
     };
 }

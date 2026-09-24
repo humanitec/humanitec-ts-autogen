@@ -12,1780 +12,4714 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime.js';
-import type {
-  AccountTypeResponse,
-  ActiveResourceResponse,
-  ActiveResourceTargetDefinitionRequest,
-  Agent,
-  AgentCreateBody,
-  AgentPatchBody,
-  ApplicationCreationRequest,
-  ApplicationPatchPayload,
-  ApplicationResponse,
-  ArchiveDefinitionVersionRequest,
-  ArtefactResponse,
-  ArtefactVersion,
-  AuditLogEntry,
-  AutomationRuleRequest,
-  AutomationRuleResponse,
-  Batch,
-  CheckResourceAccountData,
-  ClusterConnectionCheckRequest,
-  ClusterConnectionCheckResult,
-  ConflictingResourcesErrorResponse,
-  ConvertScoreToSetBody,
-  CreateArtefactVersion,
-  CreateDelta200Response,
-  CreateDriverRequestRequest,
-  CreateResourceAccountRequestRequest,
-  CreateResourceDefinitionRequestRequest,
-  CreateSecretStorePayloadRequest,
-  DeltaRequest,
-  DeltaResponse,
-  DependencyGraphResponse,
-  DeploymentErrorResponse,
-  DeploymentRequest,
-  DeploymentResponse,
-  DriverDefinitionResponse,
-  EnvironmentBaseUpdateRequest,
-  EnvironmentDefinitionRequest,
-  EnvironmentResponse,
-  EnvironmentRuntimeInfoResponse,
-  EnvironmentTypeRequest,
-  EnvironmentTypeResponse,
-  ErrorInfoResponse,
-  ErrorResponse,
-  EventResponse,
-  GetSet200Response,
-  Group,
-  GroupRequest,
-  GroupWithRole,
-  HumanitecErrorResponse,
-  HumanitecPublicKey,
-  ImageBuildRequest,
-  ImageBuildResponse,
-  ImageResponse,
-  Key,
-  KeyCreateBody,
-  MatchingCriteriaResponse,
-  MatchingCriteriaRuleRequest,
-  NewServiceUserRequest,
-  NodeBodyResponse,
-  OrganizationResponse,
-  OutputEntryResponse,
-  PatchResourceDefinitionRequestRequest,
-  PatchResourceTypeRequestRequest,
-  Pipeline,
-  PipelineApprovalRequest,
-  PipelineCriteria,
-  PipelineCriteriaCreateBody,
-  PipelineJob,
-  PipelineJobPartial,
-  PipelineRun,
-  PipelineRunCreateBody,
-  PipelineRunCreateByTriggerCriteriaBody,
-  PipelineStepLog,
-  PipelineVersion,
-  PlainDeltaResponse,
-  PublicKey,
-  RegistryCredsResponse,
-  RegistryRequest,
-  RegistryResponse,
-  ResourceAccountResponse,
-  ResourceClassRequest,
-  ResourceClassResponse,
-  ResourceDefinitionChangeResponse,
-  ResourceDefinitionResponse,
-  ResourceDefinitionVersion,
-  ResourceInputsResponse,
-  ResourceProvisionRequestRequest,
-  ResourceTypeRequest,
-  ResourceTypeResponse,
-  RoleRequest,
-  RuntimeInfoResponseV1,
-  RuntimeInfoResponseV2,
-  SecretStoreResponse,
-  SetResponse,
-  SubjectPermissions,
-  SubjectTypeEnum,
-  TokenDefinitionRequest,
-  TokenInfoResponse,
-  TokenResponse,
-  UpdateArtefactVersionPayloadRequest,
-  UpdateDriverRequestRequest,
-  UpdateEnvironmentTypePayloadRequest,
-  UpdateResourceAccountRequestRequest,
-  UpdateResourceClassRequest,
-  UpdateResourceDefinitionRequestRequest,
-  UpdateResourceTypeRequestRequest,
-  UpdateSecretStorePayloadRequest,
-  UserInviteRequestRequest,
-  UserInviteResponse,
-  UserProfileExtendedRequest,
-  UserProfileExtendedResponse,
-  UserProfileResponse,
-  UserRoleRequest,
-  UserRoleResponse,
-  ValueCreatePayloadRequest,
-  ValueEditPayloadRequest,
-  ValuePatchPayloadRequest,
-  ValueResponse,
-  ValueSetActionPayloadRequest,
-  ValueSetVersionResponse,
-  WebhookCreateRequest,
-  WebhookResponse,
-  WebhookUpdateRequest,
-  WorkloadArtefactVersionDeploymentSet,
-  WorkloadProfileChartVersionResponse,
-  WorkloadProfileFeatureResponse,
-  WorkloadProfileRequest,
-  WorkloadProfileResponse,
-  WorkloadProfileUpdateRequest,
-  WorkloadProfileVersionResponse,
-} from '../models/index.js';
 import {
+    type AccountTypeResponse,
     AccountTypeResponseFromJSON,
     AccountTypeResponseToJSON,
+} from '../models/AccountTypeResponse.js';
+import {
+    type ActiveResourceResponse,
     ActiveResourceResponseFromJSON,
     ActiveResourceResponseToJSON,
+} from '../models/ActiveResourceResponse.js';
+import {
+    type ActiveResourceTargetDefinitionRequest,
     ActiveResourceTargetDefinitionRequestFromJSON,
     ActiveResourceTargetDefinitionRequestToJSON,
+} from '../models/ActiveResourceTargetDefinitionRequest.js';
+import {
+    type Agent,
     AgentFromJSON,
     AgentToJSON,
+} from '../models/Agent.js';
+import {
+    type AgentCreateBody,
     AgentCreateBodyFromJSON,
     AgentCreateBodyToJSON,
+} from '../models/AgentCreateBody.js';
+import {
+    type AgentPatchBody,
     AgentPatchBodyFromJSON,
     AgentPatchBodyToJSON,
+} from '../models/AgentPatchBody.js';
+import {
+    type ApplicationCreationRequest,
     ApplicationCreationRequestFromJSON,
     ApplicationCreationRequestToJSON,
+} from '../models/ApplicationCreationRequest.js';
+import {
+    type ApplicationPatchPayload,
     ApplicationPatchPayloadFromJSON,
     ApplicationPatchPayloadToJSON,
+} from '../models/ApplicationPatchPayload.js';
+import {
+    type ApplicationResponse,
     ApplicationResponseFromJSON,
     ApplicationResponseToJSON,
+} from '../models/ApplicationResponse.js';
+import {
+    type ArchiveDefinitionVersionRequest,
     ArchiveDefinitionVersionRequestFromJSON,
     ArchiveDefinitionVersionRequestToJSON,
+} from '../models/ArchiveDefinitionVersionRequest.js';
+import {
+    type ArtefactResponse,
     ArtefactResponseFromJSON,
     ArtefactResponseToJSON,
+} from '../models/ArtefactResponse.js';
+import {
+    type ArtefactVersion,
     ArtefactVersionFromJSON,
     ArtefactVersionToJSON,
+} from '../models/ArtefactVersion.js';
+import {
+    type AuditLogEntry,
     AuditLogEntryFromJSON,
     AuditLogEntryToJSON,
+} from '../models/AuditLogEntry.js';
+import {
+    type AutomationRuleRequest,
     AutomationRuleRequestFromJSON,
     AutomationRuleRequestToJSON,
+} from '../models/AutomationRuleRequest.js';
+import {
+    type AutomationRuleResponse,
     AutomationRuleResponseFromJSON,
     AutomationRuleResponseToJSON,
+} from '../models/AutomationRuleResponse.js';
+import {
+    type Batch,
     BatchFromJSON,
     BatchToJSON,
+} from '../models/Batch.js';
+import {
+    type CheckResourceAccountData,
     CheckResourceAccountDataFromJSON,
     CheckResourceAccountDataToJSON,
+} from '../models/CheckResourceAccountData.js';
+import {
+    type ClusterConnectionCheckRequest,
     ClusterConnectionCheckRequestFromJSON,
     ClusterConnectionCheckRequestToJSON,
+} from '../models/ClusterConnectionCheckRequest.js';
+import {
+    type ClusterConnectionCheckResult,
     ClusterConnectionCheckResultFromJSON,
     ClusterConnectionCheckResultToJSON,
+} from '../models/ClusterConnectionCheckResult.js';
+import {
+    type ConflictingResourcesErrorResponse,
     ConflictingResourcesErrorResponseFromJSON,
     ConflictingResourcesErrorResponseToJSON,
+} from '../models/ConflictingResourcesErrorResponse.js';
+import {
+    type ConvertScoreToSetBody,
     ConvertScoreToSetBodyFromJSON,
     ConvertScoreToSetBodyToJSON,
+} from '../models/ConvertScoreToSetBody.js';
+import {
+    type CreateArtefactVersion,
     CreateArtefactVersionFromJSON,
     CreateArtefactVersionToJSON,
+} from '../models/CreateArtefactVersion.js';
+import {
+    type CreateDelta200Response,
     CreateDelta200ResponseFromJSON,
     CreateDelta200ResponseToJSON,
+} from '../models/CreateDelta200Response.js';
+import {
+    type CreateDriverRequestRequest,
     CreateDriverRequestRequestFromJSON,
     CreateDriverRequestRequestToJSON,
+} from '../models/CreateDriverRequestRequest.js';
+import {
+    type CreateResourceAccountRequestRequest,
     CreateResourceAccountRequestRequestFromJSON,
     CreateResourceAccountRequestRequestToJSON,
+} from '../models/CreateResourceAccountRequestRequest.js';
+import {
+    type CreateResourceDefinitionRequestRequest,
     CreateResourceDefinitionRequestRequestFromJSON,
     CreateResourceDefinitionRequestRequestToJSON,
+} from '../models/CreateResourceDefinitionRequestRequest.js';
+import {
+    type CreateSecretStorePayloadRequest,
     CreateSecretStorePayloadRequestFromJSON,
     CreateSecretStorePayloadRequestToJSON,
+} from '../models/CreateSecretStorePayloadRequest.js';
+import {
+    type DeltaRequest,
     DeltaRequestFromJSON,
     DeltaRequestToJSON,
+} from '../models/DeltaRequest.js';
+import {
+    type DeltaResponse,
     DeltaResponseFromJSON,
     DeltaResponseToJSON,
+} from '../models/DeltaResponse.js';
+import {
+    type DependencyGraphResponse,
     DependencyGraphResponseFromJSON,
     DependencyGraphResponseToJSON,
+} from '../models/DependencyGraphResponse.js';
+import {
+    type DeploymentErrorResponse,
     DeploymentErrorResponseFromJSON,
     DeploymentErrorResponseToJSON,
+} from '../models/DeploymentErrorResponse.js';
+import {
+    type DeploymentRequest,
     DeploymentRequestFromJSON,
     DeploymentRequestToJSON,
+} from '../models/DeploymentRequest.js';
+import {
+    type DeploymentResponse,
     DeploymentResponseFromJSON,
     DeploymentResponseToJSON,
+} from '../models/DeploymentResponse.js';
+import {
+    type DriverDefinitionResponse,
     DriverDefinitionResponseFromJSON,
     DriverDefinitionResponseToJSON,
+} from '../models/DriverDefinitionResponse.js';
+import {
+    type EnvironmentBaseUpdateRequest,
     EnvironmentBaseUpdateRequestFromJSON,
     EnvironmentBaseUpdateRequestToJSON,
+} from '../models/EnvironmentBaseUpdateRequest.js';
+import {
+    type EnvironmentDefinitionRequest,
     EnvironmentDefinitionRequestFromJSON,
     EnvironmentDefinitionRequestToJSON,
+} from '../models/EnvironmentDefinitionRequest.js';
+import {
+    type EnvironmentResponse,
     EnvironmentResponseFromJSON,
     EnvironmentResponseToJSON,
+} from '../models/EnvironmentResponse.js';
+import {
+    type EnvironmentRuntimeInfoResponse,
     EnvironmentRuntimeInfoResponseFromJSON,
     EnvironmentRuntimeInfoResponseToJSON,
+} from '../models/EnvironmentRuntimeInfoResponse.js';
+import {
+    type EnvironmentTypeRequest,
     EnvironmentTypeRequestFromJSON,
     EnvironmentTypeRequestToJSON,
+} from '../models/EnvironmentTypeRequest.js';
+import {
+    type EnvironmentTypeResponse,
     EnvironmentTypeResponseFromJSON,
     EnvironmentTypeResponseToJSON,
+} from '../models/EnvironmentTypeResponse.js';
+import {
+    type ErrorInfoResponse,
     ErrorInfoResponseFromJSON,
     ErrorInfoResponseToJSON,
+} from '../models/ErrorInfoResponse.js';
+import {
+    type ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+} from '../models/ErrorResponse.js';
+import {
+    type EventResponse,
     EventResponseFromJSON,
     EventResponseToJSON,
+} from '../models/EventResponse.js';
+import {
+    type GetSet200Response,
     GetSet200ResponseFromJSON,
     GetSet200ResponseToJSON,
+} from '../models/GetSet200Response.js';
+import {
+    type Group,
     GroupFromJSON,
     GroupToJSON,
+} from '../models/Group.js';
+import {
+    type GroupRequest,
     GroupRequestFromJSON,
     GroupRequestToJSON,
+} from '../models/GroupRequest.js';
+import {
+    type GroupWithRole,
     GroupWithRoleFromJSON,
     GroupWithRoleToJSON,
+} from '../models/GroupWithRole.js';
+import {
+    type HumanitecErrorResponse,
     HumanitecErrorResponseFromJSON,
     HumanitecErrorResponseToJSON,
+} from '../models/HumanitecErrorResponse.js';
+import {
+    type HumanitecPublicKey,
     HumanitecPublicKeyFromJSON,
     HumanitecPublicKeyToJSON,
+} from '../models/HumanitecPublicKey.js';
+import {
+    type ImageBuildRequest,
     ImageBuildRequestFromJSON,
     ImageBuildRequestToJSON,
+} from '../models/ImageBuildRequest.js';
+import {
+    type ImageBuildResponse,
     ImageBuildResponseFromJSON,
     ImageBuildResponseToJSON,
+} from '../models/ImageBuildResponse.js';
+import {
+    type ImageResponse,
     ImageResponseFromJSON,
     ImageResponseToJSON,
+} from '../models/ImageResponse.js';
+import {
+    type Key,
     KeyFromJSON,
     KeyToJSON,
+} from '../models/Key.js';
+import {
+    type KeyCreateBody,
     KeyCreateBodyFromJSON,
     KeyCreateBodyToJSON,
+} from '../models/KeyCreateBody.js';
+import {
+    type MatchingCriteriaResponse,
     MatchingCriteriaResponseFromJSON,
     MatchingCriteriaResponseToJSON,
+} from '../models/MatchingCriteriaResponse.js';
+import {
+    type MatchingCriteriaRuleRequest,
     MatchingCriteriaRuleRequestFromJSON,
     MatchingCriteriaRuleRequestToJSON,
+} from '../models/MatchingCriteriaRuleRequest.js';
+import {
+    type NewServiceUserRequest,
     NewServiceUserRequestFromJSON,
     NewServiceUserRequestToJSON,
+} from '../models/NewServiceUserRequest.js';
+import {
+    type NodeBodyResponse,
     NodeBodyResponseFromJSON,
     NodeBodyResponseToJSON,
+} from '../models/NodeBodyResponse.js';
+import {
+    type OrganizationResponse,
     OrganizationResponseFromJSON,
     OrganizationResponseToJSON,
+} from '../models/OrganizationResponse.js';
+import {
+    type OutputEntryResponse,
     OutputEntryResponseFromJSON,
     OutputEntryResponseToJSON,
+} from '../models/OutputEntryResponse.js';
+import {
+    type PatchResourceDefinitionRequestRequest,
     PatchResourceDefinitionRequestRequestFromJSON,
     PatchResourceDefinitionRequestRequestToJSON,
+} from '../models/PatchResourceDefinitionRequestRequest.js';
+import {
+    type PatchResourceTypeRequestRequest,
     PatchResourceTypeRequestRequestFromJSON,
     PatchResourceTypeRequestRequestToJSON,
+} from '../models/PatchResourceTypeRequestRequest.js';
+import {
+    type Pipeline,
     PipelineFromJSON,
     PipelineToJSON,
+} from '../models/Pipeline.js';
+import {
+    type PipelineApprovalRequest,
     PipelineApprovalRequestFromJSON,
     PipelineApprovalRequestToJSON,
-    PipelineCriteriaFromJSON,
-    PipelineCriteriaToJSON,
-    PipelineCriteriaCreateBodyFromJSON,
-    PipelineCriteriaCreateBodyToJSON,
+} from '../models/PipelineApprovalRequest.js';
+import {
+    type PipelineDeploymentRequestCriteria,
+    PipelineDeploymentRequestCriteriaFromJSON,
+    PipelineDeploymentRequestCriteriaToJSON,
+} from '../models/PipelineDeploymentRequestCriteria.js';
+import {
+    type PipelineDeploymentRequestCriteriaCreateBody,
+    PipelineDeploymentRequestCriteriaCreateBodyFromJSON,
+    PipelineDeploymentRequestCriteriaCreateBodyToJSON,
+} from '../models/PipelineDeploymentRequestCriteriaCreateBody.js';
+import {
+    type PipelineJob,
     PipelineJobFromJSON,
     PipelineJobToJSON,
+} from '../models/PipelineJob.js';
+import {
+    type PipelineJobPartial,
     PipelineJobPartialFromJSON,
     PipelineJobPartialToJSON,
+} from '../models/PipelineJobPartial.js';
+import {
+    type PipelineRun,
     PipelineRunFromJSON,
     PipelineRunToJSON,
+} from '../models/PipelineRun.js';
+import {
+    type PipelineRunCreateBody,
     PipelineRunCreateBodyFromJSON,
     PipelineRunCreateBodyToJSON,
+} from '../models/PipelineRunCreateBody.js';
+import {
+    type PipelineRunCreateByTriggerCriteriaBody,
     PipelineRunCreateByTriggerCriteriaBodyFromJSON,
     PipelineRunCreateByTriggerCriteriaBodyToJSON,
+} from '../models/PipelineRunCreateByTriggerCriteriaBody.js';
+import {
+    type PipelineStepLog,
     PipelineStepLogFromJSON,
     PipelineStepLogToJSON,
+} from '../models/PipelineStepLog.js';
+import {
+    type PipelineVersion,
     PipelineVersionFromJSON,
     PipelineVersionToJSON,
+} from '../models/PipelineVersion.js';
+import {
+    type PlainDeltaResponse,
     PlainDeltaResponseFromJSON,
     PlainDeltaResponseToJSON,
+} from '../models/PlainDeltaResponse.js';
+import {
+    type PublicKey,
     PublicKeyFromJSON,
     PublicKeyToJSON,
+} from '../models/PublicKey.js';
+import {
+    type RegistryCredsResponse,
     RegistryCredsResponseFromJSON,
     RegistryCredsResponseToJSON,
+} from '../models/RegistryCredsResponse.js';
+import {
+    type RegistryRequest,
     RegistryRequestFromJSON,
     RegistryRequestToJSON,
+} from '../models/RegistryRequest.js';
+import {
+    type RegistryResponse,
     RegistryResponseFromJSON,
     RegistryResponseToJSON,
+} from '../models/RegistryResponse.js';
+import {
+    type ResourceAccountResponse,
     ResourceAccountResponseFromJSON,
     ResourceAccountResponseToJSON,
+} from '../models/ResourceAccountResponse.js';
+import {
+    type ResourceClassRequest,
     ResourceClassRequestFromJSON,
     ResourceClassRequestToJSON,
+} from '../models/ResourceClassRequest.js';
+import {
+    type ResourceClassResponse,
     ResourceClassResponseFromJSON,
     ResourceClassResponseToJSON,
+} from '../models/ResourceClassResponse.js';
+import {
+    type ResourceDefinitionChangeResponse,
     ResourceDefinitionChangeResponseFromJSON,
     ResourceDefinitionChangeResponseToJSON,
+} from '../models/ResourceDefinitionChangeResponse.js';
+import {
+    type ResourceDefinitionResponse,
     ResourceDefinitionResponseFromJSON,
     ResourceDefinitionResponseToJSON,
+} from '../models/ResourceDefinitionResponse.js';
+import {
+    type ResourceDefinitionVersion,
     ResourceDefinitionVersionFromJSON,
     ResourceDefinitionVersionToJSON,
+} from '../models/ResourceDefinitionVersion.js';
+import {
+    type ResourceInputsResponse,
     ResourceInputsResponseFromJSON,
     ResourceInputsResponseToJSON,
+} from '../models/ResourceInputsResponse.js';
+import {
+    type ResourceProvisionRequestRequest,
     ResourceProvisionRequestRequestFromJSON,
     ResourceProvisionRequestRequestToJSON,
+} from '../models/ResourceProvisionRequestRequest.js';
+import {
+    type ResourceTypeRequest,
     ResourceTypeRequestFromJSON,
     ResourceTypeRequestToJSON,
+} from '../models/ResourceTypeRequest.js';
+import {
+    type ResourceTypeResponse,
     ResourceTypeResponseFromJSON,
     ResourceTypeResponseToJSON,
+} from '../models/ResourceTypeResponse.js';
+import {
+    type RoleRequest,
     RoleRequestFromJSON,
     RoleRequestToJSON,
+} from '../models/RoleRequest.js';
+import {
+    type RuntimeInfoResponseV1,
     RuntimeInfoResponseV1FromJSON,
     RuntimeInfoResponseV1ToJSON,
+} from '../models/RuntimeInfoResponseV1.js';
+import {
+    type RuntimeInfoResponseV2,
     RuntimeInfoResponseV2FromJSON,
     RuntimeInfoResponseV2ToJSON,
+} from '../models/RuntimeInfoResponseV2.js';
+import {
+    type SecretStoreResponse,
     SecretStoreResponseFromJSON,
     SecretStoreResponseToJSON,
+} from '../models/SecretStoreResponse.js';
+import {
+    type SetResponse,
     SetResponseFromJSON,
     SetResponseToJSON,
+} from '../models/SetResponse.js';
+import {
+    type SubjectPermissions,
     SubjectPermissionsFromJSON,
     SubjectPermissionsToJSON,
+} from '../models/SubjectPermissions.js';
+import {
+    type SubjectTypeEnum,
     SubjectTypeEnumFromJSON,
     SubjectTypeEnumToJSON,
+} from '../models/SubjectTypeEnum.js';
+import {
+    type TokenDefinitionRequest,
     TokenDefinitionRequestFromJSON,
     TokenDefinitionRequestToJSON,
+} from '../models/TokenDefinitionRequest.js';
+import {
+    type TokenInfoResponse,
     TokenInfoResponseFromJSON,
     TokenInfoResponseToJSON,
+} from '../models/TokenInfoResponse.js';
+import {
+    type TokenResponse,
     TokenResponseFromJSON,
     TokenResponseToJSON,
+} from '../models/TokenResponse.js';
+import {
+    type UpdateArtefactVersionPayloadRequest,
     UpdateArtefactVersionPayloadRequestFromJSON,
     UpdateArtefactVersionPayloadRequestToJSON,
+} from '../models/UpdateArtefactVersionPayloadRequest.js';
+import {
+    type UpdateDriverRequestRequest,
     UpdateDriverRequestRequestFromJSON,
     UpdateDriverRequestRequestToJSON,
+} from '../models/UpdateDriverRequestRequest.js';
+import {
+    type UpdateEnvironmentTypePayloadRequest,
     UpdateEnvironmentTypePayloadRequestFromJSON,
     UpdateEnvironmentTypePayloadRequestToJSON,
+} from '../models/UpdateEnvironmentTypePayloadRequest.js';
+import {
+    type UpdateResourceAccountRequestRequest,
     UpdateResourceAccountRequestRequestFromJSON,
     UpdateResourceAccountRequestRequestToJSON,
+} from '../models/UpdateResourceAccountRequestRequest.js';
+import {
+    type UpdateResourceClassRequest,
     UpdateResourceClassRequestFromJSON,
     UpdateResourceClassRequestToJSON,
+} from '../models/UpdateResourceClassRequest.js';
+import {
+    type UpdateResourceDefinitionRequestRequest,
     UpdateResourceDefinitionRequestRequestFromJSON,
     UpdateResourceDefinitionRequestRequestToJSON,
+} from '../models/UpdateResourceDefinitionRequestRequest.js';
+import {
+    type UpdateResourceTypeRequestRequest,
     UpdateResourceTypeRequestRequestFromJSON,
     UpdateResourceTypeRequestRequestToJSON,
+} from '../models/UpdateResourceTypeRequestRequest.js';
+import {
+    type UpdateSecretStorePayloadRequest,
     UpdateSecretStorePayloadRequestFromJSON,
     UpdateSecretStorePayloadRequestToJSON,
+} from '../models/UpdateSecretStorePayloadRequest.js';
+import {
+    type UserInviteRequestRequest,
     UserInviteRequestRequestFromJSON,
     UserInviteRequestRequestToJSON,
+} from '../models/UserInviteRequestRequest.js';
+import {
+    type UserInviteResponse,
     UserInviteResponseFromJSON,
     UserInviteResponseToJSON,
+} from '../models/UserInviteResponse.js';
+import {
+    type UserProfileExtendedRequest,
     UserProfileExtendedRequestFromJSON,
     UserProfileExtendedRequestToJSON,
+} from '../models/UserProfileExtendedRequest.js';
+import {
+    type UserProfileExtendedResponse,
     UserProfileExtendedResponseFromJSON,
     UserProfileExtendedResponseToJSON,
+} from '../models/UserProfileExtendedResponse.js';
+import {
+    type UserProfileResponse,
     UserProfileResponseFromJSON,
     UserProfileResponseToJSON,
+} from '../models/UserProfileResponse.js';
+import {
+    type UserRoleRequest,
     UserRoleRequestFromJSON,
     UserRoleRequestToJSON,
+} from '../models/UserRoleRequest.js';
+import {
+    type UserRoleResponse,
     UserRoleResponseFromJSON,
     UserRoleResponseToJSON,
+} from '../models/UserRoleResponse.js';
+import {
+    type ValueCreatePayloadRequest,
     ValueCreatePayloadRequestFromJSON,
     ValueCreatePayloadRequestToJSON,
+} from '../models/ValueCreatePayloadRequest.js';
+import {
+    type ValueEditPayloadRequest,
     ValueEditPayloadRequestFromJSON,
     ValueEditPayloadRequestToJSON,
+} from '../models/ValueEditPayloadRequest.js';
+import {
+    type ValuePatchPayloadRequest,
     ValuePatchPayloadRequestFromJSON,
     ValuePatchPayloadRequestToJSON,
+} from '../models/ValuePatchPayloadRequest.js';
+import {
+    type ValueResponse,
     ValueResponseFromJSON,
     ValueResponseToJSON,
+} from '../models/ValueResponse.js';
+import {
+    type ValueSetActionPayloadRequest,
     ValueSetActionPayloadRequestFromJSON,
     ValueSetActionPayloadRequestToJSON,
+} from '../models/ValueSetActionPayloadRequest.js';
+import {
+    type ValueSetVersionResponse,
     ValueSetVersionResponseFromJSON,
     ValueSetVersionResponseToJSON,
+} from '../models/ValueSetVersionResponse.js';
+import {
+    type WebhookCreateRequest,
     WebhookCreateRequestFromJSON,
     WebhookCreateRequestToJSON,
+} from '../models/WebhookCreateRequest.js';
+import {
+    type WebhookResponse,
     WebhookResponseFromJSON,
     WebhookResponseToJSON,
+} from '../models/WebhookResponse.js';
+import {
+    type WebhookUpdateRequest,
     WebhookUpdateRequestFromJSON,
     WebhookUpdateRequestToJSON,
+} from '../models/WebhookUpdateRequest.js';
+import {
+    type WorkloadArtefactVersionDeploymentSet,
     WorkloadArtefactVersionDeploymentSetFromJSON,
     WorkloadArtefactVersionDeploymentSetToJSON,
+} from '../models/WorkloadArtefactVersionDeploymentSet.js';
+import {
+    type WorkloadProfileChartVersionResponse,
     WorkloadProfileChartVersionResponseFromJSON,
     WorkloadProfileChartVersionResponseToJSON,
+} from '../models/WorkloadProfileChartVersionResponse.js';
+import {
+    type WorkloadProfileFeatureResponse,
     WorkloadProfileFeatureResponseFromJSON,
     WorkloadProfileFeatureResponseToJSON,
+} from '../models/WorkloadProfileFeatureResponse.js';
+import {
+    type WorkloadProfileRequest,
     WorkloadProfileRequestFromJSON,
     WorkloadProfileRequestToJSON,
+} from '../models/WorkloadProfileRequest.js';
+import {
+    type WorkloadProfileResponse,
     WorkloadProfileResponseFromJSON,
     WorkloadProfileResponseToJSON,
+} from '../models/WorkloadProfileResponse.js';
+import {
+    type WorkloadProfileUpdateRequest,
     WorkloadProfileUpdateRequestFromJSON,
     WorkloadProfileUpdateRequestToJSON,
+} from '../models/WorkloadProfileUpdateRequest.js';
+import {
+    type WorkloadProfileVersionResponse,
     WorkloadProfileVersionResponseFromJSON,
     WorkloadProfileVersionResponseToJSON,
-} from '../models/index.js';
+} from '../models/WorkloadProfileVersionResponse.js';
 
 export interface ApprovePipelineApprovalRequestRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The Job ID
+     */
     jobId: string;
+    /**
+     * The Approval ID
+     */
     approvalId: string;
 }
 
 export interface ArchiveDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Delta.
+     * 
+     * 
+     */
     deltaId: string;
+    /**
+     * 
+     */
     body: boolean;
 }
 
 export interface ArchiveResourceDefinitionVersionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     */
     defId: string;
+    /**
+     * The Resource Definition Version ID.
+     */
     defVersionId: string;
+    /**
+     * 
+     */
     ArchiveDefinitionVersionRequest: ArchiveDefinitionVersionRequest;
 }
 
 export interface CancelPipelineRunRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * Indicate that the request should only succeed if there is an etag match
+     */
     If_Match?: string;
 }
 
 export interface ChangeEnvOfDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Delta.
+     * 
+     * 
+     */
     deltaId: string;
+    /**
+     * 
+     */
     body: string;
 }
 
 export interface ChangeNameOfDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Delta.
+     * 
+     * 
+     */
     deltaId: string;
+    /**
+     * 
+     */
     body: string;
 }
 
 export interface CheckClusterConnectivityRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     ClusterConnectionCheckRequest: ClusterConnectionCheckRequest;
 }
 
 export interface CheckResourceAccountRequest {
+    /**
+     * The Organization ID.
+     */
     orgId: string;
+    /**
+     * The Resource Account ID.
+     */
     accId: string;
 }
 
 export interface ConvertScoreToSetRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * 
+     */
     ConvertScoreToSetBody: ConvertScoreToSetBody;
 }
 
 export interface CreateAgentRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     AgentCreateBody: AgentCreateBody;
 }
 
 export interface CreateApplicationRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     ApplicationCreationRequest: ApplicationCreationRequest;
 }
 
 export interface CreateArtefactVersionRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * 
+     */
     CreateArtefactVersion: CreateArtefactVersion;
+    /**
+     * (Optional) Which version control system the version comes from. Default value is "git". If this parameter is not supplied or its value is "git", the provided ref, if not empty, is checked to ensure that it has the prefix "refs/".
+     */
     vcs?: string;
+    /**
+     * Optionally validate the request but do not persist the actual artefact. If the Accept type is set to "application/x.workload-deployment-set+json" or "application/x.workload-deployment-set+x-yaml", the generated deployment set will be returned.
+     */
     dry_run?: boolean;
+    /**
+     * Indicates which content types the client is able to understand.
+     */
     Accept?: string;
 }
 
 export interface CreateAutomationRuleRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * 
+     */
     AutomationRuleRequest: AutomationRuleRequest;
 }
 
 export interface CreateDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * 
+     */
     DeltaRequest: DeltaRequest;
 }
 
 export interface CreateDependencyGraphRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * 
+     */
     ResourceProvisionRequestRequest: Array<ResourceProvisionRequestRequest>;
 }
 
 export interface CreateDeploymentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * 
+     */
     DeploymentRequest: DeploymentRequest;
 }
 
 export interface CreateDeprecatedImageBuildRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Image ID.
+     */
     imageId: string;
+    /**
+     * 
+     */
     ImageBuildRequest: ImageBuildRequest;
 }
 
 export interface CreateEnvironmentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * 
+     */
     EnvironmentDefinitionRequest: EnvironmentDefinitionRequest;
 }
 
 export interface CreateEnvironmentTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     EnvironmentTypeRequest: EnvironmentTypeRequest;
 }
 
 export interface CreateGroupRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     GroupRequest: GroupRequest;
 }
 
 export interface CreateInviteInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     UserInviteRequestRequest: UserInviteRequestRequest;
 }
 
 export interface CreateKeyRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Agent id.
+     */
     agentId: string;
+    /**
+     * 
+     */
     KeyCreateBody: KeyCreateBody;
 }
 
 export interface CreatePipelineRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * 
+     */
     body: object;
+    /**
+     * Optionally validate the request but do not persist the actual Pipeline.
+     */
     dry_run?: boolean;
 }
 
 export interface CreatePipelineCriteriaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
-    PipelineCriteriaCreateBody: PipelineCriteriaCreateBody;
+    /**
+     * 
+     */
+    body: PipelineDeploymentRequestCriteriaCreateBody;
 }
 
 export interface CreatePipelineRunRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * 
+     */
     PipelineRunCreateBody: PipelineRunCreateBody;
+    /**
+     * The HTTP Idempotency-Key
+     */
     Idempotency_Key?: string;
+    /**
+     * Optionally validate the request but do not persist the actual Pipeline Run.
+     */
     dry_run?: boolean;
 }
 
 export interface CreatePipelineRunByTriggerCriteriaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * 
+     */
     PipelineRunCreateByTriggerCriteriaBody: PipelineRunCreateByTriggerCriteriaBody;
+    /**
+     * The HTTP Idempotency-Key
+     */
     Idempotency_Key?: string;
+    /**
+     * Optionally validate the request but do not persist the actual Pipeline Run.
+     */
     dry_run?: boolean;
 }
 
 export interface CreatePublicKeyRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * 
+     */
     body: string;
 }
 
 export interface CreateResourceAccountRequest {
+    /**
+     * The Organization ID.
+     */
     orgId: string;
+    /**
+     * 
+     */
     CreateResourceAccountRequestRequest: CreateResourceAccountRequestRequest;
+    /**
+     * Validate the request but do not persist the change.
+     */
     dry_run?: boolean;
+    /**
+     * Validate that the Account credential authenticates successfully.
+     */
     check_credential?: boolean;
 }
 
 export interface CreateResourceClassRequest {
+    /**
+     * The organization ID.
+     * 
+     */
     orgId: string;
+    /**
+     * The resource type.
+     * 
+     */
     typeId: string;
+    /**
+     * 
+     */
     ResourceClassRequest: ResourceClassRequest;
 }
 
 export interface CreateResourceDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     CreateResourceDefinitionRequestRequest: CreateResourceDefinitionRequestRequest;
 }
 
 export interface CreateResourceDefinitionCriteriaRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * 
+     */
     MatchingCriteriaRuleRequest: MatchingCriteriaRuleRequest;
 }
 
 export interface CreateResourceDriverRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     CreateDriverRequestRequest: CreateDriverRequestRequest;
 }
 
 export interface CreateResourceTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     ResourceTypeRequest: ResourceTypeRequest;
 }
 
 export interface CreateServiceUserInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     NewServiceUserRequest: NewServiceUserRequest;
 }
 
 export interface CreateUserRoleInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * 
+     */
     UserRoleRequest: UserRoleRequest;
 }
 
 export interface CreateUserRoleInEnvTypeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Environment Type.
+     */
     envType: string;
+    /**
+     * 
+     */
     UserRoleRequest: UserRoleRequest;
 }
 
 export interface CreateUserTokenRequest {
+    /**
+     * The user ID.
+     * 
+     * 
+     */
     userId: string;
+    /**
+     * 
+     */
     TokenDefinitionRequest: TokenDefinitionRequest;
 }
 
 export interface CreateWorkloadProfileRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     WorkloadProfileRequest: WorkloadProfileRequest;
 }
 
 export interface CreateWorkloadProfileChartVersionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * 
+     */
     file?: Blob;
 }
 
 export interface DeleteActiveResourceRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The Resource Type, may include a resource class: {type}.{class}.
+     * 
+     * 
+     */
     type: string;
+    /**
+     * The Resource ID.
+     * 
+     * 
+     */
     resId: string;
+    /**
+     * If set to `true`, will detach an active resource. The resource continues to exist and is not deleted, but it is no longer connected to the Platform Orchestrator. 
+     * Detaching can be done for any active resource. In case that the resource is an active one (i.e. not marked to be deleted), it would stay in use until the next deployment.
+     * Detaching active resources can cause inconsistent status (e.g. detaching a k8s-cluster might make it impossible to retrieve runtime information by or un-pause an environment)
+     * If the resource has been provisioned via the Humanitec Operator, this does not delete the resource CR in the cluster. This must be done manually.
+     * 
+     */
     detach?: boolean;
 }
 
 export interface DeleteAgentRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Agent id.
+     */
     agentId: string;
 }
 
 export interface DeleteApplicationRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface DeleteArtefactRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact ID.
+     */
     artefactId: string;
 }
 
 export interface DeleteAutomationRuleRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * The Automation Rule ID.
+     */
     ruleId: string;
 }
 
 export interface DeleteEnvironmentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
 }
 
 export interface DeleteEnvironmentTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * ID of the Environment Type.
+     * 
+     * 
+     */
     envTypeId: string;
 }
 
 export interface DeleteKeyInAgentRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Agent id.
+     */
     agentId: string;
+    /**
+     * The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
+     */
     fingerprint: string;
 }
 
 export interface DeletePipelineRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * Indicate that the request should only succeed if there is an etag match
+     */
     If_Match?: string;
 }
 
 export interface DeletePipelineCriteriaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Criteria ID
+     */
     criteriaId: string;
 }
 
 export interface DeletePipelineRunRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * Indicate that the request should only succeed if there is an etag match
+     */
     If_Match?: string;
 }
 
 export interface DeletePublicKeyRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The public key ID.
+     */
     keyId: string;
 }
 
 export interface DeleteResourceAccountRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Account ID.
+     * 
+     * 
+     */
     accId: string;
 }
 
 export interface DeleteResourceClassRequest {
+    /**
+     * The organization ID.
+     * 
+     */
     orgId: string;
+    /**
+     * The resource type.
+     * 
+     */
     typeId: string;
+    /**
+     * The resource class id.
+     * 
+     */
     classId: string;
 }
 
 export interface DeleteResourceDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * If set to `true`, will mark the Resource Definition for deletion, even if it affects existing Active Resources.
+     * 
+     * 
+     */
     force?: boolean;
 }
 
 export interface DeleteResourceDefinitionCriteriaRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * The Matching Criteria ID.
+     * 
+     * 
+     */
     criteriaId: string;
+    /**
+     * If set to `true`, the Matching Criteria is deleted immediately, even if this action affects existing Active Resources.
+     * 
+     * 
+     */
     force?: boolean;
 }
 
 export interface DeleteResourceDriverRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resources Driver ID to delete.
+     * 
+     * 
+     */
     driverId: string;
 }
 
 export interface DeleteResourceTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Type id. The type id should be provided as url encoded string.
+     * 
+     */
     typeId: string;
 }
 
 export interface DeleteUserRoleInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface DeleteUserRoleInEnvTypeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Environment Type.
+     */
     envType: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface DeleteUserRoleInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface DeleteUserTokenRequest {
+    /**
+     * The user ID.
+     * 
+     * 
+     */
     userId: string;
+    /**
+     * The token ID.
+     * 
+     * 
+     */
     tokenId: string;
 }
 
 export interface DeleteWorkloadProfileRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Workload Profile ID.
+     */
     profileQid: string;
 }
 
 export interface DenyPipelineApprovalRequestRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The Job ID
+     */
     jobId: string;
+    /**
+     * The Approval ID
+     */
     approvalId: string;
 }
 
 export interface GetApplicationRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface GetArtefactVersionRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact Version ID.
+     */
     artefactVersionId: string;
 }
 
 export interface GetAutomationRuleRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * The Automation Rule ID.
+     */
     ruleId: string;
 }
 
 export interface GetBatchRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The batch type, only artefact is implemented.
+     */
     batchType: string;
 }
 
 export interface GetDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Delta to fetch.
+     * 
+     * 
+     */
     deltaId: string;
 }
 
 export interface GetDependencyGraphRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * The Dependency Graph ID.
+     */
     graphId: string;
 }
 
 export interface GetDeploymentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The Deployment ID.
+     * 
+     * 
+     */
     deployId: string;
 }
 
 export interface GetDeprecatedImageRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Image ID.
+     */
     imageId: string;
 }
 
 export interface GetDiffRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Set.
+     * 
+     * 
+     */
     setId: string;
+    /**
+     * ID of the Deployment Set to diff against.
+     * 
+     * 
+     */
     sourceSetId: string;
 }
 
 export interface GetEnvironmentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
 }
 
 export interface GetEnvironmentTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * ID of the Environment Type.
+     * 
+     * 
+     */
     envTypeId: string;
 }
 
 export interface GetLatestPipelineDefinitionSchemaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
 }
 
 export interface GetLatestWorkloadProfileVersionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Workload Profile ID.
+     */
     profileQid: string;
 }
 
 export interface GetOrganizationRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
 }
 
 export interface GetPipelineRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * An optional Pipeline Version ID.
+     */
     version?: string;
 }
 
 export interface GetPipelineApprovalRequestRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The Job ID
+     */
     jobId: string;
+    /**
+     * The Approval ID
+     */
     approvalId: string;
 }
 
 export interface GetPipelineCriteriaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Criteria ID
+     */
     criteriaId: string;
 }
 
 export interface GetPipelineDefinitionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * An optional Pipeline Version ID.
+     */
     version?: string;
+    /**
+     * 
+     */
     Accept?: string;
 }
 
 export interface GetPipelineJobRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The Job ID
+     */
     jobId: string;
 }
 
 export interface GetPipelineRunRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
 }
 
 export interface GetPublicKeyRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The public key ID.
+     */
     keyId: string;
 }
 
 export interface GetResourceAccountRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Account ID.
+     * 
+     * 
+     */
     accId: string;
 }
 
 export interface GetResourceClassRequest {
+    /**
+     * The organization ID.
+     * 
+     */
     orgId: string;
+    /**
+     * The resource type.
+     * 
+     */
     typeId: string;
+    /**
+     * The resource class ID.
+     * 
+     */
     classId: string;
 }
 
 export interface GetResourceDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * If returns the resource definition even if it has been deleted.
+     */
     deleted?: boolean;
 }
 
 export interface GetResourceDefinitionVersionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     */
     defId: string;
+    /**
+     * The Resource Definition Version ID.
+     */
     defVersionId: string;
 }
 
 export interface GetResourceDriverRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Driver ID.
+     * 
+     * 
+     */
     driverId: string;
 }
 
 export interface GetRuntimeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
 }
 
 export interface GetSetRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Set.
+     * 
+     * 
+     */
     setId: string;
+    /**
+     * ID of the Deployment Set to compared against.
+     */
     diff?: string;
 }
 
 export interface GetSetResourceInputsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Set.
+     */
     setId: string;
 }
 
 export interface GetSubjectPermsInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface GetUserRoleInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface GetUserRoleInEnvTypeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Environment Type.
+     */
     envType: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface GetUserRoleInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface GetUserTokenRequest {
+    /**
+     * The user ID.
+     * 
+     * 
+     */
     userId: string;
+    /**
+     * The token ID.
+     * 
+     * 
+     */
     tokenId: string;
 }
 
 export interface GetWorkloadArtefactVersionDeploymentSetRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact Version ID.
+     */
     artefactVersionId: string;
+    /**
+     * The accepted content type.
+     */
     Accept?: string;
 }
 
 export interface GetWorkloadArtefactVersionSpecRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact Version ID.
+     */
     artefactVersionId: string;
+    /**
+     * The accepted content type.
+     */
     Accept?: string;
 }
 
 export interface GetWorkloadProfileRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Workload Profile ID.
+     */
     profileQid: string;
 }
 
 export interface ListActiveResourceByDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
 }
 
 export interface ListActiveResourcesRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * If set to `true` or `false`, filters resources scheduled or not scheduled for deletion correspondingly.
+     * 
+     */
     scheduled_deletion?: boolean;
 }
 
 export interface ListAgentsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Key fingerprint (hexadecimal representation of sha256 hash of the DER representation of the key).
+     */
     fingerprint?: string;
 }
 
 export interface ListApplicationsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListArtefactVersionsRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact ID.
+     */
     artefactId: string;
+    /**
+     * (Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.
+     */
     archived?: boolean;
+    /**
+     * (Optional) Filter Artefact Versions by by name including a version or digest.
+     */
     reference?: string;
+    /**
+     * (Optional) Limit the number of versions returned by the endpoint.
+     */
     limit?: number;
 }
 
 export interface ListArtefactVersionsInOrgRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * (Optional) Filter Artefact Versions by name.
+     */
     name?: string;
+    /**
+     * (Optional) Filter Artefact Versions by the reference to a Version of the same Artefact. This cannot be used together with `name`.
+     */
     reference?: string;
+    /**
+     * (Optional) Filter for non-archived Artefact Versions. If no filter is defined only non-archived Artefact Versions are returned, if the filter is true both archived and non-archived Versions are returned.
+     */
     archived?: boolean;
+    /**
+     * (Optional) Filter by artefact type.
+     */
     type?: string;
 }
 
 export interface ListArtefactsRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * (Optional) Filter Artefacts by type.
+     */
     type?: string;
+    /**
+     * (Optional) Filter Artefacts by name.
+     */
     name?: string;
 }
 
 export interface ListAuditLogEntriesRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
+    /**
+     * Optional filter for entries created after the given time.
+     */
     from?: Date;
+    /**
+     * Optional filter for entries created before the given time.
+     */
     to?: Date;
 }
 
 export interface ListAutomationRulesRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
 }
 
 export interface ListDeltasRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * If true, return archived Deltas.
+     * 
+     * 
+     */
     archived?: boolean;
+    /**
+     * Only return Deltas associated with the specified Environment.
+     * 
+     * 
+     */
     env?: string;
 }
 
 export interface ListDeploymentErrorsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The Deployment ID.
+     * 
+     * 
+     */
     deployId: string;
 }
 
 export interface ListDeploymentsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * An optional filter by the Pipeline and Pipeline Run ID separated by a comma.
+     * 
+     */
     pipelineRunId?: string;
 }
 
 export interface ListDeprecatedImageBuildsRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Image ID.
+     */
     imageId: string;
 }
 
 export interface ListDeprecatedImagesRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
 }
 
 export interface ListEnvironmentTypesRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListEnvironmentsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface ListGroupUsersRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Group Id.
+     */
     groupId: string;
 }
 
 export interface ListHumanitecPublicKeysRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * If set to true, the response includes only the active key, if set to false only non-active keys, otherwise both active and non-active keys.
+     */
     active?: boolean;
 }
 
 export interface ListInvitesInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
 }
 
 export interface ListKeysInAgentRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Agent id.
+     */
     agentId: string;
 }
 
 export interface ListPipelineApprovalRequestsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
+    /**
+     * An optional list of Pipeline IDs.
+     */
     pipeline?: Array<string>;
+    /**
+     * An optional Pipeline Run ID.
+     */
     run?: Array<string>;
+    /**
+     * Optional filter by status.
+     */
     status?: string;
 }
 
 export interface ListPipelineCriteriaInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * An optional filter by Pipeline ID.
+     */
     pipeline?: string;
+    /**
+     * Optional key value match filters on the criteria.
+     */
     match?: { [key: string]: string; };
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelineJobsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * Optional filter by status.
+     */
     status?: Array<string>;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelineRunsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * An optional Environment ID
+     */
     env?: string;
+    /**
+     * Optional filter by status.
+     */
     status?: Array<string>;
+    /**
+     * Optional filer by completed or not.
+     */
     completed?: boolean;
+    /**
+     * Optional filter by creation after date time.
+     */
     created_after?: Date;
+    /**
+     * Optional filter by creation before date time
+     */
     created_before?: Date;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelineRunsByOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * An optional list of Application IDs.
+     */
     app?: Array<string>;
+    /**
+     * An optional list of Pipeline IDs.
+     */
     pipeline?: Array<string>;
+    /**
+     * An optional Environment ID
+     */
     env?: string;
+    /**
+     * Optional filter by status.
+     */
     status?: Array<string>;
+    /**
+     * Optional filer by completed or not.
+     */
     completed?: boolean;
+    /**
+     * Optional filter by creation after date time.
+     */
     created_after?: Date;
+    /**
+     * Optional filter by creation before date time
+     */
     created_before?: Date;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelineStepLogsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The Job ID
+     */
     jobId: string;
+    /**
+     * The index of the step within the Job
+     */
     stepIndex: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelineVersionsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListPipelinesRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
+    /**
+     * An optional filter by trigger type.
+     */
     trigger?: string;
+    /**
+     * Optional filter by pipeline metadata
+     */
     metadata?: { [key: string]: string; };
 }
 
 export interface ListPipelinesInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * An optional list of Application IDs.
+     */
     app?: Array<string>;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
+    /**
+     * An optional filter by trigger type.
+     */
     trigger?: string;
+    /**
+     * Optional filter by pipeline metadata
+     */
     metadata?: { [key: string]: string; };
 }
 
 export interface ListPublicKeysRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The fingerprint (the hexadecimal representation of the sha256 hash of the DER representation of the key) of the requested key. If a value is provided, the result will contain a single key, if any.
+     */
     fingerprint?: string;
 }
 
 export interface ListResourceAccountTypesRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListResourceAccountsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListResourceClassesRequest {
+    /**
+     * The organization ID.
+     * 
+     */
     orgId: string;
 }
 
 export interface ListResourceDefinitionVersionsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     */
     defId: string;
+    /**
+     * If to show also deleted records in the response.
+     */
     deleted?: boolean;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListResourceDefinitionsRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Application.
+     * 
+     * 
+     */
     app?: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Environment.
+     * 
+     * 
+     */
     env?: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Environment Type.
+     * 
+     * 
+     */
     env_type?: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Resource.
+     * 
+     * 
+     */
     res?: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Resource Type.
+     * 
+     * 
+     */
     res_type?: string;
+    /**
+     * (Optional) Filter Resource Definitions that may match a specific Class.
+     * 
+     * 
+     */
     _class?: string;
+    /**
+     * If returns also resource definitions which has been deleted.
+     */
     deleted?: boolean;
 }
 
 export interface ListResourceDriversRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListResourceTypesRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface ListRuntimeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * Filter environments by ID (required). Up to 5 ids can be supplied per request.
+     */
     id?: Array<string>;
 }
 
 export interface ListSetsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
 }
 
 export interface ListUserGroupsInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
 }
 
 export interface ListUserRolesInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * Type of Subject. Either User or Group
+     */
     type?: SubjectTypeEnum;
 }
 
 export interface ListUserRolesInEnvTypeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Environment Type.
+     */
     envType: string;
+    /**
+     * Type of Subject. Either User or Group
+     */
     type?: SubjectTypeEnum;
 }
 
 export interface ListUserRolesInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * Type of Subject. Either User or Group
+     */
     type?: SubjectTypeEnum;
 }
 
 export interface ListUserTokensRequest {
+    /**
+     * The user ID.
+     * 
+     * 
+     */
     userId: string;
 }
 
 export interface ListWorkloadProfileChartVersionsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
+    /**
+     * Filter Chart Versions by Chart Version ID.
+     */
     id?: string;
+    /**
+     * Filter Chart Versions by Chart Version.
+     */
     version?: string;
 }
 
 export interface ListWorkloadProfileFeaturesRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
 }
 
 export interface ListWorkloadProfileVersionsRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Workload Profile ID.
+     */
     profileQid: string;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface ListWorkloadProfilesRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * Whether to include deprecated profiles
+     */
     deprecated?: boolean;
+    /**
+     * The maximum number of items to return in a page of results
+     */
     per_page?: number;
+    /**
+     * The page token to request from
+     */
     page?: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequest {
+    /**
+     * The Organization ID
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * filter by workload ID
+     * 
+     * 
+     */
     workload_id?: string;
+    /**
+     * filter by container ID
+     * 
+     * 
+     */
     container_id?: string;
+    /**
+     * filter by deployment ID
+     * 
+     * 
+     */
     deployment_id?: string;
+    /**
+     * filter by min time, RFC 3339 format, e.g. "2021-10-02T15:01:23.045Z"
+     * 
+     * 
+     */
     timestamp_from?: string;
+    /**
+     * filter by max time, RFC 3330 format, e.g. "2021-10-02T15:01:23.045Z"
+     * 
+     * 
+     */
     timestamp_to?: string;
+    /**
+     * limit log entries returned
+     * 
+     * 
+     */
     limit?: string;
+    /**
+     * if true request results in ascending order, default order is descending
+     * 
+     * 
+     */
     asc?: boolean;
+    /**
+     * if true reverse the order of the log entries in the output
+     * 
+     * 
+     */
     invert?: boolean;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * (Optional) Return only value set version where the specified key changed
+     * 
+     * 
+     */
     key_changed?: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * Key of the value to be purged.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * Key of the value to be restored.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValuePatchPayloadRequest: ValuePatchPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueEditPayloadRequest: ValueEditPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * 
+     */
     ValueCreatePayloadRequest: ValueCreatePayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdJobsDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValueSetVersionsGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * (Optional) Return only value set version where the specified key changed
+     * 
+     * 
+     */
     key_changed?: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * Key of the value to be purged.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * Key of the value to be restored.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The ValueSetVersion ID.
+     * 
+     * 
+     */
     valueSetVersionId: string;
+    /**
+     * 
+     */
     ValueSetActionPayloadRequest: ValueSetActionPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesKeyDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesKeyPatchRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValuePatchPayloadRequest: ValuePatchPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesKeyPutRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The key to update.
+     * 
+     * 
+     */
     key: string;
+    /**
+     * 
+     */
     ValueEditPayloadRequest: ValueEditPayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdValuesPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * 
+     */
     ValueCreatePayloadRequest: ValueCreatePayloadRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdWebhooksGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdWebhooksJobIdDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Webhook ID.
+     * 
+     * 
+     */
     jobId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdWebhooksJobIdGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Webhook ID.
+     * 
+     * 
+     */
     jobId: string;
 }
 
 export interface OrgsOrgIdAppsAppIdWebhooksJobIdPatchRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Webhook ID.
+     * 
+     * 
+     */
     jobId: string;
+    /**
+     * 
+     */
     WebhookUpdateRequest: WebhookUpdateRequest;
 }
 
 export interface OrgsOrgIdAppsAppIdWebhooksPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * 
+     */
     WebhookCreateRequest: WebhookCreateRequest;
 }
 
 export interface OrgsOrgIdEventsGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface OrgsOrgIdRegistriesGetRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface OrgsOrgIdRegistriesPostRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     RegistryRequest: RegistryRequest;
 }
 
 export interface OrgsOrgIdRegistriesRegIdCredsGetRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * Unique (alpha-numerical) registry identifier.
+     * 
+     * 
+     */
     regId: string;
 }
 
 export interface OrgsOrgIdRegistriesRegIdDeleteRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * Unique (alpha-numerical) registry identifier.
+     * 
+     * 
+     */
     regId: string;
 }
 
 export interface OrgsOrgIdRegistriesRegIdGetRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * Unique (alpha-numerical) registry identifier.
+     * 
+     * 
+     */
     regId: string;
 }
 
 export interface OrgsOrgIdRegistriesRegIdPatchRequest {
+    /**
+     * Unique (alpha-numerical) organization identifier.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * Unique (alpha-numerical) registry identifier.
+     * 
+     * 
+     */
     regId: string;
+    /**
+     * 
+     */
     RegistryRequest: RegistryRequest;
 }
 
 export interface OrgsOrgIdSecretstoresGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
 }
 
 export interface OrgsOrgIdSecretstoresPostRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * 
+     */
     CreateSecretStorePayloadRequest: CreateSecretStorePayloadRequest;
 }
 
 export interface OrgsOrgIdSecretstoresStoreIdDeleteRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Secret Store ID.
+     * 
+     * 
+     */
     storeId: string;
 }
 
 export interface OrgsOrgIdSecretstoresStoreIdGetRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Secret Store ID.
+     * 
+     * 
+     */
     storeId: string;
 }
 
 export interface OrgsOrgIdSecretstoresStoreIdPatchRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Secret Store ID.
+     * 
+     * 
+     */
     storeId: string;
+    /**
+     * 
+     */
     UpdateSecretStorePayloadRequest: UpdateSecretStorePayloadRequest;
 }
 
 export interface PatchAgentRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Agent id.
+     */
     agentId: string;
+    /**
+     * 
+     */
     AgentPatchBody: AgentPatchBody;
 }
 
 export interface PatchApplicationRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * 
+     */
     ApplicationPatchPayload: ApplicationPatchPayload;
 }
 
 export interface PatchArtefactVersionRequest {
+    /**
+     * The organization ID.
+     */
     orgId: string;
+    /**
+     * The Artefact ID.
+     */
     artefactId: string;
+    /**
+     * The Version ID.
+     */
     versionId: string;
+    /**
+     * 
+     */
     UpdateArtefactVersionPayloadRequest: UpdateArtefactVersionPayloadRequest;
 }
 
 export interface PatchDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Delta to update.
+     * 
+     * 
+     */
     deltaId: string;
+    /**
+     * 
+     */
     DeltaRequest: Array<DeltaRequest>;
 }
 
 export interface PatchReplicasRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * 
+     */
     request_body: { [key: string]: number; };
 }
 
 export interface PatchResourceAccountRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Account ID.
+     * 
+     * 
+     */
     accId: string;
+    /**
+     * 
+     */
     UpdateResourceAccountRequestRequest: UpdateResourceAccountRequestRequest;
+    /**
+     * Validate the request but do not persist the change.
+     */
     dry_run?: boolean;
+    /**
+     * Validate that the Account credential authenticates successfully.
+     */
     check_credential?: boolean;
 }
 
 export interface PatchResourceDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * 
+     */
     PatchResourceDefinitionRequestRequest: PatchResourceDefinitionRequestRequest;
 }
 
 export interface PatchResourceTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Type id. The type id should be provided as url encoded string.
+     * 
+     */
     typeId: string;
+    /**
+     * 
+     */
     PatchResourceTypeRequestRequest: PatchResourceTypeRequestRequest;
 }
 
 export interface PinActiveResourceRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * The Resource Type, may include a resource class: {type}.{class}.
+     * 
+     */
     type: string;
+    /**
+     * The Resource ID.
+     */
     resId: string;
+    /**
+     * 
+     */
     ActiveResourceTargetDefinitionRequest: ActiveResourceTargetDefinitionRequest;
 }
 
 export interface PromoteResourceDefinitionVersionRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     */
     defId: string;
+    /**
+     * The Resource Definition Version ID.
+     */
     defVersionId: string;
 }
 
 export interface PutDeltaRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Delta to update.
+     * 
+     * 
+     */
     deltaId: string;
+    /**
+     * 
+     */
     DeltaRequest: DeltaRequest;
 }
 
 export interface QueryResourceGraphRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * 
+     */
     ResourceProvisionRequestRequest: Array<ResourceProvisionRequestRequest>;
 }
 
 export interface RebaseEnvironmentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * 
+     */
     body: string;
 }
 
 export interface RestartPipelineRunRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * The Run ID
+     */
     runId: string;
+    /**
+     * The HTTP Idempotency-Key
+     */
     Idempotency_Key?: string;
 }
 
 export interface UpdateAutomationRuleRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * The Automation Rule ID.
+     */
     ruleId: string;
+    /**
+     * 
+     */
     AutomationRuleRequest: AutomationRuleRequest;
 }
 
 export interface UpdateCurrentUserRequest {
+    /**
+     * 
+     */
     UserProfileExtendedRequest: UserProfileExtendedRequest;
 }
 
 export interface UpdateEnvironmentRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Application ID.
+     * 
+     * 
+     */
     appId: string;
+    /**
+     * The Environment ID.
+     * 
+     * 
+     */
     envId: string;
+    /**
+     * 
+     */
     EnvironmentBaseUpdateRequest?: EnvironmentBaseUpdateRequest;
 }
 
 export interface UpdateEnvironmentTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * ID of the Environment Type.
+     * 
+     * 
+     */
     envTypeId: string;
+    /**
+     * 
+     */
     UpdateEnvironmentTypePayloadRequest: UpdateEnvironmentTypePayloadRequest;
 }
 
 export interface UpdatePausedRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Environment ID
+     */
     envId: string;
+    /**
+     * 
+     */
     body: boolean;
 }
 
 export interface UpdatePipelineRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The Pipeline ID
+     */
     pipelineId: string;
+    /**
+     * 
+     */
     body: object;
+    /**
+     * Indicate that the request should only succeed if there is an etag match
+     */
     If_Match?: string;
+    /**
+     * Optionally validate the request but do not persist the update.
+     */
     dry_run?: boolean;
 }
 
 export interface UpdateResourceClassOperationRequest {
+    /**
+     * The organization ID.
+     * 
+     */
     orgId: string;
+    /**
+     * The resource type ID.
+     * 
+     */
     typeId: string;
+    /**
+     * The resource class ID.
+     * 
+     */
     classId: string;
+    /**
+     * 
+     */
     UpdateResourceClassRequest: UpdateResourceClassRequest;
 }
 
 export interface UpdateResourceDefinitionRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * 
+     */
     UpdateResourceDefinitionRequestRequest: UpdateResourceDefinitionRequestRequest;
 }
 
 export interface UpdateResourceDefinitionCriteriaRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Definition ID.
+     * 
+     * 
+     */
     defId: string;
+    /**
+     * 
+     */
     MatchingCriteriaRuleRequest: Array<MatchingCriteriaRuleRequest>;
 }
 
 export interface UpdateResourceDriverRequest {
+    /**
+     * The Organization ID.
+     * 
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Driver ID.
+     * 
+     * 
+     */
     driverId: string;
+    /**
+     * 
+     */
     UpdateDriverRequestRequest: UpdateDriverRequestRequest;
 }
 
 export interface UpdateResourceTypeRequest {
+    /**
+     * The Organization ID.
+     * 
+     */
     orgId: string;
+    /**
+     * The Resource Type id. The type id should be provided as url encoded string.
+     * 
+     */
     typeId: string;
+    /**
+     * 
+     */
     UpdateResourceTypeRequestRequest: UpdateResourceTypeRequestRequest;
 }
 
 export interface UpdateSetRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * ID of the Deployment Set.
+     * 
+     * 
+     */
     setId: string;
+    /**
+     * 
+     */
     DeltaRequest: DeltaRequest;
 }
 
 export interface UpdateUserRoleInAppRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Application ID
+     */
     appId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
+    /**
+     * 
+     */
     RoleRequest: RoleRequest;
 }
 
 export interface UpdateUserRoleInEnvTypeRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Environment Type.
+     */
     envType: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
+    /**
+     * 
+     */
     RoleRequest: RoleRequest;
 }
 
 export interface UpdateUserRoleInOrgRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The User or Group Id.
+     */
     userId: string;
+    /**
+     * 
+     */
     RoleRequest: RoleRequest;
 }
 
 export interface UpdateWorkloadProfileRequest {
+    /**
+     * The Organization ID
+     */
     orgId: string;
+    /**
+     * The Workload Profile ID.
+     */
     profileQid: string;
+    /**
+     * 
+     */
     WorkloadProfileUpdateRequest: WorkloadProfileUpdateRequest;
 }
 
@@ -1795,10 +4729,9 @@ export interface UpdateWorkloadProfileRequest {
 export class PublicApi extends runtime.BaseAPI {
 
     /**
-     * Approve the approval requested.
-     * Approve the approval request
+     * Creates request options for approvePipelineApprovalRequest without sending the request
      */
-    async approvePipelineApprovalRequestRaw(requestParameters: ApprovePipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+    async approvePipelineApprovalRequestRequestOpts(requestParameters: ApprovePipelineApprovalRequestRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -1845,12 +4778,30 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/approve`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))).replace(`{${"approvalId"}}`, encodeURIComponent(String(requestParameters['approvalId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/approve`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+        urlPath = urlPath.replace('{approvalId}', encodeURIComponent(String(requestParameters['approvalId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Approve the approval requested.
+     * Approve the approval request
+     */
+    async approvePipelineApprovalRequestRaw(requestParameters: ApprovePipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+        const requestOptions = await this.approvePipelineApprovalRequestRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineApprovalRequestFromJSON(jsonValue));
     }
@@ -1865,10 +4816,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Archived Deltas are still accessible but can no longer be updated.
-     * Mark a Delta as \"archived\"
+     * Creates request options for archiveDelta without sending the request
      */
-    async archiveDeltaRaw(requestParameters: ArchiveDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async archiveDeltaRequestOpts(requestParameters: ArchiveDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -1903,13 +4853,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/archived`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/archived`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Archived Deltas are still accessible but can no longer be updated.
+     * Mark a Delta as \"archived\"
+     */
+    async archiveDeltaRaw(requestParameters: ArchiveDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.archiveDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1923,9 +4888,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Mark/unmark the Resource Definition Version as archived.
+     * Creates request options for archiveResourceDefinitionVersion without sending the request
      */
-    async archiveResourceDefinitionVersionRaw(requestParameters: ArchiveResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async archiveResourceDefinitionVersionRequestOpts(requestParameters: ArchiveResourceDefinitionVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -1960,13 +4925,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/archive`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))).replace(`{${"defVersionId"}}`, encodeURIComponent(String(requestParameters['defVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/archive`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+        urlPath = urlPath.replace('{defVersionId}', encodeURIComponent(String(requestParameters['defVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ArchiveDefinitionVersionRequestToJSON(requestParameters['ArchiveDefinitionVersionRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Mark/unmark the Resource Definition Version as archived.
+     */
+    async archiveResourceDefinitionVersionRaw(requestParameters: ArchiveResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.archiveResourceDefinitionVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -1979,10 +4958,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied immediately. If the Run is executing, the cancellation will be stored and will be resolved by the next Job or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable. 
-     * Cancel a Run within an Pipeline.
+     * Creates request options for cancelPipelineRun without sending the request
      */
-    async cancelPipelineRunRaw(requestParameters: CancelPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async cancelPipelineRunRequestOpts(requestParameters: CancelPipelineRunRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2019,12 +4997,28 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['If-Match'] = String(requestParameters['If_Match']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/cancel`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/cancel`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Attempts to cancel the specified Run. If the Run is in a queued state, this cancellation will be applied immediately. If the Run is executing, the cancellation will be stored and will be resolved by the next Job or Step that supports in-flight cancellation. Runs that are in any other state, are not cancellable. 
+     * Cancel a Run within an Pipeline.
+     */
+    async cancelPipelineRunRaw(requestParameters: CancelPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.cancelPipelineRunRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -2038,9 +5032,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Change the Environment of a Delta
+     * Creates request options for changeEnvOfDelta without sending the request
      */
-    async changeEnvOfDeltaRaw(requestParameters: ChangeEnvOfDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async changeEnvOfDeltaRequestOpts(requestParameters: ChangeEnvOfDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2075,13 +5069,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/env_id`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/env_id`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Change the Environment of a Delta
+     */
+    async changeEnvOfDeltaRaw(requestParameters: ChangeEnvOfDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.changeEnvOfDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -2094,9 +5102,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Change the name of a Delta
+     * Creates request options for changeNameOfDelta without sending the request
      */
-    async changeNameOfDeltaRaw(requestParameters: ChangeNameOfDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async changeNameOfDeltaRequestOpts(requestParameters: ChangeNameOfDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2131,13 +5139,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/name`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}/metadata/name`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Change the name of a Delta
+     */
+    async changeNameOfDeltaRaw(requestParameters: ChangeNameOfDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.changeNameOfDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -2150,9 +5172,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Provision and check the cluster connectivity in an environment
+     * Creates request options for checkClusterConnectivity without sending the request
      */
-    async checkClusterConnectivityRaw(requestParameters: CheckClusterConnectivityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClusterConnectionCheckResult>> {
+    async checkClusterConnectivityRequestOpts(requestParameters: CheckClusterConnectivityRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2173,13 +5195,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/runtime/actions/check-connectivity`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/runtime/actions/check-connectivity`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ClusterConnectionCheckRequestToJSON(requestParameters['ClusterConnectionCheckRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Provision and check the cluster connectivity in an environment
+     */
+    async checkClusterConnectivityRaw(requestParameters: CheckClusterConnectivityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClusterConnectionCheckResult>> {
+        const requestOptions = await this.checkClusterConnectivityRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClusterConnectionCheckResultFromJSON(jsonValue));
     }
@@ -2193,10 +5227,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Check the validity of a Resource Account and return any problems that may cause it to not work as expected.
-     * Check the credentials of an existing Resource Account
+     * Creates request options for checkResourceAccount without sending the request
      */
-    async checkResourceAccountRaw(requestParameters: CheckResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CheckResourceAccountData>> {
+    async checkResourceAccountRequestOpts(requestParameters: CheckResourceAccountRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2215,12 +5248,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts/{accId}/actions/check`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"accId"}}`, encodeURIComponent(String(requestParameters['accId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts/{accId}/actions/check`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{accId}', encodeURIComponent(String(requestParameters['accId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Check the validity of a Resource Account and return any problems that may cause it to not work as expected.
+     * Check the credentials of an existing Resource Account
+     */
+    async checkResourceAccountRaw(requestParameters: CheckResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CheckResourceAccountData>> {
+        const requestOptions = await this.checkResourceAccountRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CheckResourceAccountDataFromJSON(jsonValue));
     }
@@ -2235,9 +5282,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Convert a Score specification, optional overrides, and extensions into the contents for a deployment set.
+     * Creates request options for convertScoreToSet without sending the request
      */
-    async convertScoreToSetRaw(requestParameters: ConvertScoreToSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadArtefactVersionDeploymentSet>> {
+    async convertScoreToSetRequestOpts(requestParameters: ConvertScoreToSetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2258,13 +5305,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions/convert-score`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions/convert-score`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ConvertScoreToSetBodyToJSON(requestParameters['ConvertScoreToSetBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Convert a Score specification, optional overrides, and extensions into the contents for a deployment set.
+     */
+    async convertScoreToSetRaw(requestParameters: ConvertScoreToSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadArtefactVersionDeploymentSet>> {
+        const requestOptions = await this.convertScoreToSetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadArtefactVersionDeploymentSetFromJSON(jsonValue));
     }
@@ -2278,9 +5337,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Register a new Agent under an Organization.
+     * Creates request options for createAgent without sending the request
      */
-    async createAgentRaw(requestParameters: CreateAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Agent>> {
+    async createAgentRequestOpts(requestParameters: CreateAgentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2301,13 +5360,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/agents`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AgentCreateBodyToJSON(requestParameters['AgentCreateBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Register a new Agent under an Organization.
+     */
+    async createAgentRaw(requestParameters: CreateAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Agent>> {
+        const requestOptions = await this.createAgentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AgentFromJSON(jsonValue));
     }
@@ -2321,10 +5392,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new Application, then adds it to the specified Organization.
-     * Add a new Application to an Organization
+     * Creates request options for createApplication without sending the request
      */
-    async createApplicationRaw(requestParameters: CreateApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+    async createApplicationRequestOpts(requestParameters: CreateApplicationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2345,13 +5415,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/apps`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ApplicationCreationRequestToJSON(requestParameters['ApplicationCreationRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new Application, then adds it to the specified Organization.
+     * Add a new Application to an Organization
+     */
+    async createApplicationRaw(requestParameters: CreateApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+        const requestOptions = await this.createApplicationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApplicationResponseFromJSON(jsonValue));
     }
@@ -2366,9 +5449,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Register a new Artefact Version with your organization.
+     * Creates request options for createArtefactVersion without sending the request
      */
-    async createArtefactVersionRaw(requestParameters: CreateArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+    async createArtefactVersionRequestOpts(requestParameters: CreateArtefactVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2401,13 +5484,25 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Accept'] = String(requestParameters['Accept']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CreateArtefactVersionToJSON(requestParameters['CreateArtefactVersion']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Register a new Artefact Version with your organization.
+     */
+    async createArtefactVersionRaw(requestParameters: CreateArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+        const requestOptions = await this.createArtefactVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ArtefactVersionFromJSON(jsonValue));
     }
@@ -2428,10 +5523,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
-     * Create a new Automation Rule for an Environment.
+     * Creates request options for createAutomationRule without sending the request
      */
-    async createAutomationRuleRaw(requestParameters: CreateAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+    async createAutomationRuleRequestOpts(requestParameters: CreateAutomationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2466,13 +5560,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AutomationRuleRequestToJSON(requestParameters['AutomationRuleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
+     * Create a new Automation Rule for an Environment.
+     */
+    async createAutomationRuleRaw(requestParameters: CreateAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+        const requestOptions = await this.createAutomationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AutomationRuleResponseFromJSON(jsonValue));
     }
@@ -2487,9 +5596,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new Delta
+     * Creates request options for createDelta without sending the request
      */
-    async createDeltaRaw(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateDelta200Response>> {
+    async createDeltaRequestOpts(requestParameters: CreateDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2517,13 +5626,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: DeltaRequestToJSON(requestParameters['DeltaRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a new Delta
+     */
+    async createDeltaRaw(requestParameters: CreateDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CreateDelta200Response>> {
+        const requestOptions = await this.createDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CreateDelta200ResponseFromJSON(jsonValue));
     }
@@ -2537,9 +5659,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+     * Creates request options for createDependencyGraph without sending the request
      */
-    async createDependencyGraphRaw(requestParameters: CreateDependencyGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DependencyGraphResponse>> {
+    async createDependencyGraphRequestOpts(requestParameters: CreateDependencyGraphRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2574,13 +5696,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['ResourceProvisionRequestRequest']!.map(ResourceProvisionRequestRequestToJSON),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a Dependency Graph which is composed by the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+     */
+    async createDependencyGraphRaw(requestParameters: CreateDependencyGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DependencyGraphResponse>> {
+        const requestOptions = await this.createDependencyGraphRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DependencyGraphResponseFromJSON(jsonValue));
     }
@@ -2594,10 +5730,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * At Humanitec, Deployments are defined as changes to the state of the Environment. The state can be changed by defining a set of desired changes to the current state via a Deployment Delta or by resetting the current state after a previous Deployment. (See Environment Rebase.) Both types of changes can be combined into a single Deployment during which the Delta is applied to the Rebased state.  When specifying a Delta, a Delta ID must be used. That Delta must have been committed to the Delta store prior to the Deployment.  A Set ID can also be defined in the deployment to force the state of the environment to a particular state. This will be ignored if the Delta is specified.  **NOTE:**  Directly setting a `set_id` in a deployment is not recommended as it will not record history of where the set came from. If the intention is to replicate an existing environment, use the environment rebasing approach described above.
-     * Start a new Deployment.
+     * Creates request options for createDeployment without sending the request
      */
-    async createDeploymentRaw(requestParameters: CreateDeploymentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeploymentResponse>> {
+    async createDeploymentRequestOpts(requestParameters: CreateDeploymentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2632,13 +5767,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: DeploymentRequestToJSON(requestParameters['DeploymentRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * At Humanitec, Deployments are defined as changes to the state of the Environment. The state can be changed by defining a set of desired changes to the current state via a Deployment Delta or by resetting the current state after a previous Deployment. (See Environment Rebase.) Both types of changes can be combined into a single Deployment during which the Delta is applied to the Rebased state.  When specifying a Delta, a Delta ID must be used. That Delta must have been committed to the Delta store prior to the Deployment.  A Set ID can also be defined in the deployment to force the state of the environment to a particular state. This will be ignored if the Delta is specified.  **NOTE:**  Directly setting a `set_id` in a deployment is not recommended as it will not record history of where the set came from. If the intention is to replicate an existing environment, use the environment rebasing approach described above.
+     * Start a new Deployment.
+     */
+    async createDeploymentRaw(requestParameters: CreateDeploymentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeploymentResponse>> {
+        const requestOptions = await this.createDeploymentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeploymentResponseFromJSON(jsonValue));
     }
@@ -2653,10 +5803,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  This endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.  If there is no Image with ID `imageId`, it will be automatically created.
-     * Add a new Image Build
+     * Creates request options for createDeprecatedImageBuild without sending the request
      */
-    async createDeprecatedImageBuildRaw(requestParameters: CreateDeprecatedImageBuildRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async createDeprecatedImageBuildRequestOpts(requestParameters: CreateDeprecatedImageBuildRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2684,13 +5833,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/images/{imageId}/builds`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"imageId"}}`, encodeURIComponent(String(requestParameters['imageId']))),
+
+        let urlPath = `/orgs/{orgId}/images/{imageId}/builds`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{imageId}', encodeURIComponent(String(requestParameters['imageId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ImageBuildRequestToJSON(requestParameters['ImageBuildRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  This endpoint is used by Continuous Integration (CI) pipelines to notify Humanitec that a new Image Build is available.  If there is no Image with ID `imageId`, it will be automatically created.
+     * Add a new Image Build
+     */
+    async createDeprecatedImageBuildRaw(requestParameters: CreateDeprecatedImageBuildRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.createDeprecatedImageBuildRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -2704,10 +5867,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new Environment of the specified Type and associates it with the Application specified by `appId`.  The Environment is also initialized to the **current or past state of Deployment in another Environment**. This ensures that every Environment is derived from a previously known state. This means it is not possible to create a new Environment for an Application until at least one Deployment has occurred. (The Deployment does not have to be successful.)  The Type of the Environment must be already defined in the Organization.
-     * Add a new Environment to an Application.
+     * Creates request options for createEnvironment without sending the request
      */
-    async createEnvironmentRaw(requestParameters: CreateEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+    async createEnvironmentRequestOpts(requestParameters: CreateEnvironmentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2735,13 +5897,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: EnvironmentDefinitionRequestToJSON(requestParameters['EnvironmentDefinitionRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new Environment of the specified Type and associates it with the Application specified by `appId`.  The Environment is also initialized to the **current or past state of Deployment in another Environment**. This ensures that every Environment is derived from a previously known state. This means it is not possible to create a new Environment for an Application until at least one Deployment has occurred. (The Deployment does not have to be successful.)  The Type of the Environment must be already defined in the Organization.
+     * Add a new Environment to an Application.
+     */
+    async createEnvironmentRaw(requestParameters: CreateEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+        const requestOptions = await this.createEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentResponseFromJSON(jsonValue));
     }
@@ -2756,10 +5932,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Adds a new Environment Type to an Organization.
-     * Add a new Environment Type
+     * Creates request options for createEnvironmentType without sending the request
      */
-    async createEnvironmentTypeRaw(requestParameters: CreateEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+    async createEnvironmentTypeRequestOpts(requestParameters: CreateEnvironmentTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2780,13 +5955,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: EnvironmentTypeRequestToJSON(requestParameters['EnvironmentTypeRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Adds a new Environment Type to an Organization.
+     * Add a new Environment Type
+     */
+    async createEnvironmentTypeRaw(requestParameters: CreateEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+        const requestOptions = await this.createEnvironmentTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentTypeResponseFromJSON(jsonValue));
     }
@@ -2801,9 +5989,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a group in an organization
+     * Creates request options for createGroup without sending the request
      */
-    async createGroupRaw(requestParameters: CreateGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupWithRole>> {
+    async createGroupRequestOpts(requestParameters: CreateGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2824,13 +6012,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/groups`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/groups`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: GroupRequestToJSON(requestParameters['GroupRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a group in an organization
+     */
+    async createGroupRaw(requestParameters: CreateGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupWithRole>> {
+        const requestOptions = await this.createGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupWithRoleFromJSON(jsonValue));
     }
@@ -2844,9 +6044,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Invites a user to an Organization with a specified role.
+     * Creates request options for createInviteInOrg without sending the request
      */
-    async createInviteInOrgRaw(requestParameters: CreateInviteInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+    async createInviteInOrgRequestOpts(requestParameters: CreateInviteInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2867,13 +6067,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/invitations`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/invitations`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: UserInviteRequestRequestToJSON(requestParameters['UserInviteRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Invites a user to an Organization with a specified role.
+     */
+    async createInviteInOrgRaw(requestParameters: CreateInviteInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+        const requestOptions = await this.createInviteInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserRoleResponseFromJSON));
     }
@@ -2887,9 +6099,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Register a new Key under an Agent in an Organization.
+     * Creates request options for createKey without sending the request
      */
-    async createKeyRaw(requestParameters: CreateKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Key>> {
+    async createKeyRequestOpts(requestParameters: CreateKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2917,13 +6129,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents/{agentId}/keys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"agentId"}}`, encodeURIComponent(String(requestParameters['agentId']))),
+
+        let urlPath = `/orgs/{orgId}/agents/{agentId}/keys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{agentId}', encodeURIComponent(String(requestParameters['agentId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: KeyCreateBodyToJSON(requestParameters['KeyCreateBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Register a new Key under an Agent in an Organization.
+     */
+    async createKeyRaw(requestParameters: CreateKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Key>> {
+        const requestOptions = await this.createKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => KeyFromJSON(jsonValue));
     }
@@ -2937,9 +6162,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a Pipeline within an Application.
+     * Creates request options for createPipeline without sending the request
      */
-    async createPipelineRaw(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+    async createPipelineRequestOpts(requestParameters: CreatePipelineRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -2971,13 +6196,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/x-yaml';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a Pipeline within an Application.
+     */
+    async createPipelineRaw(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+        const requestOptions = await this.createPipelineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineFromJSON(jsonValue));
     }
@@ -2998,10 +6236,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application. 
-     * Create a new trigger matching criteria for this Pipeline.
+     * Creates request options for createPipelineCriteria without sending the request
      */
-    async createPipelineCriteriaRaw(requestParameters: CreatePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineCriteria>> {
+    async createPipelineCriteriaRequestOpts(requestParameters: CreatePipelineCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3023,10 +6260,10 @@ export class PublicApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['PipelineCriteriaCreateBody'] == null) {
+        if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
-                'PipelineCriteriaCreateBody',
-                'Required parameter "PipelineCriteriaCreateBody" was null or undefined when calling createPipelineCriteria().'
+                'body',
+                'Required parameter "body" was null or undefined when calling createPipelineCriteria().'
             );
         }
 
@@ -3036,30 +6273,45 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PipelineCriteriaCreateBodyToJSON(requestParameters['PipelineCriteriaCreateBody']),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineCriteriaFromJSON(jsonValue));
+            body: requestParameters['body'] as any,
+        };
     }
 
     /**
      * Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application. 
      * Create a new trigger matching criteria for this Pipeline.
      */
-    async createPipelineCriteria(requestParameters: CreatePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PipelineCriteria> {
+    async createPipelineCriteriaRaw(requestParameters: CreatePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineDeploymentRequestCriteria>> {
+        const requestOptions = await this.createPipelineCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineDeploymentRequestCriteriaFromJSON(jsonValue));
+    }
+
+    /**
+     * Create a new trigger matching criteria for this Pipeline. This must not conflict with an existing criteria for the same trigger on this or any other Pipeline that applies to this Application. 
+     * Create a new trigger matching criteria for this Pipeline.
+     */
+    async createPipelineCriteria(requestParameters: CreatePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PipelineDeploymentRequestCriteria> {
         const response = await this.createPipelineCriteriaRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Create a run within a pipeline.
+     * Creates request options for createPipelineRun without sending the request
      */
-    async createPipelineRunRaw(requestParameters: CreatePipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+    async createPipelineRunRequestOpts(requestParameters: CreatePipelineRunRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3102,13 +6354,27 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Idempotency-Key'] = String(requestParameters['Idempotency_Key']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: PipelineRunCreateBodyToJSON(requestParameters['PipelineRunCreateBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a run within a pipeline.
+     */
+    async createPipelineRunRaw(requestParameters: CreatePipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+        const requestOptions = await this.createPipelineRunRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunFromJSON(jsonValue));
     }
@@ -3129,9 +6395,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs.
+     * Creates request options for createPipelineRunByTriggerCriteria without sending the request
      */
-    async createPipelineRunByTriggerCriteriaRaw(requestParameters: CreatePipelineRunByTriggerCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+    async createPipelineRunByTriggerCriteriaRequestOpts(requestParameters: CreatePipelineRunByTriggerCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3167,13 +6433,26 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Idempotency-Key'] = String(requestParameters['Idempotency_Key']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipeline-runs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipeline-runs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: PipelineRunCreateByTriggerCriteriaBodyToJSON(requestParameters['PipelineRunCreateByTriggerCriteriaBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a Pipeline Run in the appropriate Pipeline based on the trigger and inputs.
+     */
+    async createPipelineRunByTriggerCriteriaRaw(requestParameters: CreatePipelineRunByTriggerCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+        const requestOptions = await this.createPipelineRunByTriggerCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunFromJSON(jsonValue));
     }
@@ -3194,9 +6473,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Associate a new RSA public key to an organization.
+     * Creates request options for createPublicKey without sending the request
      */
-    async createPublicKeyRaw(requestParameters: CreatePublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicKey>> {
+    async createPublicKeyRequestOpts(requestParameters: CreatePublicKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3217,13 +6496,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/keys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/keys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Associate a new RSA public key to an organization.
+     */
+    async createPublicKeyRaw(requestParameters: CreatePublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicKey>> {
+        const requestOptions = await this.createPublicKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublicKeyFromJSON(jsonValue));
     }
@@ -3237,9 +6528,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new Resource Account in the organization.
+     * Creates request options for createResourceAccount without sending the request
      */
-    async createResourceAccountRaw(requestParameters: CreateResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+    async createResourceAccountRequestOpts(requestParameters: CreateResourceAccountRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3268,13 +6559,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CreateResourceAccountRequestRequestToJSON(requestParameters['CreateResourceAccountRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a new Resource Account in the organization.
+     */
+    async createResourceAccountRaw(requestParameters: CreateResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+        const requestOptions = await this.createResourceAccountRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceAccountResponseFromJSON(jsonValue));
     }
@@ -3295,9 +6598,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new resources class.
+     * Creates request options for createResourceClass without sending the request
      */
-    async createResourceClassRaw(requestParameters: CreateResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+    async createResourceClassRequestOpts(requestParameters: CreateResourceClassRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3325,13 +6628,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}/classes`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}/classes`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ResourceClassRequestToJSON(requestParameters['ResourceClassRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new resources class.
+     */
+    async createResourceClassRaw(requestParameters: CreateResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+        const requestOptions = await this.createResourceClassRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceClassResponseFromJSON(jsonValue));
     }
@@ -3345,9 +6661,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new Resource Definition.
+     * Creates request options for createResourceDefinition without sending the request
      */
-    async createResourceDefinitionRaw(requestParameters: CreateResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+    async createResourceDefinitionRequestOpts(requestParameters: CreateResourceDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3368,13 +6684,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CreateResourceDefinitionRequestRequestToJSON(requestParameters['CreateResourceDefinitionRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a new Resource Definition.
+     */
+    async createResourceDefinitionRaw(requestParameters: CreateResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+        const requestOptions = await this.createResourceDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceDefinitionResponseFromJSON(jsonValue));
     }
@@ -3388,10 +6716,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.  For example, given 3 sets of matching criteria for the same type:  ```  1. {\"env_type\":\"test\"}  2. {\"env_type\":\"development\"}  3. {\"env_type\":\"test\", \"app_id\":\"my-app\"} ```  If, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.
-     * Add a new Matching Criteria to a Resource Definition.
+     * Creates request options for createResourceDefinitionCriteria without sending the request
      */
-    async createResourceDefinitionCriteriaRaw(requestParameters: CreateResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MatchingCriteriaResponse>> {
+    async createResourceDefinitionCriteriaRequestOpts(requestParameters: CreateResourceDefinitionCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3419,13 +6746,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/criteria`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/criteria`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: MatchingCriteriaRuleRequestToJSON(requestParameters['MatchingCriteriaRuleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.  For example, given 3 sets of matching criteria for the same type:  ```  1. {\"env_type\":\"test\"}  2. {\"env_type\":\"development\"}  3. {\"env_type\":\"test\", \"app_id\":\"my-app\"} ```  If, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.
+     * Add a new Matching Criteria to a Resource Definition.
+     */
+    async createResourceDefinitionCriteriaRaw(requestParameters: CreateResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<MatchingCriteriaResponse>> {
+        const requestOptions = await this.createResourceDefinitionCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MatchingCriteriaResponseFromJSON(jsonValue));
     }
@@ -3440,9 +6781,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Register a new Resource Driver.
+     * Creates request options for createResourceDriver without sending the request
      */
-    async createResourceDriverRaw(requestParameters: CreateResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+    async createResourceDriverRequestOpts(requestParameters: CreateResourceDriverRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3463,13 +6804,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/drivers`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/drivers`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CreateDriverRequestRequestToJSON(requestParameters['CreateDriverRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Register a new Resource Driver.
+     */
+    async createResourceDriverRaw(requestParameters: CreateResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+        const requestOptions = await this.createResourceDriverRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DriverDefinitionResponseFromJSON(jsonValue));
     }
@@ -3483,9 +6836,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new Resources Type.
+     * Creates request options for createResourceType without sending the request
      */
-    async createResourceTypeRaw(requestParameters: CreateResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+    async createResourceTypeRequestOpts(requestParameters: CreateResourceTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3506,13 +6859,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ResourceTypeRequestToJSON(requestParameters['ResourceTypeRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new Resources Type.
+     */
+    async createResourceTypeRaw(requestParameters: CreateResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+        const requestOptions = await this.createResourceTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceTypeResponseFromJSON(jsonValue));
     }
@@ -3526,9 +6891,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new service user.
+     * Creates request options for createServiceUserInOrg without sending the request
      */
-    async createServiceUserInOrgRaw(requestParameters: CreateServiceUserInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileResponse>> {
+    async createServiceUserInOrgRequestOpts(requestParameters: CreateServiceUserInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3549,13 +6914,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: NewServiceUserRequestToJSON(requestParameters['NewServiceUserRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new service user.
+     */
+    async createServiceUserInOrgRaw(requestParameters: CreateServiceUserInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileResponse>> {
+        const requestOptions = await this.createServiceUserInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserProfileResponseFromJSON(jsonValue));
     }
@@ -3569,9 +6946,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Adds a User or a Group to an Application with a Role
+     * Creates request options for createUserRoleInApp without sending the request
      */
-    async createUserRoleInAppRaw(requestParameters: CreateUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async createUserRoleInAppRequestOpts(requestParameters: CreateUserRoleInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3599,13 +6976,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: UserRoleRequestToJSON(requestParameters['UserRoleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Adds a User or a Group to an Application with a Role
+     */
+    async createUserRoleInAppRaw(requestParameters: CreateUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.createUserRoleInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -3619,9 +7009,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Adds a User or a Group to an Environment Type with a Role
+     * Creates request options for createUserRoleInEnvType without sending the request
      */
-    async createUserRoleInEnvTypeRaw(requestParameters: CreateUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async createUserRoleInEnvTypeRequestOpts(requestParameters: CreateUserRoleInEnvTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3649,13 +7039,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envType}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envType"}}`, encodeURIComponent(String(requestParameters['envType']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envType}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envType}', encodeURIComponent(String(requestParameters['envType'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: UserRoleRequestToJSON(requestParameters['UserRoleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Adds a User or a Group to an Environment Type with a Role
+     */
+    async createUserRoleInEnvTypeRaw(requestParameters: CreateUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.createUserRoleInEnvTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -3669,10 +7072,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * This is only supported for users of type `service`.
-     * Creates a new static token for a user.
+     * Creates request options for createUserToken without sending the request
      */
-    async createUserTokenRaw(requestParameters: CreateUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TokenResponse>> {
+    async createUserTokenRequestOpts(requestParameters: CreateUserTokenRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -3693,13 +7095,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/users/{userId}/tokens`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/users/{userId}/tokens`;
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: TokenDefinitionRequestToJSON(requestParameters['TokenDefinitionRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * This is only supported for users of type `service`.
+     * Creates a new static token for a user.
+     */
+    async createUserTokenRaw(requestParameters: CreateUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TokenResponse>> {
+        const requestOptions = await this.createUserTokenRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TokenResponseFromJSON(jsonValue));
     }
@@ -3714,9 +7129,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create new Workload Profile
+     * Creates request options for createWorkloadProfile without sending the request
      */
-    async createWorkloadProfileRaw(requestParameters: CreateWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+    async createWorkloadProfileRequestOpts(requestParameters: CreateWorkloadProfileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3737,13 +7152,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: WorkloadProfileRequestToJSON(requestParameters['WorkloadProfileRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create new Workload Profile
+     */
+    async createWorkloadProfileRaw(requestParameters: CreateWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+        const requestOptions = await this.createWorkloadProfileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadProfileResponseFromJSON(jsonValue));
     }
@@ -3757,10 +7184,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart\'s metadata (Charts.yaml file).  The request has content type `multipart/form-data` and the request body includes one part:  1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.  Request body example:   Content-Type: multipart/form-data; boundary=----boundary  ----boundary  Content-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\"  Content-Type: application/x-gzip  [TGZ_DATA]  ----boundary
-     * Add new Workload Profile Chart Version
+     * Creates request options for createWorkloadProfileChartVersion without sending the request
      */
-    async createWorkloadProfileChartVersionRaw(requestParameters: CreateWorkloadProfileChartVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileChartVersionResponse>> {
+    async createWorkloadProfileChartVersionRequestOpts(requestParameters: CreateWorkloadProfileChartVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3792,13 +7218,26 @@ export class PublicApi extends runtime.BaseAPI {
             formParams.append('file', requestParameters['file'] as any);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profile-chart-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profile-chart-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a Workload Profile Chart Version from the uploaded Helm chart. The name and version is retrieved from the chart\'s metadata (Charts.yaml file).  The request has content type `multipart/form-data` and the request body includes one part:  1. `file` with `application/x-gzip` content type which is an archive containing a Helm chart.  Request body example:   Content-Type: multipart/form-data; boundary=----boundary  ----boundary  Content-Disposition: form-data; name=\"file\"; filename=\"my-workload-1.0.1.tgz\"  Content-Type: application/x-gzip  [TGZ_DATA]  ----boundary
+     * Add new Workload Profile Chart Version
+     */
+    async createWorkloadProfileChartVersionRaw(requestParameters: CreateWorkloadProfileChartVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileChartVersionResponse>> {
+        const requestOptions = await this.createWorkloadProfileChartVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadProfileChartVersionResponseFromJSON(jsonValue));
     }
@@ -3813,9 +7252,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete Active Resource.
+     * Creates request options for deleteActiveResource without sending the request
      */
-    async deleteActiveResourceRaw(requestParameters: DeleteActiveResourceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteActiveResourceRequestOpts(requestParameters: DeleteActiveResourceRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3859,12 +7298,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"type"}}`, encodeURIComponent(String(requestParameters['type']))).replace(`{${"resId"}}`, encodeURIComponent(String(requestParameters['resId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{type}', encodeURIComponent(String(requestParameters['type'])));
+        urlPath = urlPath.replace('{resId}', encodeURIComponent(String(requestParameters['resId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete Active Resource.
+     */
+    async deleteActiveResourceRaw(requestParameters: DeleteActiveResourceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteActiveResourceRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -3877,9 +7332,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete an Agent (and its keys) stored under an Organization.
+     * Creates request options for deleteAgent without sending the request
      */
-    async deleteAgentRaw(requestParameters: DeleteAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteAgentRequestOpts(requestParameters: DeleteAgentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3898,12 +7353,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents/{agentId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"agentId"}}`, encodeURIComponent(String(requestParameters['agentId']))),
+
+        let urlPath = `/orgs/{orgId}/agents/{agentId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{agentId}', encodeURIComponent(String(requestParameters['agentId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete an Agent (and its keys) stored under an Organization.
+     */
+    async deleteAgentRaw(requestParameters: DeleteAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteAgentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -3916,10 +7384,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deleting an Application will also delete everything associated with it. This includes Environments, Deployment history on those Environments, and any shared values and secrets associated.  _Deletions are currently irreversible._
-     * Delete an Application
+     * Creates request options for deleteApplication without sending the request
      */
-    async deleteApplicationRaw(requestParameters: DeleteApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteApplicationRequestOpts(requestParameters: DeleteApplicationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3938,12 +7405,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deleting an Application will also delete everything associated with it. This includes Environments, Deployment history on those Environments, and any shared values and secrets associated.  _Deletions are currently irreversible._
+     * Delete an Application
+     */
+    async deleteApplicationRaw(requestParameters: DeleteApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteApplicationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -3957,10 +7438,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The specified Artefact and its Artefact Versions will be permanently deleted. Only Administrators can delete an Artefact.
-     * Delete Artefact and all related Artefact Versions
+     * Creates request options for deleteArtefact without sending the request
      */
-    async deleteArtefactRaw(requestParameters: DeleteArtefactRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteArtefactRequestOpts(requestParameters: DeleteArtefactRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -3979,12 +7459,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefacts/{artefactId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactId"}}`, encodeURIComponent(String(requestParameters['artefactId']))),
+
+        let urlPath = `/orgs/{orgId}/artefacts/{artefactId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactId}', encodeURIComponent(String(requestParameters['artefactId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The specified Artefact and its Artefact Versions will be permanently deleted. Only Administrators can delete an Artefact.
+     * Delete Artefact and all related Artefact Versions
+     */
+    async deleteArtefactRaw(requestParameters: DeleteArtefactRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteArtefactRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -3998,9 +7492,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete Automation Rule from an Environment.
+     * Creates request options for deleteAutomationRule without sending the request
      */
-    async deleteAutomationRuleRaw(requestParameters: DeleteAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteAutomationRuleRequestOpts(requestParameters: DeleteAutomationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4033,12 +7527,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"ruleId"}}`, encodeURIComponent(String(requestParameters['ruleId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{ruleId}', encodeURIComponent(String(requestParameters['ruleId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete Automation Rule from an Environment.
+     */
+    async deleteAutomationRuleRaw(requestParameters: DeleteAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteAutomationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4051,10 +7560,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a specific Environment in an Application.  Deleting an Environment will also delete the Deployment history of the Environment.  _Deletions are currently irreversible._
-     * Delete a specific Environment.
+     * Creates request options for deleteEnvironment without sending the request
      */
-    async deleteEnvironmentRaw(requestParameters: DeleteEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteEnvironmentRequestOpts(requestParameters: DeleteEnvironmentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4080,12 +7588,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes a specific Environment in an Application.  Deleting an Environment will also delete the Deployment history of the Environment.  _Deletions are currently irreversible._
+     * Delete a specific Environment.
+     */
+    async deleteEnvironmentRaw(requestParameters: DeleteEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4099,10 +7622,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail.
-     * Deletes an Environment Type
+     * Creates request options for deleteEnvironmentType without sending the request
      */
-    async deleteEnvironmentTypeRaw(requestParameters: DeleteEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+    async deleteEnvironmentTypeRequestOpts(requestParameters: DeleteEnvironmentTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4121,12 +7643,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envTypeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envTypeId"}}`, encodeURIComponent(String(requestParameters['envTypeId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envTypeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envTypeId}', encodeURIComponent(String(requestParameters['envTypeId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes a specific Environment Type from an Organization. If there are Environments with this Type in the Organization, the operation will fail.
+     * Deletes an Environment Type
+     */
+    async deleteEnvironmentTypeRaw(requestParameters: DeleteEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+        const requestOptions = await this.deleteEnvironmentTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentTypeResponseFromJSON(jsonValue));
     }
@@ -4141,9 +7677,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a key registered under a Agent.
+     * Creates request options for deleteKeyInAgent without sending the request
      */
-    async deleteKeyInAgentRaw(requestParameters: DeleteKeyInAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteKeyInAgentRequestOpts(requestParameters: DeleteKeyInAgentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4169,12 +7705,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents/{agentId}/keys/{fingerprint}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"agentId"}}`, encodeURIComponent(String(requestParameters['agentId']))).replace(`{${"fingerprint"}}`, encodeURIComponent(String(requestParameters['fingerprint']))),
+
+        let urlPath = `/orgs/{orgId}/agents/{agentId}/keys/{fingerprint}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{agentId}', encodeURIComponent(String(requestParameters['agentId'])));
+        urlPath = urlPath.replace('{fingerprint}', encodeURIComponent(String(requestParameters['fingerprint'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a key registered under a Agent.
+     */
+    async deleteKeyInAgentRaw(requestParameters: DeleteKeyInAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteKeyInAgentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4187,9 +7737,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a pipeline within an application.
+     * Creates request options for deletePipeline without sending the request
      */
-    async deletePipelineRaw(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePipelineRequestOpts(requestParameters: DeletePipelineRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4219,12 +7769,26 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['If-Match'] = String(requestParameters['If_Match']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a pipeline within an application.
+     */
+    async deletePipelineRaw(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deletePipelineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4237,9 +7801,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete the Pipeline Criteria with the given id.
+     * Creates request options for deletePipelineCriteria without sending the request
      */
-    async deletePipelineCriteriaRaw(requestParameters: DeletePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePipelineCriteriaRequestOpts(requestParameters: DeletePipelineCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4272,12 +7836,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"criteriaId"}}`, encodeURIComponent(String(requestParameters['criteriaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{criteriaId}', encodeURIComponent(String(requestParameters['criteriaId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete the Pipeline Criteria with the given id.
+     */
+    async deletePipelineCriteriaRaw(requestParameters: DeletePipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deletePipelineCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4290,9 +7869,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deleting a completed Run within a Pipeline.
+     * Creates request options for deletePipelineRun without sending the request
      */
-    async deletePipelineRunRaw(requestParameters: DeletePipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePipelineRunRequestOpts(requestParameters: DeletePipelineRunRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4329,12 +7908,27 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['If-Match'] = String(requestParameters['If_Match']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deleting a completed Run within a Pipeline.
+     */
+    async deletePipelineRunRaw(requestParameters: DeletePipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deletePipelineRunRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4347,9 +7941,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a public key associated to an organization.
+     * Creates request options for deletePublicKey without sending the request
      */
-    async deletePublicKeyRaw(requestParameters: DeletePublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deletePublicKeyRequestOpts(requestParameters: DeletePublicKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4368,12 +7962,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/keys/{keyId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"keyId"}}`, encodeURIComponent(String(requestParameters['keyId']))),
+
+        let urlPath = `/orgs/{orgId}/keys/{keyId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{keyId}', encodeURIComponent(String(requestParameters['keyId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a public key associated to an organization.
+     */
+    async deletePublicKeyRaw(requestParameters: DeletePublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deletePublicKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4386,10 +7993,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * A Resource Account can be deleted if it is not referenced or referenced only by deleted Resource Definitions. Resource Definition Versions which reference the deleted Resource Account cannot be used in deployments. 
-     * Delete an unused Resource Account.
+     * Creates request options for deleteResourceAccount without sending the request
      */
-    async deleteResourceAccountRaw(requestParameters: DeleteResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceAccountRequestOpts(requestParameters: DeleteResourceAccountRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4408,12 +8014,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts/{accId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"accId"}}`, encodeURIComponent(String(requestParameters['accId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts/{accId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{accId}', encodeURIComponent(String(requestParameters['accId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * A Resource Account can be deleted if it is not referenced or referenced only by deleted Resource Definitions. Resource Definition Versions which reference the deleted Resource Account cannot be used in deployments. 
+     * Delete an unused Resource Account.
+     */
+    async deleteResourceAccountRaw(requestParameters: DeleteResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceAccountRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4427,9 +8047,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a resource class.
+     * Creates request options for deleteResourceClass without sending the request
      */
-    async deleteResourceClassRaw(requestParameters: DeleteResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceClassRequestOpts(requestParameters: DeleteResourceClassRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4455,12 +8075,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))).replace(`{${"classId"}}`, encodeURIComponent(String(requestParameters['classId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+        urlPath = urlPath.replace('{classId}', encodeURIComponent(String(requestParameters['classId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a resource class.
+     */
+    async deleteResourceClassRaw(requestParameters: DeleteResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceClassRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4473,10 +8107,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.  If there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.  The request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is deleted immediately even if there are Active Resources linked to it.   The Resource Definition that has been marked for deletion cannot be used to provision new resources.  With the next deployment, matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).
-     * Delete a Resource Definition.
+     * Creates request options for deleteResourceDefinition without sending the request
      */
-    async deleteResourceDefinitionRaw(requestParameters: DeleteResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceDefinitionRequestOpts(requestParameters: DeleteResourceDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4499,12 +8132,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * If there **are no** Active Resources provisioned via the current definition, the Resource Definition is deleted immediately.  If there **are** Active Resources provisioned via the current definition, the request fails. The response will describe the changes to the affected Active Resources if operation is forced.  The request can take an optional `force` query parameter. If set to `true`, the current Resource Definition is deleted immediately even if there are Active Resources linked to it.   The Resource Definition that has been marked for deletion cannot be used to provision new resources.  With the next deployment, matching criteria for Resources will be re-evaluated, and current Active Resources for the target environment would be either linked to another matching Resource Definition or decommissioned and created using the new or default Resource Definition (when available).
+     * Delete a Resource Definition.
+     */
+    async deleteResourceDefinitionRaw(requestParameters: DeleteResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4518,10 +8165,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.  If there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.  The request can take an optional `force` query parameter. If set to `true`, the Matching Criteria is deleted immediately. Referenced Active Resources would match to a different Resource Definition during the next deployment in the target environment.
-     * Delete a Matching Criteria from a Resource Definition.
+     * Creates request options for deleteResourceDefinitionCriteria without sending the request
      */
-    async deleteResourceDefinitionCriteriaRaw(requestParameters: DeleteResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceDefinitionCriteriaRequestOpts(requestParameters: DeleteResourceDefinitionCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4551,12 +8197,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/criteria/{criteriaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))).replace(`{${"criteriaId"}}`, encodeURIComponent(String(requestParameters['criteriaId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/criteria/{criteriaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+        urlPath = urlPath.replace('{criteriaId}', encodeURIComponent(String(requestParameters['criteriaId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * If there **are no** Active Resources that would match to a different Resource Definition when the current Matching Criteria is deleted, the Matching Criteria is deleted immediately.  If there **are** Active Resources that would match to a different Resource Definition, the request fails with HTTP status code 409 (Conflict). The response content will list all of affected Active Resources and their new matches.  The request can take an optional `force` query parameter. If set to `true`, the Matching Criteria is deleted immediately. Referenced Active Resources would match to a different Resource Definition during the next deployment in the target environment.
+     * Delete a Matching Criteria from a Resource Definition.
+     */
+    async deleteResourceDefinitionCriteriaRaw(requestParameters: DeleteResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceDefinitionCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4570,9 +8231,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a Resources Driver.
+     * Creates request options for deleteResourceDriver without sending the request
      */
-    async deleteResourceDriverRaw(requestParameters: DeleteResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceDriverRequestOpts(requestParameters: DeleteResourceDriverRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4591,12 +8252,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/drivers/{driverId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"driverId"}}`, encodeURIComponent(String(requestParameters['driverId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/drivers/{driverId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{driverId}', encodeURIComponent(String(requestParameters['driverId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a Resources Driver.
+     */
+    async deleteResourceDriverRaw(requestParameters: DeleteResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceDriverRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4609,9 +8283,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a Resource Type.
+     * Creates request options for deleteResourceType without sending the request
      */
-    async deleteResourceTypeRaw(requestParameters: DeleteResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteResourceTypeRequestOpts(requestParameters: DeleteResourceTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4630,12 +8304,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a Resource Type.
+     */
+    async deleteResourceTypeRaw(requestParameters: DeleteResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteResourceTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4648,9 +8335,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Remove the role of a User or a Group on an Application
+     * Creates request options for deleteUserRoleInApp without sending the request
      */
-    async deleteUserRoleInAppRaw(requestParameters: DeleteUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteUserRoleInAppRequestOpts(requestParameters: DeleteUserRoleInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4676,12 +8363,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Remove the role of a User or a Group on an Application
+     */
+    async deleteUserRoleInAppRaw(requestParameters: DeleteUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteUserRoleInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4694,9 +8395,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Remove the role of a User or a Group on an Environment Type
+     * Creates request options for deleteUserRoleInEnvType without sending the request
      */
-    async deleteUserRoleInEnvTypeRaw(requestParameters: DeleteUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteUserRoleInEnvTypeRequestOpts(requestParameters: DeleteUserRoleInEnvTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4722,12 +8423,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envType}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envType"}}`, encodeURIComponent(String(requestParameters['envType']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envType}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envType}', encodeURIComponent(String(requestParameters['envType'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Remove the role of a User or a Group on an Environment Type
+     */
+    async deleteUserRoleInEnvTypeRaw(requestParameters: DeleteUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteUserRoleInEnvTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4740,9 +8455,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Remove the role of a User or a Group on an Organization
+     * Creates request options for deleteUserRoleInOrg without sending the request
      */
-    async deleteUserRoleInOrgRaw(requestParameters: DeleteUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteUserRoleInOrgRequestOpts(requestParameters: DeleteUserRoleInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4761,12 +8476,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Remove the role of a User or a Group on an Organization
+     */
+    async deleteUserRoleInOrgRaw(requestParameters: DeleteUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteUserRoleInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4779,10 +8507,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint deletes a user\'s session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used.
-     * Deletes a specific token associated with a user
+     * Creates request options for deleteUserToken without sending the request
      */
-    async deleteUserTokenRaw(requestParameters: DeleteUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteUserTokenRequestOpts(requestParameters: DeleteUserTokenRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -4801,12 +8528,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/users/{userId}/tokens/{tokenId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))).replace(`{${"tokenId"}}`, encodeURIComponent(String(requestParameters['tokenId']))),
+
+        let urlPath = `/users/{userId}/tokens/{tokenId}`;
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+        urlPath = urlPath.replace('{tokenId}', encodeURIComponent(String(requestParameters['tokenId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * This endpoint deletes a user\'s session token. The deleted token can no longer be used to access the API. All other tokens for this user can still be used.
+     * Deletes a specific token associated with a user
+     */
+    async deleteUserTokenRaw(requestParameters: DeleteUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteUserTokenRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4820,10 +8561,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * This will also delete all versions of a workload profile.  It is not possible to delete profiles of other organizations.
-     * Delete a Workload Profile
+     * Creates request options for deleteWorkloadProfile without sending the request
      */
-    async deleteWorkloadProfileRaw(requestParameters: DeleteWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteWorkloadProfileRequestOpts(requestParameters: DeleteWorkloadProfileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4842,12 +8582,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles/{profileQid}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"profileQid"}}`, encodeURIComponent(String(requestParameters['profileQid']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles/{profileQid}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{profileQid}', encodeURIComponent(String(requestParameters['profileQid'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * This will also delete all versions of a workload profile.  It is not possible to delete profiles of other organizations.
+     * Delete a Workload Profile
+     */
+    async deleteWorkloadProfileRaw(requestParameters: DeleteWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteWorkloadProfileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -4861,10 +8615,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deny the approval requested.
-     * Deny the approval request
+     * Creates request options for denyPipelineApprovalRequest without sending the request
      */
-    async denyPipelineApprovalRequestRaw(requestParameters: DenyPipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+    async denyPipelineApprovalRequestRequestOpts(requestParameters: DenyPipelineApprovalRequestRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4911,12 +8664,30 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/deny`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))).replace(`{${"approvalId"}}`, encodeURIComponent(String(requestParameters['approvalId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}/deny`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+        urlPath = urlPath.replace('{approvalId}', encodeURIComponent(String(requestParameters['approvalId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deny the approval requested.
+     * Deny the approval request
+     */
+    async denyPipelineApprovalRequestRaw(requestParameters: DenyPipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+        const requestOptions = await this.denyPipelineApprovalRequestRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineApprovalRequestFromJSON(jsonValue));
     }
@@ -4931,10 +8702,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets a specific Application in the specified Organization by ID.
-     * Get an existing Application
+     * Creates request options for getApplication without sending the request
      */
-    async getApplicationRaw(requestParameters: GetApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+    async getApplicationRequestOpts(requestParameters: GetApplicationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4953,12 +8723,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets a specific Application in the specified Organization by ID.
+     * Get an existing Application
+     */
+    async getApplicationRaw(requestParameters: GetApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+        const requestOptions = await this.getApplicationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApplicationResponseFromJSON(jsonValue));
     }
@@ -4973,10 +8757,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a specific Artefact Version.
-     * Get an Artefacts Versions.
+     * Creates request options for getArtefactVersion without sending the request
      */
-    async getArtefactVersionRaw(requestParameters: GetArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+    async getArtefactVersionRequestOpts(requestParameters: GetArtefactVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -4995,12 +8778,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions/{artefactVersionId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactVersionId"}}`, encodeURIComponent(String(requestParameters['artefactVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions/{artefactVersionId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactVersionId}', encodeURIComponent(String(requestParameters['artefactVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a specific Artefact Version.
+     * Get an Artefacts Versions.
+     */
+    async getArtefactVersionRaw(requestParameters: GetArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+        const requestOptions = await this.getArtefactVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ArtefactVersionFromJSON(jsonValue));
     }
@@ -5015,9 +8812,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a specific Automation Rule for an Environment.
+     * Creates request options for getAutomationRule without sending the request
      */
-    async getAutomationRuleRaw(requestParameters: GetAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+    async getAutomationRuleRequestOpts(requestParameters: GetAutomationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5050,12 +8847,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"ruleId"}}`, encodeURIComponent(String(requestParameters['ruleId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{ruleId}', encodeURIComponent(String(requestParameters['ruleId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a specific Automation Rule for an Environment.
+     */
+    async getAutomationRuleRaw(requestParameters: GetAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+        const requestOptions = await this.getAutomationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AutomationRuleResponseFromJSON(jsonValue));
     }
@@ -5069,10 +8881,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Read the current state of a trigger batch for a Pipeline if one exists
-     * Read the current state of a trigger batch
+     * Creates request options for getBatch without sending the request
      */
-    async getBatchRaw(requestParameters: GetBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
+    async getBatchRequestOpts(requestParameters: GetBatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5105,12 +8916,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/batches/{batchType}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"batchType"}}`, encodeURIComponent(String(requestParameters['batchType']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/batches/{batchType}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{batchType}', encodeURIComponent(String(requestParameters['batchType'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Read the current state of a trigger batch for a Pipeline if one exists
+     * Read the current state of a trigger batch
+     */
+    async getBatchRaw(requestParameters: GetBatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Batch>> {
+        const requestOptions = await this.getBatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BatchFromJSON(jsonValue));
     }
@@ -5125,19 +8952,30 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets the extended profile of the current user
+     * Creates request options for getCurrentUser without sending the request
      */
-    async getCurrentUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileExtendedResponse>> {
+    async getCurrentUserRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/current-user`,
+
+        let urlPath = `/current-user`;
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets the extended profile of the current user
+     */
+    async getCurrentUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileExtendedResponse>> {
+        const requestOptions = await this.getCurrentUserRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserProfileExtendedResponseFromJSON(jsonValue));
     }
@@ -5151,9 +8989,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch an existing Delta
+     * Creates request options for getDelta without sending the request
      */
-    async getDeltaRaw(requestParameters: GetDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeltaResponse>> {
+    async getDeltaRequestOpts(requestParameters: GetDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5179,12 +9017,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Fetch an existing Delta
+     */
+    async getDeltaRaw(requestParameters: GetDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeltaResponse>> {
+        const requestOptions = await this.getDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeltaResponseFromJSON(jsonValue));
     }
@@ -5198,9 +9050,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve a Dependency Graph by its ID.
+     * Creates request options for getDependencyGraph without sending the request
      */
-    async getDependencyGraphRaw(requestParameters: GetDependencyGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DependencyGraphResponse>> {
+    async getDependencyGraphRequestOpts(requestParameters: GetDependencyGraphRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5233,12 +9085,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs/{graphId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"graphId"}}`, encodeURIComponent(String(requestParameters['graphId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs/{graphId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{graphId}', encodeURIComponent(String(requestParameters['graphId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrieve a Dependency Graph by its ID.
+     */
+    async getDependencyGraphRaw(requestParameters: GetDependencyGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DependencyGraphResponse>> {
+        const requestOptions = await this.getDependencyGraphRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DependencyGraphResponseFromJSON(jsonValue));
     }
@@ -5252,10 +9119,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets a specific Deployment in an Application and an Environment.
-     * Get a specific Deployment.
+     * Creates request options for getDeployment without sending the request
      */
-    async getDeploymentRaw(requestParameters: GetDeploymentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeploymentResponse>> {
+    async getDeploymentRequestOpts(requestParameters: GetDeploymentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5288,12 +9154,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys/{deployId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"deployId"}}`, encodeURIComponent(String(requestParameters['deployId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys/{deployId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{deployId}', encodeURIComponent(String(requestParameters['deployId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets a specific Deployment in an Application and an Environment.
+     * Get a specific Deployment.
+     */
+    async getDeploymentRaw(requestParameters: GetDeploymentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeploymentResponse>> {
+        const requestOptions = await this.getDeploymentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeploymentResponseFromJSON(jsonValue));
     }
@@ -5308,10 +9190,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  The response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.  Note, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds.
-     * Get a specific Image Object
+     * Creates request options for getDeprecatedImage without sending the request
      */
-    async getDeprecatedImageRaw(requestParameters: GetDeprecatedImageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ImageResponse>> {
+    async getDeprecatedImageRequestOpts(requestParameters: GetDeprecatedImageRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5330,12 +9211,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/images/{imageId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"imageId"}}`, encodeURIComponent(String(requestParameters['imageId']))),
+
+        let urlPath = `/orgs/{orgId}/images/{imageId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{imageId}', encodeURIComponent(String(requestParameters['imageId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  The response includes a list of Image Builds as well as some metadata about the Image such as its Image Source.  Note, `imageId` may not be the same as the container name. `imageId` is determined by the system making notifications about new builds.
+     * Get a specific Image Object
+     */
+    async getDeprecatedImageRaw(requestParameters: GetDeprecatedImageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ImageResponse>> {
+        const requestOptions = await this.getDeprecatedImageRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ImageResponseFromJSON(jsonValue));
     }
@@ -5350,9 +9245,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the difference between 2 Deployment Sets
+     * Creates request options for getDiff without sending the request
      */
-    async getDiffRaw(requestParameters: GetDiffRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlainDeltaResponse>> {
+    async getDiffRequestOpts(requestParameters: GetDiffRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5385,12 +9280,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/sets/{setId}/diff/{sourceSetId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"setId"}}`, encodeURIComponent(String(requestParameters['setId']))).replace(`{${"sourceSetId"}}`, encodeURIComponent(String(requestParameters['sourceSetId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/sets/{setId}/diff/{sourceSetId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{setId}', encodeURIComponent(String(requestParameters['setId'])));
+        urlPath = urlPath.replace('{sourceSetId}', encodeURIComponent(String(requestParameters['sourceSetId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the difference between 2 Deployment Sets
+     */
+    async getDiffRaw(requestParameters: GetDiffRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlainDeltaResponse>> {
+        const requestOptions = await this.getDiffRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PlainDeltaResponseFromJSON(jsonValue));
     }
@@ -5404,10 +9314,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets a specific Environment in an Application.
-     * Get a specific Environment.
+     * Creates request options for getEnvironment without sending the request
      */
-    async getEnvironmentRaw(requestParameters: GetEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+    async getEnvironmentRequestOpts(requestParameters: GetEnvironmentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5433,12 +9342,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets a specific Environment in an Application.
+     * Get a specific Environment.
+     */
+    async getEnvironmentRaw(requestParameters: GetEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+        const requestOptions = await this.getEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentResponseFromJSON(jsonValue));
     }
@@ -5453,10 +9377,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets a specific Environment Type within an Organization.
-     * Get an Environment Type
+     * Creates request options for getEnvironmentType without sending the request
      */
-    async getEnvironmentTypeRaw(requestParameters: GetEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+    async getEnvironmentTypeRequestOpts(requestParameters: GetEnvironmentTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5475,12 +9398,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envTypeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envTypeId"}}`, encodeURIComponent(String(requestParameters['envTypeId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envTypeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envTypeId}', encodeURIComponent(String(requestParameters['envTypeId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets a specific Environment Type within an Organization.
+     * Get an Environment Type
+     */
+    async getEnvironmentTypeRaw(requestParameters: GetEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+        const requestOptions = await this.getEnvironmentTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentTypeResponseFromJSON(jsonValue));
     }
@@ -5495,9 +9432,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets the latest pipeline schema
+     * Creates request options for getLatestPipelineDefinitionSchema without sending the request
      */
-    async getLatestPipelineDefinitionSchemaRaw(requestParameters: GetLatestPipelineDefinitionSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async getLatestPipelineDefinitionSchemaRequestOpts(requestParameters: GetLatestPipelineDefinitionSchemaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5509,12 +9446,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/pipeline-schemas/latest`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/pipeline-schemas/latest`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets the latest pipeline schema
+     */
+    async getLatestPipelineDefinitionSchemaRaw(requestParameters: GetLatestPipelineDefinitionSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.getLatestPipelineDefinitionSchemaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -5528,10 +9477,10 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Latest version of the given workload profile with optional constraint.
+     * Creates request options for getLatestWorkloadProfileVersion without sending the request
      * @deprecated
      */
-    async getLatestWorkloadProfileVersionRaw(requestParameters: GetLatestWorkloadProfileVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileVersionResponse>> {
+    async getLatestWorkloadProfileVersionRequestOpts(requestParameters: GetLatestWorkloadProfileVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5550,12 +9499,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles/{profileQid}/versions/latest`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"profileQid"}}`, encodeURIComponent(String(requestParameters['profileQid']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles/{profileQid}/versions/latest`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{profileQid}', encodeURIComponent(String(requestParameters['profileQid'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Latest version of the given workload profile with optional constraint.
+     * @deprecated
+     */
+    async getLatestWorkloadProfileVersionRaw(requestParameters: GetLatestWorkloadProfileVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileVersionResponse>> {
+        const requestOptions = await this.getLatestWorkloadProfileVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadProfileVersionResponseFromJSON(jsonValue));
     }
@@ -5570,9 +9533,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the specified Organization.
+     * Creates request options for getOrganization without sending the request
      */
-    async getOrganizationRaw(requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OrganizationResponse>> {
+    async getOrganizationRequestOpts(requestParameters: GetOrganizationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5584,12 +9547,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the specified Organization.
+     */
+    async getOrganizationRaw(requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OrganizationResponse>> {
+        const requestOptions = await this.getOrganizationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationResponseFromJSON(jsonValue));
     }
@@ -5603,9 +9578,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Pipeline within an Application.
+     * Creates request options for getPipeline without sending the request
      */
-    async getPipelineRaw(requestParameters: GetPipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+    async getPipelineRequestOpts(requestParameters: GetPipelineRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5635,12 +9610,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Pipeline within an Application.
+     */
+    async getPipelineRaw(requestParameters: GetPipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+        const requestOptions = await this.getPipelineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineFromJSON(jsonValue));
     }
@@ -5654,10 +9643,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get an approval request.
-     * Get an approval request
+     * Creates request options for getPipelineApprovalRequest without sending the request
      */
-    async getPipelineApprovalRequestRaw(requestParameters: GetPipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+    async getPipelineApprovalRequestRequestOpts(requestParameters: GetPipelineApprovalRequestRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5704,12 +9692,30 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))).replace(`{${"approvalId"}}`, encodeURIComponent(String(requestParameters['approvalId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/approvals/{approvalId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+        urlPath = urlPath.replace('{approvalId}', encodeURIComponent(String(requestParameters['approvalId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get an approval request.
+     * Get an approval request
+     */
+    async getPipelineApprovalRequestRaw(requestParameters: GetPipelineApprovalRequestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineApprovalRequest>> {
+        const requestOptions = await this.getPipelineApprovalRequestRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineApprovalRequestFromJSON(jsonValue));
     }
@@ -5724,9 +9730,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the Pipeline Criteria with the given id.
+     * Creates request options for getPipelineCriteria without sending the request
      */
-    async getPipelineCriteriaRaw(requestParameters: GetPipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineCriteria>> {
+    async getPipelineCriteriaRequestOpts(requestParameters: GetPipelineCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5759,28 +9765,43 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"criteriaId"}}`, encodeURIComponent(String(requestParameters['criteriaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/criteria/{criteriaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{criteriaId}', encodeURIComponent(String(requestParameters['criteriaId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineCriteriaFromJSON(jsonValue));
+        };
     }
 
     /**
      * Get the Pipeline Criteria with the given id.
      */
-    async getPipelineCriteria(requestParameters: GetPipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PipelineCriteria> {
+    async getPipelineCriteriaRaw(requestParameters: GetPipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineDeploymentRequestCriteria>> {
+        const requestOptions = await this.getPipelineCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineDeploymentRequestCriteriaFromJSON(jsonValue));
+    }
+
+    /**
+     * Get the Pipeline Criteria with the given id.
+     */
+    async getPipelineCriteria(requestParameters: GetPipelineCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PipelineDeploymentRequestCriteria> {
         const response = await this.getPipelineCriteriaRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Get a pipeline schema.
+     * Creates request options for getPipelineDefinition without sending the request
      */
-    async getPipelineDefinitionRaw(requestParameters: GetPipelineDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async getPipelineDefinitionRequestOpts(requestParameters: GetPipelineDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5814,12 +9835,26 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Accept'] = String(requestParameters['Accept']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/schema`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/schema`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a pipeline schema.
+     */
+    async getPipelineDefinitionRaw(requestParameters: GetPipelineDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        const requestOptions = await this.getPipelineDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -5833,9 +9868,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the details of a Job including Step information
+     * Creates request options for getPipelineJob without sending the request
      */
-    async getPipelineJobRaw(requestParameters: GetPipelineJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineJob>> {
+    async getPipelineJobRequestOpts(requestParameters: GetPipelineJobRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5875,12 +9910,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List the details of a Job including Step information
+     */
+    async getPipelineJobRaw(requestParameters: GetPipelineJobRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineJob>> {
+        const requestOptions = await this.getPipelineJobRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineJobFromJSON(jsonValue));
     }
@@ -5894,9 +9945,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a run within an pipeline.
+     * Creates request options for getPipelineRun without sending the request
      */
-    async getPipelineRunRaw(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+    async getPipelineRunRequestOpts(requestParameters: GetPipelineRunRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5929,12 +9980,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a run within an pipeline.
+     */
+    async getPipelineRunRaw(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+        const requestOptions = await this.getPipelineRunRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunFromJSON(jsonValue));
     }
@@ -5948,9 +10014,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve a single public key associated to an organization.
+     * Creates request options for getPublicKey without sending the request
      */
-    async getPublicKeyRaw(requestParameters: GetPublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicKey>> {
+    async getPublicKeyRequestOpts(requestParameters: GetPublicKeyRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -5969,12 +10035,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/keys/{keyId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"keyId"}}`, encodeURIComponent(String(requestParameters['keyId']))),
+
+        let urlPath = `/orgs/{orgId}/keys/{keyId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{keyId}', encodeURIComponent(String(requestParameters['keyId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrieve a single public key associated to an organization.
+     */
+    async getPublicKeyRaw(requestParameters: GetPublicKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicKey>> {
+        const requestOptions = await this.getPublicKeyRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublicKeyFromJSON(jsonValue));
     }
@@ -5988,9 +10067,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Resource Account.
+     * Creates request options for getResourceAccount without sending the request
      */
-    async getResourceAccountRaw(requestParameters: GetResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+    async getResourceAccountRequestOpts(requestParameters: GetResourceAccountRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6009,12 +10088,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts/{accId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"accId"}}`, encodeURIComponent(String(requestParameters['accId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts/{accId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{accId}', encodeURIComponent(String(requestParameters['accId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Resource Account.
+     */
+    async getResourceAccountRaw(requestParameters: GetResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+        const requestOptions = await this.getResourceAccountRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceAccountResponseFromJSON(jsonValue));
     }
@@ -6028,9 +10120,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get resource class by ID.
+     * Creates request options for getResourceClass without sending the request
      */
-    async getResourceClassRaw(requestParameters: GetResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+    async getResourceClassRequestOpts(requestParameters: GetResourceClassRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6056,12 +10148,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))).replace(`{${"classId"}}`, encodeURIComponent(String(requestParameters['classId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+        urlPath = urlPath.replace('{classId}', encodeURIComponent(String(requestParameters['classId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get resource class by ID.
+     */
+    async getResourceClassRaw(requestParameters: GetResourceClassRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+        const requestOptions = await this.getResourceClassRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceClassResponseFromJSON(jsonValue));
     }
@@ -6075,10 +10181,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * If the resource is marked as deleted it is not shown in the response, unless specified via `deleted` query parameter.
-     * Get a Resource Definition.
+     * Creates request options for getResourceDefinition without sending the request
      */
-    async getResourceDefinitionRaw(requestParameters: GetResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+    async getResourceDefinitionRequestOpts(requestParameters: GetResourceDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6101,12 +10206,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * If the resource is marked as deleted it is not shown in the response, unless specified via `deleted` query parameter.
+     * Get a Resource Definition.
+     */
+    async getResourceDefinitionRaw(requestParameters: GetResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+        const requestOptions = await this.getResourceDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceDefinitionResponseFromJSON(jsonValue));
     }
@@ -6121,9 +10240,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Resource Definition Version.
+     * Creates request options for getResourceDefinitionVersion without sending the request
      */
-    async getResourceDefinitionVersionRaw(requestParameters: GetResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionVersion>> {
+    async getResourceDefinitionVersionRequestOpts(requestParameters: GetResourceDefinitionVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6149,12 +10268,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))).replace(`{${"defVersionId"}}`, encodeURIComponent(String(requestParameters['defVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+        urlPath = urlPath.replace('{defVersionId}', encodeURIComponent(String(requestParameters['defVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Resource Definition Version.
+     */
+    async getResourceDefinitionVersionRaw(requestParameters: GetResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionVersion>> {
+        const requestOptions = await this.getResourceDefinitionVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceDefinitionVersionFromJSON(jsonValue));
     }
@@ -6168,10 +10301,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * # Only drivers that belongs to the given organization or registered as `public` are accessible through this endpoint
-     * Get a Resource Driver.
+     * Creates request options for getResourceDriver without sending the request
      */
-    async getResourceDriverRaw(requestParameters: GetResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+    async getResourceDriverRequestOpts(requestParameters: GetResourceDriverRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6190,12 +10322,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/drivers/{driverId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"driverId"}}`, encodeURIComponent(String(requestParameters['driverId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/drivers/{driverId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{driverId}', encodeURIComponent(String(requestParameters['driverId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * # Only drivers that belongs to the given organization or registered as `public` are accessible through this endpoint
+     * Get a Resource Driver.
+     */
+    async getResourceDriverRaw(requestParameters: GetResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+        const requestOptions = await this.getResourceDriverRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DriverDefinitionResponseFromJSON(jsonValue));
     }
@@ -6210,10 +10356,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Runtime info are fetched from the cluster provisioned by the Orchestrator with Resource Id `k8s-cluster-runtime`. If no cluster with that id is found, the system fetches information from a cluster provisioned with the default Resource Id  `k8s-cluster`.
-     * Get Runtime information about the environment.
+     * Creates request options for getRuntime without sending the request
      */
-    async getRuntimeRaw(requestParameters: GetRuntimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RuntimeInfoResponseV1>> {
+    async getRuntimeRequestOpts(requestParameters: GetRuntimeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6239,12 +10384,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Runtime info are fetched from the cluster provisioned by the Orchestrator with Resource Id `k8s-cluster-runtime`. If no cluster with that id is found, the system fetches information from a cluster provisioned with the default Resource Id  `k8s-cluster`.
+     * Get Runtime information about the environment.
+     */
+    async getRuntimeRaw(requestParameters: GetRuntimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RuntimeInfoResponseV1>> {
+        const requestOptions = await this.getRuntimeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RuntimeInfoResponseV1FromJSON(jsonValue));
     }
@@ -6259,9 +10419,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Deployment Set
+     * Creates request options for getSet without sending the request
      */
-    async getSetRaw(requestParameters: GetSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetSet200Response>> {
+    async getSetRequestOpts(requestParameters: GetSetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6291,12 +10451,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/sets/{setId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"setId"}}`, encodeURIComponent(String(requestParameters['setId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/sets/{setId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{setId}', encodeURIComponent(String(requestParameters['setId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Deployment Set
+     */
+    async getSetRaw(requestParameters: GetSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetSet200Response>> {
+        const requestOptions = await this.getSetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetSet200ResponseFromJSON(jsonValue));
     }
@@ -6310,9 +10484,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get Resource Inputs for the given Deployment Set
+     * Creates request options for getSetResourceInputs without sending the request
      */
-    async getSetResourceInputsRaw(requestParameters: GetSetResourceInputsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceInputsResponse>>> {
+    async getSetResourceInputsRequestOpts(requestParameters: GetSetResourceInputsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6338,12 +10512,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/sets/{setId}/resources`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"setId"}}`, encodeURIComponent(String(requestParameters['setId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/sets/{setId}/resources`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{setId}', encodeURIComponent(String(requestParameters['setId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get Resource Inputs for the given Deployment Set
+     */
+    async getSetResourceInputsRaw(requestParameters: GetSetResourceInputsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceInputsResponse>>> {
+        const requestOptions = await this.getSetResourceInputsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceInputsResponseFromJSON));
     }
@@ -6357,9 +10545,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the permissions of a User or Group on the objects in an Organization
+     * Creates request options for getSubjectPermsInOrg without sending the request
      */
-    async getSubjectPermsInOrgRaw(requestParameters: GetSubjectPermsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SubjectPermissions>> {
+    async getSubjectPermsInOrgRequestOpts(requestParameters: GetSubjectPermsInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6378,12 +10566,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users/{userId}/perms`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/users/{userId}/perms`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the permissions of a User or Group on the objects in an Organization
+     */
+    async getSubjectPermsInOrgRaw(requestParameters: GetSubjectPermsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SubjectPermissions>> {
+        const requestOptions = await this.getSubjectPermsInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SubjectPermissionsFromJSON(jsonValue));
     }
@@ -6397,9 +10598,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the role of a User or a Group on an Application
+     * Creates request options for getUserRoleInApp without sending the request
      */
-    async getUserRoleInAppRaw(requestParameters: GetUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async getUserRoleInAppRequestOpts(requestParameters: GetUserRoleInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6425,12 +10626,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the role of a User or a Group on an Application
+     */
+    async getUserRoleInAppRaw(requestParameters: GetUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.getUserRoleInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -6444,9 +10659,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the role of a User or a Group on an Environment Type
+     * Creates request options for getUserRoleInEnvType without sending the request
      */
-    async getUserRoleInEnvTypeRaw(requestParameters: GetUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async getUserRoleInEnvTypeRequestOpts(requestParameters: GetUserRoleInEnvTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6472,12 +10687,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envType}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envType"}}`, encodeURIComponent(String(requestParameters['envType']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envType}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envType}', encodeURIComponent(String(requestParameters['envType'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the role of a User or a Group on an Environment Type
+     */
+    async getUserRoleInEnvTypeRaw(requestParameters: GetUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.getUserRoleInEnvTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -6491,9 +10720,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the role of a User or a Group on an Organization
+     * Creates request options for getUserRoleInOrg without sending the request
      */
-    async getUserRoleInOrgRaw(requestParameters: GetUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async getUserRoleInOrgRequestOpts(requestParameters: GetUserRoleInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6512,12 +10741,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the role of a User or a Group on an Organization
+     */
+    async getUserRoleInOrgRaw(requestParameters: GetUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.getUserRoleInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -6531,9 +10773,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets a specific token associated with a user
+     * Creates request options for getUserToken without sending the request
      */
-    async getUserTokenRaw(requestParameters: GetUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TokenInfoResponse>> {
+    async getUserTokenRequestOpts(requestParameters: GetUserTokenRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -6552,12 +10794,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/users/{userId}/tokens/{tokenId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))).replace(`{${"tokenId"}}`, encodeURIComponent(String(requestParameters['tokenId']))),
+
+        let urlPath = `/users/{userId}/tokens/{tokenId}`;
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+        urlPath = urlPath.replace('{tokenId}', encodeURIComponent(String(requestParameters['tokenId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets a specific token associated with a user
+     */
+    async getUserTokenRaw(requestParameters: GetUserTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TokenInfoResponse>> {
+        const requestOptions = await this.getUserTokenRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TokenInfoResponseFromJSON(jsonValue));
     }
@@ -6571,10 +10826,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the Humanitec workload module of this Artefact Version if it is of type workload. An error will be returned if it is not. 
-     * Get the Humanitec module definition of this Workload Artefact Version as a deployment set
+     * Creates request options for getWorkloadArtefactVersionDeploymentSet without sending the request
      */
-    async getWorkloadArtefactVersionDeploymentSetRaw(requestParameters: GetWorkloadArtefactVersionDeploymentSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadArtefactVersionDeploymentSet>> {
+    async getWorkloadArtefactVersionDeploymentSetRequestOpts(requestParameters: GetWorkloadArtefactVersionDeploymentSetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6597,12 +10851,26 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Accept'] = String(requestParameters['Accept']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-deployment-set`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactVersionId"}}`, encodeURIComponent(String(requestParameters['artefactVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-deployment-set`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactVersionId}', encodeURIComponent(String(requestParameters['artefactVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the Humanitec workload module of this Artefact Version if it is of type workload. An error will be returned if it is not. 
+     * Get the Humanitec module definition of this Workload Artefact Version as a deployment set
+     */
+    async getWorkloadArtefactVersionDeploymentSetRaw(requestParameters: GetWorkloadArtefactVersionDeploymentSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadArtefactVersionDeploymentSet>> {
+        const requestOptions = await this.getWorkloadArtefactVersionDeploymentSetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadArtefactVersionDeploymentSetFromJSON(jsonValue));
     }
@@ -6617,10 +10885,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the spec of this Artefact Version if it is of type workload. An error will be returned if it is not. 
-     * Get the spec of this Workload Artefact Version
+     * Creates request options for getWorkloadArtefactVersionSpec without sending the request
      */
-    async getWorkloadArtefactVersionSpecRaw(requestParameters: GetWorkloadArtefactVersionSpecRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+    async getWorkloadArtefactVersionSpecRequestOpts(requestParameters: GetWorkloadArtefactVersionSpecRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6643,12 +10910,26 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Accept'] = String(requestParameters['Accept']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-spec`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactVersionId"}}`, encodeURIComponent(String(requestParameters['artefactVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions/{artefactVersionId}/workload-spec`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactVersionId}', encodeURIComponent(String(requestParameters['artefactVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the spec of this Artefact Version if it is of type workload. An error will be returned if it is not. 
+     * Get the spec of this Workload Artefact Version
+     */
+    async getWorkloadArtefactVersionSpecRaw(requestParameters: GetWorkloadArtefactVersionSpecRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
+        const requestOptions = await this.getWorkloadArtefactVersionSpecRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -6663,9 +10944,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Workload Profile
+     * Creates request options for getWorkloadProfile without sending the request
      */
-    async getWorkloadProfileRaw(requestParameters: GetWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+    async getWorkloadProfileRequestOpts(requestParameters: GetWorkloadProfileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6684,12 +10965,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles/{profileQid}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"profileQid"}}`, encodeURIComponent(String(requestParameters['profileQid']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles/{profileQid}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{profileQid}', encodeURIComponent(String(requestParameters['profileQid'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Workload Profile
+     */
+    async getWorkloadProfileRaw(requestParameters: GetWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+        const requestOptions = await this.getWorkloadProfileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadProfileResponseFromJSON(jsonValue));
     }
@@ -6703,9 +10997,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Active Resources provisioned via a specific Resource Definition.
+     * Creates request options for listActiveResourceByDefinition without sending the request
      */
-    async listActiveResourceByDefinitionRaw(requestParameters: ListActiveResourceByDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ActiveResourceResponse>>> {
+    async listActiveResourceByDefinitionRequestOpts(requestParameters: ListActiveResourceByDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6724,12 +11018,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/resources`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/resources`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Active Resources provisioned via a specific Resource Definition.
+     */
+    async listActiveResourceByDefinitionRaw(requestParameters: ListActiveResourceByDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ActiveResourceResponse>>> {
+        const requestOptions = await this.listActiveResourceByDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ActiveResourceResponseFromJSON));
     }
@@ -6743,9 +11050,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Active Resources provisioned in an environment.
+     * Creates request options for listActiveResources without sending the request
      */
-    async listActiveResourcesRaw(requestParameters: ListActiveResourcesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ActiveResourceResponse>>> {
+    async listActiveResourcesRequestOpts(requestParameters: ListActiveResourcesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6775,12 +11082,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Active Resources provisioned in an environment.
+     */
+    async listActiveResourcesRaw(requestParameters: ListActiveResourcesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ActiveResourceResponse>>> {
+        const requestOptions = await this.listActiveResourcesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ActiveResourceResponseFromJSON));
     }
@@ -6794,9 +11115,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all the agents in an Organization.
+     * Creates request options for listAgents without sending the request
      */
-    async listAgentsRaw(requestParameters: ListAgentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Agent>>> {
+    async listAgentsRequestOpts(requestParameters: ListAgentsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6812,12 +11133,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/agents`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all the agents in an Organization.
+     */
+    async listAgentsRaw(requestParameters: ListAgentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Agent>>> {
+        const requestOptions = await this.listAgentsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AgentFromJSON));
     }
@@ -6831,10 +11164,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Listing or lists of all Applications that exist within a specific Organization.
-     * List all Applications in an Organization.
+     * Creates request options for listApplications without sending the request
      */
-    async listApplicationsRaw(requestParameters: ListApplicationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApplicationResponse>>> {
+    async listApplicationsRequestOpts(requestParameters: ListApplicationsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6846,12 +11178,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/apps`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Listing or lists of all Applications that exist within a specific Organization.
+     * List all Applications in an Organization.
+     */
+    async listApplicationsRaw(requestParameters: ListApplicationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ApplicationResponse>>> {
+        const requestOptions = await this.listApplicationsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ApplicationResponseFromJSON));
     }
@@ -6866,10 +11211,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned.
-     * List all Artefact Versions of an Artefact.
+     * Creates request options for listArtefactVersions without sending the request
      */
-    async listArtefactVersionsRaw(requestParameters: ListArtefactVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactVersion>>> {
+    async listArtefactVersionsRequestOpts(requestParameters: ListArtefactVersionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6900,12 +11244,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefacts/{artefactId}/versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactId"}}`, encodeURIComponent(String(requestParameters['artefactId']))),
+
+        let urlPath = `/orgs/{orgId}/artefacts/{artefactId}/versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactId}', encodeURIComponent(String(requestParameters['artefactId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the Artefact Versions of a specified Artefact registered with your organization. If no elements are found, an empty list is returned.
+     * List all Artefact Versions of an Artefact.
+     */
+    async listArtefactVersionsRaw(requestParameters: ListArtefactVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactVersion>>> {
+        const requestOptions = await this.listArtefactVersionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ArtefactVersionFromJSON));
     }
@@ -6920,10 +11278,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned.
-     * List all Artefacts Versions in the org.
+     * Creates request options for listArtefactVersionsInOrg without sending the request
      */
-    async listArtefactVersionsInOrgRaw(requestParameters: ListArtefactVersionsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactVersion>>> {
+    async listArtefactVersionsInOrgRequestOpts(requestParameters: ListArtefactVersionsInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6951,12 +11308,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefact-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/artefact-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the Artefact Versions registered with your organization. If no elements are found, an empty list is returned.
+     * List all Artefacts Versions in the org.
+     */
+    async listArtefactVersionsInOrgRaw(requestParameters: ListArtefactVersionsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactVersion>>> {
+        const requestOptions = await this.listArtefactVersionsInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ArtefactVersionFromJSON));
     }
@@ -6971,10 +11341,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the Artefacts registered with your organization. If no elements are found, an empty list is returned.
-     * List all Artefacts.
+     * Creates request options for listArtefacts without sending the request
      */
-    async listArtefactsRaw(requestParameters: ListArtefactsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactResponse>>> {
+    async listArtefactsRequestOpts(requestParameters: ListArtefactsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -6994,12 +11363,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefacts`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/artefacts`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the Artefacts registered with your organization. If no elements are found, an empty list is returned.
+     * List all Artefacts.
+     */
+    async listArtefactsRaw(requestParameters: ListArtefactsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ArtefactResponse>>> {
+        const requestOptions = await this.listArtefactsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ArtefactResponseFromJSON));
     }
@@ -7014,10 +11396,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest. Each response contains at most 32 days worth of data for performance reasons and may be empty if no records exist within that time range. Pagination links in the \'Link\' header should always be followed when present. This API requires administrator permissions in the Organization. 
-     * List audit log entries by Organization
+     * Creates request options for listAuditLogEntries without sending the request
      */
-    async listAuditLogEntriesRaw(requestParameters: ListAuditLogEntriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AuditLogEntry>>> {
+    async listAuditLogEntriesRequestOpts(requestParameters: ListAuditLogEntriesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7036,21 +11417,34 @@ export class PublicApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['from'] != null) {
-            queryParameters['from'] = (requestParameters['from'] as any).toISOString();
+            queryParameters['from'] = runtime.serializeDateTime(requestParameters['from'] as any);
         }
 
         if (requestParameters['to'] != null) {
-            queryParameters['to'] = (requestParameters['to'] as any).toISOString();
+            queryParameters['to'] = runtime.serializeDateTime(requestParameters['to'] as any);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/audit-logs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/audit-logs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all available audit log entries in the Organization that match the specified filters. This API returns entries from newest to oldest and is paginated. Only successful create, modify, or delete requests are stored in  the audit log. This API may return a lot of data, depending on the size of the Organization, so it is  recommended to use the \"to\" and \"from\" query parameters to limit the returned data to the time window of interest. Each response contains at most 32 days worth of data for performance reasons and may be empty if no records exist within that time range. Pagination links in the \'Link\' header should always be followed when present. This API requires administrator permissions in the Organization. 
+     * List audit log entries by Organization
+     */
+    async listAuditLogEntriesRaw(requestParameters: ListAuditLogEntriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AuditLogEntry>>> {
+        const requestOptions = await this.listAuditLogEntriesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AuditLogEntryFromJSON));
     }
@@ -7065,9 +11459,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all Automation Rules in an Environment.
+     * Creates request options for listAutomationRules without sending the request
      */
-    async listAutomationRulesRaw(requestParameters: ListAutomationRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AutomationRuleResponse>>> {
+    async listAutomationRulesRequestOpts(requestParameters: ListAutomationRulesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7093,12 +11487,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all Automation Rules in an Environment.
+     */
+    async listAutomationRulesRaw(requestParameters: ListAutomationRulesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AutomationRuleResponse>>> {
+        const requestOptions = await this.listAutomationRulesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AutomationRuleResponseFromJSON));
     }
@@ -7112,9 +11520,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Deltas in an Application
+     * Creates request options for listDeltas without sending the request
      */
-    async listDeltasRaw(requestParameters: ListDeltasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeltaResponse>>> {
+    async listDeltasRequestOpts(requestParameters: ListDeltasRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7141,12 +11549,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Deltas in an Application
+     */
+    async listDeltasRaw(requestParameters: ListDeltasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeltaResponse>>> {
+        const requestOptions = await this.listDeltasRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DeltaResponseFromJSON));
     }
@@ -7160,9 +11581,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List errors that occurred in a Deployment.
+     * Creates request options for listDeploymentErrors without sending the request
      */
-    async listDeploymentErrorsRaw(requestParameters: ListDeploymentErrorsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeploymentErrorResponse>>> {
+    async listDeploymentErrorsRequestOpts(requestParameters: ListDeploymentErrorsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7195,12 +11616,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys/{deployId}/errors`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"deployId"}}`, encodeURIComponent(String(requestParameters['deployId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys/{deployId}/errors`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{deployId}', encodeURIComponent(String(requestParameters['deployId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List errors that occurred in a Deployment.
+     */
+    async listDeploymentErrorsRaw(requestParameters: ListDeploymentErrorsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeploymentErrorResponse>>> {
+        const requestOptions = await this.listDeploymentErrorsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DeploymentErrorResponseFromJSON));
     }
@@ -7214,10 +11650,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all of the Deployments that have been carried out in the current Environment. Deployments are returned with the newest first.
-     * List Deployments in an Environment.
+     * Creates request options for listDeployments without sending the request
      */
-    async listDeploymentsRaw(requestParameters: ListDeploymentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeploymentResponse>>> {
+    async listDeploymentsRequestOpts(requestParameters: ListDeploymentsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7247,12 +11682,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/deploys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all of the Deployments that have been carried out in the current Environment. Deployments are returned with the newest first.
+     * List Deployments in an Environment.
+     */
+    async listDeploymentsRaw(requestParameters: ListDeploymentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DeploymentResponse>>> {
+        const requestOptions = await this.listDeploymentsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DeploymentResponseFromJSON));
     }
@@ -7267,10 +11717,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  The response lists all available Image Builds of an Image.
-     * Lists all the Builds of an Image
+     * Creates request options for listDeprecatedImageBuilds without sending the request
      */
-    async listDeprecatedImageBuildsRaw(requestParameters: ListDeprecatedImageBuildsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ImageBuildResponse>>> {
+    async listDeprecatedImageBuildsRequestOpts(requestParameters: ListDeprecatedImageBuildsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7289,12 +11738,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/images/{imageId}/builds`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"imageId"}}`, encodeURIComponent(String(requestParameters['imageId']))),
+
+        let urlPath = `/orgs/{orgId}/images/{imageId}/builds`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{imageId}', encodeURIComponent(String(requestParameters['imageId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  The response lists all available Image Builds of an Image.
+     * Lists all the Builds of an Image
+     */
+    async listDeprecatedImageBuildsRaw(requestParameters: ListDeprecatedImageBuildsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ImageBuildResponse>>> {
+        const requestOptions = await this.listDeprecatedImageBuildsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ImageBuildResponseFromJSON));
     }
@@ -7309,10 +11772,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  Lists all of the Container Images registered for this organization.
-     * List all Container Images
+     * Creates request options for listDeprecatedImages without sending the request
      */
-    async listDeprecatedImagesRaw(requestParameters: ListDeprecatedImagesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ImageResponse>>> {
+    async listDeprecatedImagesRequestOpts(requestParameters: ListDeprecatedImagesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7324,12 +11786,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/images`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/images`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * DEPRECATED: This endpoint exists for historical compatibility and should not be used. Please use the [Artefact API](https://api-docs.humanitec.com/#tag/Artefact) instead.  Lists all of the Container Images registered for this organization.
+     * List all Container Images
+     */
+    async listDeprecatedImagesRaw(requestParameters: ListDeprecatedImagesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ImageResponse>>> {
+        const requestOptions = await this.listDeprecatedImagesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ImageResponseFromJSON));
     }
@@ -7344,10 +11819,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lists all Environment Types in an Organization.
-     * List all Environment Types
+     * Creates request options for listEnvironmentTypes without sending the request
      */
-    async listEnvironmentTypesRaw(requestParameters: ListEnvironmentTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentTypeResponse>>> {
+    async listEnvironmentTypesRequestOpts(requestParameters: ListEnvironmentTypesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7359,12 +11833,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Lists all Environment Types in an Organization.
+     * List all Environment Types
+     */
+    async listEnvironmentTypesRaw(requestParameters: ListEnvironmentTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentTypeResponse>>> {
+        const requestOptions = await this.listEnvironmentTypesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnvironmentTypeResponseFromJSON));
     }
@@ -7379,10 +11866,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lists all of the Environments in the Application.
-     * List all Environments.
+     * Creates request options for listEnvironments without sending the request
      */
-    async listEnvironmentsRaw(requestParameters: ListEnvironmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentResponse>>> {
+    async listEnvironmentsRequestOpts(requestParameters: ListEnvironmentsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7401,12 +11887,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Lists all of the Environments in the Application.
+     * List all Environments.
+     */
+    async listEnvironmentsRaw(requestParameters: ListEnvironmentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentResponse>>> {
+        const requestOptions = await this.listEnvironmentsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnvironmentResponseFromJSON));
     }
@@ -7421,9 +11921,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List users in a group.
+     * Creates request options for listGroupUsers without sending the request
      */
-    async listGroupUsersRaw(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserProfileResponse>>> {
+    async listGroupUsersRequestOpts(requestParameters: ListGroupUsersRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7442,12 +11942,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/groups/{groupId}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"groupId"}}`, encodeURIComponent(String(requestParameters['groupId']))),
+
+        let urlPath = `/orgs/{orgId}/groups/{groupId}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{groupId}', encodeURIComponent(String(requestParameters['groupId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List users in a group.
+     */
+    async listGroupUsersRaw(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserProfileResponse>>> {
+        const requestOptions = await this.listGroupUsersRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserProfileResponseFromJSON));
     }
@@ -7461,9 +11974,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all the public keys Humanitec shares with an organization.
+     * Creates request options for listHumanitecPublicKeys without sending the request
      */
-    async listHumanitecPublicKeysRaw(requestParameters: ListHumanitecPublicKeysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<HumanitecPublicKey>>> {
+    async listHumanitecPublicKeysRequestOpts(requestParameters: ListHumanitecPublicKeysRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7479,12 +11992,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/humanitec-keys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/humanitec-keys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all the public keys Humanitec shares with an organization.
+     */
+    async listHumanitecPublicKeysRaw(requestParameters: ListHumanitecPublicKeysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<HumanitecPublicKey>>> {
+        const requestOptions = await this.listHumanitecPublicKeysRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(HumanitecPublicKeyFromJSON));
     }
@@ -7498,9 +12023,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List the invites issued for the organization.
+     * Creates request options for listInvitesInOrg without sending the request
      */
-    async listInvitesInOrgRaw(requestParameters: ListInvitesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserInviteResponse>>> {
+    async listInvitesInOrgRequestOpts(requestParameters: ListInvitesInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7512,12 +12037,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/invitations`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/invitations`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List the invites issued for the organization.
+     */
+    async listInvitesInOrgRaw(requestParameters: ListInvitesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserInviteResponse>>> {
+        const requestOptions = await this.listInvitesInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserInviteResponseFromJSON));
     }
@@ -7531,9 +12068,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all the keys registered under an Agent in an Organization.
+     * Creates request options for listKeysInAgent without sending the request
      */
-    async listKeysInAgentRaw(requestParameters: ListKeysInAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Key>>> {
+    async listKeysInAgentRequestOpts(requestParameters: ListKeysInAgentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7552,12 +12089,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents/{agentId}/keys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"agentId"}}`, encodeURIComponent(String(requestParameters['agentId']))),
+
+        let urlPath = `/orgs/{orgId}/agents/{agentId}/keys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{agentId}', encodeURIComponent(String(requestParameters['agentId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all the keys registered under an Agent in an Organization.
+     */
+    async listKeysInAgentRaw(requestParameters: ListKeysInAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Key>>> {
+        const requestOptions = await this.listKeysInAgentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(KeyFromJSON));
     }
@@ -7571,19 +12121,30 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List active organizations the user has access to.
+     * Creates request options for listOrganizations without sending the request
      */
-    async listOrganizationsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OrganizationResponse>>> {
+    async listOrganizationsRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs`,
+
+        let urlPath = `/orgs`;
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List active organizations the user has access to.
+     */
+    async listOrganizationsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OrganizationResponse>>> {
+        const requestOptions = await this.listOrganizationsRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(OrganizationResponseFromJSON));
     }
@@ -7597,10 +12158,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List of the approval requests with in an app. 
-     * List of the approval requests
+     * Creates request options for listPipelineApprovalRequests without sending the request
      */
-    async listPipelineApprovalRequestsRaw(requestParameters: ListPipelineApprovalRequestsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineApprovalRequest>>> {
+    async listPipelineApprovalRequestsRequestOpts(requestParameters: ListPipelineApprovalRequestsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7639,12 +12199,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/approvals`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/approvals`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List of the approval requests with in an app. 
+     * List of the approval requests
+     */
+    async listPipelineApprovalRequestsRaw(requestParameters: ListPipelineApprovalRequestsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineApprovalRequest>>> {
+        const requestOptions = await this.listPipelineApprovalRequestsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineApprovalRequestFromJSON));
     }
@@ -7659,10 +12233,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs. 
-     * List the trigger matching criteria defined for Pipelines in this Application.
+     * Creates request options for listPipelineCriteriaInApp without sending the request
      */
-    async listPipelineCriteriaInAppRaw(requestParameters: ListPipelineCriteriaInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineCriteria>>> {
+    async listPipelineCriteriaInAppRequestOpts(requestParameters: ListPipelineCriteriaInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7684,7 +12257,9 @@ export class PublicApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['match'] != null) {
-            queryParameters['match'] = requestParameters['match'];
+            for (let key of Object.keys(requestParameters['match'])) {
+                queryParameters[key] = requestParameters['match'][key];
+            }
         }
 
         if (requestParameters['per_page'] != null) {
@@ -7697,29 +12272,43 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipeline-criteria`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipeline-criteria`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineCriteriaFromJSON));
+        };
     }
 
     /**
      * Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs. 
      * List the trigger matching criteria defined for Pipelines in this Application.
      */
-    async listPipelineCriteriaInApp(requestParameters: ListPipelineCriteriaInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PipelineCriteria>> {
+    async listPipelineCriteriaInAppRaw(requestParameters: ListPipelineCriteriaInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineDeploymentRequestCriteria>>> {
+        const requestOptions = await this.listPipelineCriteriaInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineDeploymentRequestCriteriaFromJSON));
+    }
+
+    /**
+     * Lists the trigger matching criteria defined for Pipelines in this Application. Trigger matching criteria link requests in an environment to the appropriate Pipeline based on the trigger and inputs. 
+     * List the trigger matching criteria defined for Pipelines in this Application.
+     */
+    async listPipelineCriteriaInApp(requestParameters: ListPipelineCriteriaInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<PipelineDeploymentRequestCriteria>> {
         const response = await this.listPipelineCriteriaInAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * List the details of the jobs within a pipeline run.
+     * Creates request options for listPipelineJobs without sending the request
      */
-    async listPipelineJobsRaw(requestParameters: ListPipelineJobsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineJobPartial>>> {
+    async listPipelineJobsRequestOpts(requestParameters: ListPipelineJobsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7764,12 +12353,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List the details of the jobs within a pipeline run.
+     */
+    async listPipelineJobsRaw(requestParameters: ListPipelineJobsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineJobPartial>>> {
+        const requestOptions = await this.listPipelineJobsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineJobPartialFromJSON));
     }
@@ -7783,9 +12387,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List runs within a pipeline ordered newest to oldest.
+     * Creates request options for listPipelineRuns without sending the request
      */
-    async listPipelineRunsRaw(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineRun>>> {
+    async listPipelineRunsRequestOpts(requestParameters: ListPipelineRunsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7822,11 +12426,11 @@ export class PublicApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['created_after'] != null) {
-            queryParameters['created_after'] = (requestParameters['created_after'] as any).toISOString();
+            queryParameters['created_after'] = runtime.serializeDateTime(requestParameters['created_after'] as any);
         }
 
         if (requestParameters['created_before'] != null) {
-            queryParameters['created_before'] = (requestParameters['created_before'] as any).toISOString();
+            queryParameters['created_before'] = runtime.serializeDateTime(requestParameters['created_before'] as any);
         }
 
         if (requestParameters['per_page'] != null) {
@@ -7839,12 +12443,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List runs within a pipeline ordered newest to oldest.
+     */
+    async listPipelineRunsRaw(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineRun>>> {
+        const requestOptions = await this.listPipelineRunsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineRunFromJSON));
     }
@@ -7858,9 +12476,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status.
+     * Creates request options for listPipelineRunsByOrg without sending the request
      */
-    async listPipelineRunsByOrgRaw(requestParameters: ListPipelineRunsByOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineRun>>> {
+    async listPipelineRunsByOrgRequestOpts(requestParameters: ListPipelineRunsByOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7891,11 +12509,11 @@ export class PublicApi extends runtime.BaseAPI {
         }
 
         if (requestParameters['created_after'] != null) {
-            queryParameters['created_after'] = (requestParameters['created_after'] as any).toISOString();
+            queryParameters['created_after'] = runtime.serializeDateTime(requestParameters['created_after'] as any);
         }
 
         if (requestParameters['created_before'] != null) {
-            queryParameters['created_before'] = (requestParameters['created_before'] as any).toISOString();
+            queryParameters['created_before'] = runtime.serializeDateTime(requestParameters['created_before'] as any);
         }
 
         if (requestParameters['per_page'] != null) {
@@ -7908,12 +12526,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/pipeline-runs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/pipeline-runs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all pipeline runs within the Org ordered newest to oldest. This can be filtered by app, pipeline, and status.
+     */
+    async listPipelineRunsByOrgRaw(requestParameters: ListPipelineRunsByOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineRun>>> {
+        const requestOptions = await this.listPipelineRunsByOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineRunFromJSON));
     }
@@ -7927,9 +12557,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a page of log output for a given step within a job.
+     * Creates request options for listPipelineStepLogs without sending the request
      */
-    async listPipelineStepLogsRaw(requestParameters: ListPipelineStepLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineStepLog>>> {
+    async listPipelineStepLogsRequestOpts(requestParameters: ListPipelineStepLogsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -7980,12 +12610,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/steps/{stepIndex}/logs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))).replace(`{${"stepIndex"}}`, encodeURIComponent(String(requestParameters['stepIndex']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/jobs/{jobId}/steps/{stepIndex}/logs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+        urlPath = urlPath.replace('{stepIndex}', encodeURIComponent(String(requestParameters['stepIndex'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a page of log output for a given step within a job.
+     */
+    async listPipelineStepLogsRaw(requestParameters: ListPipelineStepLogsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineStepLog>>> {
+        const requestOptions = await this.listPipelineStepLogsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineStepLogFromJSON));
     }
@@ -7999,9 +12646,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all versions of the pipeline
+     * Creates request options for listPipelineVersions without sending the request
      */
-    async listPipelineVersionsRaw(requestParameters: ListPipelineVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineVersion>>> {
+    async listPipelineVersionsRequestOpts(requestParameters: ListPipelineVersionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8035,12 +12682,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all versions of the pipeline
+     */
+    async listPipelineVersionsRaw(requestParameters: ListPipelineVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PipelineVersion>>> {
+        const requestOptions = await this.listPipelineVersionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineVersionFromJSON));
     }
@@ -8054,9 +12715,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Pipelines within an Application.
+     * Creates request options for listPipelines without sending the request
      */
-    async listPipelinesRaw(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pipeline>>> {
+    async listPipelinesRequestOpts(requestParameters: ListPipelinesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8091,12 +12752,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Pipelines within an Application.
+     */
+    async listPipelinesRaw(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pipeline>>> {
+        const requestOptions = await this.listPipelinesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineFromJSON));
     }
@@ -8110,9 +12784,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all Pipelines within an Organization. This can be filtered by Application.
+     * Creates request options for listPipelinesInOrg without sending the request
      */
-    async listPipelinesInOrgRaw(requestParameters: ListPipelinesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pipeline>>> {
+    async listPipelinesInOrgRequestOpts(requestParameters: ListPipelinesInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8144,12 +12818,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/pipelines`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/pipelines`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all Pipelines within an Organization. This can be filtered by Application.
+     */
+    async listPipelinesInOrgRaw(requestParameters: ListPipelinesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pipeline>>> {
+        const requestOptions = await this.listPipelinesInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PipelineFromJSON));
     }
@@ -8163,9 +12849,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List all public keys associated to an organization.
+     * Creates request options for listPublicKeys without sending the request
      */
-    async listPublicKeysRaw(requestParameters: ListPublicKeysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PublicKey>>> {
+    async listPublicKeysRequestOpts(requestParameters: ListPublicKeysRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8181,12 +12867,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/keys`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/keys`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List all public keys associated to an organization.
+     */
+    async listPublicKeysRaw(requestParameters: ListPublicKeysRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<PublicKey>>> {
+        const requestOptions = await this.listPublicKeysRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PublicKeyFromJSON));
     }
@@ -8200,9 +12898,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Resource Account Types available to the organization.
+     * Creates request options for listResourceAccountTypes without sending the request
      */
-    async listResourceAccountTypesRaw(requestParameters: ListResourceAccountTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AccountTypeResponse>>> {
+    async listResourceAccountTypesRequestOpts(requestParameters: ListResourceAccountTypesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8214,12 +12912,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/account-types`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/account-types`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Resource Account Types available to the organization.
+     */
+    async listResourceAccountTypesRaw(requestParameters: ListResourceAccountTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<AccountTypeResponse>>> {
+        const requestOptions = await this.listResourceAccountTypesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(AccountTypeResponseFromJSON));
     }
@@ -8233,9 +12943,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Resource Accounts in the organization.
+     * Creates request options for listResourceAccounts without sending the request
      */
-    async listResourceAccountsRaw(requestParameters: ListResourceAccountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceAccountResponse>>> {
+    async listResourceAccountsRequestOpts(requestParameters: ListResourceAccountsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8247,12 +12957,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Resource Accounts in the organization.
+     */
+    async listResourceAccountsRaw(requestParameters: ListResourceAccountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceAccountResponse>>> {
+        const requestOptions = await this.listResourceAccountsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceAccountResponseFromJSON));
     }
@@ -8266,9 +12988,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List resource classes.
+     * Creates request options for listResourceClasses without sending the request
      */
-    async listResourceClassesRaw(requestParameters: ListResourceClassesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceClassResponse>>> {
+    async listResourceClassesRequestOpts(requestParameters: ListResourceClassesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8280,12 +13002,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/classes`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/classes`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List resource classes.
+     */
+    async listResourceClassesRaw(requestParameters: ListResourceClassesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceClassResponse>>> {
+        const requestOptions = await this.listResourceClassesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceClassResponseFromJSON));
     }
@@ -8299,10 +13033,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * First 50 Versions are kept along with all the Versions referenced by an Active Resource.   To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used.
-     * Get Versions of a Resource Definition.
+     * Creates request options for listResourceDefinitionVersions without sending the request
      */
-    async listResourceDefinitionVersionsRaw(requestParameters: ListResourceDefinitionVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceDefinitionVersion>>> {
+    async listResourceDefinitionVersionsRequestOpts(requestParameters: ListResourceDefinitionVersionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8333,12 +13066,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * First 50 Versions are kept along with all the Versions referenced by an Active Resource.   To obtain Versions of a deleted Resource Definition, the `deleted` parameter needs to be used.
+     * Get Versions of a Resource Definition.
+     */
+    async listResourceDefinitionVersionsRaw(requestParameters: ListResourceDefinitionVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceDefinitionVersion>>> {
+        const requestOptions = await this.listResourceDefinitionVersionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceDefinitionVersionFromJSON));
     }
@@ -8353,10 +13100,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank. Resources marked as deleted are not listed in the response, unless specified via `deleted` query parameter.
-     * List Resource Definitions.
+     * Creates request options for listResourceDefinitions without sending the request
      */
-    async listResourceDefinitionsRaw(requestParameters: ListResourceDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceDefinitionResponse>>> {
+    async listResourceDefinitionsRequestOpts(requestParameters: ListResourceDefinitionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8396,12 +13142,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Filter criteria can be applied to obtain all the resource definitions that could match the filters, grouped by type and sorted by matching rank. Resources marked as deleted are not listed in the response, unless specified via `deleted` query parameter.
+     * List Resource Definitions.
+     */
+    async listResourceDefinitionsRaw(requestParameters: ListResourceDefinitionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceDefinitionResponse>>> {
+        const requestOptions = await this.listResourceDefinitionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceDefinitionResponseFromJSON));
     }
@@ -8416,9 +13175,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Resource Drivers.
+     * Creates request options for listResourceDrivers without sending the request
      */
-    async listResourceDriversRaw(requestParameters: ListResourceDriversRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DriverDefinitionResponse>>> {
+    async listResourceDriversRequestOpts(requestParameters: ListResourceDriversRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8430,12 +13189,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/drivers`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/drivers`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Resource Drivers.
+     */
+    async listResourceDriversRaw(requestParameters: ListResourceDriversRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DriverDefinitionResponse>>> {
+        const requestOptions = await this.listResourceDriversRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DriverDefinitionResponseFromJSON));
     }
@@ -8449,9 +13220,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Resource Types.
+     * Creates request options for listResourceTypes without sending the request
      */
-    async listResourceTypesRaw(requestParameters: ListResourceTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceTypeResponse>>> {
+    async listResourceTypesRequestOpts(requestParameters: ListResourceTypesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8463,12 +13234,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Resource Types.
+     */
+    async listResourceTypesRaw(requestParameters: ListResourceTypesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ResourceTypeResponse>>> {
+        const requestOptions = await this.listResourceTypesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ResourceTypeResponseFromJSON));
     }
@@ -8482,9 +13265,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get Runtime information about specific multiple environments.
+     * Creates request options for listRuntime without sending the request
      */
-    async listRuntimeRaw(requestParameters: ListRuntimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentRuntimeInfoResponse>>> {
+    async listRuntimeRequestOpts(requestParameters: ListRuntimeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8507,12 +13290,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/runtime`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/runtime`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get Runtime information about specific multiple environments.
+     */
+    async listRuntimeRaw(requestParameters: ListRuntimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EnvironmentRuntimeInfoResponse>>> {
+        const requestOptions = await this.listRuntimeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EnvironmentRuntimeInfoResponseFromJSON));
     }
@@ -8526,9 +13322,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get all Deployment Sets
+     * Creates request options for listSets without sending the request
      */
-    async listSetsRaw(requestParameters: ListSetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SetResponse>>> {
+    async listSetsRequestOpts(requestParameters: ListSetsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8547,12 +13343,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/sets`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/sets`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get all Deployment Sets
+     */
+    async listSetsRaw(requestParameters: ListSetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SetResponse>>> {
+        const requestOptions = await this.listSetsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SetResponseFromJSON));
     }
@@ -8566,9 +13375,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the groups in an organization a user belongs to.
+     * Creates request options for listUserGroupsInOrg without sending the request
      */
-    async listUserGroupsInOrgRaw(requestParameters: ListUserGroupsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Group>>> {
+    async listUserGroupsInOrgRequestOpts(requestParameters: ListUserGroupsInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8587,12 +13396,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users/{userId}/groups`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/users/{userId}/groups`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the groups in an organization a user belongs to.
+     */
+    async listUserGroupsInOrgRaw(requestParameters: ListUserGroupsInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Group>>> {
+        const requestOptions = await this.listUserGroupsInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GroupFromJSON));
     }
@@ -8606,9 +13428,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Users or Groups with roles in an App
+     * Creates request options for listUserRolesInApp without sending the request
      */
-    async listUserRolesInAppRaw(requestParameters: ListUserRolesInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+    async listUserRolesInAppRequestOpts(requestParameters: ListUserRolesInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8631,12 +13453,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Users or Groups with roles in an App
+     */
+    async listUserRolesInAppRaw(requestParameters: ListUserRolesInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+        const requestOptions = await this.listUserRolesInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserRoleResponseFromJSON));
     }
@@ -8650,9 +13485,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Users and Groups with roles in an Environment Type
+     * Creates request options for listUserRolesInEnvType without sending the request
      */
-    async listUserRolesInEnvTypeRaw(requestParameters: ListUserRolesInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+    async listUserRolesInEnvTypeRequestOpts(requestParameters: ListUserRolesInEnvTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8675,12 +13510,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envType}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envType"}}`, encodeURIComponent(String(requestParameters['envType']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envType}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envType}', encodeURIComponent(String(requestParameters['envType'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Users and Groups with roles in an Environment Type
+     */
+    async listUserRolesInEnvTypeRaw(requestParameters: ListUserRolesInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+        const requestOptions = await this.listUserRolesInEnvTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserRoleResponseFromJSON));
     }
@@ -8694,9 +13542,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Users and Groups with roles in an Organization
+     * Creates request options for listUserRolesInOrg without sending the request
      */
-    async listUserRolesInOrgRaw(requestParameters: ListUserRolesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+    async listUserRolesInOrgRequestOpts(requestParameters: ListUserRolesInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8712,12 +13560,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/users`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Users and Groups with roles in an Organization
+     */
+    async listUserRolesInOrgRaw(requestParameters: ListUserRolesInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserRoleResponse>>> {
+        const requestOptions = await this.listUserRolesInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserRoleResponseFromJSON));
     }
@@ -8731,9 +13591,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lists tokens associated with a user
+     * Creates request options for listUserTokens without sending the request
      */
-    async listUserTokensRaw(requestParameters: ListUserTokensRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TokenInfoResponse>>> {
+    async listUserTokensRequestOpts(requestParameters: ListUserTokensRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['userId'] == null) {
             throw new runtime.RequiredError(
                 'userId',
@@ -8745,12 +13605,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/users/{userId}/tokens`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/users/{userId}/tokens`;
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Lists tokens associated with a user
+     */
+    async listUserTokensRaw(requestParameters: ListUserTokensRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<TokenInfoResponse>>> {
+        const requestOptions = await this.listUserTokensRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(TokenInfoResponseFromJSON));
     }
@@ -8764,10 +13636,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns all Workload Profile Chart Versions for the given organization.
-     * Workload Profile Chart Versions for the given organization.
+     * Creates request options for listWorkloadProfileChartVersions without sending the request
      */
-    async listWorkloadProfileChartVersionsRaw(requestParameters: ListWorkloadProfileChartVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileChartVersionResponse>>> {
+    async listWorkloadProfileChartVersionsRequestOpts(requestParameters: ListWorkloadProfileChartVersionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8795,12 +13666,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profile-chart-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profile-chart-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns all Workload Profile Chart Versions for the given organization.
+     * Workload Profile Chart Versions for the given organization.
+     */
+    async listWorkloadProfileChartVersionsRaw(requestParameters: ListWorkloadProfileChartVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileChartVersionResponse>>> {
+        const requestOptions = await this.listWorkloadProfileChartVersionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WorkloadProfileChartVersionResponseFromJSON));
     }
@@ -8815,9 +13699,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List workload profile features available to the organization.
+     * Creates request options for listWorkloadProfileFeatures without sending the request
      */
-    async listWorkloadProfileFeaturesRaw(requestParameters: ListWorkloadProfileFeaturesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileFeatureResponse>>> {
+    async listWorkloadProfileFeaturesRequestOpts(requestParameters: ListWorkloadProfileFeaturesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8829,12 +13713,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profile-features`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profile-features`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List workload profile features available to the organization.
+     */
+    async listWorkloadProfileFeaturesRaw(requestParameters: ListWorkloadProfileFeaturesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileFeatureResponse>>> {
+        const requestOptions = await this.listWorkloadProfileFeaturesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WorkloadProfileFeatureResponseFromJSON));
     }
@@ -8848,9 +13744,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List versions of the given workload profile.
+     * Creates request options for listWorkloadProfileVersions without sending the request
      */
-    async listWorkloadProfileVersionsRaw(requestParameters: ListWorkloadProfileVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileVersionResponse>>> {
+    async listWorkloadProfileVersionsRequestOpts(requestParameters: ListWorkloadProfileVersionsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8877,12 +13773,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles/{profileQid}/versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"profileQid"}}`, encodeURIComponent(String(requestParameters['profileQid']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles/{profileQid}/versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{profileQid}', encodeURIComponent(String(requestParameters['profileQid'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List versions of the given workload profile.
+     */
+    async listWorkloadProfileVersionsRaw(requestParameters: ListWorkloadProfileVersionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileVersionResponse>>> {
+        const requestOptions = await this.listWorkloadProfileVersionsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WorkloadProfileVersionResponseFromJSON));
     }
@@ -8896,9 +13805,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List workload profiles available to the organization.
+     * Creates request options for listWorkloadProfiles without sending the request
      */
-    async listWorkloadProfilesRaw(requestParameters: ListWorkloadProfilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileResponse>>> {
+    async listWorkloadProfilesRequestOpts(requestParameters: ListWorkloadProfilesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -8922,12 +13831,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List workload profiles available to the organization.
+     */
+    async listWorkloadProfilesRaw(requestParameters: ListWorkloadProfilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WorkloadProfileResponse>>> {
+        const requestOptions = await this.listWorkloadProfilesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WorkloadProfileResponseFromJSON));
     }
@@ -8941,9 +13862,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get container log entries for the environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdLogsGet without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdLogsGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OutputEntryResponse>>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9001,12 +13922,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/logs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/logs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get container log entries for the environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdLogsGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<OutputEntryResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdLogsGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(OutputEntryResponseFromJSON));
     }
@@ -9020,10 +13955,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint.
-     * List Value Set Versions in an Environment of an App
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGet without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueSetVersionResponse>>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9053,12 +13987,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * A new Value Set Version is created on every modification of a Value inside the an Environment of an App. In case this environment has no overrides the response is the same as the App level endpoint.
+     * List Value Set Versions in an Environment of an App
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueSetVersionResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ValueSetVersionResponseFromJSON));
     }
@@ -9073,9 +14022,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGet without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9108,12 +14057,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a single Value Set Version in an Environment of an App. The zero version id (00000000-0000-0000-0000-000000000000) will return the latest Value Set Version.
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -9127,10 +14091,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can\'t be restored and can\'t be used by deployments referencing a Value Set Version where the value was present.  Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge). 
-     * Purge the value of a specific Shared Value from the App Environment Version history.
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPost without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9179,13 +14142,30 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/purge/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/purge/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Purging permanently removes the value of a specific Shared Value in an application. A purged value is no longer accessible, can\'t be restored and can\'t be used by deployments referencing a Value Set Version where the value was present.  Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge). 
+     * Purge the value of a specific Shared Value from the App Environment Version history.
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -9199,10 +14179,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Restore the values of a single Shared Value in an Environment from a specific version.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
-     * Restore a specific key from the Value Set Version in an Environment of an App
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPost without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9251,13 +14230,30 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Restore the values of a single Shared Value in an Environment from a specific version.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
+     * Restore a specific key from the Value Set Version in an Environment of an App
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -9272,10 +14268,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
-     * Restore a Value Set Version in an Environment of an App
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePost without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9317,13 +14312,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/value-set-versions/{valueSetVersionId}/restore`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Restore the values of all Shared Values in an environment from a specific version. Keys not existing in the selected version are deleted.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
+     * Restore a Value Set Version in an Environment of an App
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValueSetVersionsValueSetVersionIdRestorePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -9338,10 +14349,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
-     * Delete all Shared Value for an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9367,12 +14377,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
+     * Delete all Shared Value for an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -9386,10 +14411,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The returned values will be the base Application values with the Environment overrides where applicable. The `source` field will specify the level from which the value is from.
-     * List Shared Values in an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesGet without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueResponse>>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9415,12 +14439,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The returned values will be the base Application values with the Environment overrides where applicable. The `source` field will specify the level from which the value is from.
+     * List Shared Values in an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesGetRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ValueResponseFromJSON));
     }
@@ -9435,10 +14474,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
-     * Delete Shared Value for an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9471,12 +14509,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
+     * Delete Shared Value for an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -9490,10 +14544,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
-     * Update Shared Value for an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatch without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9535,13 +14588,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ValuePatchPayloadRequestToJSON(requestParameters['ValuePatchPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+     * Update Shared Value for an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -9556,10 +14625,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
-     * Update Shared Value for an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPut without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9601,13 +14669,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: ValueEditPayloadRequestToJSON(requestParameters['ValueEditPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+     * Update Shared Value for an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesKeyPutRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -9622,10 +14706,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The Shared Value created will only be available to the specific Environment.  If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.
-     * Create a Shared Value for an Environment
+     * Creates request options for orgsOrgIdAppsAppIdEnvsEnvIdValuesPost without sending the request
      */
-    async orgsOrgIdAppsAppIdEnvsEnvIdValuesPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9660,13 +14743,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueCreatePayloadRequestToJSON(requestParameters['ValueCreatePayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The Shared Value created will only be available to the specific Environment.  If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.
+     * Create a Shared Value for an Environment
+     */
+    async orgsOrgIdAppsAppIdEnvsEnvIdValuesPostRaw(requestParameters: OrgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdEnvsEnvIdValuesPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -9681,9 +14779,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes all Jobs for the Application
+     * Creates request options for orgsOrgIdAppsAppIdJobsDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdJobsDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdJobsDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdJobsDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdJobsDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9702,12 +14800,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/jobs`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/jobs`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes all Jobs for the Application
+     */
+    async orgsOrgIdAppsAppIdJobsDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdJobsDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdJobsDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -9720,10 +14831,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * A new Value Set Version is created on every modification of a Value inside the app.
-     * List Value Set Versions in the App
+     * Creates request options for orgsOrgIdAppsAppIdValueSetVersionsGet without sending the request
      */
-    async orgsOrgIdAppsAppIdValueSetVersionsGetRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueSetVersionResponse>>> {
+    async orgsOrgIdAppsAppIdValueSetVersionsGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9746,12 +14856,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/value-set-versions`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/value-set-versions`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * A new Value Set Version is created on every modification of a Value inside the app.
+     * List Value Set Versions in the App
+     */
+    async orgsOrgIdAppsAppIdValueSetVersionsGetRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueSetVersionResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValueSetVersionsGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ValueSetVersionResponseFromJSON));
     }
@@ -9766,9 +14890,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a single Value Set Version from the App
+     * Creates request options for orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGet without sending the request
      */
-    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9794,12 +14918,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a single Value Set Version from the App
+     */
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -9813,10 +14951,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can\'t be restored and can\'t be used by deployments referencing a Value Set Version where the value was present.  Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge). 
-     * Purge the value of a specific Shared Value from the App Version history.
+     * Creates request options for orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPost without sending the request
      */
-    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9858,13 +14995,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/purge/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/purge/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Purging permanently removes the value of a specific Shared Value in an Application. A purged value is no longer accessible, can\'t be restored and can\'t be used by deployments referencing a Value Set Version where the value was present.  Learn more about purging in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#purge). 
+     * Purge the value of a specific Shared Value from the App Version history.
+     */
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdPurgeKeyPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -9878,10 +15031,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Restore the values of a single Shared Value in an application from a specific version.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
-     * Restore a specific key from the Value Set Version in an App
+     * Creates request options for orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPost without sending the request
      */
-    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9923,13 +15075,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Restore the values of a single Shared Value in an application from a specific version.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
+     * Restore a specific key from the Value Set Version in an App
+     */
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestoreKeyPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -9944,10 +15112,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
-     * Restore a Value Set Version in an App
+     * Creates request options for orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePost without sending the request
      */
-    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -9982,13 +15149,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"valueSetVersionId"}}`, encodeURIComponent(String(requestParameters['valueSetVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/value-set-versions/{valueSetVersionId}/restore`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{valueSetVersionId}', encodeURIComponent(String(requestParameters['valueSetVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueSetActionPayloadRequestToJSON(requestParameters['ValueSetActionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Restore the values of all Shared Values in an application from a specific version. Keys not existing in the selected version are deleted.  Learn more about reverting in our [docs](https://docs.humanitec.com/reference/concepts/app-config/shared-app-values#revert). 
+     * Restore a Value Set Version in an App
+     */
+    async orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRaw(requestParameters: OrgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueSetVersionResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValueSetVersionsValueSetVersionIdRestorePostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueSetVersionResponseFromJSON(jsonValue));
     }
@@ -10003,10 +15185,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
-     * Delete all Shared Value for an App
+     * Creates request options for orgsOrgIdAppsAppIdValuesDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdValuesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdValuesDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10025,12 +15206,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * All Shared Values will be deleted. If the Shared Values are marked as a secret, they will also be deleted.
+     * Delete all Shared Value for an App
+     */
+    async orgsOrgIdAppsAppIdValuesDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdValuesDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -10044,10 +15239,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The returned values will be the \"base\" values for the Application. The overridden value for the Environment can be retrieved via the `/orgs/{orgId}/apps/{appId}/envs/{envId}/values` endpoint.
-     * List Shared Values in an Application
+     * Creates request options for orgsOrgIdAppsAppIdValuesGet without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesGetRaw(requestParameters: OrgsOrgIdAppsAppIdValuesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueResponse>>> {
+    async orgsOrgIdAppsAppIdValuesGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10066,12 +15260,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The returned values will be the \"base\" values for the Application. The overridden value for the Environment can be retrieved via the `/orgs/{orgId}/apps/{appId}/envs/{envId}/values` endpoint.
+     * List Shared Values in an Application
+     */
+    async orgsOrgIdAppsAppIdValuesGetRaw(requestParameters: OrgsOrgIdAppsAppIdValuesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ValueResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ValueResponseFromJSON));
     }
@@ -10086,10 +15294,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
-     * Delete Shared Value for an Application
+     * Creates request options for orgsOrgIdAppsAppIdValuesKeyDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesKeyDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdValuesKeyDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesKeyDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10115,12 +15322,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The specified Shared Value will be permanently deleted. If the Shared Value is marked as a secret, it will also be permanently deleted.
+     * Delete Shared Value for an Application
+     */
+    async orgsOrgIdAppsAppIdValuesKeyDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesKeyDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -10134,10 +15356,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
-     * Update Shared Value for an Application
+     * Creates request options for orgsOrgIdAppsAppIdValuesKeyPatch without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesKeyPatchRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdValuesKeyPatchRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10172,13 +15393,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ValuePatchPayloadRequestToJSON(requestParameters['ValuePatchPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+     * Update Shared Value for an Application
+     */
+    async orgsOrgIdAppsAppIdValuesKeyPatchRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesKeyPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -10193,10 +15429,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
-     * Update Shared Value for an Application
+     * Creates request options for orgsOrgIdAppsAppIdValuesKeyPut without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesKeyPutRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdValuesKeyPutRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPutRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10231,13 +15466,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values/{key}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"key"}}`, encodeURIComponent(String(requestParameters['key']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values/{key}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{key}', encodeURIComponent(String(requestParameters['key'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: ValueEditPayloadRequestToJSON(requestParameters['ValueEditPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the value or description of the Shared Value. Shared Values marked as secret can also be updated.
+     * Update Shared Value for an Application
+     */
+    async orgsOrgIdAppsAppIdValuesKeyPutRaw(requestParameters: OrgsOrgIdAppsAppIdValuesKeyPutRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesKeyPutRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -10252,10 +15502,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * The Shared Value created will be available to all Environments in that Application.  If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.
-     * Create a Shared Value for an Application
+     * Creates request options for orgsOrgIdAppsAppIdValuesPost without sending the request
      */
-    async orgsOrgIdAppsAppIdValuesPostRaw(requestParameters: OrgsOrgIdAppsAppIdValuesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+    async orgsOrgIdAppsAppIdValuesPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdValuesPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10283,13 +15532,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/values`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/values`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ValueCreatePayloadRequestToJSON(requestParameters['ValueCreatePayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * The Shared Value created will be available to all Environments in that Application.  If a Value is marked as a secret, it will be securely stored. It will not be possible to retrieve the value again through the API. The value of the secret can however be updated.
+     * Create a Shared Value for an Application
+     */
+    async orgsOrgIdAppsAppIdValuesPostRaw(requestParameters: OrgsOrgIdAppsAppIdValuesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ValueResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdValuesPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ValueResponseFromJSON(jsonValue));
     }
@@ -10304,9 +15567,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Webhooks
+     * Creates request options for orgsOrgIdAppsAppIdWebhooksGet without sending the request
      */
-    async orgsOrgIdAppsAppIdWebhooksGetRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookResponse>>> {
+    async orgsOrgIdAppsAppIdWebhooksGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdWebhooksGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10325,12 +15588,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/webhooks`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/webhooks`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Webhooks
+     */
+    async orgsOrgIdAppsAppIdWebhooksGetRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WebhookResponse>>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdWebhooksGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WebhookResponseFromJSON));
     }
@@ -10344,9 +15620,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a Webhook
+     * Creates request options for orgsOrgIdAppsAppIdWebhooksJobIdDelete without sending the request
      */
-    async orgsOrgIdAppsAppIdWebhooksJobIdDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdAppsAppIdWebhooksJobIdDeleteRequestOpts(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10372,12 +15648,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a Webhook
+     */
+    async orgsOrgIdAppsAppIdWebhooksJobIdDeleteRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdWebhooksJobIdDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -10390,9 +15680,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a Webhook
+     * Creates request options for orgsOrgIdAppsAppIdWebhooksJobIdGet without sending the request
      */
-    async orgsOrgIdAppsAppIdWebhooksJobIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+    async orgsOrgIdAppsAppIdWebhooksJobIdGetRequestOpts(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10418,12 +15708,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a Webhook
+     */
+    async orgsOrgIdAppsAppIdWebhooksJobIdGetRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdWebhooksJobIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookResponseFromJSON(jsonValue));
     }
@@ -10437,9 +15741,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Webhook
+     * Creates request options for orgsOrgIdAppsAppIdWebhooksJobIdPatch without sending the request
      */
-    async orgsOrgIdAppsAppIdWebhooksJobIdPatchRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+    async orgsOrgIdAppsAppIdWebhooksJobIdPatchRequestOpts(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdPatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10474,13 +15778,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"jobId"}}`, encodeURIComponent(String(requestParameters['jobId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/webhooks/{jobId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{jobId}', encodeURIComponent(String(requestParameters['jobId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: WebhookUpdateRequestToJSON(requestParameters['WebhookUpdateRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Webhook
+     */
+    async orgsOrgIdAppsAppIdWebhooksJobIdPatchRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksJobIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdWebhooksJobIdPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookResponseFromJSON(jsonValue));
     }
@@ -10494,9 +15812,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a new Webhook
+     * Creates request options for orgsOrgIdAppsAppIdWebhooksPost without sending the request
      */
-    async orgsOrgIdAppsAppIdWebhooksPostRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+    async orgsOrgIdAppsAppIdWebhooksPostRequestOpts(requestParameters: OrgsOrgIdAppsAppIdWebhooksPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10524,13 +15842,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/webhooks`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/webhooks`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: WebhookCreateRequestToJSON(requestParameters['WebhookCreateRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a new Webhook
+     */
+    async orgsOrgIdAppsAppIdWebhooksPostRaw(requestParameters: OrgsOrgIdAppsAppIdWebhooksPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WebhookResponse>> {
+        const requestOptions = await this.orgsOrgIdAppsAppIdWebhooksPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookResponseFromJSON(jsonValue));
     }
@@ -10544,9 +15875,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * List Events
+     * Creates request options for orgsOrgIdEventsGet without sending the request
      */
-    async orgsOrgIdEventsGetRaw(requestParameters: OrgsOrgIdEventsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EventResponse>>> {
+    async orgsOrgIdEventsGetRequestOpts(requestParameters: OrgsOrgIdEventsGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10558,12 +15889,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/events`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/events`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * List Events
+     */
+    async orgsOrgIdEventsGetRaw(requestParameters: OrgsOrgIdEventsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<EventResponse>>> {
+        const requestOptions = await this.orgsOrgIdEventsGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EventResponseFromJSON));
     }
@@ -10577,9 +15920,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lists available registries for the organization.
+     * Creates request options for orgsOrgIdRegistriesGet without sending the request
      */
-    async orgsOrgIdRegistriesGetRaw(requestParameters: OrgsOrgIdRegistriesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RegistryResponse>>> {
+    async orgsOrgIdRegistriesGetRequestOpts(requestParameters: OrgsOrgIdRegistriesGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10591,12 +15934,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/registries`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Lists available registries for the organization.
+     */
+    async orgsOrgIdRegistriesGetRaw(requestParameters: OrgsOrgIdRegistriesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<RegistryResponse>>> {
+        const requestOptions = await this.orgsOrgIdRegistriesGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(RegistryResponseFromJSON));
     }
@@ -10610,9 +15965,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new registry record.
+     * Creates request options for orgsOrgIdRegistriesPost without sending the request
      */
-    async orgsOrgIdRegistriesPostRaw(requestParameters: OrgsOrgIdRegistriesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+    async orgsOrgIdRegistriesPostRequestOpts(requestParameters: OrgsOrgIdRegistriesPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10633,13 +15988,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/registries`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: RegistryRequestToJSON(requestParameters['RegistryRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new registry record.
+     */
+    async orgsOrgIdRegistriesPostRaw(requestParameters: OrgsOrgIdRegistriesPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+        const requestOptions = await this.orgsOrgIdRegistriesPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RegistryResponseFromJSON(jsonValue));
     }
@@ -10653,9 +16020,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns current account credentials or secret details for the registry.
+     * Creates request options for orgsOrgIdRegistriesRegIdCredsGet without sending the request
      */
-    async orgsOrgIdRegistriesRegIdCredsGetRaw(requestParameters: OrgsOrgIdRegistriesRegIdCredsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryCredsResponse>> {
+    async orgsOrgIdRegistriesRegIdCredsGetRequestOpts(requestParameters: OrgsOrgIdRegistriesRegIdCredsGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10674,12 +16041,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries/{regId}/creds`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"regId"}}`, encodeURIComponent(String(requestParameters['regId']))),
+
+        let urlPath = `/orgs/{orgId}/registries/{regId}/creds`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{regId}', encodeURIComponent(String(requestParameters['regId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns current account credentials or secret details for the registry.
+     */
+    async orgsOrgIdRegistriesRegIdCredsGetRaw(requestParameters: OrgsOrgIdRegistriesRegIdCredsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryCredsResponse>> {
+        const requestOptions = await this.orgsOrgIdRegistriesRegIdCredsGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RegistryCredsResponseFromJSON(jsonValue));
     }
@@ -10693,10 +16073,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * _Deletions are currently irreversible._
-     * Deletes an existing registry record and all associated credentials and secrets.
+     * Creates request options for orgsOrgIdRegistriesRegIdDelete without sending the request
      */
-    async orgsOrgIdRegistriesRegIdDeleteRaw(requestParameters: OrgsOrgIdRegistriesRegIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdRegistriesRegIdDeleteRequestOpts(requestParameters: OrgsOrgIdRegistriesRegIdDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10715,12 +16094,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries/{regId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"regId"}}`, encodeURIComponent(String(requestParameters['regId']))),
+
+        let urlPath = `/orgs/{orgId}/registries/{regId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{regId}', encodeURIComponent(String(requestParameters['regId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * _Deletions are currently irreversible._
+     * Deletes an existing registry record and all associated credentials and secrets.
+     */
+    async orgsOrgIdRegistriesRegIdDeleteRaw(requestParameters: OrgsOrgIdRegistriesRegIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdRegistriesRegIdDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -10734,9 +16127,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Loads a registry record details.
+     * Creates request options for orgsOrgIdRegistriesRegIdGet without sending the request
      */
-    async orgsOrgIdRegistriesRegIdGetRaw(requestParameters: OrgsOrgIdRegistriesRegIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+    async orgsOrgIdRegistriesRegIdGetRequestOpts(requestParameters: OrgsOrgIdRegistriesRegIdGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10755,12 +16148,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries/{regId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"regId"}}`, encodeURIComponent(String(requestParameters['regId']))),
+
+        let urlPath = `/orgs/{orgId}/registries/{regId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{regId}', encodeURIComponent(String(requestParameters['regId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Loads a registry record details.
+     */
+    async orgsOrgIdRegistriesRegIdGetRaw(requestParameters: OrgsOrgIdRegistriesRegIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+        const requestOptions = await this.orgsOrgIdRegistriesRegIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RegistryResponseFromJSON(jsonValue));
     }
@@ -10774,9 +16180,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates (patches) an existing registry record.
+     * Creates request options for orgsOrgIdRegistriesRegIdPatch without sending the request
      */
-    async orgsOrgIdRegistriesRegIdPatchRaw(requestParameters: OrgsOrgIdRegistriesRegIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+    async orgsOrgIdRegistriesRegIdPatchRequestOpts(requestParameters: OrgsOrgIdRegistriesRegIdPatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10804,13 +16210,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/registries/{regId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"regId"}}`, encodeURIComponent(String(requestParameters['regId']))),
+
+        let urlPath = `/orgs/{orgId}/registries/{regId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{regId}', encodeURIComponent(String(requestParameters['regId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: RegistryRequestToJSON(requestParameters['RegistryRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates (patches) an existing registry record.
+     */
+    async orgsOrgIdRegistriesRegIdPatchRaw(requestParameters: OrgsOrgIdRegistriesRegIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RegistryResponse>> {
+        const requestOptions = await this.orgsOrgIdRegistriesRegIdPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RegistryResponseFromJSON(jsonValue));
     }
@@ -10824,9 +16243,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get list of Secret Stores for the given organization.
+     * Creates request options for orgsOrgIdSecretstoresGet without sending the request
      */
-    async orgsOrgIdSecretstoresGetRaw(requestParameters: OrgsOrgIdSecretstoresGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SecretStoreResponse>>> {
+    async orgsOrgIdSecretstoresGetRequestOpts(requestParameters: OrgsOrgIdSecretstoresGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10838,12 +16257,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/secretstores`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/secretstores`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get list of Secret Stores for the given organization.
+     */
+    async orgsOrgIdSecretstoresGetRaw(requestParameters: OrgsOrgIdSecretstoresGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<SecretStoreResponse>>> {
+        const requestOptions = await this.orgsOrgIdSecretstoresGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SecretStoreResponseFromJSON));
     }
@@ -10857,9 +16288,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a Secret Store for the given organization.
+     * Creates request options for orgsOrgIdSecretstoresPost without sending the request
      */
-    async orgsOrgIdSecretstoresPostRaw(requestParameters: OrgsOrgIdSecretstoresPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+    async orgsOrgIdSecretstoresPostRequestOpts(requestParameters: OrgsOrgIdSecretstoresPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10880,13 +16311,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/secretstores`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))),
+
+        let urlPath = `/orgs/{orgId}/secretstores`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CreateSecretStorePayloadRequestToJSON(requestParameters['CreateSecretStorePayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a Secret Store for the given organization.
+     */
+    async orgsOrgIdSecretstoresPostRaw(requestParameters: OrgsOrgIdSecretstoresPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+        const requestOptions = await this.orgsOrgIdSecretstoresPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SecretStoreResponseFromJSON(jsonValue));
     }
@@ -10900,9 +16343,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete the Secret Store.
+     * Creates request options for orgsOrgIdSecretstoresStoreIdDelete without sending the request
      */
-    async orgsOrgIdSecretstoresStoreIdDeleteRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async orgsOrgIdSecretstoresStoreIdDeleteRequestOpts(requestParameters: OrgsOrgIdSecretstoresStoreIdDeleteRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10921,12 +16364,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/secretstores/{storeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"storeId"}}`, encodeURIComponent(String(requestParameters['storeId']))),
+
+        let urlPath = `/orgs/{orgId}/secretstores/{storeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{storeId}', encodeURIComponent(String(requestParameters['storeId'])));
+
+        return {
+            path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete the Secret Store.
+     */
+    async orgsOrgIdSecretstoresStoreIdDeleteRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.orgsOrgIdSecretstoresStoreIdDeleteRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -10939,9 +16395,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the Secret Store.
+     * Creates request options for orgsOrgIdSecretstoresStoreIdGet without sending the request
      */
-    async orgsOrgIdSecretstoresStoreIdGetRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+    async orgsOrgIdSecretstoresStoreIdGetRequestOpts(requestParameters: OrgsOrgIdSecretstoresStoreIdGetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -10960,12 +16416,25 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/secretstores/{storeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"storeId"}}`, encodeURIComponent(String(requestParameters['storeId']))),
+
+        let urlPath = `/orgs/{orgId}/secretstores/{storeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{storeId}', encodeURIComponent(String(requestParameters['storeId'])));
+
+        return {
+            path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the Secret Store.
+     */
+    async orgsOrgIdSecretstoresStoreIdGetRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+        const requestOptions = await this.orgsOrgIdSecretstoresStoreIdGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SecretStoreResponseFromJSON(jsonValue));
     }
@@ -10979,9 +16448,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the Secret Store.
+     * Creates request options for orgsOrgIdSecretstoresStoreIdPatch without sending the request
      */
-    async orgsOrgIdSecretstoresStoreIdPatchRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+    async orgsOrgIdSecretstoresStoreIdPatchRequestOpts(requestParameters: OrgsOrgIdSecretstoresStoreIdPatchRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11009,13 +16478,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/secretstores/{storeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"storeId"}}`, encodeURIComponent(String(requestParameters['storeId']))),
+
+        let urlPath = `/orgs/{orgId}/secretstores/{storeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{storeId}', encodeURIComponent(String(requestParameters['storeId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateSecretStorePayloadRequestToJSON(requestParameters['UpdateSecretStorePayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the Secret Store.
+     */
+    async orgsOrgIdSecretstoresStoreIdPatchRaw(requestParameters: OrgsOrgIdSecretstoresStoreIdPatchRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SecretStoreResponse>> {
+        const requestOptions = await this.orgsOrgIdSecretstoresStoreIdPatchRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SecretStoreResponseFromJSON(jsonValue));
     }
@@ -11029,9 +16511,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the description of an Agent.
+     * Creates request options for patchAgent without sending the request
      */
-    async patchAgentRaw(requestParameters: PatchAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Agent>> {
+    async patchAgentRequestOpts(requestParameters: PatchAgentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11059,13 +16541,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/agents/{agentId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"agentId"}}`, encodeURIComponent(String(requestParameters['agentId']))),
+
+        let urlPath = `/orgs/{orgId}/agents/{agentId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{agentId}', encodeURIComponent(String(requestParameters['agentId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: AgentPatchBodyToJSON(requestParameters['AgentPatchBody']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the description of an Agent.
+     */
+    async patchAgentRaw(requestParameters: PatchAgentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Agent>> {
+        const requestOptions = await this.patchAgentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AgentFromJSON(jsonValue));
     }
@@ -11079,10 +16574,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update metadata of an existing Application in the specified Organization.
-     * Update metadata of an existing Application
+     * Creates request options for patchApplication without sending the request
      */
-    async patchApplicationRaw(requestParameters: PatchApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+    async patchApplicationRequestOpts(requestParameters: PatchApplicationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11110,13 +16604,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ApplicationPatchPayloadToJSON(requestParameters['ApplicationPatchPayload']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update metadata of an existing Application in the specified Organization.
+     * Update metadata of an existing Application
+     */
+    async patchApplicationRaw(requestParameters: PatchApplicationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ApplicationResponse>> {
+        const requestOptions = await this.patchApplicationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ApplicationResponseFromJSON(jsonValue));
     }
@@ -11131,10 +16639,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the version of a specified Artefact registered with your organization\".
-     * Update Version of an Artefact.
+     * Creates request options for patchArtefactVersion without sending the request
      */
-    async patchArtefactVersionRaw(requestParameters: PatchArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+    async patchArtefactVersionRequestOpts(requestParameters: PatchArtefactVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11169,13 +16676,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/artefacts/{artefactId}/versions/{versionId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"artefactId"}}`, encodeURIComponent(String(requestParameters['artefactId']))).replace(`{${"versionId"}}`, encodeURIComponent(String(requestParameters['versionId']))),
+
+        let urlPath = `/orgs/{orgId}/artefacts/{artefactId}/versions/{versionId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{artefactId}', encodeURIComponent(String(requestParameters['artefactId'])));
+        urlPath = urlPath.replace('{versionId}', encodeURIComponent(String(requestParameters['versionId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateArtefactVersionPayloadRequestToJSON(requestParameters['UpdateArtefactVersionPayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the version of a specified Artefact registered with your organization\".
+     * Update Version of an Artefact.
+     */
+    async patchArtefactVersionRaw(requestParameters: PatchArtefactVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ArtefactVersion>> {
+        const requestOptions = await this.patchArtefactVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ArtefactVersionFromJSON(jsonValue));
     }
@@ -11190,9 +16712,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update an existing Delta
+     * Creates request options for patchDelta without sending the request
      */
-    async patchDeltaRaw(requestParameters: PatchDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeltaResponse>> {
+    async patchDeltaRequestOpts(requestParameters: PatchDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11227,13 +16749,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['DeltaRequest']!.map(DeltaRequestToJSON),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update an existing Delta
+     */
+    async patchDeltaRaw(requestParameters: PatchDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeltaResponse>> {
+        const requestOptions = await this.patchDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeltaResponseFromJSON(jsonValue));
     }
@@ -11247,9 +16783,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Set number of replicas for an environment\'s modules.
+     * Creates request options for patchReplicas without sending the request
      */
-    async patchReplicasRaw(requestParameters: PatchReplicasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async patchReplicasRequestOpts(requestParameters: PatchReplicasRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11284,13 +16820,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime/replicas`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime/replicas`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['request_body'],
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Set number of replicas for an environment\'s modules.
+     */
+    async patchReplicasRaw(requestParameters: PatchReplicasRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.patchReplicasRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -11303,9 +16853,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Account.
+     * Creates request options for patchResourceAccount without sending the request
      */
-    async patchResourceAccountRaw(requestParameters: PatchResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+    async patchResourceAccountRequestOpts(requestParameters: PatchResourceAccountRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11341,13 +16891,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/accounts/{accId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"accId"}}`, encodeURIComponent(String(requestParameters['accId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/accounts/{accId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{accId}', encodeURIComponent(String(requestParameters['accId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateResourceAccountRequestRequestToJSON(requestParameters['UpdateResourceAccountRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Account.
+     */
+    async patchResourceAccountRaw(requestParameters: PatchResourceAccountRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceAccountResponse>> {
+        const requestOptions = await this.patchResourceAccountRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceAccountResponseFromJSON(jsonValue));
     }
@@ -11368,9 +16931,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Definition.
+     * Creates request options for patchResourceDefinition without sending the request
      */
-    async patchResourceDefinitionRaw(requestParameters: PatchResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+    async patchResourceDefinitionRequestOpts(requestParameters: PatchResourceDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11398,13 +16961,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: PatchResourceDefinitionRequestRequestToJSON(requestParameters['PatchResourceDefinitionRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Definition.
+     */
+    async patchResourceDefinitionRaw(requestParameters: PatchResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+        const requestOptions = await this.patchResourceDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceDefinitionResponseFromJSON(jsonValue));
     }
@@ -11418,9 +16994,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Type.
+     * Creates request options for patchResourceType without sending the request
      */
-    async patchResourceTypeRaw(requestParameters: PatchResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+    async patchResourceTypeRequestOpts(requestParameters: PatchResourceTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11448,13 +17024,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: PatchResourceTypeRequestRequestToJSON(requestParameters['PatchResourceTypeRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Type.
+     */
+    async patchResourceTypeRaw(requestParameters: PatchResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+        const requestOptions = await this.patchResourceTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceTypeResponseFromJSON(jsonValue));
     }
@@ -11468,9 +17057,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Pin Active Resource to a target Resource Definition Version.
+     * Creates request options for pinActiveResource without sending the request
      */
-    async pinActiveResourceRaw(requestParameters: PinActiveResourceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ActiveResourceResponse>> {
+    async pinActiveResourceRequestOpts(requestParameters: PinActiveResourceRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11519,13 +17108,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}/actions/pin`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"type"}}`, encodeURIComponent(String(requestParameters['type']))).replace(`{${"resId"}}`, encodeURIComponent(String(requestParameters['resId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/{type}/{resId}/actions/pin`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{type}', encodeURIComponent(String(requestParameters['type'])));
+        urlPath = urlPath.replace('{resId}', encodeURIComponent(String(requestParameters['resId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ActiveResourceTargetDefinitionRequestToJSON(requestParameters['ActiveResourceTargetDefinitionRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Pin Active Resource to a target Resource Definition Version.
+     */
+    async pinActiveResourceRaw(requestParameters: PinActiveResourceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ActiveResourceResponse>> {
+        const requestOptions = await this.pinActiveResourceRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ActiveResourceResponseFromJSON(jsonValue));
     }
@@ -11539,9 +17144,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Promote the Resource Definition Version as active.
+     * Creates request options for promoteResourceDefinitionVersion without sending the request
      */
-    async promoteResourceDefinitionVersionRaw(requestParameters: PromoteResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async promoteResourceDefinitionVersionRequestOpts(requestParameters: PromoteResourceDefinitionVersionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11567,12 +17172,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/promote`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))).replace(`{${"defVersionId"}}`, encodeURIComponent(String(requestParameters['defVersionId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/versions/{defVersionId}/actions/promote`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+        urlPath = urlPath.replace('{defVersionId}', encodeURIComponent(String(requestParameters['defVersionId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Promote the Resource Definition Version as active.
+     */
+    async promoteResourceDefinitionVersionRaw(requestParameters: PromoteResourceDefinitionVersionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.promoteResourceDefinitionVersionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -11585,9 +17204,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update an existing Delta
+     * Creates request options for putDelta without sending the request
      */
-    async putDeltaRaw(requestParameters: PutDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async putDeltaRequestOpts(requestParameters: PutDeltaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11622,13 +17241,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"deltaId"}}`, encodeURIComponent(String(requestParameters['deltaId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/deltas/{deltaId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{deltaId}', encodeURIComponent(String(requestParameters['deltaId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: DeltaRequestToJSON(requestParameters['DeltaRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update an existing Delta
+     */
+    async putDeltaRaw(requestParameters: PutDeltaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.putDeltaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -11641,11 +17274,10 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * This endpoint is deprecated. Use `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs` instead.
-     * Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+     * Creates request options for queryResourceGraph without sending the request
      * @deprecated
      */
-    async queryResourceGraphRaw(requestParameters: QueryResourceGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<NodeBodyResponse>>> {
+    async queryResourceGraphRequestOpts(requestParameters: QueryResourceGraphRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11680,13 +17312,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graph`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graph`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['ResourceProvisionRequestRequest']!.map(ResourceProvisionRequestRequestToJSON),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * This endpoint is deprecated. Use `/orgs/{orgId}/apps/{appId}/envs/{envId}/resources/graphs` instead.
+     * Lists the resource objects that hold the information needed to provision the resources specified in the request and the resources they depend on.
+     * @deprecated
+     */
+    async queryResourceGraphRaw(requestParameters: QueryResourceGraphRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<NodeBodyResponse>>> {
+        const requestOptions = await this.queryResourceGraphRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(NodeBodyResponseFromJSON));
     }
@@ -11702,10 +17350,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Rebasing an Environment means that the next Deployment to the Environment will be based on the Deployment specified in the rebase rather than the last one in the Environment. The Deployment to rebase to can either be current or a previous Deployment. The Deployment can be from any Environment of the same Application.  _Running code will only be affected on the next Deployment to the Environment._  Common use cases for rebasing an Environment:  * _Rollback_: Rebasing to a previous Deployment in the current Environment and then Deploying without additional changes will execute a rollback to the previous Deployment state.  * _Clone_: Rebasing to the current Deployment in a different Environment and then deploying without additional changes will clone all of the configuration of the other Environment into the current one. (NOTE: External Resources will not be cloned in the process - the current External Resources of the Environment will remain unchanged and will be used by the deployed Application in the Environment.
-     * Rebase to a different Deployment.
+     * Creates request options for rebaseEnvironment without sending the request
      */
-    async rebaseEnvironmentRaw(requestParameters: RebaseEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async rebaseEnvironmentRequestOpts(requestParameters: RebaseEnvironmentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11740,13 +17387,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/from_deploy_id`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/from_deploy_id`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Rebasing an Environment means that the next Deployment to the Environment will be based on the Deployment specified in the rebase rather than the last one in the Environment. The Deployment to rebase to can either be current or a previous Deployment. The Deployment can be from any Environment of the same Application.  _Running code will only be affected on the next Deployment to the Environment._  Common use cases for rebasing an Environment:  * _Rollback_: Rebasing to a previous Deployment in the current Environment and then Deploying without additional changes will execute a rollback to the previous Deployment state.  * _Clone_: Rebasing to the current Deployment in a different Environment and then deploying without additional changes will clone all of the configuration of the other Environment into the current one. (NOTE: External Resources will not be cloned in the process - the current External Resources of the Environment will remain unchanged and will be used by the deployed Application in the Environment.
+     * Rebase to a different Deployment.
+     */
+    async rebaseEnvironmentRaw(requestParameters: RebaseEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.rebaseEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -11760,10 +17422,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Attempts to copy and restart the specified Run. The run must be in a completed state. 
-     * Restart a Run within an Pipeline by cloning it with the same trigger and inputs.
+     * Creates request options for restartPipelineRun without sending the request
      */
-    async restartPipelineRunRaw(requestParameters: RestartPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+    async restartPipelineRunRequestOpts(requestParameters: RestartPipelineRunRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11800,12 +17461,28 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['Idempotency-Key'] = String(requestParameters['Idempotency_Key']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/restart`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))).replace(`{${"runId"}}`, encodeURIComponent(String(requestParameters['runId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}/runs/{runId}/restart`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+        urlPath = urlPath.replace('{runId}', encodeURIComponent(String(requestParameters['runId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Attempts to copy and restart the specified Run. The run must be in a completed state. 
+     * Restart a Run within an Pipeline by cloning it with the same trigger and inputs.
+     */
+    async restartPipelineRunRaw(requestParameters: RestartPipelineRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PipelineRun>> {
+        const requestOptions = await this.restartPipelineRunRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunFromJSON(jsonValue));
     }
@@ -11820,10 +17497,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
-     * Update an existing Automation Rule for an Environment.
+     * Creates request options for updateAutomationRule without sending the request
      */
-    async updateAutomationRuleRaw(requestParameters: UpdateAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+    async updateAutomationRuleRequestOpts(requestParameters: UpdateAutomationRuleRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11865,13 +17541,29 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))).replace(`{${"ruleId"}}`, encodeURIComponent(String(requestParameters['ruleId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/rules/{ruleId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+        urlPath = urlPath.replace('{ruleId}', encodeURIComponent(String(requestParameters['ruleId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: AutomationRuleRequestToJSON(requestParameters['AutomationRuleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Items marked as deprecated are still supported (however not recommended) for use and are incompatible with properties of the latest api version. In particular an error is raised if  `images_filter` (deprecated) and `artefacts_filter` are used in the same payload. The same is true for `exclude_images_filter` (deprecated) and `exclude_artefacts_filter`. `match` and `update_to` are still supported but will trigger an error if combined with `match_ref`.
+     * Update an existing Automation Rule for an Environment.
+     */
+    async updateAutomationRuleRaw(requestParameters: UpdateAutomationRuleRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AutomationRuleResponse>> {
+        const requestOptions = await this.updateAutomationRuleRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AutomationRuleResponseFromJSON(jsonValue));
     }
@@ -11886,9 +17578,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the extended profile of the current user.
+     * Creates request options for updateCurrentUser without sending the request
      */
-    async updateCurrentUserRaw(requestParameters: UpdateCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileExtendedResponse>> {
+    async updateCurrentUserRequestOpts(requestParameters: UpdateCurrentUserRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['UserProfileExtendedRequest'] == null) {
             throw new runtime.RequiredError(
                 'UserProfileExtendedRequest',
@@ -11902,13 +17594,24 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/current-user`,
+
+        let urlPath = `/current-user`;
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UserProfileExtendedRequestToJSON(requestParameters['UserProfileExtendedRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates the extended profile of the current user.
+     */
+    async updateCurrentUserRaw(requestParameters: UpdateCurrentUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserProfileExtendedResponse>> {
+        const requestOptions = await this.updateCurrentUserRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserProfileExtendedResponseFromJSON(jsonValue));
     }
@@ -11922,10 +17625,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a specific Environment in an Application.
-     * Update a specific Environment.
+     * Creates request options for updateEnvironment without sending the request
      */
-    async updateEnvironmentRaw(requestParameters: UpdateEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+    async updateEnvironmentRequestOpts(requestParameters: UpdateEnvironmentRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -11953,13 +17655,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: EnvironmentBaseUpdateRequestToJSON(requestParameters['EnvironmentBaseUpdateRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a specific Environment in an Application.
+     * Update a specific Environment.
+     */
+    async updateEnvironmentRaw(requestParameters: UpdateEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentResponse>> {
+        const requestOptions = await this.updateEnvironmentRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentResponseFromJSON(jsonValue));
     }
@@ -11974,10 +17691,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates Environment Type.
-     * Updates Environment Type
+     * Creates request options for updateEnvironmentType without sending the request
      */
-    async updateEnvironmentTypeRaw(requestParameters: UpdateEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+    async updateEnvironmentTypeRequestOpts(requestParameters: UpdateEnvironmentTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12005,13 +17721,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envTypeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envTypeId"}}`, encodeURIComponent(String(requestParameters['envTypeId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envTypeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envTypeId}', encodeURIComponent(String(requestParameters['envTypeId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateEnvironmentTypePayloadRequestToJSON(requestParameters['UpdateEnvironmentTypePayloadRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates Environment Type.
+     * Updates Environment Type
+     */
+    async updateEnvironmentTypeRaw(requestParameters: UpdateEnvironmentTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentTypeResponse>> {
+        const requestOptions = await this.updateEnvironmentTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentTypeResponseFromJSON(jsonValue));
     }
@@ -12026,10 +17756,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas. On resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused. When an environment is paused, it is not possible to:```   - Deploy the environment within Humanitec.   - Scale the number of replicas running of any workload. ```
-     * Pause / Resume an environment.
+     * Creates request options for updatePaused without sending the request
      */
-    async updatePausedRaw(requestParameters: UpdatePausedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async updatePausedRequestOpts(requestParameters: UpdatePausedRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12064,13 +17793,28 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime/paused`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters['envId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/envs/{envId}/runtime/paused`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{envId}', encodeURIComponent(String(requestParameters['envId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * On pause requests, all the Kubernetes Deployment resources are scaled down to 0 replicas. On resume requests, all the Kubernetes Deployment resources are scaled up to the number of replicas running before the environment was paused. When an environment is paused, it is not possible to:```   - Deploy the environment within Humanitec.   - Scale the number of replicas running of any workload. ```
+     * Pause / Resume an environment.
+     */
+    async updatePausedRaw(requestParameters: UpdatePausedRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.updatePausedRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -12084,9 +17828,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * update a Pipeline within an Application.
+     * Creates request options for updatePipeline without sending the request
      */
-    async updatePipelineRaw(requestParameters: UpdatePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+    async updatePipelineRequestOpts(requestParameters: UpdatePipelineRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12129,13 +17873,27 @@ export class PublicApi extends runtime.BaseAPI {
             headerParameters['If-Match'] = String(requestParameters['If_Match']);
         }
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"pipelineId"}}`, encodeURIComponent(String(requestParameters['pipelineId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/pipelines/{pipelineId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{pipelineId}', encodeURIComponent(String(requestParameters['pipelineId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['body'] as any,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * update a Pipeline within an Application.
+     */
+    async updatePipelineRaw(requestParameters: UpdatePipelineRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pipeline>> {
+        const requestOptions = await this.updatePipelineRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PipelineFromJSON(jsonValue));
     }
@@ -12156,9 +17914,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a resource class description.
+     * Creates request options for updateResourceClass without sending the request
      */
-    async updateResourceClassRaw(requestParameters: UpdateResourceClassOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+    async updateResourceClassRequestOpts(requestParameters: UpdateResourceClassOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12193,13 +17951,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))).replace(`{${"classId"}}`, encodeURIComponent(String(requestParameters['classId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}/classes/{classId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+        urlPath = urlPath.replace('{classId}', encodeURIComponent(String(requestParameters['classId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateResourceClassRequestToJSON(requestParameters['UpdateResourceClassRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a resource class description.
+     */
+    async updateResourceClassRaw(requestParameters: UpdateResourceClassOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceClassResponse>> {
+        const requestOptions = await this.updateResourceClassRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceClassResponseFromJSON(jsonValue));
     }
@@ -12213,9 +17985,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Definition.
+     * Creates request options for updateResourceDefinition without sending the request
      */
-    async updateResourceDefinitionRaw(requestParameters: UpdateResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+    async updateResourceDefinitionRequestOpts(requestParameters: UpdateResourceDefinitionRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12243,13 +18015,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateResourceDefinitionRequestRequestToJSON(requestParameters['UpdateResourceDefinitionRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Definition.
+     */
+    async updateResourceDefinitionRaw(requestParameters: UpdateResourceDefinitionRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceDefinitionResponse>> {
+        const requestOptions = await this.updateResourceDefinitionRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceDefinitionResponseFromJSON(jsonValue));
     }
@@ -12263,10 +18048,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.  For example, given 3 sets of matching criteria for the same type:  ```  1. {\"env_type\":\"test\"}  2. {\"env_type\":\"development\"}  3. {\"env_type\":\"test\", \"app_id\":\"my-app\"} ```  If, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.
-     * Update all Matching Criteria of a Resource Definition.
+     * Creates request options for updateResourceDefinitionCriteria without sending the request
      */
-    async updateResourceDefinitionCriteriaRaw(requestParameters: UpdateResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MatchingCriteriaResponse>>> {
+    async updateResourceDefinitionCriteriaRequestOpts(requestParameters: UpdateResourceDefinitionCriteriaRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12294,13 +18078,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/defs/{defId}/criteria`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"defId"}}`, encodeURIComponent(String(requestParameters['defId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/defs/{defId}/criteria`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{defId}', encodeURIComponent(String(requestParameters['defId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters['MatchingCriteriaRuleRequest']!.map(MatchingCriteriaRuleRequestToJSON),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Matching Criteria are combined with Resource Type to select a specific definition. Matching Criteria can be set for any combination of Application ID, Environment ID, Environment Type, and Resource ID. In the event of multiple matches, the most specific match is chosen.  For example, given 3 sets of matching criteria for the same type:  ```  1. {\"env_type\":\"test\"}  2. {\"env_type\":\"development\"}  3. {\"env_type\":\"test\", \"app_id\":\"my-app\"} ```  If, a resource of that type was needed in an Application `my-app`, Environment `qa-team` with Type `test` and Resource ID `modules.my-module-externals.my-resource`, there would be two resource definitions matching the criteria: #1 & #3. Definition #3 will be chosen because its matching criteria is the most specific.
+     * Update all Matching Criteria of a Resource Definition.
+     */
+    async updateResourceDefinitionCriteriaRaw(requestParameters: UpdateResourceDefinitionCriteriaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<MatchingCriteriaResponse>>> {
+        const requestOptions = await this.updateResourceDefinitionCriteriaRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MatchingCriteriaResponseFromJSON));
     }
@@ -12315,9 +18113,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Driver.
+     * Creates request options for updateResourceDriver without sending the request
      */
-    async updateResourceDriverRaw(requestParameters: UpdateResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+    async updateResourceDriverRequestOpts(requestParameters: UpdateResourceDriverRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12345,13 +18143,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/drivers/{driverId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"driverId"}}`, encodeURIComponent(String(requestParameters['driverId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/drivers/{driverId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{driverId}', encodeURIComponent(String(requestParameters['driverId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateDriverRequestRequestToJSON(requestParameters['UpdateDriverRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Driver.
+     */
+    async updateResourceDriverRaw(requestParameters: UpdateResourceDriverRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DriverDefinitionResponse>> {
+        const requestOptions = await this.updateResourceDriverRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DriverDefinitionResponseFromJSON(jsonValue));
     }
@@ -12365,9 +18176,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Resource Type.
+     * Creates request options for updateResourceType without sending the request
      */
-    async updateResourceTypeRaw(requestParameters: UpdateResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+    async updateResourceTypeRequestOpts(requestParameters: UpdateResourceTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12395,13 +18206,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/resources/types/{typeId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"typeId"}}`, encodeURIComponent(String(requestParameters['typeId']))),
+
+        let urlPath = `/orgs/{orgId}/resources/types/{typeId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{typeId}', encodeURIComponent(String(requestParameters['typeId'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateResourceTypeRequestRequestToJSON(requestParameters['UpdateResourceTypeRequestRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Resource Type.
+     */
+    async updateResourceTypeRaw(requestParameters: UpdateResourceTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ResourceTypeResponse>> {
+        const requestOptions = await this.updateResourceTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ResourceTypeResponseFromJSON(jsonValue));
     }
@@ -12415,9 +18239,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Apply a Deployment Delta to a Deployment Set
+     * Creates request options for updateSet without sending the request
      */
-    async updateSetRaw(requestParameters: UpdateSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+    async updateSetRequestOpts(requestParameters: UpdateSetRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12452,13 +18276,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/sets/{setId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"setId"}}`, encodeURIComponent(String(requestParameters['setId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/sets/{setId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{setId}', encodeURIComponent(String(requestParameters['setId'])));
+
+        return {
+            path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: DeltaRequestToJSON(requestParameters['DeltaRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Apply a Deployment Delta to a Deployment Set
+     */
+    async updateSetRaw(requestParameters: UpdateSetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        const requestOptions = await this.updateSetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
             return new runtime.JSONApiResponse<string>(response);
@@ -12476,9 +18314,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the role of a User or a Group on an Application
+     * Creates request options for updateUserRoleInApp without sending the request
      */
-    async updateUserRoleInAppRaw(requestParameters: UpdateUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async updateUserRoleInAppRequestOpts(requestParameters: UpdateUserRoleInAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12513,13 +18351,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/apps/{appId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters['appId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/apps/{appId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{appId}', encodeURIComponent(String(requestParameters['appId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: RoleRequestToJSON(requestParameters['RoleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the role of a User or a Group on an Application
+     */
+    async updateUserRoleInAppRaw(requestParameters: UpdateUserRoleInAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.updateUserRoleInAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -12533,9 +18385,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the role of a User or a Group on an Environment Type
+     * Creates request options for updateUserRoleInEnvType without sending the request
      */
-    async updateUserRoleInEnvTypeRaw(requestParameters: UpdateUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async updateUserRoleInEnvTypeRequestOpts(requestParameters: UpdateUserRoleInEnvTypeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12570,13 +18422,27 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/env-types/{envType}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"envType"}}`, encodeURIComponent(String(requestParameters['envType']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/env-types/{envType}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{envType}', encodeURIComponent(String(requestParameters['envType'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: RoleRequestToJSON(requestParameters['RoleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the role of a User or a Group on an Environment Type
+     */
+    async updateUserRoleInEnvTypeRaw(requestParameters: UpdateUserRoleInEnvTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.updateUserRoleInEnvTypeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -12590,9 +18456,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update the role of a User or a Group on an Organization
+     * Creates request options for updateUserRoleInOrg without sending the request
      */
-    async updateUserRoleInOrgRaw(requestParameters: UpdateUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+    async updateUserRoleInOrgRequestOpts(requestParameters: UpdateUserRoleInOrgRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12620,13 +18486,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/users/{userId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters['userId']))),
+
+        let urlPath = `/orgs/{orgId}/users/{userId}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{userId}', encodeURIComponent(String(requestParameters['userId'])));
+
+        return {
+            path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: RoleRequestToJSON(requestParameters['RoleRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update the role of a User or a Group on an Organization
+     */
+    async updateUserRoleInOrgRaw(requestParameters: UpdateUserRoleInOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserRoleResponse>> {
+        const requestOptions = await this.updateUserRoleInOrgRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserRoleResponseFromJSON(jsonValue));
     }
@@ -12640,9 +18519,9 @@ export class PublicApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a Workload Profile
+     * Creates request options for updateWorkloadProfile without sending the request
      */
-    async updateWorkloadProfileRaw(requestParameters: UpdateWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+    async updateWorkloadProfileRequestOpts(requestParameters: UpdateWorkloadProfileRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['orgId'] == null) {
             throw new runtime.RequiredError(
                 'orgId',
@@ -12670,13 +18549,26 @@ export class PublicApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        const response = await this.request({
-            path: `/orgs/{orgId}/workload-profiles/{profileQid}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters['orgId']))).replace(`{${"profileQid"}}`, encodeURIComponent(String(requestParameters['profileQid']))),
+
+        let urlPath = `/orgs/{orgId}/workload-profiles/{profileQid}`;
+        urlPath = urlPath.replace('{orgId}', encodeURIComponent(String(requestParameters['orgId'])));
+        urlPath = urlPath.replace('{profileQid}', encodeURIComponent(String(requestParameters['profileQid'])));
+
+        return {
+            path: urlPath,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
             body: WorkloadProfileUpdateRequestToJSON(requestParameters['WorkloadProfileUpdateRequest']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a Workload Profile
+     */
+    async updateWorkloadProfileRaw(requestParameters: UpdateWorkloadProfileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<WorkloadProfileResponse>> {
+        const requestOptions = await this.updateWorkloadProfileRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WorkloadProfileResponseFromJSON(jsonValue));
     }

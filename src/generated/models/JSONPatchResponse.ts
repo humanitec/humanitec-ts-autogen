@@ -21,30 +21,24 @@ import { mapValues } from '../runtime.js';
 export interface JSONPatchResponse {
     /**
      * 
-     * @type {string}
-     * @memberof JSONPatchResponse
      */
     op: string;
     /**
      * 
-     * @type {string}
-     * @memberof JSONPatchResponse
      */
     path: string;
     /**
      * 
-     * @type {any}
-     * @memberof JSONPatchResponse
      */
-    value?: any;
+    value?: any | null;
 }
 
 /**
  * Check if a given object implements the JSONPatchResponse interface.
  */
-export function instanceOfJSONPatchResponse(value: object): boolean {
-    if (!('op' in value)) return false;
-    if (!('path' in value)) return false;
+export function instanceOfJSONPatchResponse(value: object): value is JSONPatchResponse {
+    if (!('op' in value) || value['op'] === undefined) return false;
+    if (!('path' in value) || value['path'] === undefined) return false;
     return true;
 }
 
@@ -60,14 +54,19 @@ export function JSONPatchResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'op': json['op'],
         'path': json['path'],
-        'value': json['value'] == null ? undefined : json['value'],
+        'value': json['value'] === undefined ? undefined : json['value'] === null ? null : json['value'],
     };
 }
 
-export function JSONPatchResponseToJSON(value?: JSONPatchResponse | null): any {
+export function JSONPatchResponseToJSON(json: any): JSONPatchResponse {
+    return JSONPatchResponseToJSONTyped(json, false);
+}
+
+export function JSONPatchResponseToJSONTyped(value?: JSONPatchResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'op': value['op'],

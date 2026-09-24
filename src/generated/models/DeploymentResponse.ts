@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { DeploymentPipelineReferenceResponse } from './DeploymentPipelineReferenceResponse.js';
 import {
     DeploymentPipelineReferenceResponseFromJSON,
     DeploymentPipelineReferenceResponseFromJSONTyped,
     DeploymentPipelineReferenceResponseToJSON,
+    DeploymentPipelineReferenceResponseToJSONTyped,
 } from './DeploymentPipelineReferenceResponse.js';
 
 /**
@@ -30,130 +31,94 @@ import {
 export interface DeploymentResponse {
     /**
      * An optional comment to help communicate the purpose of the Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     comment: string;
     /**
      * The Timestamp of when the Deployment was initiated.
-     * @type {Date}
-     * @memberof DeploymentResponse
      */
     created_at: Date;
     /**
      * The user who initiated the Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     created_by: string;
     /**
      * ID of the Deployment Delta describing the changes to the current Environment for this Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     delta_id?: string;
     /**
      * The Environment where the Deployment occurred.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     env_id: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     export_file: string;
     /**
      * The ID of the Dependency Graph which holds the sorted list of the resources provisioned with this deployment.
      * The referenced Graph does not include resources of type k8s-cluster and k8s-namespace (and logging in case of deployments executed in Operator mode).
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     dependency_graph_id?: string;
     /**
      * Defines if it's a Legacy Mode deployment, nil means either the mode is unknown or the deployment not yet finished.
-     * @type {boolean}
-     * @memberof DeploymentResponse
      */
     legacy_mode?: boolean;
     /**
      * The version of the Humanitec Operator that performed this Deployment. Only set in Operator Mode; nil if the version is unknown, could not be retrieved, or the Deployment has not yet finished.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     operator_version?: string;
     /**
      * The deployment mode. Either "full" or "incremental". "incremental" is only valid in direct (non-legacy) mode.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     mode?: string;
     /**
      * 
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     export_status: string;
     /**
      * The ID of the Deployment that this Deployment was based on.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     from_id: string;
     /**
      * The ID of the Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     id: string;
     /**
      * 
-     * @type {DeploymentPipelineReferenceResponse}
-     * @memberof DeploymentResponse
      */
     pipeline?: DeploymentPipelineReferenceResponse;
     /**
      * ID of the Deployment Set describing the state of the Environment after Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     set_id: string;
     /**
      * The current status of the Deployment. Can be `pending`, `in progress`, `succeeded`, or `failed`.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
     status: string;
     /**
      * The timestamp of the last `status` change. If `status` is `succeeded` or `failed` it it will indicate when the Deployment finished.
-     * @type {Date}
-     * @memberof DeploymentResponse
      */
     status_changed_at: Date;
     /**
      * ID of the Value Set Version describe the values to be used for this Deployment.
-     * @type {string}
-     * @memberof DeploymentResponse
      */
-    value_set_version_id?: string;
+    value_set_version_id?: string | null;
 }
 
 /**
  * Check if a given object implements the DeploymentResponse interface.
  */
-export function instanceOfDeploymentResponse(value: object): boolean {
-    if (!('comment' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('env_id' in value)) return false;
-    if (!('export_file' in value)) return false;
-    if (!('export_status' in value)) return false;
-    if (!('from_id' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('set_id' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('status_changed_at' in value)) return false;
+export function instanceOfDeploymentResponse(value: object): value is DeploymentResponse {
+    if (!('comment' in value) || value['comment'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('env_id' in value) || value['env_id'] === undefined) return false;
+    if (!('export_file' in value) || value['export_file'] === undefined) return false;
+    if (!('export_status' in value) || value['export_status'] === undefined) return false;
+    if (!('from_id' in value) || value['from_id'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('set_id' in value) || value['set_id'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_changed_at' in value) || value['status_changed_at'] === undefined) return false;
     return true;
 }
 
@@ -168,7 +133,7 @@ export function DeploymentResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'comment': json['comment'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'delta_id': json['delta_id'] == null ? undefined : json['delta_id'],
         'env_id': json['env_id'],
@@ -183,19 +148,24 @@ export function DeploymentResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         'pipeline': json['pipeline'] == null ? undefined : DeploymentPipelineReferenceResponseFromJSON(json['pipeline']),
         'set_id': json['set_id'],
         'status': json['status'],
-        'status_changed_at': (new Date(json['status_changed_at'])),
-        'value_set_version_id': json['value_set_version_id'] == null ? undefined : json['value_set_version_id'],
+        'status_changed_at': (json['status_changed_at'] == null ? json['status_changed_at'] : parseDateTime(json['status_changed_at'])),
+        'value_set_version_id': json['value_set_version_id'] === undefined ? undefined : json['value_set_version_id'] === null ? null : json['value_set_version_id'],
     };
 }
 
-export function DeploymentResponseToJSON(value?: DeploymentResponse | null): any {
+export function DeploymentResponseToJSON(json: any): DeploymentResponse {
+    return DeploymentResponseToJSONTyped(json, false);
+}
+
+export function DeploymentResponseToJSONTyped(value?: DeploymentResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'comment': value['comment'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'delta_id': value['delta_id'],
         'env_id': value['env_id'],
@@ -210,7 +180,7 @@ export function DeploymentResponseToJSON(value?: DeploymentResponse | null): any
         'pipeline': DeploymentPipelineReferenceResponseToJSON(value['pipeline']),
         'set_id': value['set_id'],
         'status': value['status'],
-        'status_changed_at': ((value['status_changed_at']).toISOString()),
+        'status_changed_at': value['status_changed_at'] == null ? value['status_changed_at'] : serializeDateTime(value['status_changed_at']),
         'value_set_version_id': value['value_set_version_id'],
     };
 }

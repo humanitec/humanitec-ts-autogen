@@ -21,44 +21,30 @@ import { mapValues } from '../runtime.js';
 export interface CreateDriverRequestRequest {
     /**
      * List of resources accounts types supported by the driver
-     * @type {Array<string>}
-     * @memberof CreateDriverRequestRequest
      */
     account_types: Array<string>;
     /**
      * The ID for this driver. Is used as `driver_type`.
-     * @type {string}
-     * @memberof CreateDriverRequestRequest
      */
     id: string;
     /**
      * A JSON Schema specifying the driver-specific input parameters.
-     * @type {{ [key: string]: any; }}
-     * @memberof CreateDriverRequestRequest
      */
     inputs_schema: { [key: string]: any; };
     /**
      * The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.
-     * @type {string}
-     * @memberof CreateDriverRequestRequest
      */
     target: string;
     /**
      * If the driver is a virtual driver, template defines a Go template that converts the driver inputs supplied in the resource definition into the driver inputs for the target driver.
-     * @type {any}
-     * @memberof CreateDriverRequestRequest
      */
-    template?: any;
+    template?: any | null;
     /**
      * The type of resource produced by this driver
-     * @type {string}
-     * @memberof CreateDriverRequestRequest
      */
     type: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof CreateDriverRequestRequest
      * @deprecated
      */
     is_public?: boolean;
@@ -67,12 +53,12 @@ export interface CreateDriverRequestRequest {
 /**
  * Check if a given object implements the CreateDriverRequestRequest interface.
  */
-export function instanceOfCreateDriverRequestRequest(value: object): boolean {
-    if (!('account_types' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('inputs_schema' in value)) return false;
-    if (!('target' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfCreateDriverRequestRequest(value: object): value is CreateDriverRequestRequest {
+    if (!('account_types' in value) || value['account_types'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('inputs_schema' in value) || value['inputs_schema'] === undefined) return false;
+    if (!('target' in value) || value['target'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -90,16 +76,21 @@ export function CreateDriverRequestRequestFromJSONTyped(json: any, ignoreDiscrim
         'id': json['id'],
         'inputs_schema': json['inputs_schema'],
         'target': json['target'],
-        'template': json['template'] == null ? undefined : json['template'],
+        'template': json['template'] === undefined ? undefined : json['template'] === null ? null : json['template'],
         'type': json['type'],
         'is_public': json['is_public'] == null ? undefined : json['is_public'],
     };
 }
 
-export function CreateDriverRequestRequestToJSON(value?: CreateDriverRequestRequest | null): any {
+export function CreateDriverRequestRequestToJSON(json: any): CreateDriverRequestRequest {
+    return CreateDriverRequestRequestToJSONTyped(json, false);
+}
+
+export function CreateDriverRequestRequestToJSONTyped(value?: CreateDriverRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'account_types': value['account_types'],

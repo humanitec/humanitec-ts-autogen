@@ -119,8 +119,6 @@ models/PatchResourceTypeRequestRequest.ts
 models/Permissions.ts
 models/Pipeline.ts
 models/PipelineApprovalRequest.ts
-models/PipelineCriteria.ts
-models/PipelineCriteriaCreateBody.ts
 models/PipelineDeploymentRequestCriteria.ts
 models/PipelineDeploymentRequestCriteriaCreateBody.ts
 models/PipelineJob.ts

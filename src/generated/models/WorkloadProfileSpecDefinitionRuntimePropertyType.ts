@@ -24,6 +24,17 @@ export enum WorkloadProfileSpecDefinitionRuntimePropertyType {
 }
 
 
+export function instanceOfWorkloadProfileSpecDefinitionRuntimePropertyType(value: any): boolean {
+    for (const key in WorkloadProfileSpecDefinitionRuntimePropertyType) {
+        if (Object.prototype.hasOwnProperty.call(WorkloadProfileSpecDefinitionRuntimePropertyType, key)) {
+            if (WorkloadProfileSpecDefinitionRuntimePropertyType[key as keyof typeof WorkloadProfileSpecDefinitionRuntimePropertyType] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function WorkloadProfileSpecDefinitionRuntimePropertyTypeFromJSON(json: any): WorkloadProfileSpecDefinitionRuntimePropertyType {
     return WorkloadProfileSpecDefinitionRuntimePropertyTypeFromJSONTyped(json, false);
 }
@@ -34,5 +45,9 @@ export function WorkloadProfileSpecDefinitionRuntimePropertyTypeFromJSONTyped(js
 
 export function WorkloadProfileSpecDefinitionRuntimePropertyTypeToJSON(value?: WorkloadProfileSpecDefinitionRuntimePropertyType | null): any {
     return value as any;
+}
+
+export function WorkloadProfileSpecDefinitionRuntimePropertyTypeToJSONTyped(value: any, ignoreDiscriminator: boolean): WorkloadProfileSpecDefinitionRuntimePropertyType {
+    return value as WorkloadProfileSpecDefinitionRuntimePropertyType;
 }
 

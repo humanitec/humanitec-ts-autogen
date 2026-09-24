@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { LogoResponse } from './LogoResponse.js';
 import {
     LogoResponseFromJSON,
     LogoResponseFromJSONTyped,
     LogoResponseToJSON,
+    LogoResponseToJSONTyped,
 } from './LogoResponse.js';
 
 /**
@@ -28,58 +29,44 @@ import {
 export interface OrganizationResponse {
     /**
      * Timestamp when the Organization was created.
-     * @type {Date}
-     * @memberof OrganizationResponse
      */
     created_at: Date | null;
     /**
      * User ID that created the Organization.
-     * @type {string}
-     * @memberof OrganizationResponse
      */
     created_by: string;
     /**
      * Unique ID for the Organization.
-     * @type {string}
-     * @memberof OrganizationResponse
      */
     id: string;
     /**
      * 
-     * @type {LogoResponse}
-     * @memberof OrganizationResponse
      */
     logo: LogoResponse;
     /**
      * Human friendly name for the Organization.
-     * @type {string}
-     * @memberof OrganizationResponse
      */
     name: string;
     /**
      * Timestamp the trial expires at.
-     * @type {Date}
-     * @memberof OrganizationResponse
      */
     trial_expires_at: Date | null;
     /**
      * URL of the scaffolding service.
-     * @type {string}
-     * @memberof OrganizationResponse
      */
-    scaffolding_url?: string;
+    scaffolding_url?: string | null;
 }
 
 /**
  * Check if a given object implements the OrganizationResponse interface.
  */
-export function instanceOfOrganizationResponse(value: object): boolean {
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('logo' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('trial_expires_at' in value)) return false;
+export function instanceOfOrganizationResponse(value: object): value is OrganizationResponse {
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('logo' in value) || value['logo'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('trial_expires_at' in value) || value['trial_expires_at'] === undefined) return false;
     return true;
 }
 
@@ -93,28 +80,33 @@ export function OrganizationResponseFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'created_at': (json['created_at'] == null ? null : new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? null : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
         'id': json['id'],
         'logo': LogoResponseFromJSON(json['logo']),
         'name': json['name'],
-        'trial_expires_at': (json['trial_expires_at'] == null ? null : new Date(json['trial_expires_at'])),
-        'scaffolding_url': json['scaffolding_url'] == null ? undefined : json['scaffolding_url'],
+        'trial_expires_at': (json['trial_expires_at'] == null ? null : parseDateTime(json['trial_expires_at'])),
+        'scaffolding_url': json['scaffolding_url'] === undefined ? undefined : json['scaffolding_url'] === null ? null : json['scaffolding_url'],
     };
 }
 
-export function OrganizationResponseToJSON(value?: OrganizationResponse | null): any {
+export function OrganizationResponseToJSON(json: any): OrganizationResponse {
+    return OrganizationResponseToJSONTyped(json, false);
+}
+
+export function OrganizationResponseToJSONTyped(value?: OrganizationResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'created_at': (value['created_at'] == null ? null : (value['created_at'] as any).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
         'id': value['id'],
         'logo': LogoResponseToJSON(value['logo']),
         'name': value['name'],
-        'trial_expires_at': (value['trial_expires_at'] == null ? null : (value['trial_expires_at'] as any).toISOString()),
+        'trial_expires_at': value['trial_expires_at'] == null ? value['trial_expires_at'] : serializeDateTime(value['trial_expires_at']),
         'scaffolding_url': value['scaffolding_url'],
     };
 }

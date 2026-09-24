@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * PublicKey stores a Public Key an organization shares with Humanitec.
  * @export
@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface PublicKey {
     /**
      * 
-     * @type {string}
-     * @memberof PublicKey
      */
     id: string;
     /**
      * 
-     * @type {string}
-     * @memberof PublicKey
      */
     key: string;
     /**
      * 
-     * @type {Date}
-     * @memberof PublicKey
      */
     created_at: Date;
     /**
      * 
-     * @type {string}
-     * @memberof PublicKey
      */
     created_by: string;
     /**
      * 
-     * @type {Date}
-     * @memberof PublicKey
      */
     expired_at: Date;
     /**
      * It's the hexadecimal representation of the sha256 hash of the DER representation of the key, it's computed and stored when a new key is uploaded.
-     * @type {string}
-     * @memberof PublicKey
      */
     fingerprint: string;
 }
@@ -60,13 +48,13 @@ export interface PublicKey {
 /**
  * Check if a given object implements the PublicKey interface.
  */
-export function instanceOfPublicKey(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('key' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
-    if (!('expired_at' in value)) return false;
-    if (!('fingerprint' in value)) return false;
+export function instanceOfPublicKey(value: object): value is PublicKey {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('key' in value) || value['key'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
+    if (!('expired_at' in value) || value['expired_at'] === undefined) return false;
+    if (!('fingerprint' in value) || value['fingerprint'] === undefined) return false;
     return true;
 }
 
@@ -82,24 +70,29 @@ export function PublicKeyFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'id': json['id'],
         'key': json['key'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
-        'expired_at': (new Date(json['expired_at'])),
+        'expired_at': (json['expired_at'] == null ? json['expired_at'] : parseDateTime(json['expired_at'])),
         'fingerprint': json['fingerprint'],
     };
 }
 
-export function PublicKeyToJSON(value?: PublicKey | null): any {
+export function PublicKeyToJSON(json: any): PublicKey {
+    return PublicKeyToJSONTyped(json, false);
+}
+
+export function PublicKeyToJSONTyped(value?: PublicKey | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'key': value['key'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
-        'expired_at': ((value['expired_at']).toISOString()),
+        'expired_at': value['expired_at'] == null ? value['expired_at'] : serializeDateTime(value['expired_at']),
         'fingerprint': value['fingerprint'],
     };
 }

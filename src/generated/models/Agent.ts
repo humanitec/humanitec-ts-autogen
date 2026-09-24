@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An object containing the details of an Agent.
  * @export
@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface Agent {
     /**
      * The Agent id.
-     * @type {string}
-     * @memberof Agent
      */
     id: string;
     /**
      * A description to show future users. It can be empty.
-     * @type {string}
-     * @memberof Agent
      */
     description?: string;
     /**
      * Time of the Agent being registered.
-     * @type {Date}
-     * @memberof Agent
      */
     created_at: Date;
     /**
      * User ID of user that added the Agent.
-     * @type {string}
-     * @memberof Agent
      */
     created_by: string;
 }
@@ -48,10 +40,10 @@ export interface Agent {
 /**
  * Check if a given object implements the Agent interface.
  */
-export function instanceOfAgent(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('created_by' in value)) return false;
+export function instanceOfAgent(value: object): value is Agent {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('created_by' in value) || value['created_by'] === undefined) return false;
     return true;
 }
 
@@ -67,20 +59,25 @@ export function AgentFromJSONTyped(json: any, ignoreDiscriminator: boolean): Age
         
         'id': json['id'],
         'description': json['description'] == null ? undefined : json['description'],
-        'created_at': (new Date(json['created_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
         'created_by': json['created_by'],
     };
 }
 
-export function AgentToJSON(value?: Agent | null): any {
+export function AgentToJSON(json: any): Agent {
+    return AgentToJSONTyped(json, false);
+}
+
+export function AgentToJSONTyped(value?: Agent | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
         'description': value['description'],
-        'created_at': ((value['created_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
         'created_by': value['created_by'],
     };
 }

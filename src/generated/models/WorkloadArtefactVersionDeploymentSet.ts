@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface WorkloadArtefactVersionDeploymentSet {
     /**
      * The set of workloads to add when deployed, the key is the name of the workload.
-     * @type {{ [key: string]: { [key: string]: any; }; }}
-     * @memberof WorkloadArtefactVersionDeploymentSet
      */
     modules: { [key: string]: { [key: string]: any; }; };
     /**
      * The set of shared resources to depend on, the key is the resource identifier.
-     * @type {{ [key: string]: { [key: string]: any; }; }}
-     * @memberof WorkloadArtefactVersionDeploymentSet
      */
     shared: { [key: string]: { [key: string]: any; }; };
 }
@@ -36,9 +32,9 @@ export interface WorkloadArtefactVersionDeploymentSet {
 /**
  * Check if a given object implements the WorkloadArtefactVersionDeploymentSet interface.
  */
-export function instanceOfWorkloadArtefactVersionDeploymentSet(value: object): boolean {
-    if (!('modules' in value)) return false;
-    if (!('shared' in value)) return false;
+export function instanceOfWorkloadArtefactVersionDeploymentSet(value: object): value is WorkloadArtefactVersionDeploymentSet {
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('shared' in value) || value['shared'] === undefined) return false;
     return true;
 }
 
@@ -57,10 +53,15 @@ export function WorkloadArtefactVersionDeploymentSetFromJSONTyped(json: any, ign
     };
 }
 
-export function WorkloadArtefactVersionDeploymentSetToJSON(value?: WorkloadArtefactVersionDeploymentSet | null): any {
+export function WorkloadArtefactVersionDeploymentSetToJSON(json: any): WorkloadArtefactVersionDeploymentSet {
+    return WorkloadArtefactVersionDeploymentSetToJSONTyped(json, false);
+}
+
+export function WorkloadArtefactVersionDeploymentSetToJSONTyped(value?: WorkloadArtefactVersionDeploymentSet | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'modules': value['modules'],

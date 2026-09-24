@@ -21,54 +21,38 @@ import { mapValues } from '../runtime.js';
 export interface PipelineDeploymentRequestCriteria {
     /**
      * The trigger to call
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     trigger: string;
     /**
      * The unique id of the criteria within this Pipeline.
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     id: string;
     /**
      * The id of the Pipeline tied to this deployment request criteria.
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     pipeline_id: string;
     /**
      * The current display name of the Pipeline.
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     pipeline_name: string;
     /**
      * The Environment Type that this criteria will match. If defined, this criteria will only apply to Environments that have this type.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     env_type?: string;
     /**
      * The id of the Application for which this criteria matches. If this Pipeline is defined in an Application, then this value can only be null or the id of the Application.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     app_id?: string;
     /**
      * The exact id of the Environment which this criteria will match.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     env_id?: string;
     /**
      * The type of deployment that this criteria will match. Valid values are "deploy" and "redeploy". "redeploy"  applies only to deployment request to redeploy a previous deployment id while "deploy" will apply to all other requests that include a Delta or Deployment Set. If not defined, all deployment types will match.
      * 
-     * @type {string}
-     * @memberof PipelineDeploymentRequestCriteria
      */
     deployment_type?: string;
 }
@@ -76,11 +60,11 @@ export interface PipelineDeploymentRequestCriteria {
 /**
  * Check if a given object implements the PipelineDeploymentRequestCriteria interface.
  */
-export function instanceOfPipelineDeploymentRequestCriteria(value: object): boolean {
-    if (!('trigger' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('pipeline_id' in value)) return false;
-    if (!('pipeline_name' in value)) return false;
+export function instanceOfPipelineDeploymentRequestCriteria(value: object): value is PipelineDeploymentRequestCriteria {
+    if (!('trigger' in value) || value['trigger'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('pipeline_id' in value) || value['pipeline_id'] === undefined) return false;
+    if (!('pipeline_name' in value) || value['pipeline_name'] === undefined) return false;
     return true;
 }
 
@@ -105,10 +89,15 @@ export function PipelineDeploymentRequestCriteriaFromJSONTyped(json: any, ignore
     };
 }
 
-export function PipelineDeploymentRequestCriteriaToJSON(value?: PipelineDeploymentRequestCriteria | null): any {
+export function PipelineDeploymentRequestCriteriaToJSON(json: any): PipelineDeploymentRequestCriteria {
+    return PipelineDeploymentRequestCriteriaToJSONTyped(json, false);
+}
+
+export function PipelineDeploymentRequestCriteriaToJSONTyped(value?: PipelineDeploymentRequestCriteria | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'trigger': value['trigger'],

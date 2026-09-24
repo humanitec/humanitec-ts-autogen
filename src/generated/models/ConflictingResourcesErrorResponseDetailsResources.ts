@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { ActiveResourceResponse } from './ActiveResourceResponse.js';
-import {
-    ActiveResourceResponseFromJSON,
-    ActiveResourceResponseFromJSONTyped,
-    ActiveResourceResponseToJSON,
-} from './ActiveResourceResponse.js';
 import type { ResourceDefinitionResponse } from './ResourceDefinitionResponse.js';
 import {
     ResourceDefinitionResponseFromJSON,
     ResourceDefinitionResponseFromJSONTyped,
     ResourceDefinitionResponseToJSON,
+    ResourceDefinitionResponseToJSONTyped,
 } from './ResourceDefinitionResponse.js';
+import type { ActiveResourceResponse } from './ActiveResourceResponse.js';
+import {
+    ActiveResourceResponseFromJSON,
+    ActiveResourceResponseFromJSONTyped,
+    ActiveResourceResponseToJSON,
+    ActiveResourceResponseToJSONTyped,
+} from './ActiveResourceResponse.js';
 
 /**
  * 
@@ -34,14 +36,10 @@ import {
 export interface ConflictingResourcesErrorResponseDetailsResources {
     /**
      * List of non-deleted Resource Definitions referencing the specified Resource Account.
-     * @type {Array<ResourceDefinitionResponse>}
-     * @memberof ConflictingResourcesErrorResponseDetailsResources
      */
     resource_definitions?: Array<ResourceDefinitionResponse>;
     /**
      * List of Active Resources referencing the specified Resource Account.
-     * @type {Array<ActiveResourceResponse>}
-     * @memberof ConflictingResourcesErrorResponseDetailsResources
      */
     active_resources?: Array<ActiveResourceResponse>;
 }
@@ -49,7 +47,7 @@ export interface ConflictingResourcesErrorResponseDetailsResources {
 /**
  * Check if a given object implements the ConflictingResourcesErrorResponseDetailsResources interface.
  */
-export function instanceOfConflictingResourcesErrorResponseDetailsResources(value: object): boolean {
+export function instanceOfConflictingResourcesErrorResponseDetailsResources(value: object): value is ConflictingResourcesErrorResponseDetailsResources {
     return true;
 }
 
@@ -68,10 +66,15 @@ export function ConflictingResourcesErrorResponseDetailsResourcesFromJSONTyped(j
     };
 }
 
-export function ConflictingResourcesErrorResponseDetailsResourcesToJSON(value?: ConflictingResourcesErrorResponseDetailsResources | null): any {
+export function ConflictingResourcesErrorResponseDetailsResourcesToJSON(json: any): ConflictingResourcesErrorResponseDetailsResources {
+    return ConflictingResourcesErrorResponseDetailsResourcesToJSONTyped(json, false);
+}
+
+export function ConflictingResourcesErrorResponseDetailsResourcesToJSONTyped(value?: ConflictingResourcesErrorResponseDetailsResources | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'resource_definitions': value['resource_definitions'] == null ? undefined : ((value['resource_definitions'] as Array<any>).map(ResourceDefinitionResponseToJSON)),

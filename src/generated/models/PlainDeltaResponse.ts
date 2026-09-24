@@ -18,18 +18,21 @@ import {
     ModuleDeltasResponseFromJSON,
     ModuleDeltasResponseFromJSONTyped,
     ModuleDeltasResponseToJSON,
+    ModuleDeltasResponseToJSONTyped,
 } from './ModuleDeltasResponse.js';
 import type { UpdateActionResponse } from './UpdateActionResponse.js';
 import {
     UpdateActionResponseFromJSON,
     UpdateActionResponseFromJSONTyped,
     UpdateActionResponseToJSON,
+    UpdateActionResponseToJSONTyped,
 } from './UpdateActionResponse.js';
 import type { WorkloadDeltasResponse } from './WorkloadDeltasResponse.js';
 import {
     WorkloadDeltasResponseFromJSON,
     WorkloadDeltasResponseFromJSONTyped,
     WorkloadDeltasResponseToJSON,
+    WorkloadDeltasResponseToJSONTyped,
 } from './WorkloadDeltasResponse.js';
 
 /**
@@ -62,20 +65,14 @@ import {
 export interface PlainDeltaResponse {
     /**
      * 
-     * @type {ModuleDeltasResponse}
-     * @memberof PlainDeltaResponse
      */
     modules: ModuleDeltasResponse;
     /**
      * 
-     * @type {Array<UpdateActionResponse>}
-     * @memberof PlainDeltaResponse
      */
     shared: Array<UpdateActionResponse>;
     /**
      * 
-     * @type {WorkloadDeltasResponse}
-     * @memberof PlainDeltaResponse
      */
     workloads?: WorkloadDeltasResponse;
 }
@@ -83,9 +80,9 @@ export interface PlainDeltaResponse {
 /**
  * Check if a given object implements the PlainDeltaResponse interface.
  */
-export function instanceOfPlainDeltaResponse(value: object): boolean {
-    if (!('modules' in value)) return false;
-    if (!('shared' in value)) return false;
+export function instanceOfPlainDeltaResponse(value: object): value is PlainDeltaResponse {
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('shared' in value) || value['shared'] === undefined) return false;
     return true;
 }
 
@@ -105,10 +102,15 @@ export function PlainDeltaResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function PlainDeltaResponseToJSON(value?: PlainDeltaResponse | null): any {
+export function PlainDeltaResponseToJSON(json: any): PlainDeltaResponse {
+    return PlainDeltaResponseToJSONTyped(json, false);
+}
+
+export function PlainDeltaResponseToJSONTyped(value?: PlainDeltaResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'modules': ModuleDeltasResponseToJSON(value['modules']),

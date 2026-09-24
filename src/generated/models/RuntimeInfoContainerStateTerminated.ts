@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * Details about a terminated container.
  * @export
@@ -21,44 +21,30 @@ import { mapValues } from '../runtime.js';
 export interface RuntimeInfoContainerStateTerminated {
     /**
      * Exit status from the last termination of the container.
-     * @type {number}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     exit_code?: number;
     /**
      * Signal from the last termination of the container.
-     * @type {number}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     signal?: number;
     /**
      * Reason from the last termination of the container.
-     * @type {string}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     reason?: string;
     /**
      * Message regarding the last termination of the container.
-     * @type {string}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     message?: string;
     /**
      * Time at which previous execution of the container started.
-     * @type {Date}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     started_at?: Date;
     /**
      * Time at which the container last terminated.
-     * @type {Date}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     finished_at?: Date;
     /**
      * Container's ID in the format '<type>://<container_id>'.
-     * @type {string}
-     * @memberof RuntimeInfoContainerStateTerminated
      */
     container_id?: string;
 }
@@ -66,7 +52,7 @@ export interface RuntimeInfoContainerStateTerminated {
 /**
  * Check if a given object implements the RuntimeInfoContainerStateTerminated interface.
  */
-export function instanceOfRuntimeInfoContainerStateTerminated(value: object): boolean {
+export function instanceOfRuntimeInfoContainerStateTerminated(value: object): value is RuntimeInfoContainerStateTerminated {
     return true;
 }
 
@@ -84,24 +70,29 @@ export function RuntimeInfoContainerStateTerminatedFromJSONTyped(json: any, igno
         'signal': json['signal'] == null ? undefined : json['signal'],
         'reason': json['reason'] == null ? undefined : json['reason'],
         'message': json['message'] == null ? undefined : json['message'],
-        'started_at': json['started_at'] == null ? undefined : (new Date(json['started_at'])),
-        'finished_at': json['finished_at'] == null ? undefined : (new Date(json['finished_at'])),
+        'started_at': json['started_at'] == null ? undefined : (parseDateTime(json['started_at'])),
+        'finished_at': json['finished_at'] == null ? undefined : (parseDateTime(json['finished_at'])),
         'container_id': json['container_id'] == null ? undefined : json['container_id'],
     };
 }
 
-export function RuntimeInfoContainerStateTerminatedToJSON(value?: RuntimeInfoContainerStateTerminated | null): any {
+export function RuntimeInfoContainerStateTerminatedToJSON(json: any): RuntimeInfoContainerStateTerminated {
+    return RuntimeInfoContainerStateTerminatedToJSONTyped(json, false);
+}
+
+export function RuntimeInfoContainerStateTerminatedToJSONTyped(value?: RuntimeInfoContainerStateTerminated | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'exit_code': value['exit_code'],
         'signal': value['signal'],
         'reason': value['reason'],
         'message': value['message'],
-        'started_at': value['started_at'] == null ? undefined : ((value['started_at']).toISOString()),
-        'finished_at': value['finished_at'] == null ? undefined : ((value['finished_at']).toISOString()),
+        'started_at': value['started_at'] == null ? value['started_at'] : serializeDateTime(value['started_at']),
+        'finished_at': value['finished_at'] == null ? value['finished_at'] : serializeDateTime(value['finished_at']),
         'container_id': value['container_id'],
     };
 }

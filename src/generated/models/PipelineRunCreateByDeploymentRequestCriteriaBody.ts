@@ -23,51 +23,35 @@ import { mapValues } from '../runtime.js';
 export interface PipelineRunCreateByDeploymentRequestCriteriaBody {
     /**
      * The target environment within the Application to deploy to.
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     env_id?: string;
     /**
      * The target environment within the Application to deploy to.
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      * @deprecated
      */
     environment?: string;
     /**
      * A deployment delta to apply to the target environment. This delta must already exist. This field is mutually exclusive with "deployment_id" and "set_id".
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     delta_id?: string;
     /**
      * An existing deployment to redeploy into the target environment. The deployment set and value set will be copied. This field is mutually exclusive with "delta_id" and "set_id".
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     deployment_id?: string;
     /**
      * A direct deployment set to apply to the target environment. This deployment set must already exist. This field is mutually exclusive with "delta_id" and "set_id".
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     set_id?: string;
     /**
      * The exact value set version to use when deploying to the target environment. This value set version must exist. This field can only be used when "delta_id" or "set_id" is specified.
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     value_set_version_id?: string;
     /**
      * An optional comment to apply to the Deployment.
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     comment?: string;
     /**
      * An optional deployment mode to apply to the Deployment. The set of allowed values is defined and validated by the deployment API.
-     * @type {string}
-     * @memberof PipelineRunCreateByDeploymentRequestCriteriaBody
      */
     mode?: string;
 }
@@ -75,7 +59,7 @@ export interface PipelineRunCreateByDeploymentRequestCriteriaBody {
 /**
  * Check if a given object implements the PipelineRunCreateByDeploymentRequestCriteriaBody interface.
  */
-export function instanceOfPipelineRunCreateByDeploymentRequestCriteriaBody(value: object): boolean {
+export function instanceOfPipelineRunCreateByDeploymentRequestCriteriaBody(value: object): value is PipelineRunCreateByDeploymentRequestCriteriaBody {
     return true;
 }
 
@@ -100,10 +84,15 @@ export function PipelineRunCreateByDeploymentRequestCriteriaBodyFromJSONTyped(js
     };
 }
 
-export function PipelineRunCreateByDeploymentRequestCriteriaBodyToJSON(value?: PipelineRunCreateByDeploymentRequestCriteriaBody | null): any {
+export function PipelineRunCreateByDeploymentRequestCriteriaBodyToJSON(json: any): PipelineRunCreateByDeploymentRequestCriteriaBody {
+    return PipelineRunCreateByDeploymentRequestCriteriaBodyToJSONTyped(json, false);
+}
+
+export function PipelineRunCreateByDeploymentRequestCriteriaBodyToJSONTyped(value?: PipelineRunCreateByDeploymentRequestCriteriaBody | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'env_id': value['env_id'],

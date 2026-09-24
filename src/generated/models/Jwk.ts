@@ -21,50 +21,34 @@ import { mapValues } from '../runtime.js';
 export interface Jwk {
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     alg: string;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     kty: string;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     use: string;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof Jwk
      */
     x5c?: Array<string>;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     n: string;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     e: string;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     kid: string;
     /**
      * 
-     * @type {string}
-     * @memberof Jwk
      */
     x5t?: string;
 }
@@ -72,13 +56,13 @@ export interface Jwk {
 /**
  * Check if a given object implements the Jwk interface.
  */
-export function instanceOfJwk(value: object): boolean {
-    if (!('alg' in value)) return false;
-    if (!('kty' in value)) return false;
-    if (!('use' in value)) return false;
-    if (!('n' in value)) return false;
-    if (!('e' in value)) return false;
-    if (!('kid' in value)) return false;
+export function instanceOfJwk(value: object): value is Jwk {
+    if (!('alg' in value) || value['alg'] === undefined) return false;
+    if (!('kty' in value) || value['kty'] === undefined) return false;
+    if (!('use' in value) || value['use'] === undefined) return false;
+    if (!('n' in value) || value['n'] === undefined) return false;
+    if (!('e' in value) || value['e'] === undefined) return false;
+    if (!('kid' in value) || value['kid'] === undefined) return false;
     return true;
 }
 
@@ -103,10 +87,15 @@ export function JwkFromJSONTyped(json: any, ignoreDiscriminator: boolean): Jwk {
     };
 }
 
-export function JwkToJSON(value?: Jwk | null): any {
+export function JwkToJSON(json: any): Jwk {
+    return JwkToJSONTyped(json, false);
+}
+
+export function JwkToJSONTyped(value?: Jwk | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'alg': value['alg'],

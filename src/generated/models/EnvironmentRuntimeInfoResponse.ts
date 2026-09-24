@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface EnvironmentRuntimeInfoResponse {
     /**
      * 
-     * @type {string}
-     * @memberof EnvironmentRuntimeInfoResponse
      */
     error?: string;
     /**
      * 
-     * @type {string}
-     * @memberof EnvironmentRuntimeInfoResponse
      */
     id: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof EnvironmentRuntimeInfoResponse
      */
     paused: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof EnvironmentRuntimeInfoResponse
      */
     status?: string;
 }
@@ -48,9 +40,9 @@ export interface EnvironmentRuntimeInfoResponse {
 /**
  * Check if a given object implements the EnvironmentRuntimeInfoResponse interface.
  */
-export function instanceOfEnvironmentRuntimeInfoResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('paused' in value)) return false;
+export function instanceOfEnvironmentRuntimeInfoResponse(value: object): value is EnvironmentRuntimeInfoResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('paused' in value) || value['paused'] === undefined) return false;
     return true;
 }
 
@@ -71,10 +63,15 @@ export function EnvironmentRuntimeInfoResponseFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function EnvironmentRuntimeInfoResponseToJSON(value?: EnvironmentRuntimeInfoResponse | null): any {
+export function EnvironmentRuntimeInfoResponseToJSON(json: any): EnvironmentRuntimeInfoResponse {
+    return EnvironmentRuntimeInfoResponseToJSONTyped(json, false);
+}
+
+export function EnvironmentRuntimeInfoResponseToJSONTyped(value?: EnvironmentRuntimeInfoResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'error': value['error'],

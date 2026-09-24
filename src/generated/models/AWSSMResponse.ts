@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface AWSSMResponse {
     /**
      * 
-     * @type {string}
-     * @memberof AWSSMResponse
      */
     endpoint?: string;
     /**
      * 
-     * @type {string}
-     * @memberof AWSSMResponse
      */
     region?: string;
 }
@@ -36,7 +32,7 @@ export interface AWSSMResponse {
 /**
  * Check if a given object implements the AWSSMResponse interface.
  */
-export function instanceOfAWSSMResponse(value: object): boolean {
+export function instanceOfAWSSMResponse(value: object): value is AWSSMResponse {
     return true;
 }
 
@@ -55,10 +51,15 @@ export function AWSSMResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function AWSSMResponseToJSON(value?: AWSSMResponse | null): any {
+export function AWSSMResponseToJSON(json: any): AWSSMResponse {
+    return AWSSMResponseToJSONTyped(json, false);
+}
+
+export function AWSSMResponseToJSONTyped(value?: AWSSMResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'endpoint': value['endpoint'],

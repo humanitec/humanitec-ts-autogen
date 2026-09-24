@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 
+import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { CreateContainerArtefactVersion } from './CreateContainerArtefactVersion.js';
 import {
     instanceOfCreateContainerArtefactVersion,
@@ -44,26 +45,29 @@ export function CreateArtefactVersionFromJSONTyped(json: any, ignoreDiscriminato
     }
     switch (json['type']) {
         case 'container':
-            return {...CreateContainerArtefactVersionFromJSONTyped(json, true), type: 'container'};
+            return Object.assign({}, CreateContainerArtefactVersionFromJSONTyped(json, true), { type: 'container' } as const);
         case 'workload':
-            return {...CreateWorkloadArtefactVersionFromJSONTyped(json, true), type: 'workload'};
+            return Object.assign({}, CreateWorkloadArtefactVersionFromJSONTyped(json, true), { type: 'workload' } as const);
         default:
-            throw new Error(`No variant of CreateArtefactVersion exists with 'type=${json['type']}'`);
+            return json;
     }
 }
 
-export function CreateArtefactVersionToJSON(value?: CreateArtefactVersion | null): any {
+export function CreateArtefactVersionToJSON(json: any): any {
+    return CreateArtefactVersionToJSONTyped(json, false);
+}
+
+export function CreateArtefactVersionToJSONTyped(value?: CreateArtefactVersion | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
     switch (value['type']) {
         case 'container':
-            return CreateContainerArtefactVersionToJSON(value);
+            return Object.assign({}, CreateContainerArtefactVersionToJSON(value), { 'type': 'container' } as const);
         case 'workload':
-            return CreateWorkloadArtefactVersionToJSON(value);
+            return Object.assign({}, CreateWorkloadArtefactVersionToJSON(value), { 'type': 'workload' } as const);
         default:
-            throw new Error(`No variant of CreateArtefactVersion exists with 'type=${value['type']}'`);
+            return value;
     }
-
 }
 

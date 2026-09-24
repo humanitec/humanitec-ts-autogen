@@ -24,6 +24,17 @@ export enum ValueSource {
 }
 
 
+export function instanceOfValueSource(value: any): boolean {
+    for (const key in ValueSource) {
+        if (Object.prototype.hasOwnProperty.call(ValueSource, key)) {
+            if (ValueSource[key as keyof typeof ValueSource] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function ValueSourceFromJSON(json: any): ValueSource {
     return ValueSourceFromJSONTyped(json, false);
 }
@@ -34,5 +45,9 @@ export function ValueSourceFromJSONTyped(json: any, ignoreDiscriminator: boolean
 
 export function ValueSourceToJSON(value?: ValueSource | null): any {
     return value as any;
+}
+
+export function ValueSourceToJSONTyped(value: any, ignoreDiscriminator: boolean): ValueSource {
+    return value as ValueSource;
 }
 

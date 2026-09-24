@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface ScoreHumanitecExtensionsDeploy {
     /**
      * The stage the deployment should occur. "deploy", deployed in-parallel with other workloads (the default). "before", deployed before other workloads. "after", deployed after other workloads.
-     * @type {string}
-     * @memberof ScoreHumanitecExtensionsDeploy
      */
     when?: ScoreHumanitecExtensionsDeployWhenEnum;
     /**
      * The success criteria for the deployment. "deploy", workload deployed. "available", workload available. "complete", workload complete (often used with jobs).
-     * @type {string}
-     * @memberof ScoreHumanitecExtensionsDeploy
      */
     success?: ScoreHumanitecExtensionsDeploySuccessEnum;
     /**
      * The timeout in seconds for the deployment to reach it's success condition.
-     * @type {number}
-     * @memberof ScoreHumanitecExtensionsDeploy
      */
     timeout?: number;
 }
@@ -64,7 +58,7 @@ export enum ScoreHumanitecExtensionsDeploySuccessEnum {
 /**
  * Check if a given object implements the ScoreHumanitecExtensionsDeploy interface.
  */
-export function instanceOfScoreHumanitecExtensionsDeploy(value: object): boolean {
+export function instanceOfScoreHumanitecExtensionsDeploy(value: object): value is ScoreHumanitecExtensionsDeploy {
     return true;
 }
 
@@ -84,10 +78,15 @@ export function ScoreHumanitecExtensionsDeployFromJSONTyped(json: any, ignoreDis
     };
 }
 
-export function ScoreHumanitecExtensionsDeployToJSON(value?: ScoreHumanitecExtensionsDeploy | null): any {
+export function ScoreHumanitecExtensionsDeployToJSON(json: any): ScoreHumanitecExtensionsDeploy {
+    return ScoreHumanitecExtensionsDeployToJSONTyped(json, false);
+}
+
+export function ScoreHumanitecExtensionsDeployToJSONTyped(value?: ScoreHumanitecExtensionsDeploy | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'when': value['when'],

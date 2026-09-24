@@ -23,14 +23,10 @@ import { mapValues } from '../runtime.js';
 export interface ApplicationRequest {
     /**
      * The ID which refers to a specific application.
-     * @type {string}
-     * @memberof ApplicationRequest
      */
     id: string;
     /**
      * The Human-friendly name for the Application.
-     * @type {string}
-     * @memberof ApplicationRequest
      */
     name: string;
 }
@@ -38,9 +34,9 @@ export interface ApplicationRequest {
 /**
  * Check if a given object implements the ApplicationRequest interface.
  */
-export function instanceOfApplicationRequest(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfApplicationRequest(value: object): value is ApplicationRequest {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -59,10 +55,15 @@ export function ApplicationRequestFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ApplicationRequestToJSON(value?: ApplicationRequest | null): any {
+export function ApplicationRequestToJSON(json: any): ApplicationRequest {
+    return ApplicationRequestToJSONTyped(json, false);
+}
+
+export function ApplicationRequestToJSONTyped(value?: ApplicationRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

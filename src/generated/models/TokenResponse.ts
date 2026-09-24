@@ -21,14 +21,10 @@ import { mapValues } from '../runtime.js';
 export interface TokenResponse {
     /**
      * 
-     * @type {string}
-     * @memberof TokenResponse
      */
     token: string;
     /**
      * 
-     * @type {string}
-     * @memberof TokenResponse
      */
     type?: string;
 }
@@ -36,8 +32,8 @@ export interface TokenResponse {
 /**
  * Check if a given object implements the TokenResponse interface.
  */
-export function instanceOfTokenResponse(value: object): boolean {
-    if (!('token' in value)) return false;
+export function instanceOfTokenResponse(value: object): value is TokenResponse {
+    if (!('token' in value) || value['token'] === undefined) return false;
     return true;
 }
 
@@ -56,10 +52,15 @@ export function TokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function TokenResponseToJSON(value?: TokenResponse | null): any {
+export function TokenResponseToJSON(json: any): TokenResponse {
+    return TokenResponseToJSONTyped(json, false);
+}
+
+export function TokenResponseToJSONTyped(value?: TokenResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'token': value['token'],

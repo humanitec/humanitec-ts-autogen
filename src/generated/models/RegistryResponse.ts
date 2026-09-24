@@ -18,6 +18,7 @@ import {
     ClusterSecretResponseFromJSON,
     ClusterSecretResponseFromJSONTyped,
     ClusterSecretResponseToJSON,
+    ClusterSecretResponseToJSONTyped,
 } from './ClusterSecretResponse.js';
 
 /**
@@ -30,38 +31,26 @@ import {
 export interface RegistryResponse {
     /**
      * The timestamp of when this record was created.
-     * @type {string}
-     * @memberof RegistryResponse
      */
-    created_at?: string;
+    created_at?: string | null;
     /**
      * The user who created this record.
-     * @type {string}
-     * @memberof RegistryResponse
      */
     created_by?: string;
     /**
      * Indicates if registry secrets and credentials should be exposed to CI agents.
-     * @type {boolean}
-     * @memberof RegistryResponse
      */
     enable_ci: boolean;
     /**
      * Registry ID, unique within the Organization.
-     * @type {string}
-     * @memberof RegistryResponse
      */
     id: string;
     /**
      * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
-     * @type {string}
-     * @memberof RegistryResponse
      */
     registry: string;
     /**
      * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretResponse; }}
-     * @memberof RegistryResponse
      */
     secrets?: { [key: string]: ClusterSecretResponse; };
     /**
@@ -78,8 +67,6 @@ export interface RegistryResponse {
      * - `amazon_ecr`
      * 
      * - `secret_ref`
-     * @type {string}
-     * @memberof RegistryResponse
      */
     type: string;
 }
@@ -87,11 +74,11 @@ export interface RegistryResponse {
 /**
  * Check if a given object implements the RegistryResponse interface.
  */
-export function instanceOfRegistryResponse(value: object): boolean {
-    if (!('enable_ci' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('registry' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfRegistryResponse(value: object): value is RegistryResponse {
+    if (!('enable_ci' in value) || value['enable_ci'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('registry' in value) || value['registry'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -105,7 +92,7 @@ export function RegistryResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     }
     return {
         
-        'created_at': json['created_at'] == null ? undefined : json['created_at'],
+        'created_at': json['created_at'] === undefined ? undefined : json['created_at'] === null ? null : json['created_at'],
         'created_by': json['created_by'] == null ? undefined : json['created_by'],
         'enable_ci': json['enable_ci'],
         'id': json['id'],
@@ -115,10 +102,15 @@ export function RegistryResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function RegistryResponseToJSON(value?: RegistryResponse | null): any {
+export function RegistryResponseToJSON(json: any): RegistryResponse {
+    return RegistryResponseToJSONTyped(json, false);
+}
+
+export function RegistryResponseToJSONTyped(value?: RegistryResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'created_at': value['created_at'],

@@ -21,8 +21,6 @@ import { mapValues } from '../runtime.js';
 export interface UpdateArtefactVersionPayloadRequest {
     /**
      * The Value of the archived value.
-     * @type {boolean}
-     * @memberof UpdateArtefactVersionPayloadRequest
      */
     archived: boolean | null;
 }
@@ -30,8 +28,8 @@ export interface UpdateArtefactVersionPayloadRequest {
 /**
  * Check if a given object implements the UpdateArtefactVersionPayloadRequest interface.
  */
-export function instanceOfUpdateArtefactVersionPayloadRequest(value: object): boolean {
-    if (!('archived' in value)) return false;
+export function instanceOfUpdateArtefactVersionPayloadRequest(value: object): value is UpdateArtefactVersionPayloadRequest {
+    if (!('archived' in value) || value['archived'] === undefined) return false;
     return true;
 }
 
@@ -49,10 +47,15 @@ export function UpdateArtefactVersionPayloadRequestFromJSONTyped(json: any, igno
     };
 }
 
-export function UpdateArtefactVersionPayloadRequestToJSON(value?: UpdateArtefactVersionPayloadRequest | null): any {
+export function UpdateArtefactVersionPayloadRequestToJSON(json: any): UpdateArtefactVersionPayloadRequest {
+    return UpdateArtefactVersionPayloadRequestToJSONTyped(json, false);
+}
+
+export function UpdateArtefactVersionPayloadRequestToJSONTyped(value?: UpdateArtefactVersionPayloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'archived': value['archived'],

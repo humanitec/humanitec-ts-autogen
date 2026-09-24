@@ -18,6 +18,7 @@ import {
     ImageBuildRequestFromJSON,
     ImageBuildRequestFromJSONTyped,
     ImageBuildRequestToJSON,
+    ImageBuildRequestToJSONTyped,
 } from './ImageBuildRequest.js';
 
 /**
@@ -30,26 +31,18 @@ import {
 export interface ImageRequest {
     /**
      * The time the first build of this Image was added to the organization
-     * @type {string}
-     * @memberof ImageRequest
      */
     added_at?: string;
     /**
      * A list of Image Builds ordered by addition date.
-     * @type {Array<ImageBuildRequest>}
-     * @memberof ImageRequest
      */
     builds?: Array<ImageBuildRequest>;
     /**
      * The ID used to group different builds of the same Image together.
-     * @type {string}
-     * @memberof ImageRequest
      */
     id?: string;
     /**
      * The Image Source that this Image is added via
-     * @type {string}
-     * @memberof ImageRequest
      */
     source?: string;
 }
@@ -57,7 +50,7 @@ export interface ImageRequest {
 /**
  * Check if a given object implements the ImageRequest interface.
  */
-export function instanceOfImageRequest(value: object): boolean {
+export function instanceOfImageRequest(value: object): value is ImageRequest {
     return true;
 }
 
@@ -78,10 +71,15 @@ export function ImageRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ImageRequestToJSON(value?: ImageRequest | null): any {
+export function ImageRequestToJSON(json: any): ImageRequest {
+    return ImageRequestToJSONTyped(json, false);
+}
+
+export function ImageRequestToJSONTyped(value?: ImageRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'added_at': value['added_at'],

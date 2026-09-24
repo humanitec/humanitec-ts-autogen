@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface PatchResourceTypeRequestRequest {
     /**
      * (Optional) Category name (used to group similar resources on the UI).
-     * @type {string}
-     * @memberof PatchResourceTypeRequestRequest
      */
     category?: string;
     /**
      * (Optional) A JSON Schema specifying the type-specific parameters for the driver (input).
-     * @type {{ [key: string]: any; }}
-     * @memberof PatchResourceTypeRequestRequest
      */
     inputs_schema?: { [key: string]: any; };
     /**
      * (Optional) Resource display name.
-     * @type {string}
-     * @memberof PatchResourceTypeRequestRequest
      */
     name?: string;
     /**
      * (Optional) A JSON Schema specifying the type-specific data passed to the deployment (output).
-     * @type {{ [key: string]: any; }}
-     * @memberof PatchResourceTypeRequestRequest
      */
     outputs_schema?: { [key: string]: any; };
     /**
      * (Optional) Kind of dependency between resource of this type and a workload. It should be one of: `direct`, `indirect`, `implicit`.
-     * @type {string}
-     * @memberof PatchResourceTypeRequestRequest
      */
     use?: string;
 }
@@ -54,7 +44,7 @@ export interface PatchResourceTypeRequestRequest {
 /**
  * Check if a given object implements the PatchResourceTypeRequestRequest interface.
  */
-export function instanceOfPatchResourceTypeRequestRequest(value: object): boolean {
+export function instanceOfPatchResourceTypeRequestRequest(value: object): value is PatchResourceTypeRequestRequest {
     return true;
 }
 
@@ -76,10 +66,15 @@ export function PatchResourceTypeRequestRequestFromJSONTyped(json: any, ignoreDi
     };
 }
 
-export function PatchResourceTypeRequestRequestToJSON(value?: PatchResourceTypeRequestRequest | null): any {
+export function PatchResourceTypeRequestRequestToJSON(json: any): PatchResourceTypeRequestRequest {
+    return PatchResourceTypeRequestRequestToJSONTyped(json, false);
+}
+
+export function PatchResourceTypeRequestRequestToJSONTyped(value?: PatchResourceTypeRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'category': value['category'],

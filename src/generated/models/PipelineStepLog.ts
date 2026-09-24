@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 /**
  * An item from the logs of a Step.
  * @export
@@ -21,20 +21,14 @@ import { mapValues } from '../runtime.js';
 export interface PipelineStepLog {
     /**
      * The date and time when this message was emitted or captured.
-     * @type {Date}
-     * @memberof PipelineStepLog
      */
     at: Date;
     /**
      * The log level of the message.
-     * @type {string}
-     * @memberof PipelineStepLog
      */
     level: string;
     /**
      * The content of the message.
-     * @type {string}
-     * @memberof PipelineStepLog
      */
     message: string;
 }
@@ -42,10 +36,10 @@ export interface PipelineStepLog {
 /**
  * Check if a given object implements the PipelineStepLog interface.
  */
-export function instanceOfPipelineStepLog(value: object): boolean {
-    if (!('at' in value)) return false;
-    if (!('level' in value)) return false;
-    if (!('message' in value)) return false;
+export function instanceOfPipelineStepLog(value: object): value is PipelineStepLog {
+    if (!('at' in value) || value['at'] === undefined) return false;
+    if (!('level' in value) || value['level'] === undefined) return false;
+    if (!('message' in value) || value['message'] === undefined) return false;
     return true;
 }
 
@@ -59,19 +53,24 @@ export function PipelineStepLogFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'at': (new Date(json['at'])),
+        'at': (json['at'] == null ? json['at'] : parseDateTime(json['at'])),
         'level': json['level'],
         'message': json['message'],
     };
 }
 
-export function PipelineStepLogToJSON(value?: PipelineStepLog | null): any {
+export function PipelineStepLogToJSON(json: any): PipelineStepLog {
+    return PipelineStepLogToJSONTyped(json, false);
+}
+
+export function PipelineStepLogToJSONTyped(value?: PipelineStepLog | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
-        'at': ((value['at']).toISOString()),
+        'at': value['at'] == null ? value['at'] : serializeDateTime(value['at']),
         'level': value['level'],
         'message': value['message'],
     };

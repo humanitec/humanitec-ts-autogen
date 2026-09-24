@@ -18,6 +18,7 @@ import {
     ExtensionsFromJSON,
     ExtensionsFromJSONTyped,
     ExtensionsToJSON,
+    ExtensionsToJSONTyped,
 } from './Extensions.js';
 
 /**
@@ -30,20 +31,14 @@ import {
 export interface WorkloadResponse {
     /**
      * The Resource Class with which the `workload` resource is created. "default" when empty.
-     * @type {string}
-     * @memberof WorkloadResponse
      */
     _class?: string;
     /**
      * 
-     * @type {Extensions}
-     * @memberof WorkloadResponse
      */
     extensions?: Extensions;
     /**
      * The workload specification. It is stored as-is - this service neither converts nor validates it.
-     * @type {{ [key: string]: any; }}
-     * @memberof WorkloadResponse
      */
     spec: { [key: string]: any; };
 }
@@ -51,8 +46,8 @@ export interface WorkloadResponse {
 /**
  * Check if a given object implements the WorkloadResponse interface.
  */
-export function instanceOfWorkloadResponse(value: object): boolean {
-    if (!('spec' in value)) return false;
+export function instanceOfWorkloadResponse(value: object): value is WorkloadResponse {
+    if (!('spec' in value) || value['spec'] === undefined) return false;
     return true;
 }
 
@@ -72,10 +67,15 @@ export function WorkloadResponseFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function WorkloadResponseToJSON(value?: WorkloadResponse | null): any {
+export function WorkloadResponseToJSON(json: any): WorkloadResponse {
+    return WorkloadResponseToJSONTyped(json, false);
+}
+
+export function WorkloadResponseToJSONTyped(value?: WorkloadResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'class': value['_class'],

@@ -18,6 +18,7 @@ import {
     VaultAuthRequestFromJSON,
     VaultAuthRequestFromJSONTyped,
     VaultAuthRequestToJSON,
+    VaultAuthRequestToJSONTyped,
 } from './VaultAuthRequest.js';
 
 /**
@@ -28,26 +29,18 @@ import {
 export interface VaultRequest {
     /**
      * 
-     * @type {string}
-     * @memberof VaultRequest
      */
     agent_id?: string;
     /**
      * 
-     * @type {VaultAuthRequest}
-     * @memberof VaultRequest
      */
     auth?: VaultAuthRequest;
     /**
      * 
-     * @type {string}
-     * @memberof VaultRequest
      */
     path?: string;
     /**
      * 
-     * @type {string}
-     * @memberof VaultRequest
      */
     url?: string;
 }
@@ -55,7 +48,7 @@ export interface VaultRequest {
 /**
  * Check if a given object implements the VaultRequest interface.
  */
-export function instanceOfVaultRequest(value: object): boolean {
+export function instanceOfVaultRequest(value: object): value is VaultRequest {
     return true;
 }
 
@@ -76,10 +69,15 @@ export function VaultRequestFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function VaultRequestToJSON(value?: VaultRequest | null): any {
+export function VaultRequestToJSON(json: any): VaultRequest {
+    return VaultRequestToJSONTyped(json, false);
+}
+
+export function VaultRequestToJSONTyped(value?: VaultRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'agent_id': value['agent_id'],

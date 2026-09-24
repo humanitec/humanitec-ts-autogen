@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { BatchItem } from './BatchItem.js';
 import {
     BatchItemFromJSON,
     BatchItemFromJSONTyped,
     BatchItemToJSON,
+    BatchItemToJSONTyped,
 } from './BatchItem.js';
 
 /**
@@ -28,14 +29,10 @@ import {
 export interface Batch {
     /**
      * The list of item ids that are currently contained in this batch.
-     * @type {Array<BatchItem>}
-     * @memberof Batch
      */
     items: Array<BatchItem>;
     /**
      * The time at which this batch is scheduled to trigger the pipeline.
-     * @type {Date}
-     * @memberof Batch
      */
     scheduled_at?: Date;
 }
@@ -43,8 +40,8 @@ export interface Batch {
 /**
  * Check if a given object implements the Batch interface.
  */
-export function instanceOfBatch(value: object): boolean {
-    if (!('items' in value)) return false;
+export function instanceOfBatch(value: object): value is Batch {
+    if (!('items' in value) || value['items'] === undefined) return false;
     return true;
 }
 
@@ -59,18 +56,23 @@ export function BatchFromJSONTyped(json: any, ignoreDiscriminator: boolean): Bat
     return {
         
         'items': ((json['items'] as Array<any>).map(BatchItemFromJSON)),
-        'scheduled_at': json['scheduled_at'] == null ? undefined : (new Date(json['scheduled_at'])),
+        'scheduled_at': json['scheduled_at'] == null ? undefined : (parseDateTime(json['scheduled_at'])),
     };
 }
 
-export function BatchToJSON(value?: Batch | null): any {
+export function BatchToJSON(json: any): Batch {
+    return BatchToJSONTyped(json, false);
+}
+
+export function BatchToJSONTyped(value?: Batch | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'items': ((value['items'] as Array<any>).map(BatchItemToJSON)),
-        'scheduled_at': value['scheduled_at'] == null ? undefined : ((value['scheduled_at']).toISOString()),
+        'scheduled_at': value['scheduled_at'] == null ? value['scheduled_at'] : serializeDateTime(value['scheduled_at']),
     };
 }
 

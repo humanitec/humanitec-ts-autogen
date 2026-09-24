@@ -21,59 +21,41 @@ import { mapValues } from '../runtime.js';
 export interface AutomationRuleRequest {
     /**
      * Whether the rule will be processed or not.
-     * @type {boolean}
-     * @memberof AutomationRuleRequest
      */
     active?: boolean;
     /**
      * A list of artefact names to be processed by the rule. If the array is empty, it implies include all. If `exclude_artefacts_filter` is true, this list describes the artefacts to exclude.
-     * @type {Array<string>}
-     * @memberof AutomationRuleRequest
      */
     artefacts_filter?: Array<string>;
     /**
      * Whether the artefacts specified in `artefacts_filter` should be excluded (true) or included (false) in the automation rule.
-     * @type {boolean}
-     * @memberof AutomationRuleRequest
      */
     exclude_artefacts_filter?: boolean;
     /**
      * DEPRECATED: Whether the images specified in `images_filter` should be excluded (true) or included (false) in the automation rule.
-     * @type {boolean}
-     * @memberof AutomationRuleRequest
      * @deprecated
      */
     exclude_images_filter?: boolean;
     /**
      * DEPRECATED: A list of image IDs to be processed by the rule. If the array is empty, it implies include all. If `exclude_images_filter` is true, this list describes images to exclude.
-     * @type {Array<string>}
-     * @memberof AutomationRuleRequest
      * @deprecated
      */
     images_filter?: Array<string>;
     /**
      * DEPRECATED: A regular expression applied to the branch or tag name depending on the value of `update_to`. Defaults to match all if omitted or empty.
-     * @type {string}
-     * @memberof AutomationRuleRequest
      * @deprecated
      */
     match?: string;
     /**
      * A regular expression applied to the ref of a new artefact version. Defaults to match all if omitted or empty.
-     * @type {string}
-     * @memberof AutomationRuleRequest
      */
     match_ref?: string;
     /**
      * Specifies the type of event. Currently, only updates to either branches or tags are supported. Must be `"update"`.
-     * @type {string}
-     * @memberof AutomationRuleRequest
      */
     type: string;
     /**
      * DEPRECATED: Specifies whether the update occurs on commit to branch or creation of tag. Must be one of `"branch"` or `"tag"`.
-     * @type {string}
-     * @memberof AutomationRuleRequest
      * @deprecated
      */
     update_to?: string;
@@ -82,8 +64,8 @@ export interface AutomationRuleRequest {
 /**
  * Check if a given object implements the AutomationRuleRequest interface.
  */
-export function instanceOfAutomationRuleRequest(value: object): boolean {
-    if (!('type' in value)) return false;
+export function instanceOfAutomationRuleRequest(value: object): value is AutomationRuleRequest {
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -109,10 +91,15 @@ export function AutomationRuleRequestFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function AutomationRuleRequestToJSON(value?: AutomationRuleRequest | null): any {
+export function AutomationRuleRequestToJSON(json: any): AutomationRuleRequest {
+    return AutomationRuleRequestToJSONTyped(json, false);
+}
+
+export function AutomationRuleRequestToJSONTyped(value?: AutomationRuleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'active': value['active'],

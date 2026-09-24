@@ -18,6 +18,7 @@ import {
     ExtensionsFromJSON,
     ExtensionsFromJSONTyped,
     ExtensionsToJSON,
+    ExtensionsToJSONTyped,
 } from './Extensions.js';
 
 /**
@@ -30,28 +31,22 @@ import {
 export interface WorkloadRequest {
     /**
      * The Resource Class with which the `workload` resource is created. "default" when empty.
-     * @type {string}
-     * @memberof WorkloadRequest
      */
     _class?: string;
     /**
      * 
-     * @type {Extensions}
-     * @memberof WorkloadRequest
      */
     extensions?: Extensions;
     /**
      * The workload specification. It is stored as-is - this service neither converts nor validates it.
-     * @type {{ [key: string]: any; }}
-     * @memberof WorkloadRequest
      */
-    spec?: { [key: string]: any; };
+    spec?: { [key: string]: any; } | null;
 }
 
 /**
  * Check if a given object implements the WorkloadRequest interface.
  */
-export function instanceOfWorkloadRequest(value: object): boolean {
+export function instanceOfWorkloadRequest(value: object): value is WorkloadRequest {
     return true;
 }
 
@@ -67,14 +62,19 @@ export function WorkloadRequestFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         '_class': json['class'] == null ? undefined : json['class'],
         'extensions': json['extensions'] == null ? undefined : ExtensionsFromJSON(json['extensions']),
-        'spec': json['spec'] == null ? undefined : json['spec'],
+        'spec': json['spec'] === undefined ? undefined : json['spec'] === null ? null : json['spec'],
     };
 }
 
-export function WorkloadRequestToJSON(value?: WorkloadRequest | null): any {
+export function WorkloadRequestToJSON(json: any): WorkloadRequest {
+    return WorkloadRequestToJSONTyped(json, false);
+}
+
+export function WorkloadRequestToJSONTyped(value?: WorkloadRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'class': value['_class'],

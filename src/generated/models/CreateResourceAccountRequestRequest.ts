@@ -21,26 +21,18 @@ import { mapValues } from '../runtime.js';
 export interface CreateResourceAccountRequestRequest {
     /**
      * Credentials associated with the account.
-     * @type {{ [key: string]: any; }}
-     * @memberof CreateResourceAccountRequestRequest
      */
     credentials: { [key: string]: any; };
     /**
      * Unique identifier for the account (in scope of the organization it belongs to).
-     * @type {string}
-     * @memberof CreateResourceAccountRequestRequest
      */
     id: string;
     /**
      * Display name.
-     * @type {string}
-     * @memberof CreateResourceAccountRequestRequest
      */
     name: string;
     /**
      * The type of the account
-     * @type {string}
-     * @memberof CreateResourceAccountRequestRequest
      */
     type: string;
 }
@@ -48,11 +40,11 @@ export interface CreateResourceAccountRequestRequest {
 /**
  * Check if a given object implements the CreateResourceAccountRequestRequest interface.
  */
-export function instanceOfCreateResourceAccountRequestRequest(value: object): boolean {
-    if (!('credentials' in value)) return false;
-    if (!('id' in value)) return false;
-    if (!('name' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfCreateResourceAccountRequestRequest(value: object): value is CreateResourceAccountRequestRequest {
+    if (!('credentials' in value) || value['credentials'] === undefined) return false;
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -73,10 +65,15 @@ export function CreateResourceAccountRequestRequestFromJSONTyped(json: any, igno
     };
 }
 
-export function CreateResourceAccountRequestRequestToJSON(value?: CreateResourceAccountRequestRequest | null): any {
+export function CreateResourceAccountRequestRequestToJSON(json: any): CreateResourceAccountRequestRequest {
+    return CreateResourceAccountRequestRequestToJSONTyped(json, false);
+}
+
+export function CreateResourceAccountRequestRequestToJSONTyped(value?: CreateResourceAccountRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'credentials': value['credentials'],

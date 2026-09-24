@@ -18,6 +18,7 @@ import {
     ClusterSecretResponseFromJSON,
     ClusterSecretResponseFromJSONTyped,
     ClusterSecretResponseToJSON,
+    ClusterSecretResponseToJSONTyped,
 } from './ClusterSecretResponse.js';
 
 /**
@@ -28,32 +29,22 @@ import {
 export interface RegistryCredsResponse {
     /**
      * Account credentials expiration timestamp.
-     * @type {string}
-     * @memberof RegistryCredsResponse
      */
-    expires?: string;
+    expires?: string | null;
     /**
      * Account password or token secret.
-     * @type {string}
-     * @memberof RegistryCredsResponse
      */
     password?: string;
     /**
      * Registry name, usually in a "{domain}" or "{domain}/{project}" format.
-     * @type {string}
-     * @memberof RegistryCredsResponse
      */
     registry: string;
     /**
      * ClusterSecretsMap stores a list of Kuberenetes secret references for the target deployment clusters.
-     * @type {{ [key: string]: ClusterSecretResponse; }}
-     * @memberof RegistryCredsResponse
      */
     secrets?: { [key: string]: ClusterSecretResponse; };
     /**
      * Security account login or token.
-     * @type {string}
-     * @memberof RegistryCredsResponse
      */
     username?: string;
 }
@@ -61,8 +52,8 @@ export interface RegistryCredsResponse {
 /**
  * Check if a given object implements the RegistryCredsResponse interface.
  */
-export function instanceOfRegistryCredsResponse(value: object): boolean {
-    if (!('registry' in value)) return false;
+export function instanceOfRegistryCredsResponse(value: object): value is RegistryCredsResponse {
+    if (!('registry' in value) || value['registry'] === undefined) return false;
     return true;
 }
 
@@ -76,7 +67,7 @@ export function RegistryCredsResponseFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'expires': json['expires'] == null ? undefined : json['expires'],
+        'expires': json['expires'] === undefined ? undefined : json['expires'] === null ? null : json['expires'],
         'password': json['password'] == null ? undefined : json['password'],
         'registry': json['registry'],
         'secrets': json['secrets'] == null ? undefined : (mapValues(json['secrets'], ClusterSecretResponseFromJSON)),
@@ -84,10 +75,15 @@ export function RegistryCredsResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function RegistryCredsResponseToJSON(value?: RegistryCredsResponse | null): any {
+export function RegistryCredsResponseToJSON(json: any): RegistryCredsResponse {
+    return RegistryCredsResponseToJSONTyped(json, false);
+}
+
+export function RegistryCredsResponseToJSONTyped(value?: RegistryCredsResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'expires': value['expires'],

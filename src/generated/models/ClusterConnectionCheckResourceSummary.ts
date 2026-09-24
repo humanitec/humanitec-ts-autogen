@@ -21,50 +21,34 @@ import { mapValues } from '../runtime.js';
 export interface ClusterConnectionCheckResourceSummary {
     /**
      * The resource type that was provisioned
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     type: string;
     /**
      * The resource class that was provisioned
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     _class: string;
     /**
      * The resource id that was provisioned
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     res_id: string;
     /**
      * The globally unique resource identifier for the resource
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     gu_res_id: string;
     /**
      * The list of globally unique resource identifiers that must be provisioned before this resource
-     * @type {Array<string>}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     depends_on: Array<string>;
     /**
      * The resource definition that was used to provision the resource
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     def_id: string;
     /**
      * The resource definition version that was used to provision the resource
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     def_version_id: string;
     /**
      * The driver type used by the resource definition, some driver types cannot be checked.
-     * @type {string}
-     * @memberof ClusterConnectionCheckResourceSummary
      */
     driver_type: string;
 }
@@ -72,15 +56,15 @@ export interface ClusterConnectionCheckResourceSummary {
 /**
  * Check if a given object implements the ClusterConnectionCheckResourceSummary interface.
  */
-export function instanceOfClusterConnectionCheckResourceSummary(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('_class' in value)) return false;
-    if (!('res_id' in value)) return false;
-    if (!('gu_res_id' in value)) return false;
-    if (!('depends_on' in value)) return false;
-    if (!('def_id' in value)) return false;
-    if (!('def_version_id' in value)) return false;
-    if (!('driver_type' in value)) return false;
+export function instanceOfClusterConnectionCheckResourceSummary(value: object): value is ClusterConnectionCheckResourceSummary {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if ((!('_class' in (value as Record<string, any>)) && !('class' in (value as Record<string, any>))) || ((value as Record<string, any>)['_class'] === undefined && (value as Record<string, any>)['class'] === undefined)) return false;
+    if (!('res_id' in value) || value['res_id'] === undefined) return false;
+    if (!('gu_res_id' in value) || value['gu_res_id'] === undefined) return false;
+    if (!('depends_on' in value) || value['depends_on'] === undefined) return false;
+    if (!('def_id' in value) || value['def_id'] === undefined) return false;
+    if (!('def_version_id' in value) || value['def_version_id'] === undefined) return false;
+    if (!('driver_type' in value) || value['driver_type'] === undefined) return false;
     return true;
 }
 
@@ -105,10 +89,15 @@ export function ClusterConnectionCheckResourceSummaryFromJSONTyped(json: any, ig
     };
 }
 
-export function ClusterConnectionCheckResourceSummaryToJSON(value?: ClusterConnectionCheckResourceSummary | null): any {
+export function ClusterConnectionCheckResourceSummaryToJSON(json: any): ClusterConnectionCheckResourceSummary {
+    return ClusterConnectionCheckResourceSummaryToJSONTyped(json, false);
+}
+
+export function ClusterConnectionCheckResourceSummaryToJSONTyped(value?: ClusterConnectionCheckResourceSummary | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

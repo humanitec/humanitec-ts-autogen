@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface MatchingCriteriaRuleRequest {
     /**
      * (Optional) The ID of the Application that the Resources should belong to.
-     * @type {string}
-     * @memberof MatchingCriteriaRuleRequest
      */
     app_id?: string;
     /**
      * (Optional) The class of the Resource in the Deployment Set. Can not be empty, if is not defined, set to `default`.
-     * @type {string}
-     * @memberof MatchingCriteriaRuleRequest
      */
     _class?: string;
     /**
      * (Optional) The ID of the Environment that the Resources should belong to. If `env_type` is also set, it must match the Type of the Environment for the Criteria to match.
-     * @type {string}
-     * @memberof MatchingCriteriaRuleRequest
      */
     env_id?: string;
     /**
      * (Optional) The Type of the Environment that the Resources should belong to. If `env_id` is also set, it must have an Environment Type that matches this parameter for the Criteria to match.
-     * @type {string}
-     * @memberof MatchingCriteriaRuleRequest
      */
     env_type?: string;
     /**
      * (Optional) The ID of the Resource in the Deployment Set. The ID is normally a `.` separated path to the definition in the set, e.g. `modules.my-module.externals.my-database`.
-     * @type {string}
-     * @memberof MatchingCriteriaRuleRequest
      */
     res_id?: string;
 }
@@ -54,7 +44,7 @@ export interface MatchingCriteriaRuleRequest {
 /**
  * Check if a given object implements the MatchingCriteriaRuleRequest interface.
  */
-export function instanceOfMatchingCriteriaRuleRequest(value: object): boolean {
+export function instanceOfMatchingCriteriaRuleRequest(value: object): value is MatchingCriteriaRuleRequest {
     return true;
 }
 
@@ -76,10 +66,15 @@ export function MatchingCriteriaRuleRequestFromJSONTyped(json: any, ignoreDiscri
     };
 }
 
-export function MatchingCriteriaRuleRequestToJSON(value?: MatchingCriteriaRuleRequest | null): any {
+export function MatchingCriteriaRuleRequestToJSON(json: any): MatchingCriteriaRuleRequest {
+    return MatchingCriteriaRuleRequestToJSONTyped(json, false);
+}
+
+export function MatchingCriteriaRuleRequestToJSONTyped(value?: MatchingCriteriaRuleRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'app_id': value['app_id'],

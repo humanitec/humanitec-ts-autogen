@@ -21,38 +21,26 @@ import { mapValues } from '../runtime.js';
 export interface UpdateDriverRequestRequest {
     /**
      * List of resources accounts types supported by the driver
-     * @type {Array<string>}
-     * @memberof UpdateDriverRequestRequest
      */
     account_types: Array<string>;
     /**
      * A JSON Schema specifying the driver-specific input parameters.
-     * @type {{ [key: string]: any; }}
-     * @memberof UpdateDriverRequestRequest
      */
     inputs_schema: { [key: string]: any; };
     /**
      * The prefix where the driver resides or, if the driver is a virtual driver, the reference to an existing driver using the `driver://` schema of the format `driver://{orgId}/{driverId}`. Only members of the organization the driver belongs to can see 'target'.
-     * @type {string}
-     * @memberof UpdateDriverRequestRequest
      */
     target: string;
     /**
      * If the driver is a virtual driver, template defines a Go template that converts the driver inputs supplied in the resource definition into the driver inputs for the target driver.
-     * @type {any}
-     * @memberof UpdateDriverRequestRequest
      */
-    template?: any;
+    template?: any | null;
     /**
      * The type of resource produced by this driver
-     * @type {string}
-     * @memberof UpdateDriverRequestRequest
      */
     type: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof UpdateDriverRequestRequest
      * @deprecated
      */
     is_public?: boolean;
@@ -61,11 +49,11 @@ export interface UpdateDriverRequestRequest {
 /**
  * Check if a given object implements the UpdateDriverRequestRequest interface.
  */
-export function instanceOfUpdateDriverRequestRequest(value: object): boolean {
-    if (!('account_types' in value)) return false;
-    if (!('inputs_schema' in value)) return false;
-    if (!('target' in value)) return false;
-    if (!('type' in value)) return false;
+export function instanceOfUpdateDriverRequestRequest(value: object): value is UpdateDriverRequestRequest {
+    if (!('account_types' in value) || value['account_types'] === undefined) return false;
+    if (!('inputs_schema' in value) || value['inputs_schema'] === undefined) return false;
+    if (!('target' in value) || value['target'] === undefined) return false;
+    if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
@@ -82,16 +70,21 @@ export function UpdateDriverRequestRequestFromJSONTyped(json: any, ignoreDiscrim
         'account_types': json['account_types'],
         'inputs_schema': json['inputs_schema'],
         'target': json['target'],
-        'template': json['template'] == null ? undefined : json['template'],
+        'template': json['template'] === undefined ? undefined : json['template'] === null ? null : json['template'],
         'type': json['type'],
         'is_public': json['is_public'] == null ? undefined : json['is_public'],
     };
 }
 
-export function UpdateDriverRequestRequestToJSON(value?: UpdateDriverRequestRequest | null): any {
+export function UpdateDriverRequestRequestToJSON(json: any): UpdateDriverRequestRequest {
+    return UpdateDriverRequestRequestToJSONTyped(json, false);
+}
+
+export function UpdateDriverRequestRequestToJSONTyped(value?: UpdateDriverRequestRequest | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'account_types': value['account_types'],

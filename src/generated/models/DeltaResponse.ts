@@ -13,29 +13,33 @@
  */
 
 import { mapValues } from '../runtime.js';
-import type { DeltaMetadataResponse } from './DeltaMetadataResponse.js';
-import {
-    DeltaMetadataResponseFromJSON,
-    DeltaMetadataResponseFromJSONTyped,
-    DeltaMetadataResponseToJSON,
-} from './DeltaMetadataResponse.js';
 import type { ModuleDeltasResponse } from './ModuleDeltasResponse.js';
 import {
     ModuleDeltasResponseFromJSON,
     ModuleDeltasResponseFromJSONTyped,
     ModuleDeltasResponseToJSON,
+    ModuleDeltasResponseToJSONTyped,
 } from './ModuleDeltasResponse.js';
 import type { UpdateActionResponse } from './UpdateActionResponse.js';
 import {
     UpdateActionResponseFromJSON,
     UpdateActionResponseFromJSONTyped,
     UpdateActionResponseToJSON,
+    UpdateActionResponseToJSONTyped,
 } from './UpdateActionResponse.js';
+import type { DeltaMetadataResponse } from './DeltaMetadataResponse.js';
+import {
+    DeltaMetadataResponseFromJSON,
+    DeltaMetadataResponseFromJSONTyped,
+    DeltaMetadataResponseToJSON,
+    DeltaMetadataResponseToJSONTyped,
+} from './DeltaMetadataResponse.js';
 import type { WorkloadDeltasResponse } from './WorkloadDeltasResponse.js';
 import {
     WorkloadDeltasResponseFromJSON,
     WorkloadDeltasResponseFromJSONTyped,
     WorkloadDeltasResponseToJSON,
+    WorkloadDeltasResponseToJSONTyped,
 } from './WorkloadDeltasResponse.js';
 
 /**
@@ -74,32 +78,22 @@ import {
 export interface DeltaResponse {
     /**
      * A unique ID for the Delta
-     * @type {string}
-     * @memberof DeltaResponse
      */
     id: string;
     /**
      * 
-     * @type {DeltaMetadataResponse}
-     * @memberof DeltaResponse
      */
     metadata: DeltaMetadataResponse;
     /**
      * 
-     * @type {ModuleDeltasResponse}
-     * @memberof DeltaResponse
      */
     modules: ModuleDeltasResponse;
     /**
      * 
-     * @type {Array<UpdateActionResponse>}
-     * @memberof DeltaResponse
      */
     shared: Array<UpdateActionResponse>;
     /**
      * 
-     * @type {WorkloadDeltasResponse}
-     * @memberof DeltaResponse
      */
     workloads?: WorkloadDeltasResponse;
 }
@@ -107,11 +101,11 @@ export interface DeltaResponse {
 /**
  * Check if a given object implements the DeltaResponse interface.
  */
-export function instanceOfDeltaResponse(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('metadata' in value)) return false;
-    if (!('modules' in value)) return false;
-    if (!('shared' in value)) return false;
+export function instanceOfDeltaResponse(value: object): value is DeltaResponse {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('metadata' in value) || value['metadata'] === undefined) return false;
+    if (!('modules' in value) || value['modules'] === undefined) return false;
+    if (!('shared' in value) || value['shared'] === undefined) return false;
     return true;
 }
 
@@ -133,10 +127,15 @@ export function DeltaResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function DeltaResponseToJSON(value?: DeltaResponse | null): any {
+export function DeltaResponseToJSON(json: any): DeltaResponse {
+    return DeltaResponseToJSONTyped(json, false);
+}
+
+export function DeltaResponseToJSONTyped(value?: DeltaResponse | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],

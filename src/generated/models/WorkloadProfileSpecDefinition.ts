@@ -18,12 +18,14 @@ import {
     WorkloadProfileSpecDefinitionPropertyFromJSON,
     WorkloadProfileSpecDefinitionPropertyFromJSONTyped,
     WorkloadProfileSpecDefinitionPropertyToJSON,
+    WorkloadProfileSpecDefinitionPropertyToJSONTyped,
 } from './WorkloadProfileSpecDefinitionProperty.js';
 import type { WorkloadProfileSpecDefinitionRuntimeProperty } from './WorkloadProfileSpecDefinitionRuntimeProperty.js';
 import {
     WorkloadProfileSpecDefinitionRuntimePropertyFromJSON,
     WorkloadProfileSpecDefinitionRuntimePropertyFromJSONTyped,
     WorkloadProfileSpecDefinitionRuntimePropertyToJSON,
+    WorkloadProfileSpecDefinitionRuntimePropertyToJSONTyped,
 } from './WorkloadProfileSpecDefinitionRuntimeProperty.js';
 
 /**
@@ -34,14 +36,10 @@ import {
 export interface WorkloadProfileSpecDefinition {
     /**
      * Workload spec definition
-     * @type {{ [key: string]: WorkloadProfileSpecDefinitionProperty; }}
-     * @memberof WorkloadProfileSpecDefinition
      */
     properties?: { [key: string]: WorkloadProfileSpecDefinitionProperty; };
     /**
      * 
-     * @type {Array<WorkloadProfileSpecDefinitionRuntimeProperty>}
-     * @memberof WorkloadProfileSpecDefinition
      */
     runtime_properties?: Array<WorkloadProfileSpecDefinitionRuntimeProperty>;
 }
@@ -49,7 +47,7 @@ export interface WorkloadProfileSpecDefinition {
 /**
  * Check if a given object implements the WorkloadProfileSpecDefinition interface.
  */
-export function instanceOfWorkloadProfileSpecDefinition(value: object): boolean {
+export function instanceOfWorkloadProfileSpecDefinition(value: object): value is WorkloadProfileSpecDefinition {
     return true;
 }
 
@@ -68,10 +66,15 @@ export function WorkloadProfileSpecDefinitionFromJSONTyped(json: any, ignoreDisc
     };
 }
 
-export function WorkloadProfileSpecDefinitionToJSON(value?: WorkloadProfileSpecDefinition | null): any {
+export function WorkloadProfileSpecDefinitionToJSON(json: any): WorkloadProfileSpecDefinition {
+    return WorkloadProfileSpecDefinitionToJSONTyped(json, false);
+}
+
+export function WorkloadProfileSpecDefinitionToJSONTyped(value?: WorkloadProfileSpecDefinition | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'properties': value['properties'] == null ? undefined : (mapValues(value['properties'], WorkloadProfileSpecDefinitionPropertyToJSON)),

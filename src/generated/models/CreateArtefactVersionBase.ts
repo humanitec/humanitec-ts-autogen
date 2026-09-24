@@ -21,32 +21,22 @@ import { mapValues } from '../runtime.js';
 export interface CreateArtefactVersionBase {
     /**
      * The Artefact Version type.
-     * @type {string}
-     * @memberof CreateArtefactVersionBase
      */
     type: string;
     /**
      * The Artefact name.
-     * @type {string}
-     * @memberof CreateArtefactVersionBase
      */
     name: string;
     /**
      * (Optional) The Artefact Version.
-     * @type {string}
-     * @memberof CreateArtefactVersionBase
      */
     version?: string;
     /**
      * (Optional) The ref the Artefact Version was built from.
-     * @type {string}
-     * @memberof CreateArtefactVersionBase
      */
     ref?: string;
     /**
      * (Optional) The commit ID the Artefact Version was built on.
-     * @type {string}
-     * @memberof CreateArtefactVersionBase
      */
     commit?: string;
 }
@@ -54,9 +44,9 @@ export interface CreateArtefactVersionBase {
 /**
  * Check if a given object implements the CreateArtefactVersionBase interface.
  */
-export function instanceOfCreateArtefactVersionBase(value: object): boolean {
-    if (!('type' in value)) return false;
-    if (!('name' in value)) return false;
+export function instanceOfCreateArtefactVersionBase(value: object): value is CreateArtefactVersionBase {
+    if (!('type' in value) || value['type'] === undefined) return false;
+    if (!('name' in value) || value['name'] === undefined) return false;
     return true;
 }
 
@@ -78,10 +68,15 @@ export function CreateArtefactVersionBaseFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function CreateArtefactVersionBaseToJSON(value?: CreateArtefactVersionBase | null): any {
+export function CreateArtefactVersionBaseToJSON(json: any): CreateArtefactVersionBase {
+    return CreateArtefactVersionBaseToJSONTyped(json, false);
+}
+
+export function CreateArtefactVersionBaseToJSONTyped(value?: CreateArtefactVersionBase | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'type': value['type'],

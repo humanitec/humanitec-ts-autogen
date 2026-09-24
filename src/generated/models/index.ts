@@ -117,8 +117,6 @@ export * from './PatchResourceTypeRequestRequest.js';
 export * from './Permissions.js';
 export * from './Pipeline.js';
 export * from './PipelineApprovalRequest.js';
-export * from './PipelineCriteria.js';
-export * from './PipelineCriteriaCreateBody.js';
 export * from './PipelineDeploymentRequestCriteria.js';
 export * from './PipelineDeploymentRequestCriteriaCreateBody.js';
 export * from './PipelineJob.js';

@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime.js';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime.js';
 import type { PipelineStep } from './PipelineStep.js';
 import {
     PipelineStepFromJSON,
     PipelineStepFromJSONTyped,
     PipelineStepToJSON,
+    PipelineStepToJSONTyped,
 } from './PipelineStep.js';
 
 /**
@@ -28,98 +29,66 @@ import {
 export interface PipelineJob {
     /**
      * The id of the Job within the Run.
-     * @type {string}
-     * @memberof PipelineJob
      */
     id: string;
     /**
      * The current entity tag value for this Job.
-     * @type {string}
-     * @memberof PipelineJob
      */
     etag: string;
     /**
      * The id of the Organization containing this Job.
-     * @type {string}
-     * @memberof PipelineJob
      */
     org_id: string;
     /**
      * The id of the Application containing this Job.
-     * @type {string}
-     * @memberof PipelineJob
      */
     app_id: string;
     /**
      * The id of the Pipeline.
-     * @type {string}
-     * @memberof PipelineJob
      */
     pipeline_id: string;
     /**
      * The id of the Pipeline Version associated with the Run.
-     * @type {string}
-     * @memberof PipelineJob
      */
     pipeline_version: string;
     /**
      * The id of the Run containing this Job.
-     * @type {string}
-     * @memberof PipelineJob
      */
     run_id: string;
     /**
      * The current status of this Job.
-     * @type {string}
-     * @memberof PipelineJob
      */
     status: string;
     /**
      * An event on which job is waiting
-     * @type {string}
-     * @memberof PipelineJob
      */
     waiting_for?: string;
     /**
      * A human-readable message indicating the reason for the status.
-     * @type {string}
-     * @memberof PipelineJob
      */
     status_message: string;
     /**
      * The date and time when this Job was first created within the Run.
-     * @type {Date}
-     * @memberof PipelineJob
      */
     created_at: Date;
     /**
      * The date and time when this Job was updated while executing.
-     * @type {Date}
-     * @memberof PipelineJob
      */
     updated_at: Date;
     /**
      * The date and time when cancellation of this Job was requested.
-     * @type {Date}
-     * @memberof PipelineJob
      */
     cancellation_requested_at?: Date;
     /**
      * The date and time when this Job entered a successful, failed, or cancelled status.
-     * @type {Date}
-     * @memberof PipelineJob
      */
     completed_at?: Date;
     /**
      * The timeout for this Job.
-     * @type {number}
-     * @memberof PipelineJob
      */
     timeout_seconds: number;
     /**
      * The collection of Steps that completed along with the current Step being executed.
-     * @type {Array<PipelineStep>}
-     * @memberof PipelineJob
      */
     steps: Array<PipelineStep>;
 }
@@ -127,20 +96,20 @@ export interface PipelineJob {
 /**
  * Check if a given object implements the PipelineJob interface.
  */
-export function instanceOfPipelineJob(value: object): boolean {
-    if (!('id' in value)) return false;
-    if (!('etag' in value)) return false;
-    if (!('org_id' in value)) return false;
-    if (!('app_id' in value)) return false;
-    if (!('pipeline_id' in value)) return false;
-    if (!('pipeline_version' in value)) return false;
-    if (!('run_id' in value)) return false;
-    if (!('status' in value)) return false;
-    if (!('status_message' in value)) return false;
-    if (!('created_at' in value)) return false;
-    if (!('updated_at' in value)) return false;
-    if (!('timeout_seconds' in value)) return false;
-    if (!('steps' in value)) return false;
+export function instanceOfPipelineJob(value: object): value is PipelineJob {
+    if (!('id' in value) || value['id'] === undefined) return false;
+    if (!('etag' in value) || value['etag'] === undefined) return false;
+    if (!('org_id' in value) || value['org_id'] === undefined) return false;
+    if (!('app_id' in value) || value['app_id'] === undefined) return false;
+    if (!('pipeline_id' in value) || value['pipeline_id'] === undefined) return false;
+    if (!('pipeline_version' in value) || value['pipeline_version'] === undefined) return false;
+    if (!('run_id' in value) || value['run_id'] === undefined) return false;
+    if (!('status' in value) || value['status'] === undefined) return false;
+    if (!('status_message' in value) || value['status_message'] === undefined) return false;
+    if (!('created_at' in value) || value['created_at'] === undefined) return false;
+    if (!('updated_at' in value) || value['updated_at'] === undefined) return false;
+    if (!('timeout_seconds' in value) || value['timeout_seconds'] === undefined) return false;
+    if (!('steps' in value) || value['steps'] === undefined) return false;
     return true;
 }
 
@@ -164,19 +133,24 @@ export function PipelineJobFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'status': json['status'],
         'waiting_for': json['waiting_for'] == null ? undefined : json['waiting_for'],
         'status_message': json['status_message'],
-        'created_at': (new Date(json['created_at'])),
-        'updated_at': (new Date(json['updated_at'])),
-        'cancellation_requested_at': json['cancellation_requested_at'] == null ? undefined : (new Date(json['cancellation_requested_at'])),
-        'completed_at': json['completed_at'] == null ? undefined : (new Date(json['completed_at'])),
+        'created_at': (json['created_at'] == null ? json['created_at'] : parseDateTime(json['created_at'])),
+        'updated_at': (json['updated_at'] == null ? json['updated_at'] : parseDateTime(json['updated_at'])),
+        'cancellation_requested_at': json['cancellation_requested_at'] == null ? undefined : (parseDateTime(json['cancellation_requested_at'])),
+        'completed_at': json['completed_at'] == null ? undefined : (parseDateTime(json['completed_at'])),
         'timeout_seconds': json['timeout_seconds'],
         'steps': ((json['steps'] as Array<any>).map(PipelineStepFromJSON)),
     };
 }
 
-export function PipelineJobToJSON(value?: PipelineJob | null): any {
+export function PipelineJobToJSON(json: any): PipelineJob {
+    return PipelineJobToJSONTyped(json, false);
+}
+
+export function PipelineJobToJSONTyped(value?: PipelineJob | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
+
     return {
         
         'id': value['id'],
@@ -189,10 +163,10 @@ export function PipelineJobToJSON(value?: PipelineJob | null): any {
         'status': value['status'],
         'waiting_for': value['waiting_for'],
         'status_message': value['status_message'],
-        'created_at': ((value['created_at']).toISOString()),
-        'updated_at': ((value['updated_at']).toISOString()),
-        'cancellation_requested_at': value['cancellation_requested_at'] == null ? undefined : ((value['cancellation_requested_at']).toISOString()),
-        'completed_at': value['completed_at'] == null ? undefined : ((value['completed_at']).toISOString()),
+        'created_at': value['created_at'] == null ? value['created_at'] : serializeDateTime(value['created_at']),
+        'updated_at': value['updated_at'] == null ? value['updated_at'] : serializeDateTime(value['updated_at']),
+        'cancellation_requested_at': value['cancellation_requested_at'] == null ? value['cancellation_requested_at'] : serializeDateTime(value['cancellation_requested_at']),
+        'completed_at': value['completed_at'] == null ? value['completed_at'] : serializeDateTime(value['completed_at']),
         'timeout_seconds': value['timeout_seconds'],
         'steps': ((value['steps'] as Array<any>).map(PipelineStepToJSON)),
     };
