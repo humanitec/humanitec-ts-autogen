@@ -78,7 +78,6 @@ export * from './ErrorResponse.js';
 export * from './EventBaseRequest.js';
 export * from './EventBaseResponse.js';
 export * from './EventResponse.js';
-export * from './Extensions.js';
 export * from './GCPAuthRequest.js';
 export * from './GCPSMRequest.js';
 export * from './GCPSMResponse.js';

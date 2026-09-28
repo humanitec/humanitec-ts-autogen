@@ -80,7 +80,6 @@ models/ErrorResponse.ts
 models/EventBaseRequest.ts
 models/EventBaseResponse.ts
 models/EventResponse.ts
-models/Extensions.ts
 models/GCPAuthRequest.ts
 models/GCPSMRequest.ts
 models/GCPSMResponse.ts
