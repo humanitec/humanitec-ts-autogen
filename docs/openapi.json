@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Humanitec API",
-    "version": "0.28.47",
+    "version": "0.28.48",
     "description": "# Introduction\nThe *Humanitec API* allows you to automate and integrate Humanitec into your developer and operational workflows.\nThe API is a REST based API. It is based around a set of concepts:\n\n* Core\n* External Resources\n* Sets and Deltas\n\n## Authentication\n\nAlmost all requests made to the Humanitec API require Authentication. See our [Developer Docs on API Authentication](https://developer.humanitec.com/platform-orchestrator/reference/api-references/#authentication) for instructions.\n\n## Content Types\nThe Humanitec API, unless explicitly specified, only accepts content types of `application/json` and will always return valid `application/json` or an empty response.\n\n## Response Codes\n### Success\nAny response code in the `2xx` range should be regarded as success.\n\n| **Code** | **Meaning**                         |\n|----------|-------------------------------------|\n| `200`    | Success                             |\n| `201`    | Success, a new resource was created |\n| `204`    | Success, but no content in response |\n\n_Note: We plan to simplify the interface by replacing 201 with 200 status codes._\n\n### Failure\nAny response code in the `4xx` range should be regarded as an error that can be rectified by the client. `5xx` error codes indicate errors that cannot be corrected by the client.\n\n| **Code** | **Meaning**                                                                                                           |\n|----------|-----------------------------------------------------------------------------------------------------------------------|\n| `400`    | General error. (Body will contain details)                                                                            |\n| `401`    | Attempt to access protected resource without `Authorization` Header.                                                  |\n| `403`    | The `Bearer` or `JWT` does not grant access to the requested resource.                                                |\n| `404`    | Resource not found.                                                                                                   |\n| `405`    | Method not allowed                                                                                                    |\n| `409`    | Conflict. Usually indicated a resource with that ID already exists.                                                   |\n| `422`    | Unprocessable Entity. The body was not valid JSON, was empty or contained an object different from what was expected. |\n| `429`    | Too many requests - request rate limit has been reached.                                                              |\n| `500`    | Internal Error. If it occurs repeatedly, contact support.                                                             |\n",
     "contact": {
       "name": "Humanitec Support",
@@ -18126,8 +18126,13 @@
             "format": "date-time"
           },
           "provisioned_internally": {
-            "description": "Indicates if a resource was provisioned internally (default to false)",
+            "description": "Indicates if a resource was provisioned internally. Omit to keep the stored value; new resources default to false.",
             "type": "boolean"
+          },
+          "unreferenced_at": {
+            "description": "(Optional) When the resource was first found unreferenced by a deployment. Omit while the resource is referenced.",
+            "type": "string",
+            "format": "date-time"
           }
         },
         "type": "object",
@@ -18257,6 +18262,23 @@
             "example": "2020-06-22T09:37:23.523Z",
             "type": "string",
             "format": "date-time"
+          },
+          "unreferenced_at": {
+            "description": "When the resource was first found unreferenced by a deployment, null while it is referenced. Only set in operator mode.",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "delete_after": {
+            "description": "When the resource's ttl expires, computed as unreferenced_at + ttl. null while the resource is referenced or when it has no ttl. Not stored.",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ttl": {
+            "description": "The ttl of the Resource Definition Version that last deployed the resource, as a Go duration. \"\" means it is never deleted automatically, and is always \"\" for internally provisioned resources.",
+            "type": "string",
+            "example": "336h0m0s"
           }
         },
         "required": [
@@ -18276,7 +18298,10 @@
           "updated_at",
           "deploy_id",
           "gu_res_id",
-          "scheduled_deletion"
+          "scheduled_deletion",
+          "unreferenced_at",
+          "delete_after",
+          "ttl"
         ],
         "type": "object"
       },
@@ -18448,6 +18473,11 @@
           "in_place_driver_change": {
             "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
             "type": "boolean"
+          },
+          "ttl": {
+            "description": "(Optional) The minimum time an Active Resource provisioned from this definition version is kept once no deployment references it, as a Go duration in whole seconds (e.g. \"0s\", \"336h\"). Omitted or \"\" means it is never deleted automatically.",
+            "type": "string",
+            "example": "336h"
           },
           "name": {
             "description": "The display name.",
@@ -18846,6 +18876,11 @@
             "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only. Omit to leave the current value unchanged.",
             "type": "boolean"
           },
+          "ttl": {
+            "description": "(Optional) The minimum time an Active Resource provisioned from this definition version is kept once no deployment references it, as a Go duration in whole seconds (e.g. \"0s\", \"336h\"). Omit to leave the current value unchanged, or set to \"\" so that it is never deleted automatically.",
+            "type": "string",
+            "example": "336h"
+          },
           "name": {
             "description": "(Optional) Resource display name",
             "type": "string"
@@ -19086,6 +19121,11 @@
             "description": "If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
             "type": "boolean"
           },
+          "ttl": {
+            "description": "The minimum time an Active Resource provisioned from this definition version is kept once no deployment references it, as a Go duration. \"\" means it is never deleted automatically.",
+            "type": "string",
+            "example": "336h0m0s"
+          },
           "is_default": {
             "description": "Indicates this definition is a built-in one (provided by Humanitec).",
             "type": "boolean"
@@ -19125,7 +19165,8 @@
           "is_deleted",
           "driver_type",
           "active_version_id",
-          "in_place_driver_change"
+          "in_place_driver_change",
+          "ttl"
         ],
         "type": "object"
       },
@@ -19207,6 +19248,11 @@
             "type": "boolean",
             "description": "If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only."
           },
+          "ttl": {
+            "description": "The minimum time an Active Resource provisioned from this definition version is kept once no deployment references it, as a Go duration. \"\" means it is never deleted automatically.",
+            "type": "string",
+            "example": "336h0m0s"
+          },
           "provision": {
             "additionalProperties": {
               "$ref": "#/components/schemas/ProvisionDependenciesResponse"
@@ -19252,6 +19298,7 @@
           "driver_account",
           "driver_inputs",
           "in_place_driver_change",
+          "ttl",
           "provision",
           "action",
           "archived",
@@ -19702,6 +19749,11 @@
           "in_place_driver_change": {
             "description": "(Optional) If true, the Operator will not delete resources provisioned by the previous driver when driver_type changes on a later update; the new driver takes over the existing infrastructure in place. Applies to the Operator provisioning path only.",
             "type": "boolean"
+          },
+          "ttl": {
+            "description": "(Optional) The minimum time an Active Resource provisioned from this definition version is kept once no deployment references it, as a Go duration in whole seconds (e.g. \"0s\", \"336h\"). Omitted or \"\" means it is never deleted automatically.",
+            "type": "string",
+            "example": "336h"
           },
           "name": {
             "description": "The display name.",
